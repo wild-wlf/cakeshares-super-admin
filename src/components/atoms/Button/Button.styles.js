@@ -74,7 +74,7 @@ ${({ $custom }) =>
   ${({ $outline }) =>
     $outline &&
     css`
-      border: 1px solid var(--gray-50);
+      border: 1px solid #e5e5e5;
       background: transparent;
       color: var(--body-text);
 
