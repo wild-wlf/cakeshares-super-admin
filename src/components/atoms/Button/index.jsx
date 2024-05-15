@@ -4,6 +4,7 @@ import { StyledButton } from "./Button.styles";
 const Button = ({
   children,
   gap,
+  sm,
   lg,
   outline,
   variant,
@@ -16,6 +17,7 @@ const Button = ({
 }) => {
   return (
     <StyledButton
+      $sm={sm}
       $lg={lg}
       $block={block}
       $outline={outline}

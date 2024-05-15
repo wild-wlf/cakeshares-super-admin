@@ -4,7 +4,7 @@ import React from "react";
 const index = () => {
   return (
     <div>
-      <Button variant="info">Level 0</Button>
+      <Button>Level 0</Button>
     </div>
   );
 };

@@ -1,49 +1,46 @@
 import React from "react";
 import { ImageHolder, NotificationsHolder } from "./Notifications.styles";
-import storeImg from "../../../_assets/new-store-icon.png";
+import Investment from "../../../_assets/investment-icon.svg";
+import Property from "../../../_assets/property-icon.svg";
+import Message from "../../../_assets/message-icon.svg";
 import Image from "next/image";
-import UserImg from "../../../_assets/user-icon.png";
 
 const Notifications = () => {
   const notificationData = [
     {
-      image: storeImg,
-      heading: "New Store Created!",
-      date: "19 Oct, 2023",
-      time: "20:50 PM",
+      image: Message,
+      heading: "1 New Message",
+      date: "19 Mar, 2024 | 20:50 PM",
       tag: "New",
-      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
-      background: "#ecfaff",
+      text: "Hey Man! I am interested in your Asset, wanna have conversation?",
+      background: "rgba(78, 97, 153, 0.2)",
     },
     {
-      image: UserImg,
-      heading: "New Store Created!",
-      date: "19 Oct, 2023",
-      time: "20:50 PM",
-      background: "#d7daeb",
-    },
-    {
-      image: storeImg,
-      heading: "New Store Created!",
-      date: "19 Oct, 2023",
-      time: "20:50 PM",
+      image: Investment,
+      heading: "New Open Investment",
       tag: "New",
-      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
-      background: "#ecfaff",
+      date: "19 Mar, 2024 | 20:50 PM",
+      background: "rgba(78, 97, 153, 0.2)",
     },
     {
-      image: UserImg,
-      heading: "New Store Created!",
-      date: "19 Oct, 2023",
-      time: "20:50 PM",
-      background: "#d7daeb",
+      image: Property,
+      heading: "Egypt Property Product Update",
+      date: "19 Mar, 2024 | 20:50 PM",
+      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+      background: "rgba(64, 143, 140, 0.2)",
+    },
+    {
+      image: Investment,
+      heading: "New Open Investment",
+      date: "19 Mar, 2024 | 20:50 PM",
+      background: "rgba(78, 97, 153, 0.2)",
     },
   ];
   return (
     <NotificationsHolder>
       {notificationData.map((item, index) => (
         <div key={index} className="holder">
-          <div className="notification">
+          <div className="notifications">
             <div className="content">
               <ImageHolder background={item.background}>
                 <Image src={item.image} alt="notification" />
@@ -52,7 +49,6 @@ const Notifications = () => {
                 <span className="heading">{item.heading}</span>
                 <div className="date-time">
                   <span className="date">{item.date}</span>
-                  <span>{item.time}</span>
                 </div>
               </div>
             </div>
