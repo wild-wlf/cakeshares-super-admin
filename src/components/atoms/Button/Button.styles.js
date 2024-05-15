@@ -73,6 +73,11 @@ ${({ $custom }) =>
       background: rgba(81, 178, 255, 0.1);
       color: #51b2ff;
     `}
+  ${({ $variant }) =>
+    $variant == "dark" &&
+    css`
+      background: #235d5e;
+    `}
   /*****************Background Variants End*********************/
 
 

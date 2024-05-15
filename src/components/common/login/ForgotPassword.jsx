@@ -7,20 +7,20 @@ import Field from "@/components/molecules/Field";
 import Button from "@/components/atoms/Button";
 import CheckBox from "@/components/molecules/CheckBox";
 import logo from "../../../../public/assets/logo.svg";
-import { useRouter } from "next/router";
-const Login = () => {
+const ForgotPassword = () => {
   const [form] = useForm();
-  const router = useRouter();
+
   return (
     <StyledLogin>
       <div className="loginWrap">
         <div className="logo">
           <Image src={logo} alt="logo" />
         </div>
-        <strong className="title">
-          Welcome Back! <br /> you have been missed.
-        </strong>
-
+        <strong className="title">Forgot Password!</strong>
+        <span className="discreption">
+          Don&apos;t worry resetting your password is easy. Just enter your
+          registered email.
+        </span>
         <div className="formWrap">
           <Form form={form}>
             <Form.Item
@@ -39,36 +39,15 @@ const Login = () => {
             >
               <Field invert />
             </Form.Item>
-            <Form.Item
-              invert
-              type="password"
-              label="Password"
-              name="Password"
-              sm
-              rounded
-              placeholder="****************"
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
-            >
-              <Field invert />
-            </Form.Item>
-            <div className="formAction">
-              <CheckBox label="Remember me" color />
-              <span
-                className="forgetPassword"
-                onClick={() => router.push("/forgot-password")}
-              >
-                Forgot Password
-              </span>
-            </div>
 
             <Button lg block type="button" variant="dark">
-              Sign in
+              Submit
             </Button>
           </Form>
+          <span className="discreption">
+            Don&apos;t worry resetting your password is easy. Just enter your
+            registered email.
+          </span>
         </div>
       </div>
       <div className="loginBanner">
@@ -80,4 +59,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;

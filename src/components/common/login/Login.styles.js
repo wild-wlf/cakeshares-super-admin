@@ -15,15 +15,24 @@ export const StyledLogin = styled.div`
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    color: var(--white);
+
     .title {
       display: block;
-      margin-bottom: 50px;
+      margin-bottom: 20px;
       color: var(--white);
       font-size: 34px;
       font-weight: 500;
       line-height: 38px;
       text-align: center;
       max-width: 344px;
+    }
+    .discreption {
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 22px;
+      max-width: 400px;
+      text-align: center;
     }
     .logo {
       max-width: 370px;
@@ -37,6 +46,7 @@ export const StyledLogin = styled.div`
   .formWrap {
     max-width: 500px;
     width: 100%;
+    padding-top: 25px;
   }
   .loginBanner {
     display: flex;

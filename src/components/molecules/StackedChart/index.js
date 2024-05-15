@@ -38,8 +38,8 @@ function StackCharts({
         "Nov",
         "Dec",
       ],
-      // gridLineWidth: 1,
-      // gridLineColor: "lightgray",
+      gridLineWidth: 1,
+      gridLineColor: "lightgray",
     },
     yAxis: {
       visible: false,
