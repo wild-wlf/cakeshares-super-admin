@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { GraphHeader, StyledGraph, ChartContainer } from "./StackCharts";
 import Button from "@/components/atoms/Button";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { GoDotFill } from "react-icons/go";
+import Dropdown from "../Dropdown";
 
 function StackCharts({
   graphData,
@@ -15,6 +16,26 @@ function StackCharts({
   graphLineColor,
   timeFrame,
 }) {
+  const dropdown = [
+    { label: "Daily", value: "daily" },
+    { label: "Yearly", value: "yearly" },
+    { label: "Monthly", value: "monthly" },
+  ];
+  const [selected, setSelected] = useState("monthly");
+  const monthly = [
+    {
+      name: "Users",
+      data: [148, 133, 124, 110, 95, 82, 76, 89, 105, 120, 135, 142],
+      stack: "Europe",
+      color: "rgba(64, 143, 140, 1)",
+    },
+    {
+      name: "Investments",
+      data: [102, 98, 65, 78, 85, 92, 105, 112, 98, 86, 75, 68],
+      stack: "Europe",
+      color: "rgba(78, 97, 153, 1)",
+    },
+  ];
   const options = {
     chart: {
       type: "column",
@@ -80,26 +101,17 @@ function StackCharts({
         },
       },
     },
-    series: [
-      {
-        name: "Users",
-        data: [148, 133, 124, 110, 95, 82, 76, 89, 105, 120, 135, 142],
-        stack: "Europe",
-        color: "rgba(64, 143, 140, 1)",
-      },
-      {
-        name: "Investments",
-        data: [102, 98, 65, 78, 85, 92, 105, 112, 98, 86, 75, 68],
-        stack: "Europe",
-        color: "rgba(78, 97, 153, 1)",
-      },
-    ],
+    series: selected === "monthly" ? monthly : monthly,
+
     credits: {
       enabled: false,
     },
     legend: {
       enabled: false,
     },
+  };
+  const handleOnChange = (e) => {
+    setSelected(e.value);
   };
 
   return (
@@ -120,10 +132,16 @@ function StackCharts({
             </div>
           </div>
           <strong>{amount}</strong>
-          <Button variant={"success"} sm>
-            Monthly
-            <IoMdArrowDropdown size={20} />
-          </Button>
+          <div className="dropdown">
+            <Dropdown
+              option={dropdown}
+              title="Monthly"
+              onChange={handleOnChange}
+            >
+              Monthly
+              <IoMdArrowDropdown size={20} />
+            </Dropdown>
+          </div>
         </div>
       </GraphHeader>
       <ChartContainer sm={sm}>
