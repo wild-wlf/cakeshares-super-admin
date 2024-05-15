@@ -6,17 +6,36 @@ import styled from 'styled-components';
 
 import { StyledLabel, RequiredAsterisk } from './Label.styles';
 
-function Label({ children, onlyRead, required, labelIcon, clear, labelReverse, onClear = () => {}, ...props }) {
+function Label({
+  children,
+  onlyRead,
+  required,
+  labelIcon,
+  clear,
+  invert,
+  labelReverse,
+  onClear = () => {},
+  ...props
+}) {
   return (
     <>
-      <StyledLabel $onlyRead={onlyRead} labelIcon={labelIcon} $labelReverse={labelReverse} {...props}>
+      <StyledLabel
+        $onlyRead={onlyRead}
+        labelIcon={labelIcon}
+        $labelReverse={labelReverse}
+        $invert={invert}
+        {...props}
+      >
         <div css="display: flex; justify-content: space-between;">
           <div css="display: flex; align-items: center;">
-            {required ? <RequiredAsterisk>*</RequiredAsterisk> : ''}
+            {required ? <RequiredAsterisk>*</RequiredAsterisk> : ""}
             {children}
           </div>
           {clear && (
-            <span css="color: var(--danger); cursor: pointer;" onClick={onClear}>
+            <span
+              css="color: var(--danger); cursor: pointer;"
+              onClick={onClear}
+            >
               Clear
             </span>
           )}

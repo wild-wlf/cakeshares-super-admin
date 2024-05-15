@@ -1,5 +1,4 @@
 import styled, { css } from "styled-components";
-// import { darken, cssVar } from 'polished';
 import FakeInput from "../FakeInput";
 
 export const styles = css`
@@ -7,9 +6,7 @@ export const styles = css`
     ${({ $invalid }) => ($invalid ? "var(--danger)" : "var(--light)")};
   background: var(--white);
   outline: none;
-  height: 40px;
-  /* padding: ${({ sm }) =>
-    sm ? "0.3125rem .9375rem" : "var(--form-element-padding-lg)"}; */
+  height: 45px;
   padding: 12px 23px;
   width: 100%;
   font-family: "Outfit", sans-serif;
@@ -79,10 +76,7 @@ export const styles = css`
       color: var(--light-gray);
     `}
 
-  /* &:focus {
-    border-color: ${({ $invalid }) =>
-    !$invalid && `${darken(0.1, cssVar("--primary"))}`};
-  } */
+  
 
   ::-webkit-input-placeholder {
     /* Chrome/Opera/Safari */
@@ -168,4 +162,7 @@ export const StyledTextarea = styled.textarea`
 
 export const StyledInput = styled.input`
   ${styles}
+  @media screen and (max-width : 768px) {
+    height: 40px;
+  }
 `;

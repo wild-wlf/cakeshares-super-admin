@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 export const StyledLabel = styled.label`
   font-size: var(--font-size-base);
   line-height: 1;
-  color: var(--dark);
+  color: ${({ $invert }) => ($invert ? "var(--white)" : "var(--dark)")};
   margin-bottom: 0.625rem;
   display: block;
   pointer-events: ${({ $onlyRead }) => $onlyRead && "none"};

@@ -84,7 +84,7 @@ const CreatePermissionModal = ({ closeModal }) => {
           </Form.Item>
         </div>
         <div>
-          <Button sm rounded btntype="green" width="170px" onClick={closeModal}>
+          <Button rounded btntype="green" width="170px" onClick={closeModal}>
             Create Permission
           </Button>
         </div>

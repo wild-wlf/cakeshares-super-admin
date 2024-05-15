@@ -99,6 +99,9 @@ export const Styling = css`
     padding: 0;
     border-style: none;
   }
+  form {
+    width: 100%;
+  }
   a {
     text-decoration: none;
     color: #313131;
@@ -167,13 +170,13 @@ export const Styling = css`
       height: 40px;
     }
   }
-  .table-img-holder{
+  .table-img-holder {
     display: flex;
     align-items: center;
     gap: 5px;
-    .img-holder{
+    .img-holder {
       max-width: 26px;
-      img{
+      img {
         display: block;
         width: 100%;
         height: auto;
@@ -187,7 +190,6 @@ export const Styling = css`
   * {
     scrollbar-width: thin;
     scrollbar-color: #408f8c;
-
   }
 
   /* Targtes on Chrome, Edge, and Safari */
@@ -220,9 +222,9 @@ export const Styling = css`
   input[type="number"] {
     appearance: textfield;
   }
-.react-datepicker-wrapper {
-  width: 100%;
-}
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
 
   .react-datepicker {
     font-family: var(--base-font-sans-serif);

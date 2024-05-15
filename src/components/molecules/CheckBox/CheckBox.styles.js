@@ -2,16 +2,19 @@ import styled from "styled-components";
 
 export const StyledCheckBox = styled.div`
   display: flex;
-  padding-top: 20px;
-  justify-content: flex-start;
+  align-items: center;
+  color: ${({ $color }) => ($color ? "var(--white)" : "var(--black)")};
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 20px;
+
   .custom-checkbox {
     height: 100%;
     display: flex;
     align-items: flex-start;
     input[type="checkbox"] {
       position: relative;
-      border: 2px solid #408f8c;
-      border-radius: 2px;
+      border: 2px solid #d9d9d9;
       background: none;
       cursor: pointer;
       line-height: 0;
@@ -21,6 +24,7 @@ export const StyledCheckBox = styled.div`
       vertical-align: text-top;
       height: 20px;
       width: 20px;
+      border-radius: 4px;
       appearance: none;
       opacity: 0.5;
     }
@@ -32,6 +36,19 @@ export const StyledCheckBox = styled.div`
     input[type="checkbox"]:checked {
       background-color: #408f8c;
       opacity: 1;
+      &:before {
+        content: "";
+        position: absolute;
+        right: 50%;
+        top: 50%;
+        width: 5px;
+        height: 10px;
+        border: solid #fff;
+        border-width: 0 2px 2px 0;
+        margin: -1px -0.5px 0 0px;
+        transform: rotate(45deg) translate(-50%, -50%);
+        z-index: 2;
+      }
     }
 
     input[type="checkbox"]:before {
@@ -39,11 +56,9 @@ export const StyledCheckBox = styled.div`
       position: absolute;
       right: 50%;
       top: 50%;
-      width: 6px;
-      height: 12px;
-      border: solid #fff;
-      border-width: 0 2px 2px 0;
-      margin: -1px -1px 0 -1px;
+      width: 4px;
+      height: 9px;
+      margin: -1px -0.5px 0 0px;
       transform: rotate(45deg) translate(-50%, -50%);
       z-index: 2;
     }

@@ -42,6 +42,7 @@ const Field = forwardRef(
       labelReverse,
       radioBorder,
       labelColor,
+      invert,
       ...props
     },
     ref
@@ -66,6 +67,7 @@ const Field = forwardRef(
       >
         {renderInputFirst && label && (
           <Label
+            invert={invert}
             htmlFor={inputProps.id}
             labelIcon={labelIcon}
             onlyRead={onlyRead}
@@ -102,6 +104,7 @@ const Field = forwardRef(
           <>
             {label && (
               <Label
+                invert={invert}
                 onClear={() =>
                   inputProps?.onChange?.({
                     target: {
