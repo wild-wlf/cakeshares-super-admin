@@ -18,6 +18,13 @@ export const StyledButton = styled.button`
     opacity: 0.85;
   }
 
+  ${({ $sm }) =>
+    $sm &&
+    css`
+      display: flex;
+      align-items: center;
+      padding: 8px 14px;
+    `}
   ${({ $lg }) =>
     $lg &&
     css`

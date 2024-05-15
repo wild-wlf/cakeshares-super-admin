@@ -2,10 +2,12 @@ import React from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { GraphHeader, StyledGraph } from "./Graph.styles";
-// import { size } from "polished";
+import { GoDotFill } from "react-icons/go";
 
-function Graph({
+function PopularListingChart({
   graphData,
+  graphData2,
+  graphData3,
   tooltipBg,
   title,
   amount,
@@ -33,7 +35,19 @@ function Graph({
         name: "",
         data: graphData,
         yAxis: 0,
-        color: graphLineColor,
+        color: "#408F8C",
+      },
+      {
+        name: "",
+        data: graphData2,
+        yAxis: 0,
+        color: "#4E6199",
+      },
+      {
+        name: "",
+        data: graphData3,
+        yAxis: 0,
+        color: "rgba(65, 148, 0, 1)",
       },
     ],
     responsive: {
@@ -55,7 +69,20 @@ function Graph({
       <GraphHeader bg={tooltipBg} sm={sm}>
         <div className="Head">
           <strong>{title}</strong>
-          <span>{amount}</span>
+          <div className="legendWrapper">
+            <div>
+              <GoDotFill color="#408F8C" />
+              <span>House Bonds</span>
+            </div>
+            <div>
+              <GoDotFill color="#4E6199" />
+              <span>Banking Products</span>
+            </div>
+            <div>
+              <GoDotFill color="#419400" />
+              <span>Ventures</span>
+            </div>
+          </div>
         </div>
       </GraphHeader>
       <HighchartsReact highcharts={Highcharts} options={options} />
@@ -111,4 +138,4 @@ function Graph({
   );
 }
 
-export default Graph;
+export default PopularListingChart;
