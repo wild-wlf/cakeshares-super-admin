@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const QuickStatsSectionWrapper = styled.div`
   display: flex;
   gap: 16px;
-  padding: 30px;
+  margin-bottom: 30px;
   .column-wrapper {
     display: flex;
     flex-direction: column;
@@ -12,7 +12,7 @@ export const QuickStatsSectionWrapper = styled.div`
     width: 100%;
   }
   .container {
-    padding: 16px;
+    padding: 28px 16px;
     display: flex;
     flex-direction: column;
     gap: 32px;
@@ -34,8 +34,9 @@ export const QuickStatsSectionWrapper = styled.div`
         color: #408f8c;
       }
     }
-    h1 {
-      font-size: 42px;
+    strong {
+      font-size: 36px;
+      line-height: 40px;
       font-weight: 600;
     }
     div {
