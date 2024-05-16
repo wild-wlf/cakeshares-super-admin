@@ -8,14 +8,14 @@ export const Sidenav = styled.div`
   flex-direction: column;
   gap: 50px;
   background-color: var(--green);
-  max-width: 300px;
-  padding: 30px 10px 30px 50px;
+  width: 270px;
+  padding: 30px 20px 30px 30px;
   height: 100%;
   z-index: 50;
   transition: left 0.3s ease-in-out;
   border-top-right-radius: 40px;
   border-bottom-right-radius: 40px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); */
   @media (max-width: 992px) {
     left: -100%;
   }
@@ -50,12 +50,12 @@ export const Sidenav = styled.div`
 `;
 
 export const NavLinks = styled.ul`
-  padding-right: 20px;
+  padding-right: 10px;
   margin-bottom: 20px;
   .listHead {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
-    color: #9d9d9d;
+    color: var(--white);
   }
 
   .NavItem {
@@ -64,61 +64,42 @@ export const NavLinks = styled.ul`
     margin-top: 17px;
     transition: 0.5s all ease-in-out;
     .Link {
-      max-width: 190px;
+      max-width: 220px;
       width: 100%;
-      padding: 14px 20px;
-      height: 50px;
+      padding: 0px 20px 0 0;
       display: flex;
       gap: 10px;
       align-items: center;
       justify-content: flex-start;
       font-size: 14px;
       font-weight: 300;
-      color: black;
+      color: var(--white);
       position: relative;
-      &::before {
-        position: absolute;
-        content: "";
-        width: 20px;
-        height: 20px;
-        border-radius: 20px;
-        background: var(--white);
-        left: -5px;
-        top: 50%;
-        transform: translateY(-50%);
-      }
     }
     .iconCon {
-      height: 25px;
-      width: 25px;
+      height: 45px;
+      width: 45px;
       display: flex;
       padding: 3px;
       align-items: center;
       justify-content: center;
-      background-color: black;
+      background-color: rgba(255, 255, 255, 0.2);
       border-radius: 50%;
       transition: 0.5s all ease-in-out;
     }
 
     &:hover {
-      background-color: rgba(64, 143, 140, 0.3);
+      background-color: rgba(255, 255, 255, 0.2);
       .Link {
-        font-weight: 500;
-        color: #408f8c;
-      }
-      .iconCon {
-        background-color: #408f8c;
+        color: var(--white);
       }
     }
   }
   .active {
-    background-color: rgba(64, 143, 140, 0.3);
+    background-color: rgba(255, 255, 255, 0.2);
+
     .Link {
-      font-weight: 500;
-      color: #408f8c;
-    }
-    .iconCon {
-      background-color: #408f8c;
+      color: var(--white);
     }
   }
 `;
@@ -131,14 +112,15 @@ export const LinkContainer = styled.div`
 `;
 
 export const UserDet = styled.div`
-  max-width: 195px;
-  background-color: rgba(64, 143, 140, 0.3);
+  max-width: 100%;
+  background-color: rgba(255, 255, 255, 0.2);
   border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   padding: 10px 17px;
   gap: 10px;
+  color: var(--white);
   img {
     border-radius: 50%;
   }
@@ -152,7 +134,6 @@ export const UserDet = styled.div`
     font-weight: 400;
   }
   .type {
-    color: #408f8c;
     font-size: 12px;
     font-weight: 300;
   }

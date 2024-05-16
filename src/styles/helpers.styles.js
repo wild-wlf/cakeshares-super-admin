@@ -141,3 +141,12 @@ export const ActionBtnHolder = styled.div`
     color: var(--primary);
   }
 `;
+
+export const ChildWrapper = styled.div`
+  background: var(--white);
+  border-radius: 30px;
+  min-height: calc(100vh - 30px);
+`;
+export const MainWrapper = styled.div`
+  padding: 15px 15px 15px 300px;
+`;

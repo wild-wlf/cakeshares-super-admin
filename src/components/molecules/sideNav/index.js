@@ -44,8 +44,8 @@ const SideBar = ({ data }) => {
                         <figure className="iconCon">
                           <Image
                             src={data.icon}
-                            width={15}
-                            height={15}
+                            width={18}
+                            height={18}
                             alt="icon"
                           />
                         </figure>
@@ -67,9 +67,8 @@ const SideBar = ({ data }) => {
             alt="user-profile"
           />
           <div className="detailContainer">
-            <span className="userName">John Michel</span>
-            <span className="type">Induvial Seller</span>
-            <span className="date"> Member since Feb 15, 2024</span>
+            <span className="userName">Mickhel James</span>
+            <span className="type">Super Admin</span>
           </div>
         </UserDet>
       </Sidenav>
