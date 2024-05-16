@@ -7,7 +7,7 @@ export const Sidenav = styled.div`
   display: flex;
   flex-direction: column;
   gap: 50px;
-  background-color: white;
+  background-color: var(--green);
   max-width: 300px;
   padding: 30px 10px 30px 50px;
   height: 100%;
