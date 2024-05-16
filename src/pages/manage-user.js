@@ -1,5 +1,5 @@
-import ManageUserTable from "@/components/common/ManageUserTable";
 import React from "react";
+import ManageUserTable from "@/components/common/ManageUser/ManageUserTable";
 
 const index = () => {
   return (

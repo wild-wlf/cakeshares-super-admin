@@ -3,18 +3,21 @@ import { ActionBtnList } from "@/components/atoms/ActionBtns/ActionBtns.styles";
 import Table from "@/components/molecules/Table";
 import TableLayout from "@/components/atoms/TableLayout";
 import { MdModeEditOutline } from "react-icons/md";
-import detailIcon from "../../../_assets/table-detail-icon.svg";
-import infoIcon from "../../../_assets/table-info-icon.svg";
-import DeleteIcon from "../../../_assets/table-delete-icon.svg";
-import TableStyle from "../../../_assets/table-style.jpg";
-import UserImg1 from "../../../_assets/user-img-1.svg";
-import UserImg2 from "../../../_assets/user-img-2.png";
-import CalenderIcon from "../../../_assets/calander.svg";
+import detailIcon from "../../../../_assets/table-detail-icon.svg";
+import infoIcon from "../../../../_assets/table-info-icon.svg";
+import DeleteIcon from "../../../../_assets/table-delete-icon.svg";
+import TableStyle from "../../../../_assets/table-style.jpg";
+import UserImg1 from "../../../../_assets/user-img-1.svg";
+import UserImg2 from "../../../../_assets/user-img-2.png";
+import CalenderIcon from "../../../../_assets/calander.svg";
 import Image from "next/image";
 import { TableContainer } from "@/components/atoms/PermissionsTable/PermissionsTable.style";
 import Button from "@/components/atoms/Button";
+import CenterModal from "@/components/molecules/Modal/CenterModal";
+import UserDetailModal from "../UserDetailModal";
 
 const ManageUserTable = () => {
+  const [detailModal, setDetailModal] = useState(false);
   const transactions = [
     {
       userImage: UserImg1,
@@ -138,7 +141,10 @@ const ManageUserTable = () => {
       return (
         <ActionBtnList>
           <li>
-            <button type="button" className="btn file">
+            <button
+              type="button"
+              className="btn file"
+              onClick={() => setDetailModal(true)}>
               <Image src={detailIcon} alt="detailIcon" height={18} width={18} />
             </button>
           </li>
@@ -190,12 +196,20 @@ const ManageUserTable = () => {
     "Status",
     "Actions",
   ];
+
   return (
     <>
+      <CenterModal
+        open={detailModal}
+        setOpen={setDetailModal}
+        title="Alex Mertiz Detail"
+        width="1000">
+        <UserDetailModal />
+      </CenterModal>
       <TableContainer>
         <Image src={TableStyle} className="tableStyle" />
         <TableLayout
-          tableHeading=" "
+          buyerSellerTabs
           btnWidth="40px"
           btnType="download"
           iconImg={CalenderIcon}
