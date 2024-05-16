@@ -63,7 +63,7 @@ export const Container = styled.div`
       opacity: 1;
       max-width: 432px;
       position: absolute;
-      top: 70px;
+      top: 25px;
       right: 30px;
       transform: translateY(50px);
       transition: 0.4s;

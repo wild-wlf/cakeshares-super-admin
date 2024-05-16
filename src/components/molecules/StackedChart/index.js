@@ -17,12 +17,87 @@ function StackCharts({
   timeFrame,
 }) {
   const dropdown = [
-    { label: "Daily", value: "daily" },
-    { label: "Yearly", value: "yearly" },
+    { label: "Weekly", value: "weekly" },
     { label: "Monthly", value: "monthly" },
+    { label: "Yearly", value: "yearly" },
   ];
   const [selected, setSelected] = useState("monthly");
+  const yearlyCategories = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const monthlyCategories = [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20",
+    "21",
+    "22",
+    "23",
+    "24",
+    "25",
+    "26",
+    "27",
+    "28",
+    "29",
+    "30",
+  ];
+  const weeklyCategories = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
   const monthly = [
+    {
+      name: "Users",
+      data: [
+        148, 133, 124, 110, 95, 82, 76, 89, 105, 120, 135, 142, 131, 127, 114,
+        100, 151, 86, 179, 93, 107, 119, 137, 145, 138, 128, 116, 103, 98, 88,
+      ],
+      stack: "Europe",
+      color: "rgba(64, 143, 140, 1)",
+    },
+    {
+      name: "Investments",
+      data: [
+        72, 128, 106, 43, 159, 78, 112, 107, 120, 134, 59, 63, 148, 93, 159,
+        124, 127, 102, 66, 181, 96, 112, 127, 142, 97, 71, 185, 100, 155, 130,
+      ],
+      stack: "Europe",
+      color: "rgba(78, 97, 153, 1)",
+    },
+  ];
+  const yearly = [
     {
       name: "Users",
       data: [148, 133, 124, 110, 95, 82, 76, 89, 105, 120, 135, 142],
@@ -36,6 +111,20 @@ function StackCharts({
       color: "rgba(78, 97, 153, 1)",
     },
   ];
+  const weekly = [
+    {
+      name: "Users",
+      data: [102, 128, 106, 143, 89, 78, 92],
+      stack: "Europe",
+      color: "rgba(64, 143, 140, 1)",
+    },
+    {
+      name: "Investments",
+      data: [83, 138, 81, 97, 112, 86, 140],
+      stack: "Europe",
+      color: "rgba(78, 97, 153, 1)",
+    },
+  ];
   const options = {
     chart: {
       type: "column",
@@ -45,22 +134,12 @@ function StackCharts({
       align: "left",
     },
     xAxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-      // gridLineWidth: 1,
-      // gridLineColor: "lightgray",
+      categories:
+        selected === "monthly"
+          ? monthlyCategories
+          : selected === "yearly"
+          ? yearlyCategories
+          : weeklyCategories,
     },
     yAxis: {
       visible: false,
@@ -89,7 +168,7 @@ function StackCharts({
         stacking: "normal",
         pointPadding: 0,
         groupPadding: 0.2,
-        pointWidth: 38,
+        pointWidth: selected === "monthly" ? 24 : 38,
         borderRadius: 13,
         dataLabels: {
           style: {
@@ -101,7 +180,12 @@ function StackCharts({
         },
       },
     },
-    series: selected === "monthly" ? monthly : monthly,
+    series:
+      selected === "monthly"
+        ? monthly
+        : selected === "yearly"
+        ? yearly
+        : weekly,
 
     credits: {
       enabled: false,
