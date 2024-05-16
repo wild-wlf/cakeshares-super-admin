@@ -25,6 +25,14 @@ export const StyledButton = styled.button`
       align-items: center;
       padding: 8px 14px;
     `}
+  ${({ $xsCustom }) =>
+    $xsCustom &&
+    css`
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      font-size: 12px;
+    `}
   ${({ $lg }) =>
     $lg &&
     css`

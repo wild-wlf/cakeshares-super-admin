@@ -13,10 +13,12 @@ const Button = ({
   disable,
   block,
   custom,
+  xsCustom,
   ...rest
 }) => {
   return (
     <StyledButton
+      $xsCustom={xsCustom}
       $sm={sm}
       $lg={lg}
       $block={block}

@@ -123,12 +123,12 @@ const ManageUserTable = () => {
       return (
         <ActionBtnList>
           <li>
-            <Button variant="success" custom>
+            <Button variant="success" custom xsCustom>
               Approve
             </Button>
           </li>
           <li>
-            <Button variant="danger" custom>
+            <Button variant="danger" custom xsCustom>
               Decline
             </Button>
           </li>
@@ -164,10 +164,10 @@ const ManageUserTable = () => {
   };
 
   const { product_rows, totalItems } = useMemo(() => ({
-    product_rows: transactions?.map((user) => [
-      <div className="table-img-holder">
+    product_rows: transactions?.map((user, ind) => [
+      <div className="table-img-holder" key={ind}>
         <div className="img-holder">
-          <Image src={user.userImage} />
+          <Image src={user.userImage} alt="userImage" />
         </div>
         {user.username || "------------"}
       </div>,
@@ -193,13 +193,14 @@ const ManageUserTable = () => {
   return (
     <>
       <TableContainer>
-        <Image src={TableStyle} className="tableStyle" />
+        <Image src={TableStyle} className="tableStyle" alt="tableCurve" />
         <TableLayout
           tableHeading=" "
           btnWidth="40px"
           btnType="download"
           iconImg={CalenderIcon}
-          placeholder="Search User">
+          placeholder="Search User"
+        >
           <Table
             width={1024}
             rowsData={product_rows}
