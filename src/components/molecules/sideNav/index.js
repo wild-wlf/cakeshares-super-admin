@@ -16,13 +16,13 @@ const SideBar = ({ data }) => {
 
   return (
     <>
+      <div
+        className="layer"
+        onClick={() => {
+          closeSideNav();
+        }}
+      />
       <Sidenav>
-        <div
-          className="layer"
-          onClick={() => {
-            closeSideNav();
-          }}
-        />
         <div className="nav-logo">
           <Image src={logo} alt="logo" />
         </div>

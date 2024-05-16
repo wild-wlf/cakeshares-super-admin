@@ -8,10 +8,10 @@ import { HiOutlineMenuAlt1 } from "react-icons/hi";
 const AdminTopBar = ({ title, tagLine, suffix }) => {
   const [notifications, setNotifications] = useState(false);
 
-  // const openSideNav = () => {
-  //   document.body.classList.toggle("sideNav-active");
-  //   document.body.style.overflow = "hidden";
-  // }
+  const openSideNav = () => {
+    document.body.classList.toggle("sideNav-active");
+    document.body.style.overflow = "hidden";
+  };
 
   return (
     <>

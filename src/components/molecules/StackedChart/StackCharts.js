@@ -40,7 +40,7 @@ export const GraphHeader = styled.div`
     }
   }
   .dropdown {
-    width: 120px;
+    width: 180px;
   }
 
   @media (max-width: 1200px) {
