@@ -42,6 +42,17 @@ export const StyledLogin = styled.div`
         height: auto;
       }
     }
+    .loginDiscreption {
+      padding-top: 30px;
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 20.16px;
+      text-align: center;
+      a {
+        font-weight: 400;
+        color: var(--white);
+      }
+    }
   }
   .formWrap {
     max-width: 500px;
