@@ -26,6 +26,11 @@ export const GraphHeader = styled.div`
       .legendWrapper {
         display: flex;
         gap: 10px;
+        div {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
       }
     }
     strong {
@@ -35,7 +40,7 @@ export const GraphHeader = styled.div`
     }
   }
   .dropdown {
-    width: 100px;
+    width: 120px;
   }
 
   @media (max-width: 1200px) {
@@ -43,6 +48,29 @@ export const GraphHeader = styled.div`
       strong {
         font-size: 18px;
         font-weight: 500;
+      }
+    }
+  }
+  @media (max-width: 576px) {
+    .head {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      justify-content: space-between;
+      .title {
+        flex-direction: column;
+        gap: 10px;
+        .legendWrapper {
+          display: flex;
+          gap: 8px;
+          font-size: 14px;
+          div {
+            gap: 4px;
+          }
+        }
+      }
+      strong {
+        font-size: 18px;
       }
     }
   }
