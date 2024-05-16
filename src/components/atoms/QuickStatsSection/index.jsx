@@ -2,7 +2,7 @@ import React from "react";
 import { QuickStatsSectionWrapper } from "./QuickStatsSection.style";
 import { BsThreeDots } from "react-icons/bs";
 import { MdSupervisorAccount } from "react-icons/md";
-import InvestmentIcon from "../../../_assets/investment-icon.svg";
+import InvestmentIcon from "../../../../public/assets/investment-icon.svg";
 import Image from "next/image";
 import StackCharts from "@/components/molecules/StackedChart";
 

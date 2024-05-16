@@ -1,6 +1,6 @@
 import AdminTopBar from "@/components/common/AdminTopBar/AdminTopBar";
 import React from "react";
-import handIcon from "../_assets/handIcon.png";
+import handIcon from "../../public/assets/handIcon.png";
 import QuickStatsSection from "@/components/atoms/QuickStatsSection";
 import PopularListing from "@/components/atoms/PopularListing";
 
