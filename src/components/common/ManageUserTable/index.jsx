@@ -3,18 +3,27 @@ import { ActionBtnList } from "@/components/atoms/ActionBtns/ActionBtns.styles";
 import Table from "@/components/molecules/Table";
 import TableLayout from "@/components/atoms/TableLayout";
 import { MdModeEditOutline } from "react-icons/md";
-import detailIcon from "../../../_assets/table-detail-icon.svg";
-import infoIcon from "../../../_assets/table-info-icon.svg";
-import DeleteIcon from "../../../_assets/table-delete-icon.svg";
-import TableStyle from "../../../_assets/table-style.jpg";
-import UserImg1 from "../../../_assets/user-img-1.svg";
-import UserImg2 from "../../../_assets/user-img-2.png";
-import CalenderIcon from "../../../_assets/calander.svg";
+import successIcon from "../../../../public/assets/successIcon.png";
+import detailIcon from "../../../../public/assets/table-detail-icon.svg";
+import infoIcon from "../../../../public/assets/table-info-icon.svg";
+import modalinfoIcon from "../../../../public/assets/infoIcon.png";
+import DeleteIcon from "../../../../public/assets/table-delete-icon.svg";
+import TableStyle from "../../../../public/assets/table-style.jpg";
+import UserImg1 from "../../../../public/assets/user-img-1.svg";
+import UserImg2 from "../../../../public/assets/user-img-2.png";
+import CalenderIcon from "../../../../public/assets/calander.svg";
 import Image from "next/image";
 import { TableContainer } from "@/components/atoms/PermissionsTable/PermissionsTable.style";
 import Button from "@/components/atoms/Button";
+import CenterModal from "@/components/molecules/Modal/CenterModal";
+import DeleteModal from "@/components/atoms/UserDeleteModal/DeleteModal";
+import SuccessfulModal from "@/components/atoms/UserDeleteModal/SuccessfulModal";
+import EditUserModal from "@/components/atoms/EditUserModal";
 
 const ManageUserTable = () => {
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
   const transactions = [
     {
       userImage: UserImg1,
@@ -148,14 +157,22 @@ const ManageUserTable = () => {
             </button>
           </li>
           <li>
-            <button type="button" className="btn edit">
+            <button
+              type="button"
+              className="btn edit"
+              onClick={() => setEditModal(true)}
+            >
               <MdModeEditOutline color="rgba(64, 143, 140, 1)" size={16} />
             </button>
           </li>
 
           <li>
             <button type="button" className="btn delete">
-              <Image src={DeleteIcon} alt="DeleteIcon" />
+              <Image
+                src={DeleteIcon}
+                alt="DeleteIcon"
+                onClick={() => setDeleteModal(true)}
+              />
             </button>
           </li>
         </ActionBtnList>
@@ -192,6 +209,37 @@ const ManageUserTable = () => {
   ];
   return (
     <>
+      <CenterModal
+        open={deleteModal}
+        setOpen={setDeleteModal}
+        title={<Image src={modalinfoIcon} alt="InfoIcon" />}
+        width="543"
+      >
+        <DeleteModal
+          closeDeleteModal={() => {
+            setDeleteModal(false);
+          }}
+          openSuccessfulModal={() => {
+            setDeleteModal(false), setSuccessModal(true);
+          }}
+        />
+      </CenterModal>
+      <CenterModal
+        open={successModal}
+        setOpen={setSuccessModal}
+        title={<Image src={successIcon} alt="InfoIcon" />}
+        width="543"
+      >
+        <SuccessfulModal title={"User Suspended Successfully!"} />
+      </CenterModal>
+      <CenterModal
+        open={editModal}
+        setOpen={setEditModal}
+        title={"Edit User"}
+        width="803"
+      >
+        <EditUserModal />
+      </CenterModal>
       <TableContainer>
         <Image src={TableStyle} className="tableStyle" alt="tableCurve" />
         <TableLayout

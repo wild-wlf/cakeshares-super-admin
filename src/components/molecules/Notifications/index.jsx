@@ -1,8 +1,8 @@
 import React from "react";
 import { ImageHolder, NotificationsHolder } from "./Notifications.styles";
-import Investment from "../../../_assets/investment-icon.svg";
-import Property from "../../../_assets/property-icon.svg";
-import Message from "../../../_assets/message-icon.svg";
+import Investment from "../../../../public/assets/investment-icon.svg";
+import Property from "../../../../public/assets/property-icon.svg";
+import Message from "../../../../public/assets/message-icon.svg";
 import Image from "next/image";
 
 const Notifications = () => {

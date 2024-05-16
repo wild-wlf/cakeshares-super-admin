@@ -6,21 +6,20 @@ const DeleteModal = ({ closeDeleteModal, openSuccessfulModal }) => {
   return (
     <DeleteModalWrapper>
       <div className="title-div">
-        <h2>Delete Product!</h2>
-        <span>Are you sure you want to delete this Product?</span>
+        <h2>Suspend User!</h2>
+        <span>Are you sure you want to suspend this User?</span>
       </div>
       <div className="btn-wrapper">
-        <Button sm rounded btntype="cancel" onClick={closeDeleteModal}>
+        <Button outline onClick={closeDeleteModal} block>
           No
         </Button>
         <Button
-          sm
-          rounded
-          btntype="danger"
+          variant="danger"
           className="danger"
           onClick={openSuccessfulModal}
+          block
         >
-          Yes, Delete
+          Yes, Suspend
         </Button>
       </div>
     </DeleteModalWrapper>

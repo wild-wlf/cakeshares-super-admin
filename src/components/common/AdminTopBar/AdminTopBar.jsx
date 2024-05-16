@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Container, DataContainer } from "./AdminTopBar.style";
 import Image from "next/image";
 import Notifications from "../../molecules/Notifications";
-import bell from "../../../_assets/bell.svg";
+import bell from "../../../../public/assets/bell.svg";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 
 const AdminTopBar = ({ title, tagLine, suffix }) => {

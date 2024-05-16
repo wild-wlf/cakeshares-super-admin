@@ -181,7 +181,43 @@ function StackCharts({
           chartOptions: {
             plotOptions: {
               column: {
-                pointWidth: selected === "monthly" ? 10 : 38,
+                pointWidth: selected === "monthly" ? 18 : 38,
+              },
+            },
+          },
+        },
+        {
+          condition: {
+            maxWidth: 680,
+          },
+          chartOptions: {
+            plotOptions: {
+              column: {
+                pointWidth: selected === "monthly" ? 14 : 38,
+              },
+            },
+          },
+        },
+        {
+          condition: {
+            maxWidth: 576,
+          },
+          chartOptions: {
+            plotOptions: {
+              column: {
+                pointWidth: selected === "monthly" ? 10 : 28,
+              },
+            },
+          },
+        },
+        {
+          condition: {
+            maxWidth: 440,
+          },
+          chartOptions: {
+            plotOptions: {
+              column: {
+                pointWidth: selected === "monthly" ? 8 : 18,
               },
             },
           },
