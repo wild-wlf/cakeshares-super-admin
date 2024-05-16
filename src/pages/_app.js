@@ -14,7 +14,8 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <GlobalStyles />
-      <SideBar data={indivisualSellerNav} />
+      {/* <SideBar data={indivisualSellerNav} /> */}
+
       <Component {...pageProps} />
     </>
   );

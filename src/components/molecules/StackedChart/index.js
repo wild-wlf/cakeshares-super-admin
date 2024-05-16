@@ -172,6 +172,22 @@ function StackCharts({
         },
       },
     },
+    responsive: {
+      rules: [
+        {
+          condition: {
+            maxWidth: 768,
+          },
+          chartOptions: {
+            plotOptions: {
+              column: {
+                pointWidth: selected === "monthly" ? 10 : 38,
+              },
+            },
+          },
+        },
+      ],
+    },
     series:
       selected === "monthly"
         ? monthly
