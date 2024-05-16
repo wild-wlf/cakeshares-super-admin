@@ -1,12 +1,10 @@
-import Login from "@/components/common/login";
-import React from "react";
+import React from 'react';
+import Login from '@/components/common/login';
 
-const SignIn = () => {
-  return (
-    <>
-      <Login />
-    </>
-  );
-};
+const SignIn = () => (
+  <>
+    <Login />
+  </>
+);
 
 export default SignIn;

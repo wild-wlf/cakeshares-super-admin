@@ -7,14 +7,15 @@ import Compress from 'react-image-file-resizer';
 import styled from 'styled-components';
 import Grid from '../components/atoms/Grid';
 
-export const setCookie = (name, value, days) => {
+export const setCookie = (name, value, days, domain) => {
   let expires = '';
   if (days) {
-    const date = this.getDateObject(new Date());
+    const date = new Date();
     date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
     expires = `; expires=${date.toUTCString()}`;
   }
-  document.cookie = `${name}=${value || ''}${expires}; path=/`;
+  const domainString = domain ? `; domain=${domain}` : '';
+  document.cookie = `${name}=${value || ''}${expires}; path=/${domainString}`;
 
   return true;
 };

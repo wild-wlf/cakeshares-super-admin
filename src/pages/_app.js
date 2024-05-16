@@ -1,9 +1,10 @@
-import { HelperClasses, Styling } from "@/styles/GlobalStyles.styles";
-import { createGlobalStyle } from "styled-components";
-import Variables from "../styles/variables.css";
-import SideBar from "@/components/molecules/sideNav";
-import { indivisualSellerNav } from "@/helpers/nav";
-import { ChildWrapper, MainWrapper } from "@/styles/helpers.styles";
+import React from 'react';
+import { HelperClasses, Styling } from '@/styles/GlobalStyles.styles';
+import { ChildWrapper, MainWrapper } from '@/styles/helpers.styles';
+import { createGlobalStyle } from 'styled-components';
+import SideBar from '@/components/molecules/sideNav';
+import { indivisualSellerNav } from '@/helpers/nav';
+import Variables from '../styles/variables.css';
 
 const GlobalStyles = createGlobalStyle`
   ${Variables}
