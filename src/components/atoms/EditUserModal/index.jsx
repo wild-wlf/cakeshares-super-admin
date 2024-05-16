@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Wrapper } from "./EditUserModal.style";
-import Field from "../Field";
 import Form, { useForm } from "@/components/molecules/Form";
 import Button from "../Button";
 import Select from "../Select";
 import Image from "next/image";
 import { countries } from "@/components/Constant";
-import SingleValueSlider from "../singleValueSlider";
 import UploadImg from "@/components/molecules/UploadImg";
-const EditUserModal = ({ handleRegistration }) => {
+import Field from "@/components/molecules/Field";
+const EditUserModal = ({ handleChanges }) => {
   const [arr, setArr] = useState(countries);
   const [form] = useForm();
 
@@ -277,7 +276,7 @@ const EditUserModal = ({ handleRegistration }) => {
           md
           btntype="primary"
           width="170"
-          onClick={handleRegistration}
+          onClick={handleChanges}
           htmlType="submit"
         >
           Save Changes

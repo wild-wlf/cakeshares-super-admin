@@ -11,7 +11,7 @@ import InfoIcon from "../../../_assets/infoIcon.png";
 import Image from "next/image";
 import { TableContainer } from "./PermissionsTable.style";
 import DeletePermissionModal from "./DeletePermissionModal";
-import SuccessfulModal from "../ProductDeleteModal/SuccessfulModal";
+import SuccessfulModal from "../UserDeleteModal/SuccessfulModal";
 import CreatePermissionModal from "./CreatePermissionModal";
 import EditPermissionModal from "./EditPermissionModal";
 

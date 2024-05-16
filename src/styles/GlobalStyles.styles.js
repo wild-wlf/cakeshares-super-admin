@@ -175,6 +175,7 @@ export const Styling = css`
     align-items: center;
     gap: 5px;
     .img-holder {
+      width: 100%;
       max-width: 26px;
       img {
         display: block;

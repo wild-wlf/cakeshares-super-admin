@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
+import { LoadingContext } from "@/context/loadingContext";
 import Skeleton from "react-loading-skeleton";
-import { LoadingContext } from "../../../context/loadingContext";
 import { Th, Td } from "./TableCell.styles";
 
 function TableCell({ heading, children, ...rest }) {
