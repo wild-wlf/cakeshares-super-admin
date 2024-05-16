@@ -2,10 +2,10 @@ import { clearCookie, getCookie } from './common';
 
 let trigger = false;
 function handleResponse(response) {
-  if (response.status === 401 && !trigger && getCookie(process.env.REACT_APP_ADMIN_PAYZEE_TOKEN_COOKIE)) {
+  if (response.status === 401 && !trigger && getCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE)) {
     trigger = true;
-    clearCookie(process.env.REACT_APP_ADMIN_PAYZEE_TOKEN_COOKIE);
-    clearCookie(process.env.REACT_APP_ALLOWED_PAGES_COOKIE);
+    clearCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE);
+    clearCookie(process.env.NEXT_PUBLIC_ALLOWED_PAGES_COOKIE);
     window.location.reload();
   }
   return response;
@@ -13,7 +13,7 @@ function handleResponse(response) {
 function get(url) {
   const headers = {
     'Content-Type': 'application/json',
-    authorization: `Bearer ${getCookie(process.env.REACT_APP_ADMIN_PAYZEE_TOKEN_COOKIE)}`,
+    authorization: `Bearer ${getCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE)}`,
   };
   const requestOptions = {
     method: 'GET',
@@ -25,7 +25,7 @@ function get(url) {
 function post(url, body) {
   const headers = {
     'Content-Type': 'application/json',
-    authorization: `Bearer ${getCookie(process.env.REACT_APP_ADMIN_PAYZEE_TOKEN_COOKIE)}`,
+    authorization: `Bearer ${getCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE)}`,
   };
 
   const requestOptions = {
@@ -40,7 +40,7 @@ function post(url, body) {
 function upload(url, method, body) {
   const headers = {
     // 'Content-Type': 'multipart/form-data',
-    authorization: `Bearer ${getCookie(process.env.REACT_APP_ADMIN_PAYZEE_TOKEN_COOKIE)}`,
+    authorization: `Bearer ${getCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE)}`,
   };
 
   const requestOptions = {
@@ -55,7 +55,7 @@ function upload(url, method, body) {
 function put(url, body) {
   const headers = {
     'Content-Type': 'application/json',
-    authorization: `Bearer ${getCookie(process.env.REACT_APP_ADMIN_PAYZEE_TOKEN_COOKIE)}`,
+    authorization: `Bearer ${getCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE)}`,
   };
   const requestOptions = {
     method: 'PUT',
@@ -68,7 +68,7 @@ function put(url, body) {
 function _delete(url, body) {
   const headers = {
     'Content-Type': 'application/json',
-    authorization: `Bearer ${getCookie(process.env.REACT_APP_ADMIN_PAYZEE_TOKEN_COOKIE)}`,
+    authorization: `Bearer ${getCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE)}`,
   };
   const requestOptions = {
     method: 'DELETE',
@@ -81,7 +81,7 @@ function _delete(url, body) {
 function patch(url, body) {
   const headers = {
     'Content-Type': 'application/json',
-    authorization: `Bearer ${getCookie(process.env.REACT_APP_ADMIN_PAYZEE_TOKEN_COOKIE)}`,
+    authorization: `Bearer ${getCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE)}`,
   };
   const requestOptions = {
     method: 'PATCH',

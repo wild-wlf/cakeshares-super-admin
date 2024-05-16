@@ -4,7 +4,17 @@ const adminService = {
   _url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/admin/v1`,
 
   async login({ email = '', password = '' }) {
-    let res = await Fetch.post(`${this._url}/signin`, { email, password });
+    let res = await Fetch.post(`${this._url}/login`, { email, password });
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    }
+    const { message } = await res.json();
+    throw new Error(message ?? 'Something went wrong');
+  },
+
+  async getCurrentAdmin() {
+    let res = await Fetch.get(`${this._url}/perms`);
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
       return res;

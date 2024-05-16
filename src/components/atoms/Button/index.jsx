@@ -1,5 +1,5 @@
-import React from "react";
-import { StyledButton } from "./Button.styles";
+import React from 'react';
+import { StyledButton } from './Button.styles';
 
 const Button = ({
   children,
@@ -15,24 +15,21 @@ const Button = ({
   custom,
   xsCustom,
   ...rest
-}) => {
-  return (
-    <StyledButton
-      $xsCustom={xsCustom}
-      $sm={sm}
-      $lg={lg}
-      $block={block}
-      $outline={outline}
-      $variant={variant}
-      $gap={gap}
-      $width={width}
-      $custom={custom}
-      disabled={disable || loader}
-      {...rest}
-    >
-      {loader ? <span class="loader"></span> : children}
-    </StyledButton>
-  );
-};
+}) => (
+  <StyledButton
+    $xsCustom={xsCustom}
+    $sm={sm}
+    $lg={lg}
+    $block={block}
+    $outline={outline}
+    $variant={variant}
+    $gap={gap}
+    $width={width}
+    $custom={custom}
+    disabled={disable || loader}
+    {...rest}>
+    {loader ? <span className="loader" /> : children}
+  </StyledButton>
+);
 
 export default Button;
