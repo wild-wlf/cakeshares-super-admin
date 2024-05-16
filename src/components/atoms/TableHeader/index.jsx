@@ -52,6 +52,7 @@ function TableHeader({
           css="padding:0;"
         /> */}
       </ResultPerPage>
+      <span>fghygyyy</span>
     </StyledTableHeader>
   );
 }
