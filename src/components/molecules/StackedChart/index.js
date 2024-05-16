@@ -68,15 +68,7 @@ function StackCharts({
     "29",
     "30",
   ];
-  const weeklyCategories = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+  const weeklyCategories = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
   const monthly = [
     {
       name: "Users",
@@ -223,7 +215,7 @@ function StackCharts({
               onChange={handleOnChange}
             >
               Monthly
-              <IoMdArrowDropdown size={20} />
+              <IoMdArrowDropdown size={16} />
             </Dropdown>
           </div>
         </div>

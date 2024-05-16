@@ -3,13 +3,13 @@ import styled from "styled-components";
 export const StyledSelectWrapper = styled.div`
   width: 100%;
   color: rgba(64, 143, 140, 1);
-  font-size: 16px;
+  font-size: 14px;
   line-height: 20px;
   font-weight: 400;
   position: relative;
 
   @media screen and (max-width: 768px) {
-    font-size: 14px;
+    font-size: 12px;
     line-height: 18px;
   }
   &.selectProfile {
@@ -46,10 +46,9 @@ export const ItemWrapper = styled.ul`
   background: var(--white);
   border-radius: 20px;
   left: 0;
-  width: 100%;
   position: absolute;
   top: 60px;
-  padding: 10px 0;
+  /* padding: 10px 0; */
   box-shadow: 0px 24px 52px -14px rgba(29, 41, 57, 0.16);
   max-height: ${({ $height }) => ($height ? "120px" : "0%")};
   opacity: ${({ $height }) => ($height ? "1" : "0")};

@@ -55,6 +55,49 @@ export const QuickStatsSectionWrapper = styled.div`
   }
 
   .chart-container {
-    width: 100%;
+    width: 75%;
+  }
+
+  @media only screen and (max-width: 1200px) {
+    flex-direction: column;
+    .column-wrapper {
+      display: flex;
+      flex-direction: row;
+      gap: 17px;
+      max-width: none;
+    }
+    .container {
+      width: 50%;
+    }
+    .chart-container {
+      width: 100%;
+    }
+  }
+  @media only screen and (max-width: 768px) {
+    .column-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .container {
+      width: 100%;
+    }
+    .value-wrapper {
+      .heading {
+        font-size: 16px;
+        .icon {
+          font-size: 20px;
+        }
+      }
+      h1 {
+        font-size: 30px;
+      }
+      .green-text {
+        font-size: 14px;
+      }
+      .desc {
+        font-size: 14px;
+      }
+    }
   }
 `;

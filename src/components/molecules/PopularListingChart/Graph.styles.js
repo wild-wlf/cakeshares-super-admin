@@ -100,6 +100,22 @@ export const GraphHeader = styled.div`
       font-weight: 500;
     }
   }
+  @media (max-width: 576px) {
+    .Head {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      .legendWrapper {
+        gap: 6px;
+        div {
+          gap: 4px;
+          span {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
 `;
 
 export const GraphHolder = styled.div`
