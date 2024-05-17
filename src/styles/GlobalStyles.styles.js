@@ -116,6 +116,7 @@ export const Styling = css`
 
   a,
   button {
+    font-family: var(--base-font-sans-serif);
     transition: opacity var(--animation-speed) ease-in-out,
       background var(--animation-speed) ease-in-out,
       visibility var(--animation-speed) ease-in-out,
