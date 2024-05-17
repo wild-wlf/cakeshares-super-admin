@@ -1,6 +1,5 @@
 /* eslint-disable no-unreachable */
-import React, { useState, createContext, useEffect, startTransition } from 'react';
-// import { webSocketConnection } from "@/services/sockets";
+import React, { useState, useEffect, startTransition } from 'react';
 import { createContextHook } from 'use-context-hook';
 import { clearCookie, getCookie, setCookie } from '@/helpers/common';
 import authService from '@/services/authService';
@@ -28,24 +27,26 @@ export const AuthContextProvider = props => {
 
   const publicPages = ['/sign-in'];
 
-  const privatePages = ['/dashboard'];
+  const privatePages = [
+    '/',
+    '/dashboard',
+    '/manage-user',
+    '/manage-products',
+    '/community-chat',
+    '/stakeholder-chat',
+    '/settings',
+  ];
 
   const onLogout = async () => {
     try {
-      const res = await authService.logout();
-      if (res) {
-        clearCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE);
-        clearCookie(process.env.NEXT_PUBLIC_ALLOWED_PAGES_COOKIE);
-        clearCookie('is_email_verified');
-        clearCookie('email');
-        await router.push('/sign-in');
-        Toast({ type: 'success', message: 'Logout Successfully' });
-      }
-    } catch (ex) {
+      await authService.logout();
+    } finally {
       clearCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE);
       clearCookie(process.env.NEXT_PUBLIC_ALLOWED_PAGES_COOKIE);
-      Toast({ type: 'error', message: ex?.message });
-    } finally {
+      clearCookie('is_email_verified');
+      clearCookie('email');
+      await router.push('/sign-in');
+      Toast({ type: 'success', message: 'Logout Successfully' });
       setLoadingUser(false);
       setIsLoggedIn(false);
     }
@@ -58,11 +59,12 @@ export const AuthContextProvider = props => {
     if (!allowedPages) return;
     cancellablePromise(authService.getCurrentAdmin())
       .then(res => {
-        setAllowedPages([...res.permissions.filter(p => p.includes('.nav')).map(p => p.split('.')[0])]);
+        setAllowedPages(res.permissions.filter(p => p.includes('.nav')).map(p => `/${p.split('.')[0]}`));
         setCookie(
           process.env.NEXT_PUBLIC_ALLOWED_PAGES_COOKIE,
-          JSON.stringify(res.permissions.filter(p => p.includes('.nav')).map(p => p.split('.')[0])),
+          JSON.stringify(res.permissions.filter(p => p.includes('.nav')).map(p => `/${p.split('.')[0]}`)),
         );
+
         setLoadingUser(false);
         setUser(res);
         if (publicPages.includes(router.pathname)) {
@@ -119,7 +121,12 @@ export const AuthContextProvider = props => {
       }
 
       setCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE, res.token);
-      router.push('/');
+      setAllowedPages([...res?.admin?.permissions.filter(p => p.includes('.nav')).map(p => `/${p.split('.')[0]}`)]);
+      setCookie(
+        process.env.NEXT_PUBLIC_ALLOWED_PAGES_COOKIE,
+        JSON.stringify(res?.admin?.permissions.filter(p => p.includes('.nav')).map(p => `/${p.split('.')[0]}`)),
+      );
+      router.push('/dashboard');
       setIsLoggedIn(true);
       Toast({ type: 'success', message: 'Logged In Successfully!' });
       setLoadingUser(false);

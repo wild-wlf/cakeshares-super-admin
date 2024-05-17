@@ -1,15 +1,14 @@
-import { ChildWrapper, MainWrapper } from "@/styles/helpers.styles";
-import React from "react";
-import SideBar from "./sideNav";
-import { indivisualSellerNav } from "@/helpers/nav";
-import { useRouter } from "next/router";
+import { ChildWrapper, MainWrapper } from '@/styles/helpers.styles';
+import React from 'react';
+import { indivisualSellerNav } from '@/helpers/nav';
+import { useRouter } from 'next/router';
+import SideBar from './sideNav';
 
 const Layout = ({ children }) => {
   const router = useRouter();
-  console.log(router.pathname);
   return (
     <>
-      {router.pathname !== "/sign-in" ? (
+      {router.pathname !== '/sign-in' ? (
         <>
           <MainWrapper>
             <SideBar data={indivisualSellerNav} />

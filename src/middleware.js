@@ -3,7 +3,15 @@ import { cookies } from 'next/headers';
 
 const publicPages = ['/sign-in'];
 
-const privatePages = ['/dashboard'];
+const privatePages = [
+  '/',
+  '/dashboard',
+  '/manage-user',
+  '/manage-products',
+  '/community-chat',
+  '/stakeholder-chat',
+  '/settings',
+];
 
 export function middleware(request) {
   const cookieHeader = cookies(request.headers);
@@ -34,7 +42,7 @@ export function middleware(request) {
         return NextResponse.next();
       }
     }
-    return NextResponse.redirect(`${currentOrigin}/signin`);
+    return NextResponse.redirect(`${currentOrigin}/sign-in`);
   }
 
   return NextResponse.next();

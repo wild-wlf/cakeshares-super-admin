@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 // import Filters from '../../../pages/common/filters';
-import TableHeader from "../TableHeader";
-import Pagination from "../../molecules/Pagination";
-import { StyledTableLayout } from "./TableLayout.styles";
-import Button from "../Button";
-import { CiSearch } from "react-icons/ci";
-import Image from "next/image";
-import Field from "@/components/molecules/Field";
+import { CiSearch } from 'react-icons/ci';
+import Image from 'next/image';
+import Field from '@/components/molecules/Field';
+import TableHeader from '../TableHeader';
+import Pagination from '../../molecules/Pagination';
+import { StyledTableLayout } from './TableLayout.styles';
+import Button from '../Button';
 
 function TableLayout({
   children,
@@ -14,7 +14,7 @@ function TableLayout({
   pageSize = 10,
   totalCount = 0,
   onChangeFilters,
-  customFilterKey = "",
+  customFilterKey = '',
   exportBtn,
   createBtn,
   extraFilters,
@@ -34,7 +34,7 @@ function TableLayout({
   openModal,
   setResetFilter = () => {},
 }) {
-  const [filterState, setFilterState] = useState("");
+  const [filterState, setFilterState] = useState('');
   return (
     <>
       {/* {filters && (
@@ -50,15 +50,9 @@ function TableLayout({
           onOptionClick={onOptionClick}
         />
       )} */}
-      <StyledTableLayout
-        noNegativeMargin={noNegativeMargin}
-        noPagination={noPagination}
-        filterBlock={filterBlock}
-      >
+      <StyledTableLayout noNegativeMargin={noNegativeMargin} noPagination={noPagination} filterBlock={filterBlock}>
         <div className="head">
-          {tableHeading && (
-            <strong className="table-heading">{tableHeading}</strong>
-          )}
+          {tableHeading && <strong className="table-heading">{tableHeading}</strong>}
           <div className="actions">
             {placeholder && (
               <div className="item">
@@ -75,13 +69,7 @@ function TableLayout({
               </div>
             )}
             {btnText && (
-              <Button
-                rounded
-                width={btnWidth ? btnWidth : "100%"}
-                sm
-                btntype={btnType}
-                onClick={openModal}
-              >
+              <Button rounded width={btnWidth || '100%'} sm btntype={btnType} onClick={openModal}>
                 {btnText}
                 {btnImg && <Image src={btnImg} alt="btnImg" />}
               </Button>
@@ -99,7 +87,7 @@ function TableLayout({
             total={totalCount}
             page={currentPage}
             resultPerPage={pageSize}
-            setPageSize={(_) => onChangeFilters({ pageSize: _, page: 1 })}
+            setPageSize={_ => onChangeFilters({ pageSize: _, page: 1 })}
             exportBtn={exportBtn}
             createBtn={createBtn}
           />
@@ -110,7 +98,7 @@ function TableLayout({
               totalCount={totalCount}
               pageSize={pageSize}
               // onPageChange={_ => onChangeFilters({ page: _ })}
-              // onPageChange={_ => onChangeFilters({ filter: filterState.filter, page: _ })}
+              onPageChange={_ => onChangeFilters({ filter: filterState.filter, page: _ })}
             />
           </div>
         </div>

@@ -12,7 +12,7 @@ function Toast({ type, message, ...props }) {
       </StyledAlert>
     </>,
     {
-      // position: toast.POSITION.TOP_RIGTH,
+      position: 'top-right',
       hideProgressBar: true,
     },
   );

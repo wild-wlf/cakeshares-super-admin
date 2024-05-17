@@ -1,7 +1,7 @@
 import { Fetch } from '../helpers/fetchWrapper';
 
 const adminService = {
-  _url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/admin/v1`,
+  _url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/admin`,
 
   async login({ email = '', password = '' }) {
     let res = await Fetch.post(`${this._url}/login`, { email, password });

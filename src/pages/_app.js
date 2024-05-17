@@ -1,6 +1,7 @@
 import React from 'react';
 import { HelperClasses, Styling } from '@/styles/GlobalStyles.styles';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import styled, { createGlobalStyle } from 'styled-components';
 import Layout from '@/components/molecules/Layout';
 import { AuthContextProvider } from '@/context/authContext';
