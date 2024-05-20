@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   padding: 26px 0px 0px 0px;
@@ -63,6 +63,9 @@ export const Wrapper = styled.div`
     font-size: 16px !important;
     padding-bottom: 20px;
     margin-top: -6px;
+    span {
+      cursor: pointer;
+    }
   }
   @media only screen and (max-width: 576px) {
     h5 {

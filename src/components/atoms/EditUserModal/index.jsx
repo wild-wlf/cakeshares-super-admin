@@ -360,9 +360,7 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
           ))}
 
           <div className="addmore">
-            <button type="button" onClick={addInheritance}>
-              +Add more
-            </button>
+            <span onClick={addInheritance}>+Add more</span>
           </div>
         </div>
 
