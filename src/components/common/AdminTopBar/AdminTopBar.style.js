@@ -5,7 +5,7 @@ export const Container = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 30px 30px 0 30px;
+  margin-bottom: 30px;
 
   .barData {
     .closedNav {
@@ -172,7 +172,7 @@ export const Container = styled.div`
 
 export const DataContainer = styled.div`
   display: none;
-  padding: 26px 30px 0 30px;
+  margin-bottom: 20px;
   .Heading {
     display: flex;
     gap: 7px;

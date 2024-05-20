@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 // import Select from '../Select';
 
 export const StyledTableHeader = styled.div`
@@ -18,7 +18,7 @@ export const StyledTableHeader = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    font-family: "Outfit", sans-serif;
+    font-family: 'Outfit', sans-serif;
     .table-heading {
       display: block;
       font-size: 22px;
@@ -104,14 +104,18 @@ export const StyledTableHeader = styled.div`
       }
     }
   }
+  .select-holder {
+    width: 100%;
+    max-width: 200px;
+  }
 `;
 
-export const TotalResult = styled.span``;
+// export const TotalResult = styled.span``;
 
-export const ResultPerPage = styled.div`
-  display: flex;
-  align-items: center;
-`;
+// export const ResultPerPage = styled.div`
+//   display: flex;
+//   align-items: center;
+// `;
 
 // export const StyledSelect = styled(Select)`
 //   margin-left: 5px;

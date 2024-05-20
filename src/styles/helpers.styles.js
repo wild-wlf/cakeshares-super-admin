@@ -145,8 +145,29 @@ export const ActionBtnHolder = styled.div`
 export const ChildWrapper = styled.div`
   background: var(--white);
   border-radius: 30px;
+  padding: 30px 15px;
   min-height: calc(100vh - 30px);
+  @media screen and (min-width: 768px) {
+    padding: 30px;
+  }
 `;
 export const MainWrapper = styled.div`
-  padding: 15px 15px 15px 300px;
+  padding: 15px;
+  @media screen and (min-width: 993px) {
+    padding: 15px 15px 15px 300px;
+  }
+  .layer {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+    display: none;
+  }
+
+  .sideNav-active & {
+    left: 0 !important;
+    .layer {
+      display: block;
+    }
+  }
 `;

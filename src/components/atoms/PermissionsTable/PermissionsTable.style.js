@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const TableContainer = styled.div`
-  padding: 50px 30px;
   width: 100%;
   position: relative;
   .tableStyle {

@@ -20,21 +20,8 @@ export const Sidenav = styled.div`
     left: -100%;
   }
 
-  .layer {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    right: -271px;
-    z-index: -1;
-    backdrop-filter: blur(4px);
-    display: none;
-  }
-
   .sideNav-active & {
     left: 0 !important;
-    .layer {
-      display: block;
-    }
   }
 
   .nav-logo {

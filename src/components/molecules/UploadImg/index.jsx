@@ -1,8 +1,8 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { StyledUploadImage } from "./UploadImg.style";
-import Camera from "../../../_assets/camera.svg";
-import ProfilePic from "../../../_assets/profilepic.svg";
+import Camera from "../../../../public/assets/camera.svg";
+import ProfilePic from "../../../../public/assets/profilepic.svg";
 
 const UploadImg = ({ id = "upload", fileSize = 2, accept = ".png , .jpg" }) => {
   const [uploaded, setUploaded] = useState("");

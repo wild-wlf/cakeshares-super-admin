@@ -5,7 +5,7 @@ export const StyledSelectWrapper = styled.div`
   color: rgba(64, 143, 140, 1);
   font-size: 14px;
   line-height: 20px;
-  font-weight: 400;
+  font-weight: 300;
   position: relative;
 
   @media screen and (max-width: 768px) {

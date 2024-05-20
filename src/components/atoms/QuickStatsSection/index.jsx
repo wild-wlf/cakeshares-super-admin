@@ -2,7 +2,7 @@ import React from "react";
 import { QuickStatsSectionWrapper } from "./QuickStatsSection.style";
 import { BsThreeDots } from "react-icons/bs";
 import { MdSupervisorAccount } from "react-icons/md";
-import InvestmentIcon from "../../../_assets/investment-icon.svg";
+import InvestmentIcon from "../../../../public/assets/investment-icon.svg";
 import Image from "next/image";
 import StackCharts from "@/components/molecules/StackedChart";
 
@@ -19,7 +19,7 @@ const QuickStatsSection = () => {
             <BsThreeDots size={20} />
           </div>
           <div className="value-wrapper">
-            <h1>1,503K</h1>
+            <strong>1,503K</strong>
             <div>
               <span className="green-text">+28%</span>
               <span className="desc">From the last week</span>
@@ -39,7 +39,7 @@ const QuickStatsSection = () => {
             <BsThreeDots size={20} />
           </div>
           <div className="value-wrapper">
-            <h1>35,000</h1>
+            <strong>35,000</strong>
             <div>
               <span className="green-text">+15%</span>
               <span className="desc">From the last week</span>

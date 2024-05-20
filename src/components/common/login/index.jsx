@@ -1,16 +1,21 @@
-import React from "react";
-import { StyledLogin } from "./Login.styles";
-import loginbanner from "../../../../public/assets/loginBanner.png";
-import Image from "next/image";
-import Form, { useForm } from "@/components/molecules/Form";
-import Field from "@/components/molecules/Field";
-import Button from "@/components/atoms/Button";
-import CheckBox from "@/components/molecules/CheckBox";
-import logo from "../../../../public/assets/logo.svg";
-import { useRouter } from "next/router";
+import React from 'react';
+import Image from 'next/image';
+import Form, { useForm } from '@/components/molecules/Form';
+import { useContextHook } from 'use-context-hook';
+import { AuthContext } from '@/context/authContext';
+import Field from '@/components/molecules/Field';
+import Button from '@/components/atoms/Button';
+import CheckBox from '@/components/molecules/CheckBox';
+import logo from '../../../../public/assets/logo.svg';
+import loginbanner from '../../../../public/assets/loginBanner.png';
+import { StyledLogin } from './Login.styles';
+
 const Login = () => {
+  const { onLogin, loading } = useContextHook(AuthContext, v => ({
+    onLogin: v.onLogin,
+    loading: v.loading,
+  }));
   const [form] = useForm();
-  const router = useRouter();
   return (
     <StyledLogin>
       <div className="loginWrap">
@@ -22,50 +27,43 @@ const Login = () => {
         </strong>
 
         <div className="formWrap">
-          <Form form={form}>
+          <Form form={form} onSubmit={onLogin}>
             <Form.Item
               invert
               type="email"
               label="Email Address"
-              name="Email Address"
+              name="email"
               sm
               rounded
               placeholder="jhondoe@gmail.com"
               rules={[
                 {
                   required: true,
+                  message: 'Email is Required',
                 },
-              ]}
-            >
+              ]}>
               <Field invert />
             </Form.Item>
             <Form.Item
               invert
               type="password"
               label="Password"
-              name="Password"
+              name="password"
               sm
               rounded
               placeholder="****************"
               rules={[
                 {
                   required: true,
+                  message: 'Password is Required',
                 },
-              ]}
-            >
+              ]}>
               <Field invert />
             </Form.Item>
             <div className="formAction">
               <CheckBox label="Remember me" color />
-              <span
-                className="forgetPassword"
-                onClick={() => router.push("/forgot-password")}
-              >
-                Forgot Password
-              </span>
             </div>
-
-            <Button lg block type="button" variant="dark">
+            <Button lg block loader={loading} type="submit" variant="dark">
               Sign in
             </Button>
           </Form>

@@ -1,7 +1,7 @@
-import Select from "react-select";
-import AsyncSelect from "react-select/async";
-import styled, { css } from "styled-components";
-import { styles } from "../Input/Input.styles";
+import Select from 'react-select';
+import AsyncSelect from 'react-select/async';
+import styled, { css } from 'styled-components';
+import { styles } from '../Input/Input.styles';
 
 const Styles = css`
   .react-select__control {
@@ -9,7 +9,9 @@ const Styles = css`
     min-height: inherit;
     padding-top: 0;
     padding-bottom: 0;
-    border-color: ${({ error }) => error && "var(--danger) !important"};
+    font-size: 14px;
+    line-height: 16px;
+    border-color: ${({ error }) => error && 'var(--danger) !important'};
     box-shadow: none;
     ${({ $gray }) =>
       $gray &&
@@ -73,7 +75,7 @@ const Styles = css`
         text-transform: uppercase;
         &:before,
         &:after {
-          content: "";
+          content: '';
           position: absolute;
           left: 14px;
           top: 50%;
@@ -84,8 +86,8 @@ const Styles = css`
           height: 16px;
         }
         &:after {
-          content: "\\e876";
-          font-family: "Material Icons Round";
+          content: '\\e876';
+          font-family: 'Material Icons Round';
           background: var(--primary);
           opacity: 0;
           visibility: hidden;

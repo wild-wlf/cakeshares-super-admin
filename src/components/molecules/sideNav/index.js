@@ -1,74 +1,74 @@
-import React from "react";
-import logo from "../../../../public/assets/logo.svg";
-import Image from "next/image";
-import { Sidenav, NavLinks, LinkContainer, UserDet } from "./sideNav.style";
-import Link from "next/link";
-import SellerProfile from "../../../../public/assets/SellerProfile.png";
-import { useRouter } from "next/router";
+import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useContextHook } from 'use-context-hook';
+import { AuthContext } from '@/context/authContext';
+import logo from '../../../../public/assets/logo.svg';
+import { Sidenav, NavLinks, LinkContainer, UserDet } from './sideNav.style';
+import SellerProfile from '../../../../public/assets/SellerProfile.png';
+import avatar_icon from '../../../../public/assets/user_avatar.png';
 
 const SideBar = ({ data }) => {
+  const { user, onLogout } = useContextHook(AuthContext, v => ({
+    user: v.user,
+    onLogout: v.onLogout,
+  }));
   const { pathname } = useRouter();
 
   const closeSideNav = () => {
-    document.body.classList.toggle("sideNav-active");
-    document.body.style.overflow = "auto";
+    document.body.classList.toggle('sideNav-active');
+    document.body.style.overflow = 'auto';
   };
 
   return (
+    // eslint-disable-next-line react/jsx-filename-extension
     <>
+      <div
+        className="layer"
+        onClick={() => {
+          closeSideNav();
+        }}
+      />
       <Sidenav>
-        <div
-          className="layer"
-          onClick={() => {
-            closeSideNav();
-          }}
-        />
         <div className="nav-logo">
           <Image src={logo} alt="logo" />
         </div>
 
         <LinkContainer>
-          {data.map((data, index) => {
-            return (
-              <NavLinks key={index}>
-                <li className="listHead">{data.name}</li>
-                {data.link.map((data, index) => {
-                  return (
-                    <li
-                      className={`NavItem ${
-                        pathname === `${data.navigation}` && "active"
-                      }`}
-                      key={index}
-                    >
-                      <Link className="Link" href={data.navigation}>
+          {data.map((data, index) => (
+            <NavLinks key={index}>
+              <li className="listHead">{data.name}</li>
+              {data.link.map((data, index) => (
+                <li className={`NavItem ${pathname === `${data.navigation}` && 'active'}`} key={index}>
+                  {data.name === 'Log Out' ? (
+                    <>
+                      <Link className="Link" onClick={onLogout} href="">
                         <figure className="iconCon">
-                          <Image
-                            src={data.icon}
-                            width={18}
-                            height={18}
-                            alt="icon"
-                          />
+                          <Image src={data.icon} width={18} height={18} alt="icon" />
                         </figure>
                         {data.name}
                       </Link>
-                    </li>
-                  );
-                })}
-              </NavLinks>
-            );
-          })}
+                    </>
+                  ) : (
+                    <Link className="Link" href={data.navigation}>
+                      <figure className="iconCon">
+                        <Image src={data.icon} width={18} height={18} alt="icon" />
+                      </figure>
+                      {data.name}
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </NavLinks>
+          ))}
         </LinkContainer>
 
         <UserDet>
-          <Image
-            src={SellerProfile}
-            height={40}
-            width={40}
-            alt="user-profile"
-          />
+          <Image src={avatar_icon} height={40} width={40} alt="user-profile" />
           <div className="detailContainer">
-            <span className="userName">Mickhel James</span>
-            <span className="type">Super Admin</span>
+            <span className="userName">{user?.fullName}</span>
+            <span className="type">{user?.email}</span>
           </div>
         </UserDet>
       </Sidenav>

@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 // import Filters from '../../../pages/common/filters';
-import Pagination from "../../molecules/Pagination";
-import TableHeader from "../TableHeader";
-import { StyledTableLayout } from "./TableLayout.styles";
-import Button from "../Button";
-import { CiSearch } from "react-icons/ci";
-import Image from "next/image";
-import Field from "@/components/molecules/Field";
+import Pagination from '../../molecules/Pagination';
+import TableHeader from '../TableHeader';
+import { StyledTableLayout } from './TableLayout.styles';
+import Button from '../Button';
+import { CiSearch } from 'react-icons/ci';
+import Image from 'next/image';
+import Field from '@/components/molecules/Field';
 
 function TableLayout({
   children,
@@ -14,7 +14,7 @@ function TableLayout({
   pageSize = 10,
   totalCount = 0,
   onChangeFilters,
-  customFilterKey = "",
+  customFilterKey = '',
   exportBtn,
   createBtn,
   extraFilters,
@@ -33,9 +33,11 @@ function TableLayout({
   iconImg,
   openModal,
   buyerSellerTabs,
+  tab,
+  setTab,
   setResetFilter = () => {},
 }) {
-  const [filterState, setFilterState] = useState("");
+  const [filterState, setFilterState] = useState('');
   return (
     <>
       {/* {filters && (
@@ -51,16 +53,13 @@ function TableLayout({
           onOptionClick={onOptionClick}
         />
       )} */}
-      <StyledTableLayout
-        noNegativeMargin={noNegativeMargin}
-        noPagination={noPagination}
-        filterBlock={filterBlock}>
+      <StyledTableLayout noNegativeMargin={noNegativeMargin} noPagination={noPagination} filterBlock={filterBlock}>
         <div className="inner-wrap">
           <TableHeader
             total={totalCount}
             page={currentPage}
             resultPerPage={pageSize}
-            setPageSize={(_) => onChangeFilters({ pageSize: _, page: 1 })}
+            setPageSize={_ => onChangeFilters({ pageSize: _, page: 1 })}
             exportBtn={exportBtn}
             createBtn={createBtn}
             tableHeading={tableHeading}
@@ -71,6 +70,8 @@ function TableLayout({
             btnWidth={btnWidth}
             iconImg={iconImg}
             buyerSellerTabs={buyerSellerTabs}
+            tab={tab}
+            setTab={setTab}
           />
           {children}
           <div className="pagination">
@@ -79,7 +80,7 @@ function TableLayout({
               totalCount={totalCount}
               pageSize={pageSize}
               // onPageChange={_ => onChangeFilters({ page: _ })}
-              // onPageChange={_ => onChangeFilters({ filter: filterState.filter, page: _ })}
+              onPageChange={_ => onChangeFilters({ filter: filterState.filter, page: _ })}
             />
           </div>
         </div>
