@@ -13,10 +13,8 @@ import EditUserModal from '@/components/atoms/EditUserModal';
 import userService from '@/services/userService';
 import { AuthContext } from '@/context/authContext';
 import { useContextHook } from 'use-context-hook';
-import TableImage from '@/components/atoms/TableImage';
 import successIcon from '../../../../public/assets/successIcon.png';
 import detailIcon from '../../../../public/assets/table-detail-icon.svg';
-// import infoIcon from '../../../../public/assets/table-info-icon.svg';
 import modalinfoIcon from '../../../../public/assets/infoIcon.png';
 import DeleteIcon from '../../../../public/assets/table-delete-icon.svg';
 import TableStyle from '../../../../public/assets/table-style.jpg';
@@ -27,10 +25,11 @@ const ManageUserTable = () => {
   const { fetch } = useContextHook(AuthContext, v => ({
     fetch: v.fetch,
   }));
-
+  const [userData, setUserData] = useState({});
   const [deleteModal, setDeleteModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
+  const [successUpdatedModal, setSuccessUpdatedModal] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
@@ -85,7 +84,13 @@ const ManageUserTable = () => {
           </button>
         </li>
         <li>
-          <button type="button" className="btn edit" onClick={() => setEditModal(true)}>
+          <button
+            type="button"
+            className="btn edit"
+            onClick={() => {
+              setUserData(user);
+              setEditModal(true);
+            }}>
             <MdModeEditOutline color="rgba(64, 143, 140, 1)" size={16} />
           </button>
         </li>
@@ -97,6 +102,11 @@ const ManageUserTable = () => {
         </li>
       </ActionBtnList>
     );
+  };
+
+  const handleSuccessEditModal = () => {
+    setEditModal(false);
+    setSuccessUpdatedModal(true);
   };
 
   const { product_rows, totalCount } = useMemo(() => ({
@@ -145,6 +155,13 @@ const ManageUserTable = () => {
         />
       </CenterModal>
       <CenterModal
+        open={successUpdatedModal}
+        setOpen={setSuccessUpdatedModal}
+        title={<Image src={successIcon} alt="InfoIcon" />}
+        width="543">
+        <SuccessfulModal title="User Updated Successfully!" />
+      </CenterModal>
+      <CenterModal
         open={successModal}
         setOpen={setSuccessModal}
         title={<Image src={successIcon} alt="InfoIcon" />}
@@ -152,7 +169,7 @@ const ManageUserTable = () => {
         <SuccessfulModal title="User Suspended Successfully!" />
       </CenterModal>
       <CenterModal open={editModal} setOpen={setEditModal} title="Edit User" width="803">
-        <EditUserModal />
+        <EditUserModal user={userData} handleSuccessEditModal={handleSuccessEditModal} />
       </CenterModal>
       <TableContainer>
         <Image src={TableStyle} className="tableStyle" alt="tableCurve" />
