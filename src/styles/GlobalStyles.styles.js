@@ -1,4 +1,4 @@
-import styled, { createGlobalStyle, css } from "styled-components";
+import styled, { createGlobalStyle, css } from 'styled-components';
 
 // prettier-ignore
 export const Styling = css`
@@ -116,6 +116,7 @@ export const Styling = css`
 
   a,
   button {
+    font-family: var(--base-font-sans-serif);
     transition: opacity var(--animation-speed) ease-in-out,
       background var(--animation-speed) ease-in-out,
       visibility var(--animation-speed) ease-in-out,
@@ -175,12 +176,19 @@ export const Styling = css`
     align-items: center;
     gap: 5px;
     .img-holder {
-      width: 100%;
-      max-width: 26px;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+      border-radius: 50%;
+      background-color: var(--gray-2);
+      overflow: hidden;
+      
       img {
         display: block;
         width: 100%;
-        height: auto;
+        height: 100%;
         object-fit: contain;
       }
     }
@@ -390,8 +398,8 @@ export const HelperClasses = css`
     margin-bottom: var(--gutter);
   }
 
-  [class^="material-icons-"],
-  [class*=" material-icons-"] {
+  [class^='material-icons-'],
+  [class*=' material-icons-'] {
     font-size: inherit;
   }
   [data-reach-menu-popover] {
@@ -415,8 +423,7 @@ export const HelperClasses = css`
   .rc-picker-panel-container {
     background: #fff;
     border-radius: 2px;
-    box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014,
-      0 9px 28px 8px #0000000d;
+    box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
   }
   .rc-picker-panel {
     background: #fff;

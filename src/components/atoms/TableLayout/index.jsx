@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 // import Filters from '../../../pages/common/filters';
+import Pagination from '../../molecules/Pagination';
+import TableHeader from '../TableHeader';
+import { StyledTableLayout } from './TableLayout.styles';
+import Button from '../Button';
 import { CiSearch } from 'react-icons/ci';
 import Image from 'next/image';
 import Field from '@/components/molecules/Field';
-import TableHeader from '../TableHeader';
-import Pagination from '../../molecules/Pagination';
-import { StyledTableLayout } from './TableLayout.styles';
-import Button from '../Button';
 
 function TableLayout({
   children,
@@ -32,6 +32,9 @@ function TableLayout({
   filterBlock,
   iconImg,
   openModal,
+  buyerSellerTabs,
+  tab,
+  setTab,
   setResetFilter = () => {},
 }) {
   const [filterState, setFilterState] = useState('');
@@ -51,37 +54,6 @@ function TableLayout({
         />
       )} */}
       <StyledTableLayout noNegativeMargin={noNegativeMargin} noPagination={noPagination} filterBlock={filterBlock}>
-        <div className="head">
-          {tableHeading && <strong className="table-heading">{tableHeading}</strong>}
-          <div className="actions">
-            {placeholder && (
-              <div className="item">
-                <div className="Search">
-                  <Field
-                    type="search"
-                    rounded
-                    sm
-                    name="search"
-                    placeholder={placeholder}
-                    suffix={<CiSearch className="icon" />}
-                  />
-                </div>
-              </div>
-            )}
-            {btnText && (
-              <Button rounded width={btnWidth || '100%'} sm btntype={btnType} onClick={openModal}>
-                {btnText}
-                {btnImg && <Image src={btnImg} alt="btnImg" />}
-              </Button>
-            )}
-            {iconImg && (
-              <div className="icon-div" onClick={openModal}>
-                <Image src={iconImg} alt="iconImg" />
-              </div>
-            )}
-          </div>
-        </div>
-
         <div className="inner-wrap">
           <TableHeader
             total={totalCount}
@@ -90,6 +62,16 @@ function TableLayout({
             setPageSize={_ => onChangeFilters({ pageSize: _, page: 1 })}
             exportBtn={exportBtn}
             createBtn={createBtn}
+            tableHeading={tableHeading}
+            placeholder={placeholder}
+            btnType={btnType}
+            btnText={btnText}
+            btnImg={btnImg}
+            btnWidth={btnWidth}
+            iconImg={iconImg}
+            buyerSellerTabs={buyerSellerTabs}
+            tab={tab}
+            setTab={setTab}
           />
           {children}
           <div className="pagination">

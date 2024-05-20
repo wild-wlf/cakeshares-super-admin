@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import AdminTopBar from '@/components/common/AdminTopBar/AdminTopBar';
-import ManageUserTable from '@/components/common/ManageUserTable';
+import ManageUserTable from '@/components/common/ManageUser/ManageUserTable';
 
 const index = () => (
   <>
