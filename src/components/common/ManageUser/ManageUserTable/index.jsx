@@ -23,6 +23,7 @@ import TableStyle from '../../../../../public/assets/table-style.jpg';
 import CalenderIcon from '../../../../../public/assets/calander.svg';
 import userAvatar from '../../../../../public/assets/user_avatar.png';
 import UserDetailModal from '../UserDetailModal';
+import ModalContainer from '@/components/molecules/ModalContainer';
 
 const ManageUserTable = () => {
   const { fetch } = useContextHook(AuthContext, v => ({
@@ -32,7 +33,6 @@ const ManageUserTable = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const [userDetail, setUserDetail] = useState(false);
   const [tab, setTab] = useState(1);
 
   const [searchQuery, setSearchQuery] = useState({
@@ -66,9 +66,16 @@ const ManageUserTable = () => {
       return (
         <ActionBtnList>
           <li>
-            <button type="button" className="btn file">
-              <Image src={detailIcon} alt="detailIcon" height={18} width={18} />
-            </button>
+            <ModalContainer
+              width={1000}
+              title="Alex Mertiz Detail"
+              btnComponent={({ onClick }) => (
+                <button type="button" className="btn file" onClick={onClick}>
+                  <Image src={detailIcon} alt="detailIcon" height={18} width={18} />
+                </button>
+              )}
+              content={({ onClose }) => <UserDetailModal />}
+            />
           </li>
           <li>
             <button type="button" className="btn file">
@@ -175,9 +182,6 @@ const ManageUserTable = () => {
             setSuccessModal(true);
           }}
         />
-      </CenterModal>
-      <CenterModal open={userDetail} setOpen={setUserDetail} title="Alex Mertiz Detail" width="1000">
-        <UserDetailModal />
       </CenterModal>
       <CenterModal
         open={successModal}

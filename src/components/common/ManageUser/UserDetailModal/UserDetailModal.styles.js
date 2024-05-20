@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const StyledUserDetailModal = styled.div`
   .heading {
@@ -8,7 +8,8 @@ export const StyledUserDetailModal = styled.div`
     font-weight: 500;
     margin-bottom: 10px;
   }
-  .product-info {
+  .product-info,
+  .content {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -22,7 +23,19 @@ export const StyledUserDetailModal = styled.div`
       justify-content: space-between;
       padding: 30px 25px;
     }
-
+    .heading {
+      display: block;
+      font-size: 16px;
+      line-height: 20px;
+      font-weight: 400;
+      margin-bottom: 5px;
+    }
+    .text {
+      display: block;
+      font-size: 14px;
+      line-height: 17px;
+      font-weight: 300;
+    }
     .col {
       padding: 0 15px;
       position: relative;
@@ -39,7 +52,7 @@ export const StyledUserDetailModal = styled.div`
       }
 
       &:before {
-        content: "";
+        content: '';
         position: absolute;
         top: 0;
         left: -13px;
@@ -64,19 +77,53 @@ export const StyledUserDetailModal = styled.div`
         }
       }
 
+      .flag-holder {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        .img-holder {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          overflow: hidden;
+          img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+      }
+    }
+  }
+
+  .col-holder,
+  .head,
+  .content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    span {
+      display: block;
+    }
+  }
+
+  .col {
+    width: 48%;
+    .head {
+      margin-bottom: 16px;
       .heading {
-        display: block;
-        font-size: 16px;
-        line-height: 20px;
-        font-weight: 400;
-        margin-bottom: 5px;
+        margin-bottom: 0;
       }
-      .text {
-        display: block;
-        font-size: 14px;
-        line-height: 17px;
-        font-weight: 300;
-      }
+    }
+    .button {
+      width: 100%;
+      max-width: 80px;
+      padding: 10px;
+      border-radius: 60px;
+      background: #edeff5;
+      color: #4e6199;
+      text-align: center;
     }
   }
 `;

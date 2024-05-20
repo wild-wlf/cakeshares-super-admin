@@ -1,30 +1,132 @@
-import React from "react";
-import { StyledUserDetailModal } from "./UserDetailModal.styles";
+import React from 'react';
+import { StyledUserDetailModal } from './UserDetailModal.styles';
+import Image from 'next/image';
+import Button from '@/components/atoms/Button';
 
 const UserDetailModal = () => {
+  const infoData = {
+    fullName: 'Alex Mertiz',
+    userName: 'alex123',
+    email: 'alex123@gmail.com',
+    country: 'Turkey',
+    birthDate: '03/05/2024',
+    countryFlag: 'TR',
+    countryName: 'Turkey',
+  };
+  const BankInfoData = {
+    bankName: 'Bank of Americe',
+    IBAN: 'PK033310084246213',
+    bic_Number: 'PK033310084246213',
+    user_id: 33445554,
+  };
   return (
     <StyledUserDetailModal>
       <span className="heading">Personal Info:</span>
       <div className="product-info">
         <div className="col">
           <span className="heading">Full Name:</span>
-          <span className="text">Alex Mertiz</span>
+          <span className="text">{infoData.fullName}</span>
         </div>
         <div className="col">
           <span className="heading">Username:</span>
-          <span className="text">alex123</span>
+          <span className="text">{infoData.userName}</span>
         </div>
         <div className="col">
           <span className="heading">Emial Address:</span>
-          <span className="text">alex123@gmail.com</span>
+          <span className="text">{infoData.email}</span>
         </div>
         <div className="col">
           <span className="heading">Country:</span>
-          <span className="text">Turkey</span>
+          <div className="flag-holder">
+            <figure className="img-holder">
+              <Image
+                src={`https://countryflagsapi.netlify.app/flag/${infoData.countryFlag}.svg`}
+                width={64}
+                height={64}
+                alt={`Flag of PK`}
+              />
+            </figure>
+            <span className="text">{infoData.countryName}</span>
+          </div>
         </div>
         <div className="col">
           <span className="heading">Birthdate (D.O.B):</span>
-          <span className="text">03/05/2024</span>
+          <span className="text">{infoData.birthDate}</span>
+        </div>
+      </div>
+      <span className="heading">Bank Info:</span>
+      <div className="product-info">
+        <div className="col">
+          <span className="heading">Full Name:</span>
+          <span className="text">{BankInfoData.bankName}</span>
+        </div>
+        <div className="col">
+          <span className="heading">Username:</span>
+          <span className="text">{BankInfoData.IBAN}</span>
+        </div>
+        <div className="col">
+          <span className="heading">Emial Address:</span>
+          <span className="text">{BankInfoData.bic_Number}</span>
+        </div>
+        <div className="col">
+          <span className="heading">Birthdate (D.O.B):</span>
+          <span className="text">{BankInfoData.user_id}</span>
+        </div>
+      </div>
+      <div className="col-holder">
+        <div className="col">
+          <div className="head">
+            <span className="heading">Bank Info:</span>
+            <div className="button">
+              <span>Level 1</span>
+            </div>
+          </div>
+          <div className="content">
+            <div>
+              <span className="heading">Request For:</span>
+              <span className="text">level 2</span>
+            </div>
+            <div>
+              <span className="heading">Actions</span>
+              <Button variant="success" $custom>
+                Check Details
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div className="col col-2">
+          <span className="heading">Wallet Balance Info:</span>
+          <div className="content">
+            <div>
+              <span className="heading">Total Balance:</span>
+              <span className="text">$40,256.000</span>
+            </div>
+            <div>
+              <span className="heading">Actions</span>
+              <Button variant="success" $custom>
+                Add Balance
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span className="heading">Bank Info:</span>
+      <div className="product-info">
+        <div className="col">
+          <span className="heading">Full Name:</span>
+          <span className="text">{BankInfoData.bankName}</span>
+        </div>
+        <div className="col">
+          <span className="heading">Username:</span>
+          <span className="text">{BankInfoData.IBAN}</span>
+        </div>
+        <div className="col">
+          <span className="heading">Emial Address:</span>
+          <span className="text">{BankInfoData.bic_Number}</span>
+        </div>
+        <div className="col">
+          <span className="heading">Birthdate (D.O.B):</span>
+          <span className="text">{BankInfoData.user_id}</span>
         </div>
       </div>
     </StyledUserDetailModal>
