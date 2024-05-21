@@ -7,6 +7,7 @@ import Pagination from '../../molecules/Pagination';
 import TableHeader from '../TableHeader';
 import { StyledTableLayout } from './TableLayout.styles';
 import Button from '../Button';
+import ProductsFilter from '../../../filters/ProductsFilter';
 
 function TableLayout({
   children,
@@ -40,29 +41,9 @@ function TableLayout({
   const [filterState, setFilterState] = useState('');
   return (
     <>
-      {/* {filters && (
-        <Filters
-          resetFilter={resetFilter}
-          setResetFilter={setResetFilter}
-          onChangeFilters={_ => {
-            onChangeFilters({ ..._, page: 1 });
-            setFilterState(_);
-          }}
-          customFilterKey={customFilterKey}
-          extraFilters={extraFilters}
-          onOptionClick={onOptionClick}
-        />
-      )} */}
       <StyledTableLayout noNegativeMargin={noNegativeMargin} noPagination={noPagination} filterBlock={filterBlock}>
         <div className="inner-wrap">
-          <TableHeader
-            total={totalCount}
-            page={currentPage}
-            resultPerPage={pageSize}
-            setPageSize={_ => onChangeFilters({ pageSize: _, page: 1 })}
-            exportBtn={exportBtn}
-            createBtn={createBtn}
-            tableHeading={tableHeading}
+          <ProductsFilter
             placeholder={placeholder}
             btnType={btnType}
             btnText={btnText}
@@ -72,6 +53,9 @@ function TableLayout({
             buyerSellerTabs={buyerSellerTabs}
             tab={tab}
             setTab={setTab}
+            onChangeFilters={_ => {
+              onChangeFilters({ ..._, page: 1 });
+            }}
           />
           {children}
           <div className="pagination">

@@ -44,6 +44,10 @@ const ManageUserTable = () => {
     startDate: '',
     endDate: '',
     searchText: '',
+    type: 'Buyer',
+    kycLevel: '',
+    status: '',
+    accType: '',
   });
 
   const { user_data, user_loading } = userService.GetAllUsers(searchQuery, fetch);

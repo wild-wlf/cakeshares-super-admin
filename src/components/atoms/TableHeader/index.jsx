@@ -12,14 +12,7 @@ import { useState } from 'react';
 import Select from '../Select';
 
 function TableHeader({
-  exportBtn,
-  createBtn,
-  total,
-  resultPerPage,
-  setPageSize,
-  page,
-  tableHeading,
-  placeholder,
+  l,
   btnText,
   btnWidth,
   btnType,
@@ -75,7 +68,6 @@ function TableHeader({
   return (
     <StyledTableHeader>
       <div className="head">
-        {tableHeading && <strong className="table-heading">{tableHeading}</strong>}
         {buyerSellerTabs && (
           <div className="btn-holder">
             <button className={tab === 1 ? 'active' : ''} onClick={() => handleTabs(1)}>
