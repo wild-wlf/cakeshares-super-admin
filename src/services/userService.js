@@ -33,6 +33,16 @@ const userService = {
     };
   },
 
+  async updateUser(userId, payload) {
+    let res = await Fetch.upload(`${this._url}/update-user/${userId}`, 'PUT', payload);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    }
+    const { message } = await res.json();
+    throw new Error(message ?? 'Something went wrong');
+  },
+
   async getAllUsers({ page = 1, itemsPerPage = 10, startDate = '', endDate = '', searchText = '' }) {
     let res = await Fetch.get(
       `${this._url}/get-all-users?page=${page}&itemsPerPage=${itemsPerPage}&startDate=${startDate}&endDate=${endDate}&searchText=${searchText}`,

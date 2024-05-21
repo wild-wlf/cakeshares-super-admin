@@ -148,6 +148,7 @@ export const StyledUserDetailModal = styled.div`
       gap: 15px;
     }
     .col {
+      cursor: pointer;
       @media (max-width: 991px) {
         width: 32%;
         border: none;

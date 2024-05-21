@@ -9,14 +9,15 @@ export const StyledModal = styled.div`
   backdrop-filter: blur(4px);
   z-index: 1;
   padding: 20px;
-  visibility: ${({ open }) => (open ? "visible" : "hidden")};
-  opacity: ${({ open }) => (open ? "1" : "0")};
+  visibility: ${({ open }) => (open ? 'visible' : 'hidden')};
+  opacity: ${({ open }) => (open ? '1' : '0')};
   transition: 0.3s all ease-in-out;
   overflow-x: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 99;
+  cursor: default;
 `;
 
 export const ContentHolder = styled.div`
