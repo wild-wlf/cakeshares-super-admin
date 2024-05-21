@@ -145,8 +145,8 @@ const ManageUserTable = () => {
     ]),
     totalCount: user_data?.totalItems,
   }));
-  const { seller_rows, totalCounts } = useMemo(() => ({
-    seller_rows: user_data?.items?.map(user => [
+  const { user_rows, totalCounts } = useMemo(() => ({
+    user_rows: user_data?.items?.map(user => [
       <div className="table-img-holder" key={user?._id}>
         <div className="img-holder">
           <Image src={user?.profilePicture || userAvatar} width={20} height={20} alt="userImage" />
@@ -162,7 +162,7 @@ const ManageUserTable = () => {
     ]),
     totalCounts: user_data?.totalItems,
   }));
-  const columnNames = [
+  const buyerColumns = [
     `User`,
     `Account Type`,
     `Total Assets`,
@@ -256,13 +256,13 @@ const ManageUserTable = () => {
           currentPage={searchQuery.page}
           totalCount={totalCount}
           totalCounts={totalCounts}
-          pageSize={searchQuery.itemPerPage}
+          pageSize={searchQuery.itemsPerPage}
           tab={tab}
           setTab={setTab}>
           {tab === 1 ? (
-            <Table width={1024} rowsData={product_rows} loading={user_loading} columnNames={columnNames} noPadding />
+            <Table width={1024} rowsData={product_rows} loading={user_loading} columnNames={buyerColumns} noPadding />
           ) : (
-            <Table width={1024} rowsData={seller_rows} loading={user_loading} columnNames={sellerColumns} noPadding />
+            <Table width={1024} rowsData={user_rows} loading={user_loading} columnNames={sellerColumns} noPadding />
           )}
         </TableLayout>
       </TableContainer>
