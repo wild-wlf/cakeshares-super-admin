@@ -2,6 +2,11 @@ import React from 'react';
 import { StyledUserDetailModal } from './UserDetailModal.styles';
 import Image from 'next/image';
 import Button from '@/components/atoms/Button';
+import propertyIcon from '../../../../../public/assets/property-icon-1.svg';
+import popularIcon from '../../../../../public/assets/popular-icon.svg';
+import ventureIcon from '../../../../../public/assets/venture-icon.svg';
+import bazarIcon from '../../../../../public/assets/bazar-icon.svg';
+import vehicleIcon from '../../../../../public/assets/vehicle-icon.svg';
 
 const UserDetailModal = () => {
   const infoData = {
@@ -18,6 +23,11 @@ const UserDetailModal = () => {
     IBAN: 'PK033310084246213',
     bic_Number: 'PK033310084246213',
     user_id: 33445554,
+  };
+  const inheritanceData = {
+    name: 'Logan Paulson',
+    passport: '123467894562339',
+    country: 'United States',
   };
   return (
     <StyledUserDetailModal>
@@ -76,7 +86,7 @@ const UserDetailModal = () => {
       <div className="col-holder">
         <div className="col">
           <div className="head">
-            <span className="heading">Bank Info:</span>
+            <span className="heading">KYC Info:</span>
             <div className="button">
               <span>Level 1</span>
             </div>
@@ -110,23 +120,52 @@ const UserDetailModal = () => {
           </div>
         </div>
       </div>
-      <span className="heading">Bank Info:</span>
+      <span className="heading">Inheritance Info:</span>
       <div className="product-info">
         <div className="col">
-          <span className="heading">Full Name:</span>
-          <span className="text">{BankInfoData.bankName}</span>
+          <span className="heading">Name of Person:</span>
+          <span className="text">{inheritanceData.name}</span>
         </div>
         <div className="col">
-          <span className="heading">Username:</span>
-          <span className="text">{BankInfoData.IBAN}</span>
+          <span className="heading">Passport Number:</span>
+          <span className="text">{inheritanceData.passport}</span>
         </div>
         <div className="col">
-          <span className="heading">Emial Address:</span>
-          <span className="text">{BankInfoData.bic_Number}</span>
+          <span className="heading">Country of Residence:</span>
+          <span className="text">{inheritanceData.country}</span>
+        </div>
+      </div>
+      <span className="heading">Assets Categories Info:</span>
+      <div className="product-info inheritance-info">
+        <div className="col">
+          <figure className="img-holder">
+            <Image src={propertyIcon} alt="property-icon" />
+          </figure>
+          <span className="text">Properties</span>
         </div>
         <div className="col">
-          <span className="heading">Birthdate (D.O.B):</span>
-          <span className="text">{BankInfoData.user_id}</span>
+          <figure className="img-holder">
+            <Image src={popularIcon} alt="Popular-icon" />
+          </figure>
+          <span className="text">Popular</span>
+        </div>
+        <div className="col">
+          <figure className="img-holder">
+            <Image src={ventureIcon} alt="Venture-icon" />
+          </figure>
+          <span className="text">Properties</span>
+        </div>
+        <div className="col">
+          <figure className="img-holder">
+            <Image src={bazarIcon} alt="Bazaar-icon" />
+          </figure>
+          <span className="text">Bazaar</span>
+        </div>
+        <div className="col">
+          <figure className="img-holder">
+            <Image src={vehicleIcon} alt="Vehicles-icon" />
+          </figure>
+          <span className="text">Vehicles</span>
         </div>
       </div>
     </StyledUserDetailModal>

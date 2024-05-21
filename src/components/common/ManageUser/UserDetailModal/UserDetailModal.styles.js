@@ -7,6 +7,9 @@ export const StyledUserDetailModal = styled.div`
     line-height: 22px;
     font-weight: 500;
     margin-bottom: 10px;
+    @media (min-width: 768px) {
+      margin-bottom: 15px;
+    }
   }
   .product-info,
   .content {
@@ -80,6 +83,7 @@ export const StyledUserDetailModal = styled.div`
       .flag-holder {
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 2px;
         .img-holder {
           width: 20px;
@@ -108,22 +112,53 @@ export const StyledUserDetailModal = styled.div`
     }
   }
 
-  .col {
-    width: 48%;
-    .head {
-      margin-bottom: 16px;
-      .heading {
-        margin-bottom: 0;
+  .col-holder {
+    align-items: flex-end;
+    flex-flow: wrap;
+
+    .col {
+      width: 100%;
+      @media (min-width: 768px) {
+        width: 48%;
+      }
+      .head {
+        margin-bottom: 16px;
+        .heading {
+          margin-bottom: 0;
+        }
+      }
+      .button {
+        width: 100%;
+        max-width: 80px;
+        padding: 10px;
+        border-radius: 60px;
+        background: #edeff5;
+        color: #4e6199;
+        text-align: center;
       }
     }
-    .button {
-      width: 100%;
-      max-width: 80px;
-      padding: 10px;
-      border-radius: 60px;
-      background: #edeff5;
-      color: #4e6199;
-      text-align: center;
+  }
+  .inheritance-info {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 20px;
+    @media (max-width: 575px) {
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .col {
+      @media (max-width: 991px) {
+        width: 32%;
+        border: none;
+      }
+      @media (max-width: 575px) {
+        width: 47%;
+      }
+      .img-holder {
+        display: block;
+        margin-bottom: 5px;
+      }
     }
   }
 `;
