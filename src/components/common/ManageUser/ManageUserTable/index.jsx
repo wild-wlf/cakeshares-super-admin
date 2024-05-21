@@ -24,6 +24,7 @@ import CalenderIcon from '../../../../../public/assets/calander.svg';
 import userAvatar from '../../../../../public/assets/user_avatar.png';
 import UserDetailModal from '../UserDetailModal';
 import KycRequest from '../KycRequest';
+import AddMoney from '../AddMoney';
 
 const ManageUserTable = () => {
   const { fetch } = useContextHook(AuthContext, v => ({
@@ -34,10 +35,12 @@ const ManageUserTable = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const [userDetail, setUserDetail] = useState(false);
   const [tab, setTab] = useState(1);
   const [successUpdatedModal, setSuccessUpdatedModal] = useState(false);
   const [kycApproved, setkycApproved] = useState(false);
+  const [moneyAdded, setMoneyAdded] = useState(false);
+  const [kycDecline, setkycDecline] = useState(false);
+  const [userDetail, setUserDetail] = useState(false);
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
     itemsPerPage: 10,
@@ -78,9 +81,16 @@ const ManageUserTable = () => {
       return (
         <ActionBtnList>
           <li>
-            <button type="button" className="btn file">
-              <Image src={detailIcon} alt="detailIcon" height={18} width={18} />
-            </button>
+            <ModalContainer
+              width={1000}
+              title="Alex Mertiz Detail"
+              btnComponent={({ onClick }) => (
+                <button type="button" className="btn file" onClick={onClick}>
+                  <Image src={detailIcon} alt="detailIcon" height={18} width={18} />
+                </button>
+              )}
+              content={({ onClose }) => <UserDetailModal />}
+            />
           </li>
           <li>
             <ModalContainer
@@ -105,7 +115,7 @@ const ManageUserTable = () => {
                   </svg>
                 </button>
               )}
-              content={({ onClose }) => <KycRequest />}
+              content={({ onClose }) => <KycRequest setkycApproved={setkycApproved} setkycDecline={setkycDecline} />}
             />
           </li>
           <li>
@@ -187,6 +197,19 @@ const ManageUserTable = () => {
 
   return (
     <>
+      <CenterModal width="600" title="Add Money to Wallet">
+        <AddMoney setMoneyAdded={setMoneyAdded} />
+      </CenterModal>
+      {/* money added Successfully Modal */}
+      <CenterModal
+        open={moneyAdded}
+        setOpen={setMoneyAdded}
+        title={<Image src={successIcon} alt="InfoIcon" />}
+        width="543">
+        <SuccessfulModal title="Money Added Successfully!" />
+      </CenterModal>
+      {/* money added Successfully Modal */}
+
       <CenterModal
         open={deleteModal}
         setOpen={setDeleteModal}
@@ -204,13 +227,23 @@ const ManageUserTable = () => {
       </CenterModal>
       {/* Kyc Apprvove Modal */}
       <CenterModal
-        open={successUpdatedModal}
-        setOpen={setSuccessUpdatedModal}
+        open={kycApproved}
+        setOpen={setkycApproved}
         title={<Image src={successIcon} alt="InfoIcon" />}
         width="543">
         <SuccessfulModal title="KYC Level 2 Approved Successfully!" />
       </CenterModal>
       {/* Kyc Apprvove Modal */}
+
+      {/* Kyc decline Modal */}
+      <CenterModal
+        open={kycDecline}
+        setOpen={setkycDecline}
+        title={<Image src={modalinfoIcon} alt="modalinfoIcon" />}
+        width="543">
+        <SuccessfulModal title="KYC Level 2 Request Declined Successfully!" />
+      </CenterModal>
+      {/* Kyc decline Modal */}
 
       <CenterModal
         open={successUpdatedModal}
