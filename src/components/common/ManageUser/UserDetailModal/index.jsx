@@ -8,7 +8,7 @@ import ventureIcon from '../../../../../public/assets/venture-icon.svg';
 import bazarIcon from '../../../../../public/assets/bazar-icon.svg';
 import vehicleIcon from '../../../../../public/assets/vehicle-icon.svg';
 
-const UserDetailModal = () => {
+const UserDetailModal = ({ setPropertiesProductModal }) => {
   const infoData = {
     fullName: 'Alex Mertiz',
     userName: 'alex123',
@@ -137,7 +137,7 @@ const UserDetailModal = () => {
       </div>
       <span className="heading">Assets Categories Info:</span>
       <div className="product-info inheritance-info">
-        <div className="col">
+        <div className="col" onClick={() => setPropertiesProductModal(true)}>
           <figure className="img-holder">
             <Image src={propertyIcon} alt="property-icon" />
           </figure>
