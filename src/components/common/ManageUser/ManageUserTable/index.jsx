@@ -24,6 +24,7 @@ import CalenderIcon from '../../../../../public/assets/calander.svg';
 import userAvatar from '../../../../../public/assets/user_avatar.png';
 import UserDetailModal from '../UserDetailModal';
 import KycRequest from '../KycRequest';
+import AddMoney from '../AddMoney';
 
 const ManageUserTable = () => {
   const { fetch } = useContextHook(AuthContext, v => ({
@@ -37,6 +38,7 @@ const ManageUserTable = () => {
   const [tab, setTab] = useState(1);
   const [successUpdatedModal, setSuccessUpdatedModal] = useState(false);
   const [kycApproved, setkycApproved] = useState(false);
+  const [moneyAdded, setMoneyAdded] = useState(false);
   const [kycDecline, setkycDecline] = useState(false);
   const [userDetail, setUserDetail] = useState(false);
   const [searchQuery, setSearchQuery] = useState({
@@ -191,6 +193,19 @@ const ManageUserTable = () => {
 
   return (
     <>
+      <CenterModal width="600" title="Add Money to Wallet">
+        <AddMoney setMoneyAdded={setMoneyAdded} />
+      </CenterModal>
+      {/* money added Successfully Modal */}
+      <CenterModal
+        open={moneyAdded}
+        setOpen={setMoneyAdded}
+        title={<Image src={successIcon} alt="InfoIcon" />}
+        width="543">
+        <SuccessfulModal title="Money Added Successfully!" />
+      </CenterModal>
+      {/* money added Successfully Modal */}
+
       <CenterModal
         open={deleteModal}
         setOpen={setDeleteModal}
