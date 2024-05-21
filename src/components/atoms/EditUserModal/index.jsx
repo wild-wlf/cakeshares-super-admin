@@ -27,25 +27,25 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
     setInheritances([...inheritances, { name: '', passportNumber: '', country: '' }]);
   };
 
-  // function handelChange(value = 'PK') {
-  //   const newArr = arr.map((elem, index) => ({
-  //     ...elem,
-  //     label: (
-  //       <div key={index} className="countrySelect">
-  //         <figure>
-  //           <Image
-  //             src={`https://flagsapi.com/${elem.value}/shiny/48.png`}
-  //             width={48}
-  //             height={48}
-  //             alt={`Flag of ${elem.value}`}
-  //           />
-  //         </figure>
-  //         {elem.label}
-  //       </div>
-  //     ),
-  //   }));
-  //   setArr(newArr);
-  // }
+  function handelChange(value = 'PK') {
+    const newArr = arr.map((elem, index) => ({
+      ...elem,
+      label: (
+        <div key={index} className="countrySelect">
+          <figure>
+            <Image
+              src={`https://flagsapi.com/${elem.value}/shiny/48.png`}
+              width={48}
+              height={48}
+              alt={`Flag of ${elem.value}`}
+            />
+          </figure>
+          {elem.label}
+        </div>
+      ),
+    }));
+    setArr(newArr);
+  }
 
   const onSubmit = async data => {
     const { country, bankName, iban, swiftBicNumber, userId, ...restData } = data;
@@ -91,7 +91,7 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
   };
 
   useEffect(() => {
-    // handelChange();
+    handelChange();
     if (user && Object.keys(user)?.length > 0) {
       const country = countries.find(ele => ele.label === user?.country);
       form.setFieldsValue({
@@ -278,89 +278,93 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
 
         <div className="inheritance-info">
           <h5>Inheritance Info:</h5>
-          {inheritances.map((inheritance, index) => (
-            <div key={index}>
-              <div className="input-div">
-                <Form.Item
-                  type="text"
-                  label="Name of Person"
-                  value={inheritances[index].name}
-                  name={`name${index}`}
-                  onChange={e => {
-                    form.setFieldsValue({
-                      [`name${index}`]: e.target.value,
-                    });
-                    setInheritances(prev =>
-                      prev.map((item, i) => (i === index ? { ...item, name: e.target.value } : item)),
-                    );
-                  }}
-                  sm
-                  rounded
-                  placeholder="Logan Paulson"
-                  rules={[
-                    {
-                      pattern: /^.{0,40}$/,
-                      message: 'Maximum Character Length is 256',
-                    },
-                  ]}>
-                  <Field />
-                </Form.Item>
-                <Form.Item
-                  type="text"
-                  label="Passport Number"
-                  value={inheritances[index].passportNumber}
-                  name={`passportNumber${index}`}
-                  onChange={e => {
-                    form.setFieldsValue({
-                      [`passportNumber${index}`]: e.target.value,
-                    });
-                    setInheritances(prev =>
-                      prev.map((item, i) => (i === index ? { ...item, passportNumber: e.target.value } : item)),
-                    );
-                  }}
-                  sm
-                  rounded
-                  placeholder="123467894562339"
-                  rules={[
-                    {
-                      pattern: /^[a-zA-Z0-9]{1,20}$/,
-                      message: 'Should only contain alphanumeric characters!',
-                    },
-                  ]}>
-                  <Field />
-                </Form.Item>
+          <div>
+            {inheritances.map((inheritance, index) => (
+              <div key={index} className="multiInhertance">
+                <div className="input-div">
+                  <Form.Item
+                    type="text"
+                    label="Name of Person"
+                    value={inheritances[index].name}
+                    name={`name${index}`}
+                    onChange={e => {
+                      form.setFieldsValue({
+                        [`name${index}`]: e.target.value,
+                      });
+                      setInheritances(prev =>
+                        prev.map((item, i) => (i === index ? { ...item, name: e.target.value } : item)),
+                      );
+                    }}
+                    sm
+                    rounded
+                    placeholder="Logan Paulson"
+                    rules={[
+                      {
+                        pattern: /^.{0,40}$/,
+                        message: 'Maximum Character Length is 256',
+                      },
+                    ]}>
+                    <Field />
+                  </Form.Item>
+                  <Form.Item
+                    type="text"
+                    label="Passport Number"
+                    value={inheritances[index].passportNumber}
+                    name={`passportNumber${index}`}
+                    onChange={e => {
+                      form.setFieldsValue({
+                        [`passportNumber${index}`]: e.target.value,
+                      });
+                      setInheritances(prev =>
+                        prev.map((item, i) => (i === index ? { ...item, passportNumber: e.target.value } : item)),
+                      );
+                    }}
+                    sm
+                    rounded
+                    placeholder="123467894562339"
+                    rules={[
+                      {
+                        pattern: /^[a-zA-Z0-9]{1,20}$/,
+                        message: 'Should only contain alphanumeric characters!',
+                      },
+                    ]}>
+                    <Field />
+                  </Form.Item>
+                </div>
+                <div className="DOB-div">
+                  <Form.Item
+                    type="text"
+                    label="Country of Residence"
+                    value={inheritances[index].country}
+                    name={`country${index}`}
+                    onChange={e => {
+                      form.setFieldsValue({
+                        [`country${index}`]: e.target.value,
+                      });
+                      setInheritances(prev =>
+                        prev.map((item, i) => (i === index ? { ...item, country: e.target.value } : item)),
+                      );
+                    }}
+                    sm
+                    rounded
+                    placeholder="United States"
+                    rules={[
+                      {
+                        pattern: /^.{0,256}$/,
+                        message: 'Maximum Character Length is 256',
+                      },
+                    ]}>
+                    <Field />
+                  </Form.Item>
+                </div>
               </div>
-              <div className="DOB-div">
-                <Form.Item
-                  type="text"
-                  label="Country of Residence"
-                  value={inheritances[index].country}
-                  name={`country${index}`}
-                  onChange={e => {
-                    form.setFieldsValue({
-                      [`country${index}`]: e.target.value,
-                    });
-                    setInheritances(prev =>
-                      prev.map((item, i) => (i === index ? { ...item, country: e.target.value } : item)),
-                    );
-                  }}
-                  sm
-                  rounded
-                  placeholder="United States"
-                  rules={[
-                    {
-                      pattern: /^.{0,256}$/,
-                      message: 'Maximum Character Length is 256',
-                    },
-                  ]}>
-                  <Field />
-                </Form.Item>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
 
           <div className="addmore">
-            <span onClick={addInheritance}>+Add more</span>
+            <button onClick={addInheritance} type="button">
+              +Add more
+            </button>
           </div>
         </div>
 
