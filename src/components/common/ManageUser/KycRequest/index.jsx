@@ -1,11 +1,11 @@
 import React from 'react';
+import Image from 'next/image';
+import Button from '@/components/atoms/Button';
 import { StyledKycRequest } from './KycRequest.style';
 import fileIcon from '../../../../../public/assets/fileIcon.svg';
 import view from '../../../../../public/assets/view.svg';
 import downloadIcon from '../../../../../public/assets/downloadIcon.svg';
-import Image from 'next/image';
-import Button from '@/components/atoms/Button';
-const KycRequest = () => {
+const KycRequest = ({ setkycApproved, setkycDecline }) => {
   return (
     <StyledKycRequest>
       <strong className="title">Request for KYC Level 2:</strong>
@@ -42,10 +42,12 @@ const KycRequest = () => {
         </div>
       </div>
       <div className="btnWrap">
-        <Button variant="danger" block>
+        <Button variant="danger" block onClick={() => setkycDecline(true)}>
           Decline
         </Button>
-        <Button block>Approve</Button>
+        <Button block onClick={() => setkycApproved(true)}>
+          Approve
+        </Button>
       </div>
     </StyledKycRequest>
   );
