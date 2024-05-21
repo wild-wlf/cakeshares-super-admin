@@ -37,7 +37,7 @@ const ManageUserTable = () => {
   const [userDetail, setUserDetail] = useState(false);
   const [tab, setTab] = useState(1);
   const [successUpdatedModal, setSuccessUpdatedModal] = useState(false);
-
+  const [kycApproved, setkycApproved] = useState(false);
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
     itemsPerPage: 10,
@@ -198,6 +198,16 @@ const ManageUserTable = () => {
           }}
         />
       </CenterModal>
+      {/* Kyc Apprvove Modal */}
+      <CenterModal
+        open={successUpdatedModal}
+        setOpen={setSuccessUpdatedModal}
+        title={<Image src={successIcon} alt="InfoIcon" />}
+        width="543">
+        <SuccessfulModal title="KYC Level 2 Approved Successfully!" />
+      </CenterModal>
+      {/* Kyc Apprvove Modal */}
+
       <CenterModal
         open={successUpdatedModal}
         setOpen={setSuccessUpdatedModal}

@@ -9,6 +9,14 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 20px;
+    .multiInhertance {
+      &:first-child {
+        border-top: none;
+        padding-bottom: 20px;
+      }
+      border-top: 1px solid var(--gray-2);
+      padding: 20px 0;
+    }
   }
   .inputWrapper {
     margin-bottom: 0px;
@@ -63,6 +71,14 @@ export const Wrapper = styled.div`
     font-size: 16px !important;
     padding-bottom: 20px;
     margin-top: -6px;
+    button {
+      color: rgba(78, 97, 153, 1);
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 20px;
+      border: none;
+      outline: none;
+    }
   }
   @media only screen and (max-width: 576px) {
     h5 {
