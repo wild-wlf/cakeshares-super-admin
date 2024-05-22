@@ -35,6 +35,7 @@ function TableLayout({
   buyerSellerTabs,
   tab,
   setTab,
+  noBorder,
   setResetFilter = () => {},
 }) {
   const [filterState, setFilterState] = useState('');
@@ -53,7 +54,11 @@ function TableLayout({
           onOptionClick={onOptionClick}
         />
       )} */}
-      <StyledTableLayout noNegativeMargin={noNegativeMargin} noPagination={noPagination} filterBlock={filterBlock}>
+      <StyledTableLayout
+        noNegativeMargin={noNegativeMargin}
+        noPagination={noPagination}
+        filterBlock={filterBlock}
+        $noBorder={noBorder}>
         <div className="inner-wrap">
           <TableHeader
             total={totalCount}

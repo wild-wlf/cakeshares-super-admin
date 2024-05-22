@@ -7,8 +7,10 @@ import popularIcon from '../../../../../public/assets/popular-icon.svg';
 import ventureIcon from '../../../../../public/assets/venture-icon.svg';
 import bazarIcon from '../../../../../public/assets/bazar-icon.svg';
 import vehicleIcon from '../../../../../public/assets/vehicle-icon.svg';
+import AddMoney from '../AddMoney';
+import ModalContainer from '@/components/molecules/ModalContainer';
 
-const UserDetailModal = () => {
+const UserDetailModal = ({ setPropertiesProductModal, setMoneyAdded }) => {
   const infoData = {
     fullName: 'Alex Mertiz',
     userName: 'alex123',
@@ -113,9 +115,16 @@ const UserDetailModal = () => {
             </div>
             <div>
               <span className="heading">Actions</span>
-              <Button variant="success" $custom>
-                Add Balance
-              </Button>
+              <ModalContainer
+                width={600}
+                title="Add Money to Wallet"
+                btnComponent={({ onClick }) => (
+                  <Button variant="success" $custom onClick={onClick}>
+                    Add Balance
+                  </Button>
+                )}
+                content={({ onClose }) => <AddMoney setMoneyAdded={setMoneyAdded} />}
+              />
             </div>
           </div>
         </div>
@@ -137,7 +146,7 @@ const UserDetailModal = () => {
       </div>
       <span className="heading">Assets Categories Info:</span>
       <div className="product-info inheritance-info">
-        <div className="col">
+        <div className="col" onClick={() => setPropertiesProductModal(true)}>
           <figure className="img-holder">
             <Image src={propertyIcon} alt="property-icon" />
           </figure>

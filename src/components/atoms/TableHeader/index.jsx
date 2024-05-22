@@ -96,7 +96,7 @@ function TableHeader({
                 <Select placeholder="Select KYC" options={statusData} />
               </div>
             </>
-          ) : (
+          ) : tab === 2 ? (
             <>
               <div className="select-holder">
                 <Select placeholder="Select KYC" options={kycData} labelReverse />
@@ -108,6 +108,8 @@ function TableHeader({
                 <Select placeholder="Select Account type" options={accountTypeData} />
               </div>
             </>
+          ) : (
+            ''
           )}
           {placeholder && (
             <div className="item">

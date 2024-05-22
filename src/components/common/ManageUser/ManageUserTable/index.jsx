@@ -25,6 +25,7 @@ import userAvatar from '../../../../../public/assets/user_avatar.png';
 import UserDetailModal from '../UserDetailModal';
 import KycRequest from '../KycRequest';
 import AddMoney from '../AddMoney';
+import PropertiesProductsModal from '../PropertiesProductsModal';
 
 const ManageUserTable = () => {
   const { fetch } = useContextHook(AuthContext, v => ({
@@ -41,6 +42,7 @@ const ManageUserTable = () => {
   const [moneyAdded, setMoneyAdded] = useState(false);
   const [kycDecline, setkycDecline] = useState(false);
   const [userDetail, setUserDetail] = useState(false);
+  const [propertiesProductModal, setPropertiesProductModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
     itemsPerPage: 10,
@@ -85,7 +87,9 @@ const ManageUserTable = () => {
                   <Image src={detailIcon} alt="detailIcon" height={18} width={18} />
                 </button>
               )}
-              content={({ onClose }) => <UserDetailModal />}
+              content={({ onClose }) => (
+                <UserDetailModal setPropertiesProductModal={setPropertiesProductModal} setMoneyAdded={setMoneyAdded} />
+              )}
             />
           </li>
           <li>
@@ -193,9 +197,9 @@ const ManageUserTable = () => {
 
   return (
     <>
-      <CenterModal width="600" title="Add Money to Wallet">
+      {/* <CenterModal width="600" title="Add Money to Wallet">
         <AddMoney setMoneyAdded={setMoneyAdded} />
-      </CenterModal>
+      </CenterModal> */}
       {/* money added Successfully Modal */}
       <CenterModal
         open={moneyAdded}
@@ -248,9 +252,15 @@ const ManageUserTable = () => {
         width="543">
         <SuccessfulModal title="User Updated Successfully!" />
       </CenterModal>
-      <CenterModal open={userDetail} setOpen={setUserDetail} title="Alex Mertiz Detail" width="1000">
-        <UserDetailModal />
+      {/* Properties Products Modal */}
+      <CenterModal
+        open={propertiesProductModal}
+        setOpen={setPropertiesProductModal}
+        title="Alex Mertiz Detail"
+        width="1000">
+        <PropertiesProductsModal />
       </CenterModal>
+      {/* Properties Products Modal */}
       <CenterModal
         open={successModal}
         setOpen={setSuccessModal}
