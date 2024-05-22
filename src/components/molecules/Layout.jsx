@@ -6,9 +6,11 @@ import SideBar from './sideNav';
 
 const Layout = ({ children }) => {
   const router = useRouter();
+  const withLayout = ['/sign-in', '/'];
   return (
     <>
-      {router.pathname !== '/sign-in' ? (
+      {/* {router.pathname !== '/sign-in' || '/' ? ( */}
+      {!withLayout.includes(router.pathname) ? (
         <>
           <MainWrapper>
             <SideBar data={indivisualSellerNav} />

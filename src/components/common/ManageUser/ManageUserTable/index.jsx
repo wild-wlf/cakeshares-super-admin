@@ -25,6 +25,7 @@ import userAvatar from '../../../../../public/assets/user_avatar.png';
 import declineIcon from '../../../../../public/assets/decline-icon.svg';
 import UserDetailModal from '../UserDetailModal';
 import KycRequest from '../KycRequest';
+import AddMoney from '../AddMoney';
 import PropertiesProductsModal from '../PropertiesProductsModal';
 import DeclineModal from '../../DeclineModal';
 
@@ -40,6 +41,7 @@ const ManageUserTable = () => {
   const [tab, setTab] = useState(1);
   const [successUpdatedModal, setSuccessUpdatedModal] = useState(false);
   const [kycApproved, setkycApproved] = useState(false);
+  const [moneyAdded, setMoneyAdded] = useState(false);
   const [kycDecline, setkycDecline] = useState(false);
   const [userDetail, setUserDetail] = useState(false);
   const [propertiesProductModal, setPropertiesProductModal] = useState(false);
@@ -49,6 +51,10 @@ const ManageUserTable = () => {
     startDate: '',
     endDate: '',
     searchText: '',
+    type: 'Buyer',
+    kycLevel: '',
+    status: '',
+    accType: '',
   });
 
   const { user_data, user_loading } = userService.GetAllUsers(searchQuery, fetch);
@@ -94,7 +100,9 @@ const ManageUserTable = () => {
                   <Image src={detailIcon} alt="detailIcon" height={18} width={18} />
                 </button>
               )}
-              content={({ onClose }) => <UserDetailModal setPropertiesProductModal={setPropertiesProductModal} />}
+              content={({ onClose }) => (
+                <UserDetailModal setPropertiesProductModal={setPropertiesProductModal} setMoneyAdded={setMoneyAdded} />
+              )}
             />
           </li>
           <li>
@@ -202,6 +210,19 @@ const ManageUserTable = () => {
 
   return (
     <>
+      {/* <CenterModal width="600" title="Add Money to Wallet">
+        <AddMoney setMoneyAdded={setMoneyAdded} />
+      </CenterModal> */}
+      {/* money added Successfully Modal */}
+      <CenterModal
+        open={moneyAdded}
+        setOpen={setMoneyAdded}
+        title={<Image src={successIcon} alt="InfoIcon" />}
+        width="543">
+        <SuccessfulModal title="Money Added Successfully!" />
+      </CenterModal>
+      {/* money added Successfully Modal */}
+
       <CenterModal
         open={deleteModal}
         setOpen={setDeleteModal}

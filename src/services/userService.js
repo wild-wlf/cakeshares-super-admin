@@ -43,9 +43,19 @@ const userService = {
     throw new Error(message ?? 'Something went wrong');
   },
 
-  async getAllUsers({ page = 1, itemsPerPage = 10, startDate = '', endDate = '', searchText = '' }) {
+  async getAllUsers({
+    page = 1,
+    itemsPerPage = 10,
+    startDate = '',
+    endDate = '',
+    searchText = '',
+    type = 'Buyer',
+    kycLevel = '',
+    status = '',
+    accType = '',
+  }) {
     let res = await Fetch.get(
-      `${this._url}/get-all-users?page=${page}&itemsPerPage=${itemsPerPage}&startDate=${startDate}&endDate=${endDate}&searchText=${searchText}`,
+      `${this._url}/get-all-users?page=${page}&itemsPerPage=${itemsPerPage}&startDate=${startDate}&endDate=${endDate}&searchText=${searchText}&type=${type}&kycLevel=${kycLevel}&status=${status}&accType=${accType}`,
     );
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
