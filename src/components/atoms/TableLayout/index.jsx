@@ -33,6 +33,7 @@ function TableLayout({
   iconImg,
   openModal,
   buyerSellerTabs,
+  manageProductsTabs,
   tab,
   setTab,
   noBorder,
@@ -75,6 +76,7 @@ function TableLayout({
             btnWidth={btnWidth}
             iconImg={iconImg}
             buyerSellerTabs={buyerSellerTabs}
+            manageProductsTabs={manageProductsTabs}
             tab={tab}
             setTab={setTab}
           />

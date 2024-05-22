@@ -22,9 +22,11 @@ import DeleteIcon from '../../../../../public/assets/table-delete-icon.svg';
 import TableStyle from '../../../../../public/assets/table-style.jpg';
 import CalenderIcon from '../../../../../public/assets/calander.svg';
 import userAvatar from '../../../../../public/assets/user_avatar.png';
+import declineIcon from '../../../../../public/assets/decline-icon.svg';
 import UserDetailModal from '../UserDetailModal';
 import KycRequest from '../KycRequest';
 import PropertiesProductsModal from '../PropertiesProductsModal';
+import DeclineModal from '../../DeclineModal';
 
 const ManageUserTable = () => {
   const { fetch } = useContextHook(AuthContext, v => ({
@@ -66,9 +68,16 @@ const ManageUserTable = () => {
             </Button>
           </li>
           <li>
-            <Button variant="danger" custom xsCustom>
-              Decline
-            </Button>
+            <ModalContainer
+              width={500}
+              title={<Image src={declineIcon} alt="declineIcon" />}
+              btnComponent={({ onClick }) => (
+                <Button variant="danger" custom xsCustom onClick={onClick}>
+                  Decline
+                </Button>
+              )}
+              content={({ onClose }) => <DeclineModal onClose={onClose} />}
+            />
           </li>
         </ActionBtnList>
       );
