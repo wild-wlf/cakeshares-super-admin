@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from 'react';
-import { StyledPropertiesProductsModal } from './PropertiesProductsModal.styles';
 import Table from '@/components/molecules/Table';
 import TableLayout from '@/components/atoms/TableLayout';
 import Image from 'next/image';
@@ -56,24 +55,22 @@ const PropertiesProductsModal = () => {
   }));
   const buyerColumns = [`Product`, `Total Shares`, `Amount`];
   return (
-    <StyledPropertiesProductsModal>
-      <TableContainer>
-        <TableLayout
-          noBorder
-          placeholder="Search Assets"
-          onChangeFilters={filters => {
-            setSearchQuery(_ => ({
-              ..._,
-              ...filters,
-            }));
-          }}
-          currentPage={searchQuery.page}
-          totalCount={totalCount}
-          pageSize={searchQuery.itemsPerPage}>
-          <Table width={800} rowsData={product_rows} loading={user_loading} columnNames={buyerColumns} noPadding />
-        </TableLayout>
-      </TableContainer>
-    </StyledPropertiesProductsModal>
+    <TableContainer>
+      <TableLayout
+        noBorder
+        placeholder="Search Assets"
+        onChangeFilters={filters => {
+          setSearchQuery(_ => ({
+            ..._,
+            ...filters,
+          }));
+        }}
+        currentPage={searchQuery.page}
+        totalCount={totalCount}
+        pageSize={searchQuery.itemsPerPage}>
+        <Table width={800} rowsData={product_rows} loading={user_loading} columnNames={buyerColumns} noPadding />
+      </TableLayout>
+    </TableContainer>
   );
 };
 

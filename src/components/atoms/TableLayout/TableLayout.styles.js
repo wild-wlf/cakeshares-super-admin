@@ -16,13 +16,6 @@ export const StyledTableLayout = styled.div`
     padding: 20px;
     border: 1px solid #d9d9d9;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.05), -10px 10px 20px rgba(0, 0, 0, 0.05);
-    ${({ $noBorder }) =>
-      $noBorder &&
-      css`
-        border: none;
-        box-shadow: none;
-        padding: 0;
-      `}
   }
 
   ${({ noPagination }) =>
@@ -32,8 +25,21 @@ export const StyledTableLayout = styled.div`
         display: none;
       }
     `}
-
-  .inner-wrap {
+  ${({ $noBorder }) =>
+    $noBorder &&
+    css`
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+    `}
+    .inner-wrap {
+    ${({ $noBorder }) =>
+      $noBorder &&
+      css`
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+      `}
     @media (max-width: 992px) {
       padding: 5px 20px 20px;
       border-radius: 10px;

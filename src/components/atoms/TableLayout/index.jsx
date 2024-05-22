@@ -35,6 +35,7 @@ function TableLayout({
   openModal,
   buyerSellerTabs,
   manageProductsTabs,
+  ProductsDetailSelect,
   tab,
   setTab,
   noBorder,
@@ -43,7 +44,11 @@ function TableLayout({
   const [filterState, setFilterState] = useState('');
   return (
     <>
-      <StyledTableLayout noNegativeMargin={noNegativeMargin} noPagination={noPagination} filterBlock={filterBlock}>
+      <StyledTableLayout
+        noNegativeMargin={noNegativeMargin}
+        noPagination={noPagination}
+        filterBlock={filterBlock}
+        $noBorder={noBorder}>
         <div className="inner-wrap">
           <ProductsFilter
             placeholder={placeholder}
@@ -54,6 +59,7 @@ function TableLayout({
             iconImg={iconImg}
             buyerSellerTabs={buyerSellerTabs}
             manageProductsTabs={manageProductsTabs}
+            ProductsDetailSelect={ProductsDetailSelect}
             tab={tab}
             setTab={setTab}
             onChangeFilters={_ => {

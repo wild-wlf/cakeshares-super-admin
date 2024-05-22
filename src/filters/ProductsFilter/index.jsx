@@ -19,9 +19,11 @@ function ProductsFilter({
   openModal,
   iconImg,
   buyerSellerTabs,
+  manageProductsTabs,
   tab,
   setTab,
   onChangeFilters,
+  ProductsDetailSelect,
 }) {
   const [searchText, setSearchText] = useState('');
   const debounceRef = useRef(0);
@@ -88,6 +90,38 @@ function ProductsFilter({
       label: 'Company Seller',
     },
   ];
+  const productStatusData = [
+    {
+      value: '',
+      label: 'All',
+    },
+    {
+      value: true,
+      label: 'Approved',
+    },
+    {
+      value: false,
+      label: 'Pending',
+    },
+  ];
+  const productAccountTypeData = [
+    {
+      value: '',
+      label: 'All',
+    },
+    {
+      value: 'Super Admin',
+      label: 'Super Admin',
+    },
+    {
+      value: 'Individual',
+      label: 'Individual Seller',
+    },
+    {
+      value: 'Company',
+      label: 'Company Seller',
+    },
+  ];
   return (
     <StyledTableHeader>
       <div className="head">
@@ -112,34 +146,91 @@ function ProductsFilter({
             </button>
           </div>
         )}
+        {manageProductsTabs && (
+          <div className="btn-holder">
+            <button
+              className={tab === 1 ? 'active' : ''}
+              onClick={() => {
+                handleTabs(1);
+                onChangeFilters({ type: 'Buyer' });
+              }}>
+              Investments
+            </button>
+            <button
+              className={tab === 2 ? 'active' : ''}
+              onClick={() => {
+                handleTabs(2);
+                onChangeFilters({ type: 'Seller' });
+              }}>
+              Products
+            </button>
+          </div>
+        )}
         <div className="actions">
-          <div className="select-holder">
-            <Select
-              placeholder="Select KYC"
-              onChange={({ target: { value } }) => {
-                onChangeFilters({ kycLevel: value?.value });
-              }}
-              options={kycData}
-              labelReverse
-            />
-          </div>
-          <div className="select-holder">
-            <Select
-              placeholder="Select Status"
-              onChange={({ target: { value } }) => {
-                onChangeFilters({ status: value?.value });
-              }}
-              options={statusData}
-            />
-          </div>
-          {tab === 2 && (
+          {buyerSellerTabs && (
+            <>
+              <div className="select-holder">
+                <Select
+                  placeholder="Select KYC"
+                  onChange={({ target: { value } }) => {
+                    onChangeFilters({ kycLevel: value?.value });
+                  }}
+                  options={kycData}
+                  labelReverse
+                />
+              </div>
+              <div className="select-holder">
+                <Select
+                  placeholder="Select Status"
+                  onChange={({ target: { value } }) => {
+                    onChangeFilters({ status: value?.value });
+                  }}
+                  options={statusData}
+                />
+              </div>
+              {tab === 2 && (
+                <div className="select-holder">
+                  <Select
+                    placeholder="Select Account type"
+                    onChange={({ target: { value } }) => {
+                      onChangeFilters({ accType: value?.value });
+                    }}
+                    options={accountTypeData}
+                  />
+                </div>
+              )}
+            </>
+          )}
+          {manageProductsTabs && tab === 2 && (
+            <>
+              <div className="select-holder">
+                <Select
+                  placeholder="Select Account Type"
+                  onChange={({ target: { value } }) => {
+                    onChangeFilters({ kycLevel: value?.value });
+                  }}
+                  options={productAccountTypeData}
+                />
+              </div>
+              <div className="select-holder">
+                <Select
+                  placeholder="Select Status"
+                  onChange={({ target: { value } }) => {
+                    onChangeFilters({ kycLevel: value?.value });
+                  }}
+                  options={productStatusData}
+                />
+              </div>
+            </>
+          )}
+          {ProductsDetailSelect && (
             <div className="select-holder">
               <Select
-                placeholder="Select Account type"
+                placeholder="Select Account Type"
                 onChange={({ target: { value } }) => {
-                  onChangeFilters({ accType: value?.value });
+                  onChangeFilters({ kycLevel: value?.value });
                 }}
-                options={accountTypeData}
+                options={productStatusData}
               />
             </div>
           )}
@@ -162,7 +253,7 @@ function ProductsFilter({
             </div>
           )}
           {btnText && (
-            <Button rounded width={btnWidth ? btnWidth : '100%'} sm btntype={btnType} onClick={openModal}>
+            <Button rounded width={btnWidth ? btnWidth : '100%'} variant={btnType} onClick={openModal}>
               {btnText}
               {btnImg && <Image src={btnImg} alt="btnImg" />}
             </Button>
