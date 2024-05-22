@@ -1,0 +1,68 @@
+[
+  {
+    "key": "manage-user",
+    "filters": ["type", "kyc", "status", "text", "date"],
+    "filtersData": {
+      "type": {
+        "options": [
+          {
+            "buyer": "Buyer"
+          },
+          {
+            "seller": "Seller"
+          }
+        ],
+        "label": "Type",
+        "icon": "filter_alt"
+      },
+      "kyc": {
+        "options": [
+          {
+            "": "All"
+          },
+          {
+            "level0": "Level 0"
+          },
+          {
+            "level1": "Level 1"
+          },
+          {
+            "level2": "Level 2"
+          }
+        ],
+        "label": "KYC Level",
+        "icon": "filter_alt"
+      },
+      "status": {
+        "options": [
+          {
+            "": "All"
+          },
+          {
+            "approved": "Approved"
+          },
+          {
+            "pending": "Pending"
+          }
+        ],
+        "label": "Status",
+        "icon": "filter_alt"
+      },
+      "accountType": {
+        "options": [
+          {
+            "": "All"
+          },
+          {
+            "individualSeller": "Individual Seller"
+          },
+          {
+            "companySeller": "Company Seller"
+          }
+        ],
+        "label": "Account Type",
+        "icon": "filter_alt"
+      }
+    }
+  }
+]
