@@ -25,12 +25,16 @@ import userAvatar from '../../../../../public/assets/user_avatar.png';
 import UserDetailModal from '../UserDetailModal';
 import KycRequest from '../KycRequest';
 import AddMoney from '../AddMoney';
+import ApproveUserModal from '../../../molecules/ApproveUserModal';
+import Toast from '@/components/molecules/Toast';
 
 const ManageUserTable = () => {
-  const { fetch } = useContextHook(AuthContext, v => ({
+  const { fetch, refetch } = useContextHook(AuthContext, v => ({
     fetch: v.fetch,
+    refetch: v.refetch,
   }));
 
+  const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState({});
   const [deleteModal, setDeleteModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
@@ -41,6 +45,9 @@ const ManageUserTable = () => {
   const [moneyAdded, setMoneyAdded] = useState(false);
   const [kycDecline, setkycDecline] = useState(false);
   const [userDetail, setUserDetail] = useState(false);
+  const [approveUserModal, setApproveUserModal] = useState(false);
+  const [userToApprove, setUserToApprove] = useState(false);
+  const [type, setType] = useState();
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
     itemsPerPage: 10,
@@ -60,17 +67,58 @@ const ManageUserTable = () => {
     setSuccessUpdatedModal(true);
   };
 
+  const handleConfirmActivate = async () => {
+    console.log(userToApprove);
+    try {
+      setIsLoading(true);
+      const obj = { isVerified: type === 'Approve' ? true : false };
+      const payload = new FormData();
+      Object.keys(obj).forEach(key => payload.append(key, obj[key]));
+
+      await userService.updateUser(userToApprove, payload);
+      Toast({
+        type: 'success',
+        message: `User ${type}ed Successfully!`,
+      });
+      refetch();
+      setApproveUserModal(false);
+    } catch (error) {
+      Toast({
+        type: 'error',
+        message: `Failed to ${type} this User! Please Try Again!`,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const actionBtns = user => {
     if (!user.isVerified) {
       return (
         <ActionBtnList>
           <li>
-            <Button variant="success" custom xsCustom>
+            <Button
+              onClick={() => {
+                setType('Approve');
+                setUserToApprove(user?._id);
+                setApproveUserModal(true);
+              }}
+              variant="success"
+              custom
+              xsCustom>
               Approve
             </Button>
           </li>
           <li>
-            <Button variant="danger" custom xsCustom>
+            <Button
+              onClick={() => {
+                setType('Decline');
+                setUserToApprove(user?._id);
+                setApproveUserModal(true);
+              }}
+              variant="danger"
+              custom
+              xsCustom>
               Decline
             </Button>
           </li>
@@ -292,6 +340,11 @@ const ManageUserTable = () => {
           )}
         </TableLayout>
       </TableContainer>
+      {approveUserModal && (
+        <CenterModal open={approveUserModal} setOpen={setApproveUserModal} width="720">
+          <ApproveUserModal type={type} handleClick={handleConfirmActivate} />
+        </CenterModal>
+      )}
     </>
   );
 };
