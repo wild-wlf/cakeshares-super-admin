@@ -11,10 +11,13 @@ import Image from 'next/image';
 import CenterModal from '@/components/molecules/Modal/CenterModal';
 import DeleteModal from '@/components/atoms/UserDeleteModal/DeleteModal';
 import modalInfoIcon from '../../../../../public/assets/infoIcon.png';
+import Button from '@/components/atoms/Button';
+import ModalContainer from '@/components/molecules/ModalContainer';
+import declineIcon from '../../../../../public/assets/decline-icon.svg';
+import DeclineModal from '../../DeclineModal';
 
-const ProductsDetailModal = ({ onClose, setSuccessModal }) => {
+const ProductsDetailModal = ({ onClose, setSuccessModal, setEditProduct, accountType }) => {
   const [deleteModal, setDeleteModal] = useState(false);
-
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
     itemsPerPage: 10,
@@ -26,28 +29,45 @@ const ProductsDetailModal = ({ onClose, setSuccessModal }) => {
   function handleDelete() {
     setDeleteModal(false);
     setSuccessModal(true);
-    if (onClose) {
-      onClose();
-    }
+    onClose();
   }
 
   const { user_data, user_loading } = userService.GetAllUsers(searchQuery, fetch);
   const actionBtns = () => (
     <ActionBtnList>
-      <li>
-        <button type="button" className="btn edit">
-          <MdModeEditOutline color="rgba(64, 143, 140, 1)" size={16} />
-        </button>
-      </li>
-
-      <li>
-        <button type="button" className="btn delete">
-          <Image src={DeleteIcon} alt="DeleteIcon" onClick={() => setDeleteModal(true)} />
-        </button>
-      </li>
+      {accountType === 'Individual Seller' ? (
+        <li>
+          <ModalContainer
+            width={500}
+            title={<Image src={declineIcon} alt="declineIcon" />}
+            btnComponent={({ onClick }) => (
+              <Button type="button" variant="danger" custom xsCustom onClick={onClick}>
+                <Image src={DeleteIcon} alt="DeleteIcon" />
+                Delete Product
+              </Button>
+            )}
+            content={({ onClose }) => (
+              <DeclineModal onClose={handleDelete} title="Delete Product!" btnText="Yes, Delete" />
+            )}
+          />
+        </li>
+      ) : (
+        <>
+          <li>
+            <button type="button" className="btn edit" onClick={() => setEditProduct(true)}>
+              <MdModeEditOutline color="rgba(64, 143, 140, 1)" size={16} />
+            </button>
+          </li>
+          <li>
+            <button type="button" className="btn delete" onClick={() => setDeleteModal(true)}>
+              <Image src={DeleteIcon} alt="DeleteIcon" />
+            </button>
+          </li>
+        </>
+      )}
     </ActionBtnList>
   );
-  const productsData = [
+  const ProductsData = [
     {
       product_name: 'Gov. Egypt Property',
       category_type: 'Property',
@@ -87,14 +107,14 @@ const ProductsDetailModal = ({ onClose, setSuccessModal }) => {
   ];
 
   const { product_rows, totalCount } = useMemo(() => ({
-    product_rows: productsData?.map(user => [
+    product_rows: ProductsData?.map(user => [
       user?.product_name || '------------',
       user?.category_type || '------------',
       user?.total_backers || '------------',
       user?.total_return || '------------',
       actionBtns(),
     ]),
-    totalCount: productsData?.totalItems,
+    totalCount: ProductsData?.totalItems,
   }));
   const buyerColumns = [`Product`, `Category type`, `Total Backers`, `Total Return`, `Actions`];
 

@@ -18,7 +18,7 @@ const InvestmentDetailModal = () => {
   });
 
   const { user_data, user_loading } = userService.GetAllUsers(searchQuery, fetch);
-  const actionBtns = () => (
+  const actionBtns = user => (
     <ActionBtnList>
       <li>
         <Button variant="secondary" custom xsCustom onClick={() => router.push('https://cake.webevis.com/products/4')}>
@@ -27,7 +27,7 @@ const InvestmentDetailModal = () => {
       </li>
     </ActionBtnList>
   );
-  const productsData = [
+  const ProductsData = [
     {
       product_name: 'Gov. Egypt Property',
       investment_type: 'Property',
@@ -85,7 +85,7 @@ const InvestmentDetailModal = () => {
   ];
 
   const { product_rows, totalCount } = useMemo(() => ({
-    product_rows: productsData?.map(user => [
+    product_rows: ProductsData?.map(user => [
       user?.product_name || '------------',
       user?.investment_type || '------------',
       user?.kyc_level || '------------',
@@ -95,7 +95,7 @@ const InvestmentDetailModal = () => {
       user?.annual_cost || '------------',
       actionBtns(),
     ]),
-    totalCount: productsData?.totalItems,
+    totalCount: ProductsData?.totalItems,
   }));
   const buyerColumns = [
     `Product`,

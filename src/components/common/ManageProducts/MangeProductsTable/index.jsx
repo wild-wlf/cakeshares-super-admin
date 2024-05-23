@@ -20,6 +20,8 @@ import ProductsDetailModal from '../ProductsDetailModal';
 import SuccessfulModal from '@/components/atoms/UserDeleteModal/SuccessfulModal';
 import successIcon from '../../../../../public/assets/successIcon.png';
 import CenterModal from '@/components/molecules/Modal/CenterModal';
+import CreateNewProduct from '../CreateNewProduct';
+import EditProductModal from '../EditProductModal';
 
 const MangeProductsTable = () => {
   const { fetch } = useContextHook(AuthContext, v => ({
@@ -27,6 +29,10 @@ const MangeProductsTable = () => {
   }));
   const [tab, setTab] = useState(1);
   const [successModal, setSuccessModal] = useState(false);
+  const [createProduct, setCreateProduct] = useState(false);
+  const [createProductSuccessModal, setCreateProductSuccessModal] = useState(false);
+  const [editProduct, setEditProduct] = useState(false);
+  const [createProductData, setCreateProductData] = useState({});
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
     itemsPerPage: 10,
@@ -34,6 +40,13 @@ const MangeProductsTable = () => {
     endDate: '',
     searchText: '',
   });
+  // function buyerRegistration(elem) {
+  //   setCreateProductData(prev => ({ ...prev, ...elem }));
+  // }
+  function handleCreateProduct() {
+    setCreateProductSuccessModal(true);
+    setCreateProduct(false);
+  }
 
   const { user_data, user_loading } = userService.GetAllUsers(searchQuery, fetch);
 
@@ -74,7 +87,14 @@ const MangeProductsTable = () => {
                   View Detail
                 </Button>
               )}
-              content={({ onClose }) => <ProductsDetailModal onClose={onClose} setSuccessModal={setSuccessModal} />}
+              content={({ onClose }) => (
+                <ProductsDetailModal
+                  onClose={onClose}
+                  setSuccessModal={setSuccessModal}
+                  setEditProduct={setEditProduct}
+                  accountType={user.account_type}
+                />
+              )}
             />
           </li>
         </ActionBtnList>
@@ -130,7 +150,7 @@ const MangeProductsTable = () => {
       amount: '$40,256.000',
     },
   ];
-  const ProductsData = [
+  const productsData = [
     {
       username: 'Mickhel James',
       account_type: 'Super Admin',
@@ -161,7 +181,7 @@ const MangeProductsTable = () => {
     },
     {
       username: 'Mickhel James',
-      account_type: 'Super Admin',
+      account_type: 'Individual Seller',
       total_products: 50,
       total_return: '$40,256.000',
       isVerified: true,
@@ -189,7 +209,7 @@ const MangeProductsTable = () => {
     totalCount: investments_data?.totalItems,
   }));
   const { user_rows, totalCounts } = useMemo(() => ({
-    user_rows: ProductsData?.map(user => [
+    user_rows: productsData?.map(user => [
       <div className="table-img-holder" key={user?._id}>
         <div className="img-holder">
           <Image src={user?.profilePicture || userAvatar} width={20} height={20} alt="userImage" />
@@ -214,7 +234,20 @@ const MangeProductsTable = () => {
         setOpen={setSuccessModal}
         title={<Image src={successIcon} alt="InfoIcon" />}
         width="543">
-        <SuccessfulModal title="Product Suspended Successfully!" />
+        <SuccessfulModal title="Product Deleted Successfully!" />
+      </CenterModal>
+      <CenterModal
+        open={createProductSuccessModal}
+        setOpen={setCreateProductSuccessModal}
+        title={<Image src={successIcon} alt="InfoIcon" />}
+        width="543">
+        <SuccessfulModal title="Product Created Successfully!" />
+      </CenterModal>
+      <CenterModal open={createProduct} setOpen={setCreateProduct} title="Create new Product" width="900">
+        <CreateNewProduct handleCreateProduct={handleCreateProduct} setCreateProductData={setCreateProductData} />
+      </CenterModal>
+      <CenterModal open={editProduct} setOpen={setEditProduct} title="Edit Product" width="900">
+        <EditProductModal createProductData={createProductData} />
       </CenterModal>
       <TableContainer>
         <Image src={TableStyle} className="tableStyle" alt="tableCurve" />
@@ -224,6 +257,7 @@ const MangeProductsTable = () => {
           btnText={tab === 2 && 'Create New Product'}
           btnType={tab === 2 && 'success'}
           iconImg={CalenderIcon}
+          openModal={() => setCreateProduct(true)}
           placeholder="Search Investments"
           onChangeFilters={filters => {
             setSearchQuery(_ => ({

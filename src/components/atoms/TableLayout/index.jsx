@@ -60,6 +60,7 @@ function TableLayout({
             buyerSellerTabs={buyerSellerTabs}
             manageProductsTabs={manageProductsTabs}
             ProductsDetailSelect={ProductsDetailSelect}
+            openModal={openModal}
             tab={tab}
             setTab={setTab}
             onChangeFilters={_ => {
