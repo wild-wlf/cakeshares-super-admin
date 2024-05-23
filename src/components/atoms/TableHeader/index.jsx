@@ -20,6 +20,7 @@ function TableHeader({
   openModal,
   iconImg,
   buyerSellerTabs,
+  manageProductsTabs,
   tab,
   setTab,
 }) {
@@ -78,29 +79,42 @@ function TableHeader({
             </button>
           </div>
         )}
+        {manageProductsTabs && (
+          <div className="btn-holder">
+            <button className={tab === 1 ? 'active' : ''} onClick={() => handleTabs(1)}>
+              Investments
+            </button>
+            <button className={tab === 2 ? 'active' : ''} onClick={() => handleTabs(2)}>
+              Products
+            </button>
+          </div>
+        )}
         <div className="actions">
-          {tab === 1 ? (
-            <>
-              <div className="select-holder">
-                <Select placeholder="Select KYC" options={kycData} labelReverse />
-              </div>
-              <div className="select-holder">
-                <Select placeholder="Select KYC" options={statusData} />
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="select-holder">
-                <Select placeholder="Select KYC" options={kycData} labelReverse />
-              </div>
-              <div className="select-holder">
-                <Select placeholder="Select KYC" options={statusData} />
-              </div>
-              <div className="select-holder">
-                <Select placeholder="Select Account type" options={accountTypeData} />
-              </div>
-            </>
-          )}
+          {buyerSellerTabs &&
+            (tab === 1 ? (
+              <>
+                <div className="select-holder">
+                  <Select placeholder="Select KYC" options={kycData} labelReverse />
+                </div>
+                <div className="select-holder">
+                  <Select placeholder="Select KYC" options={statusData} />
+                </div>
+              </>
+            ) : tab === 2 ? (
+              <>
+                <div className="select-holder">
+                  <Select placeholder="Select KYC" options={kycData} labelReverse />
+                </div>
+                <div className="select-holder">
+                  <Select placeholder="Select KYC" options={statusData} />
+                </div>
+                <div className="select-holder">
+                  <Select placeholder="Select Account type" options={accountTypeData} />
+                </div>
+              </>
+            ) : (
+              ''
+            ))}
           {placeholder && (
             <div className="item">
               <div className="Search">

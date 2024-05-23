@@ -81,6 +81,7 @@ export const Styling = css`
   }
 
   textarea {
+    font-family: var(--base-font-sans-serif);
     resize: vertical;
     vertical-align: top;
   }

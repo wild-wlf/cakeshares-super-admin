@@ -10,7 +10,7 @@ import vehicleIcon from '../../../../../public/assets/vehicle-icon.svg';
 import AddMoney from '../AddMoney';
 import ModalContainer from '@/components/molecules/ModalContainer';
 
-const UserDetailModal = ({ setPropertiesProductModal, setMoneyAdded }) => {
+const SellerDetailModal = ({ setPropertiesProductModal, setMoneyAdded }) => {
   const infoData = {
     fullName: 'Alex Mertiz',
     userName: 'alex123',
@@ -181,4 +181,4 @@ const UserDetailModal = ({ setPropertiesProductModal, setMoneyAdded }) => {
   );
 };
 
-export default UserDetailModal;
+export default SellerDetailModal;
