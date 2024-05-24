@@ -64,6 +64,16 @@ const userService = {
     const { message } = await res.json();
     throw new Error(message ?? 'Something went wrong');
   },
+
+  async deleteUser(id) {
+    let res = await Fetch.delete(`${this._url}/delete-user/${id}`);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    }
+    const { message } = await res.json();
+    throw new Error(message ?? 'Something went wrong');
+  },
 };
 
 export default userService;

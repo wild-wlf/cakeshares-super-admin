@@ -12,27 +12,6 @@ import ModalContainer from '@/components/molecules/ModalContainer';
 import { format } from 'date-fns';
 
 const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded }) => {
-  console.log(user);
-  // const user = {
-  //   fullName: 'Alex Mertiz',
-  //   userName: 'alex123',
-  //   email: 'alex123@gmail.com',
-  //   country: 'Turkey',
-  //   birthDate: '03/05/2024',
-  //   countryFlag: 'TR',
-  //   countryName: 'Turkey',
-  // };
-  // const user?.bank? = {
-  //   bankName: 'Bank of Americe',
-  //   IBAN: 'PK033310084246213',
-  //   bic_Number: 'PK033310084246213',
-  //   user_id: 33445554,
-  // };
-  const inheritanceData = {
-    name: 'Logan Paulson',
-    passport: '123467894562339',
-    country: 'United States',
-  };
   return (
     <StyledUserDetailModal>
       <span className="heading">Personal Info:</span>
@@ -54,8 +33,7 @@ const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded }) => 
           <div className="flag-holder">
             <figure className="img-holder">
               <Image
-                // src={`https://countryflagsapi.netlify.app/flag/${user.countryFlag}.svg`}
-                src={`https://countryflagsapi.netlify.app/flag/AL.svg`}
+                src={`https://countryflagsapi.netlify.app/flag/${user.country}.svg`}
                 width={64}
                 height={64}
                 alt={`Flag of PK`}

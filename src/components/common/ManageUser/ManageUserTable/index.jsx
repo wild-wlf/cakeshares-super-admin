@@ -98,7 +98,13 @@ const ManageUserTable = () => {
       return (
         <ActionBtnList>
           <li>
-            <Button variant="success" custom xsCustom>
+            <Button
+              onClick={() => {
+                handleConfirmActivate(user?._id, 'Approve');
+              }}
+              variant="success"
+              custom
+              xsCustom>
               Approve
             </Button>
           </li>
@@ -123,14 +129,18 @@ const ManageUserTable = () => {
           <li>
             <ModalContainer
               width={1000}
-              title="Alex Mertiz Detail"
+              title={`${user?.fullName} Detail`}
               btnComponent={({ onClick }) => (
                 <button type="button" className="btn file" onClick={onClick}>
                   <Image src={detailIcon} alt="detailIcon" height={18} width={18} />
                 </button>
               )}
               content={({ onClose }) => (
-                <SellerDetailModal setSellerPropertiesModal={setSellerPropertiesModal} setMoneyAdded={setMoneyAdded} />
+                <SellerDetailModal
+                  user={user}
+                  setSellerPropertiesModal={setSellerPropertiesModal}
+                  setMoneyAdded={setMoneyAdded}
+                />
               )}
             />
           </li>
@@ -211,7 +221,7 @@ const ManageUserTable = () => {
                   Decline
                 </Button>
               )}
-              content={({ onClose }) => <DeclineModal onClose={onClose} />}
+              content={({ onClose }) => <DeclineModal userId={user?._id} onClose={onClose} />}
             />
           </li>
         </ActionBtnList>
@@ -223,7 +233,7 @@ const ManageUserTable = () => {
           <li>
             <ModalContainer
               width={1000}
-              title="Alex Mertiz Detail"
+              title={`${user?.fullName} Detail`}
               btnComponent={({ onClick }) => (
                 <button type="button" className="btn file" onClick={onClick}>
                   <Image src={detailIcon} alt="detailIcon" height={18} width={18} />
@@ -286,8 +296,8 @@ const ManageUserTable = () => {
     }
   };
 
-  const { product_rows, totalCount } = useMemo(() => ({
-    product_rows: user_data?.items?.map(user => [
+  const { buyer_rows, totalCount } = useMemo(() => ({
+    buyer_rows: user_data?.items?.map(user => [
       <div className="table-img-holder" key={user?._id}>
         <div className="img-holder">
           <Image src={user?.profilePicture || userAvatar} width={20} height={20} alt="userImage" />
@@ -304,8 +314,8 @@ const ManageUserTable = () => {
     ]),
     totalCount: user_data?.totalItems,
   }));
-  const { user_rows, totalCounts } = useMemo(() => ({
-    user_rows: user_data?.items?.map(user => [
+  const { seller_rows, totalCounts } = useMemo(() => ({
+    seller_rows: user_data?.items?.map(user => [
       <div className="table-img-holder" key={user?._id}>
         <div className="img-holder">
           <Image src={user?.profilePicture || userAvatar} width={20} height={20} alt="userImage" />
@@ -313,7 +323,7 @@ const ManageUserTable = () => {
         {user.fullName || '------------'}
       </div>,
       user?.type || '------------',
-      user?.total_assets || '------------',
+      user?.totalProducts ?? '------------',
       user?.total_assets_amount || '------------',
       user?.wallet_balance || '------------',
       user?.kycLevel ?? '------------',
@@ -445,9 +455,9 @@ const ManageUserTable = () => {
           tab={tab}
           setTab={setTab}>
           {tab === 1 ? (
-            <Table width={1024} rowsData={product_rows} loading={user_loading} columnNames={buyerColumns} noPadding />
+            <Table width={1024} rowsData={buyer_rows} loading={user_loading} columnNames={buyerColumns} noPadding />
           ) : (
-            <Table width={1024} rowsData={user_rows} loading={user_loading} columnNames={sellerColumns} noPadding />
+            <Table width={1024} rowsData={seller_rows} loading={user_loading} columnNames={sellerColumns} noPadding />
           )}
         </TableLayout>
       </TableContainer>

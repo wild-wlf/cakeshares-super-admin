@@ -10,27 +10,22 @@ import AddMoney from '../AddMoney';
 import ModalContainer from '@/components/molecules/ModalContainer';
 import { StyledUserDetailModal } from '../UserDetailModal/UserDetailModal.styles';
 
-const SellerDetailModal = ({ setSellerPropertiesModal, setMoneyAdded }) => {
-  const infoData = {
-    fullName: 'Alex Mertiz',
-    userName: 'alex123',
-    email: 'alex123@gmail.com',
-  };
+const SellerDetailModal = ({ user, setSellerPropertiesModal, setMoneyAdded }) => {
   return (
     <StyledUserDetailModal>
       <span className="heading">Personal Info:</span>
       <div className="product-info">
         <div className="col">
           <span className="heading">Full Name:</span>
-          <span className="text">{infoData.fullName}</span>
+          <span className="text">{user?.fullName}</span>
         </div>
         <div className="col">
           <span className="heading">Username:</span>
-          <span className="text">{infoData.userName}</span>
+          <span className="text">{user?.username}</span>
         </div>
         <div className="col">
           <span className="heading">Emial Address:</span>
-          <span className="text">{infoData.email}</span>
+          <span className="text">{user?.email}</span>
         </div>
       </div>
       <div className="col-holder">
@@ -38,7 +33,7 @@ const SellerDetailModal = ({ setSellerPropertiesModal, setMoneyAdded }) => {
           <div className="head">
             <span className="heading">KYC Info:</span>
             <div className="button">
-              <span>Level 0</span>
+              <span>Level {user?.kycLevel}</span>
             </div>
           </div>
           <div className="content">
