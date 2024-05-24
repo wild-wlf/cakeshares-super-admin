@@ -46,6 +46,7 @@ const ManageUserTable = () => {
   const [kycDecline, setkycDecline] = useState(false);
   const [userDetail, setUserDetail] = useState(false);
   const [approveUserModal, setApproveUserModal] = useState(false);
+  const [userApprovedSuccess, setUserApprovedSuccess] = useState(false);
   const [userToApprove, setUserToApprove] = useState(false);
   const [type, setType] = useState();
   const [searchQuery, setSearchQuery] = useState({
@@ -68,7 +69,6 @@ const ManageUserTable = () => {
   };
 
   const handleConfirmActivate = async () => {
-    console.log(userToApprove);
     try {
       setIsLoading(true);
       const obj = { isVerified: type === 'Approve' ? true : false };
@@ -76,10 +76,7 @@ const ManageUserTable = () => {
       Object.keys(obj).forEach(key => payload.append(key, obj[key]));
 
       await userService.updateUser(userToApprove, payload);
-      Toast({
-        type: 'success',
-        message: `User ${type}ed Successfully!`,
-      });
+      setUserApprovedSuccess(true);
       refetch();
       setApproveUserModal(false);
     } catch (error) {
@@ -137,7 +134,7 @@ const ManageUserTable = () => {
                   <Image src={detailIcon} alt="detailIcon" height={18} width={18} />
                 </button>
               )}
-              content={({ onClose }) => <UserDetailModal />}
+              content={({ onClose }) => <UserDetailModal user={user} />}
             />
           </li>
           <li>
@@ -299,6 +296,13 @@ const ManageUserTable = () => {
         title={<Image src={successIcon} alt="InfoIcon" />}
         width="543">
         <SuccessfulModal title="User Updated Successfully!" />
+      </CenterModal>
+      <CenterModal
+        open={userApprovedSuccess}
+        setOpen={setUserApprovedSuccess}
+        title={<Image src={successIcon} alt="InfoIcon" />}
+        width="543">
+        <SuccessfulModal title={`User ${type}ed Successfully!`} />
       </CenterModal>
       <CenterModal open={userDetail} setOpen={setUserDetail} title="Alex Mertiz Detail" width="1000">
         <UserDetailModal />
