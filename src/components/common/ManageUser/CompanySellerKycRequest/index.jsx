@@ -6,7 +6,8 @@ import view from '../../../../../public/assets/view.svg';
 import downloadIcon from '../../../../../public/assets/downloadIcon.svg';
 import { StyledKycRequest } from '../KycRequest/KycRequest.style';
 
-const CompanySellerKycRequest = ({ setkycApproved, setkycDecline }) => {
+const CompanySellerKycRequest = ({ user, setkycApproved, setkycDecline }) => {
+  console.log(user);
   return (
     <StyledKycRequest $flexWrap>
       <strong className="title">Request for KYB Approval</strong>
@@ -14,11 +15,11 @@ const CompanySellerKycRequest = ({ setkycApproved, setkycDecline }) => {
       <div className="product-info">
         <div className="col">
           <span className="heading">Business Name:</span>
-          <span className="text">Bank of Americe</span>
+          <span className="text">{user?.fullName}</span>
         </div>
         <div className="col">
           <span className="heading">Business Email</span>
-          <span className="text">info@fostoragency.com</span>
+          <span className="text">{user?.email}</span>
         </div>
         <div className="col">
           <span className="heading">Owner Full Name:</span>
@@ -37,15 +38,15 @@ const CompanySellerKycRequest = ({ setkycApproved, setkycDecline }) => {
       <div className="product-info">
         <div className="col">
           <span className="heading">Bank Name:</span>
-          <span className="text">Bank of Americe</span>
+          <span className="text">{user?.bank?.bankName}</span>
         </div>
         <div className="col">
-          <span className="heading">Account Holder Name:</span>
-          <span className="text">Alex Mertiz</span>
+          <span className="heading">IBAN:</span>
+          <span className="text">{user?.bank?.bankName}</span>
         </div>
         <div className="col">
-          <span className="heading">Account no:</span>
-          <span className="text">35402755003895</span>
+          <span className="heading">Use ID:</span>
+          <span className="text">{user?.bank?.userId}</span>
         </div>
       </div>
       <span className="wrapperTitle">ID Proof Info:</span>

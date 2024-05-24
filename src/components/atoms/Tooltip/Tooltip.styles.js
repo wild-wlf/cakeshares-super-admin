@@ -1,12 +1,12 @@
-import styled from "styled-components";
-import ReactTooltip from "react-tooltip";
+import styled from 'styled-components';
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 
 export const TooltipBtn = styled.span``;
 
-export const StyledTooltip = styled.div`
+export const StyledTooltip = styled(ReactTooltip)`
   &.__react_component_tooltip {
     /* white-space: nowrap; */
-    width: ${({ width }) => (width ? `${width}px` : "auto")} !important;
+    width: ${({ width }) => (width ? `${width}px` : 'auto')} !important;
     text-align: center !important;
     font-size: var(--font-size-xs) !important;
     line-height: calc(var(--font-size-xs) + 0.3125rem) !important;

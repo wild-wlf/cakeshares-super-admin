@@ -6,7 +6,7 @@ import view from '../../../../../public/assets/view.svg';
 import downloadIcon from '../../../../../public/assets/downloadIcon.svg';
 import { StyledKycRequest } from '../KycRequest/KycRequest.style';
 
-const SellerKycRequest = ({ setkycApproved, setkycDecline }) => {
+const SellerKycRequest = ({ user, setkycApproved, setkycDecline }) => {
   return (
     <StyledKycRequest>
       <strong className="title">Request for KYC Approval</strong>
@@ -14,15 +14,15 @@ const SellerKycRequest = ({ setkycApproved, setkycDecline }) => {
       <div className="product-info">
         <div className="col">
           <span className="heading">Bank Name:</span>
-          <span className="text">Bank of Americe</span>
+          <span className="text">{user?.bank?.bankName}</span>
         </div>
         <div className="col">
-          <span className="heading">Account Holder Name:</span>
-          <span className="text">Alex Mertiz</span>
+          <span className="heading">IBAN:</span>
+          <span className="text">{user?.bank?.iban}</span>
         </div>
         <div className="col">
-          <span className="heading">Account no:</span>
-          <span className="text">35402755003895</span>
+          <span className="heading">User ID:</span>
+          <span className="text">{user?.bank?.userId}</span>
         </div>
       </div>
       <span className="wrapperTitle">Residence Proof Info:</span>

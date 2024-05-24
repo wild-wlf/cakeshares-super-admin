@@ -11,7 +11,8 @@ import { useContextHook } from 'use-context-hook';
 import Button from '@/components/atoms/Button';
 import { Wrapper } from '@/components/atoms/EditUserModal/EditUserModal.style';
 
-const EditUserModal = ({ user, handleSuccessEditModal, onClose }) => {
+const EditUserModal = ({ user, setSuccessUpdatedModal, onClose }) => {
+  console.log(user);
   const { refetch } = useContextHook(AuthContext, v => ({
     refetch: v.refetch,
   }));
@@ -21,58 +22,45 @@ const EditUserModal = ({ user, handleSuccessEditModal, onClose }) => {
   const [profilePicture, setProfilePicture] = useState();
 
   const onSubmit = async data => {
-    const { country, bankName, iban, swiftBicNumber, userId, ...restData } = data;
+    console.log(data);
+    const { country, ...restData } = data;
 
-    // const payload = {
-    //   ...restData,
-    //   country: country?.label,
-    //   profilePicture,
-    //   bankInfo: {
-    //     _id: user?.bank?._id,
-    //     bankName,
-    //     iban,
-    //     swiftBicNumber,
-    //     userId,
-    //   },
-    //   inheritanceInfo: inheritances,
-    // };
+    const payload = {
+      ...restData,
+      country: country?.label,
+      profilePicture,
+    };
 
-    // const formDataToSend = new FormData();
-    // Object.keys(payload).forEach(key => {
-    //   if (
-    //     key === 'bankInfo' ||
-    //     (key === 'inheritanceInfo' && (Array.isArray(payload[key]) || typeof payload[key] === 'object'))
-    //   ) {
-    //     formDataToSend.append(key, JSON.stringify(payload[key]));
-    //   } else {
-    //     formDataToSend.append(key, payload[key]);
-    //   }
-    // });
-    // try {
-    //   setIsLoading(true);
-    //   await userService.updateUser(user?._id, formDataToSend);
-    //   handleSuccessEditModal();
-    //   refetch();
-    // } catch ({ message }) {
-    //   Toast({
-    //     type: 'error',
-    //     message,
-    //   });
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    const formDataToSend = new FormData();
+    Object.keys(payload).forEach(key => {
+      formDataToSend.append(key, payload[key]);
+    });
+    try {
+      setIsLoading(true);
+      await userService.updateUser(user?._id, formDataToSend);
+      onClose();
+      setSuccessUpdatedModal(true);
+      refetch();
+    } catch ({ message }) {
+      Toast({
+        type: 'error',
+        message,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  // useEffect(() => {
-  //   if (user && Object.keys(user)?.length > 0) {
-  //     form.setFieldsValue({
-  //       fullName: user?.fullName,
-  //       username: user?.username,
-  //       email: user?.email,
-  //     });
-  //     setProfilePicture(user?.profilePicture);
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user && Object.keys(user)?.length > 0) {
+      form.setFieldsValue({
+        fullName: user?.fullName,
+        username: user?.username,
+        email: user?.email,
+      });
+      setProfilePicture(user?.profilePicture);
+    }
+  }, [user]);
   return (
     <Wrapper>
       <Form form={form} onSubmit={onSubmit}>
@@ -148,7 +136,7 @@ const EditUserModal = ({ user, handleSuccessEditModal, onClose }) => {
           </div>
         </div>
 
-        <Button rounded md btntype="primary" loader={isLoading} width="170" htmlType="submit" onClick={onClose}>
+        <Button rounded md btntype="primary" loader={isLoading} width="170" htmlType="submit">
           Save Changes
         </Button>
       </Form>

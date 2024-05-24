@@ -33,6 +33,7 @@ import SellerPropertiesModal from '../SellerPropertiesModal';
 import EditUser from '../EditUser';
 import Toast from '@/components/molecules/Toast';
 import CompanySellerKycRequest from '../CompanySellerKycRequest';
+import Tooltip from '@/components/atoms/Tooltip';
 
 const ManageUserTable = () => {
   const { fetch, refetch } = useContextHook(AuthContext, v => ({
@@ -94,7 +95,7 @@ const ManageUserTable = () => {
     }
   };
 
-  const actionBtns = user => {
+  const actionSellerBtns = user => {
     if (!user.isVerified) {
       return (
         <ActionBtnList>
@@ -145,7 +146,7 @@ const ManageUserTable = () => {
               )}
             />
           </li>
-          {user.type === 'Company Seller' ? (
+          {!user.isIndividualSeller ? (
             <li>
               <ModalContainer
                 lg
@@ -169,8 +170,13 @@ const ManageUserTable = () => {
                     </svg>
                   </button>
                 )}
-                content={({ onClose, user }) => (
-                  <CompanySellerKycRequest flexWrap setkycApproved={setkycApproved} setkycDecline={setkycDecline} />
+                content={({ onClose }) => (
+                  <CompanySellerKycRequest
+                    user={user}
+                    flexWrap
+                    setkycApproved={setkycApproved}
+                    setkycDecline={setkycDecline}
+                  />
                 )}
               />
             </li>
@@ -199,7 +205,7 @@ const ManageUserTable = () => {
                   </button>
                 )}
                 content={({ onClose }) => (
-                  <SellerKycRequest setkycApproved={setkycApproved} setkycDecline={setkycDecline} />
+                  <SellerKycRequest user={user} setkycApproved={setkycApproved} setkycDecline={setkycDecline} />
                 )}
               />
             </li>
@@ -213,7 +219,9 @@ const ManageUserTable = () => {
                   <MdModeEditOutline color="rgba(64, 143, 140, 1)" size={16} />
                 </button>
               )}
-              content={({ onClose }) => <EditUser onClose={onClose} />}
+              content={({ onClose }) => (
+                <EditUser user={user} setSuccessUpdatedModal={setSuccessUpdatedModal} onClose={onClose} />
+              )}
             />
           </li>
 
@@ -233,9 +241,6 @@ const ManageUserTable = () => {
           <li>
             <Button
               onClick={() => {
-                console.log('Hello');
-                // setType('Approve');
-                // setUserToApprove(user?._id);
                 handleConfirmActivate(user?._id, 'Approve');
               }}
               variant="success"
@@ -267,9 +272,13 @@ const ManageUserTable = () => {
               width={1000}
               title={`${user?.fullName} Detail`}
               btnComponent={({ onClick }) => (
-                <button type="button" className="btn file" onClick={onClick}>
-                  <Image src={detailIcon} alt="detailIcon" height={18} width={18} />
-                </button>
+                <>
+                  {/* <Tooltip title="View Detail" type="dark"> */}
+                  <button type="button" className="btn file" onClick={onClick}>
+                    <Image src={detailIcon} alt="detailIcon" height={18} width={18} />
+                  </button>
+                  {/* </Tooltip> */}
+                </>
               )}
               content={({ onClose }) => (
                 <UserDetailModal
@@ -354,12 +363,12 @@ const ManageUserTable = () => {
         </div>
         {user.fullName || '------------'}
       </div>,
-      user?.type || '------------',
+      user?.isIndividualSeller ? 'Individual Seller' : 'Compnay Seller',
       user?.totalProducts ?? '------------',
       user?.total_assets_amount || '------------',
       user?.wallet_balance || '------------',
       user?.kycLevel ?? '------------',
-      actionBtns(user),
+      actionSellerBtns(user),
     ]),
     totalCounts: user_data?.totalItems,
   }));

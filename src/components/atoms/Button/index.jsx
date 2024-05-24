@@ -14,6 +14,7 @@ const Button = ({
   block,
   custom,
   xsCustom,
+  type,
   ...rest
 }) => (
   <StyledButton
@@ -26,6 +27,7 @@ const Button = ({
     $gap={gap}
     $width={width}
     $custom={custom}
+    type={type}
     disabled={disable || loader}
     {...rest}>
     {loader ? <span className="loader" /> : children}
