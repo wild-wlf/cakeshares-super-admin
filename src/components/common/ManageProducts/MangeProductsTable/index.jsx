@@ -247,7 +247,7 @@ const MangeProductsTable = () => {
         <CreateNewProduct handleCreateProduct={handleCreateProduct} setCreateProductData={setCreateProductData} />
       </CenterModal>
       <CenterModal open={editProduct} setOpen={setEditProduct} title="Edit Product" width="900">
-        <EditProductModal createProductData={createProductData} />
+        <EditProductModal createProductData={createProductData} setEditProduct={setEditProduct} />
       </CenterModal>
       <TableContainer>
         <Image src={TableStyle} className="tableStyle" alt="tableCurve" />

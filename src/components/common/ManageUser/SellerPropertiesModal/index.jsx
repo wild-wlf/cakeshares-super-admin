@@ -6,7 +6,7 @@ import { TableContainer } from '@/components/atoms/PermissionsTable/PermissionsT
 import userService from '@/services/userService';
 import TableStyle from '../../../../../public/assets/table-style.jpg';
 
-const PropertiesProductsModal = () => {
+const SellerPropertiesModal = () => {
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
     itemsPerPage: 10,
@@ -20,40 +20,52 @@ const PropertiesProductsModal = () => {
   const productsData = [
     {
       product_name: 'Gov. Egypt Property',
-      total_shares: '10',
-      amount: '$40,256.000',
+      status: 'active',
+      backers_limit: 10,
+      total_assets: '$40,256.000',
     },
     {
       product_name: 'Gov. Egypt Property',
-      total_shares: '10',
-      amount: '$40,256.000',
+      status: 'active',
+      backers_limit: 10,
+      total_assets: '$40,256.000',
     },
     {
       product_name: 'Gov. Egypt Property',
-      total_shares: '10',
-      amount: '$40,256.000',
+      status: 'active',
+      backers_limit: 10,
+      total_assets: '$40,256.000',
     },
     {
       product_name: 'Gov. Egypt Property',
-      total_shares: '10',
-      amount: '$40,256.000',
+      status: 'active',
+      backers_limit: 10,
+      total_assets: '$40,256.000',
     },
     {
       product_name: 'Gov. Egypt Property',
-      total_shares: '10',
-      amount: '$40,256.000',
+      status: 'active',
+      backers_limit: 10,
+      total_assets: '$40,256.000',
+    },
+    {
+      product_name: 'Gov. Egypt Property',
+      status: 'active',
+      backers_limit: 10,
+      total_assets: '$40,256.000',
     },
   ];
 
   const { product_rows, totalCount } = useMemo(() => ({
     product_rows: productsData?.map(user => [
       user?.product_name || '------------',
-      user?.total_shares || '------------',
-      user?.amount || '------------',
+      user?.status || '------------',
+      user?.backers_limit || '------------',
+      user?.total_assets || '------------',
     ]),
     totalCount: productsData?.totalItems,
   }));
-  const buyerColumns = [`Product`, `Total Shares`, `Amount`];
+  const buyerColumns = [`Product`, `Status`, `Backers Limit`, `Total Assets Value`];
   return (
     <TableContainer>
       <TableLayout
@@ -74,4 +86,4 @@ const PropertiesProductsModal = () => {
   );
 };
 
-export default PropertiesProductsModal;
+export default SellerPropertiesModal;

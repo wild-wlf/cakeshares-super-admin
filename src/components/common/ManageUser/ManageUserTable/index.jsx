@@ -27,6 +27,10 @@ import KycRequest from '../KycRequest';
 import AddMoney from '../AddMoney';
 import PropertiesProductsModal from '../PropertiesProductsModal';
 import DeclineModal from '../../DeclineModal';
+import SellerDetailModal from '../SellerDetailModal';
+import SellerKycRequest from '../SellerKycRequest';
+import SellerPropertiesModal from '../SellerPropertiesModal';
+import EditUser from '../EditUser';
 
 const ManageUserTable = () => {
   const { fetch } = useContextHook(AuthContext, v => ({
@@ -44,6 +48,7 @@ const ManageUserTable = () => {
   const [kycDecline, setkycDecline] = useState(false);
   const [userDetail, setUserDetail] = useState(false);
   const [propertiesProductModal, setPropertiesProductModal] = useState(false);
+  const [sellerPropertiesModal, setSellerPropertiesModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
     itemsPerPage: 10,
@@ -100,7 +105,7 @@ const ManageUserTable = () => {
                 </button>
               )}
               content={({ onClose }) => (
-                <UserDetailModal setPropertiesProductModal={setPropertiesProductModal} setMoneyAdded={setMoneyAdded} />
+                <SellerDetailModal setSellerPropertiesModal={setSellerPropertiesModal} setMoneyAdded={setMoneyAdded} />
               )}
             />
           </li>
@@ -127,19 +132,22 @@ const ManageUserTable = () => {
                   </svg>
                 </button>
               )}
-              content={({ onClose }) => <KycRequest setkycApproved={setkycApproved} setkycDecline={setkycDecline} />}
+              content={({ onClose }) => (
+                <SellerKycRequest setkycApproved={setkycApproved} setkycDecline={setkycDecline} />
+              )}
             />
           </li>
           <li>
-            <button
-              type="button"
-              className="btn edit"
-              onClick={() => {
-                setUserData(user);
-                setEditModal(true);
-              }}>
-              <MdModeEditOutline color="rgba(64, 143, 140, 1)" size={16} />
-            </button>
+            <ModalContainer
+              width={800}
+              title="Edit User"
+              btnComponent={({ onClick }) => (
+                <button type="button" className="btn edit" onClick={onClick}>
+                  <MdModeEditOutline color="rgba(64, 143, 140, 1)" size={16} />
+                </button>
+              )}
+              content={({ onClose }) => <EditUser onClose={onClose} />}
+            />
           </li>
 
           <li>
@@ -332,6 +340,13 @@ const ManageUserTable = () => {
         title="Alex Mertiz Detail"
         width="900">
         <PropertiesProductsModal />
+      </CenterModal>
+      <CenterModal
+        open={sellerPropertiesModal}
+        setOpen={setSellerPropertiesModal}
+        title="Alex Mertiz Detail"
+        width="900">
+        <SellerPropertiesModal />
       </CenterModal>
       {/* Properties Products Modal */}
       <CenterModal

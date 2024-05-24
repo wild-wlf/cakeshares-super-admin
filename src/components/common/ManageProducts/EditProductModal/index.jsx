@@ -7,7 +7,7 @@ import UploadFile from '@/components/molecules/UploadFile';
 import Form, { useForm } from '@/components/molecules/Form';
 import { StyledCreateNewProduct } from '../CreateNewProduct/CreateNewProduct.styles';
 
-const EditProductModal = ({ createProductData }) => {
+const EditProductModal = ({ createProductData, setEditProduct }) => {
   const [form] = useForm();
   const handleSubmit = e => {
     console.log('e', e);
@@ -380,8 +380,8 @@ const EditProductModal = ({ createProductData }) => {
             <Field />
           </Form.Item>
         </div>
-        <Button type="primary" width="150px" rounded htmlType="submit">
-          Create Product
+        <Button width="150px" rounded type="submit" onClick={() => setEditProduct(false)}>
+          Save Changes
         </Button>
       </Form>
     </StyledCreateNewProduct>
