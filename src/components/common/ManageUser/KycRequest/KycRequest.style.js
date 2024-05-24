@@ -27,8 +27,9 @@ export const StyledKycRequest = styled.div`
     padding: 20px;
     margin-bottom: 15px;
     @media (min-width: 992px) {
-      flex-wrap: nowrap;
+      flex-wrap: ${({ $flexWrap }) => ($flexWrap ? 'wrap' : 'nowrap')};
       justify-content: space-between;
+      gap: 10px;
       padding: 30px 25px;
     }
 
