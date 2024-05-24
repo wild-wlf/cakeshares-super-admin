@@ -27,32 +27,32 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
     setInheritances([...inheritances, { name: '', passportNumber: '', country: '' }]);
   };
 
-  function handelChange(value = 'PK') {
-    const newArr = arr.map((elem, index) => ({
-      ...elem,
-      label: (
-        <div key={index} className="countrySelect">
-          <figure>
-            <Image
-              src={`https://flagsapi.com/${elem.value}/shiny/48.png`}
-              width={48}
-              height={48}
-              alt={`Flag of ${elem.value}`}
-            />
-          </figure>
-          {elem.label}
-        </div>
-      ),
-    }));
-    setArr(newArr);
-  }
+  // function handelChange(value = 'PK') {
+  //   const newArr = arr.map((elem, index) => ({
+  //     ...elem,
+  //     label: (
+  //       <div key={index} className="countrySelect">
+  //         <figure>
+  //           <Image
+  //             src={`https://flagsapi.com/${elem.value}/shiny/48.png`}
+  //             width={48}
+  //             height={48}
+  //             alt={`Flag of ${elem.value}`}
+  //           />
+  //         </figure>
+  //         {elem.label}
+  //       </div>
+  //     ),
+  //   }));
+  //   setArr(newArr);
+  // }
 
   const onSubmit = async data => {
     const { country, bankName, iban, swiftBicNumber, userId, ...restData } = data;
 
     const payload = {
       ...restData,
-      country: country?.label,
+      country: country?.value,
       profilePicture,
       bankInfo: {
         _id: user?.bank?._id,
@@ -91,9 +91,9 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
   };
 
   useEffect(() => {
-    handelChange();
+    // handelChange();
     if (user && Object.keys(user)?.length > 0) {
-      const country = countries.find(ele => ele.label === user?.country);
+      const country = countries.find(ele => ele.value === user?.country);
       form.setFieldsValue({
         fullName: user?.fullName,
         username: user?.username,

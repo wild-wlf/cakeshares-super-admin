@@ -9,23 +9,25 @@ import bazarIcon from '../../../../../public/assets/bazar-icon.svg';
 import vehicleIcon from '../../../../../public/assets/vehicle-icon.svg';
 import AddMoney from '../AddMoney';
 import ModalContainer from '@/components/molecules/ModalContainer';
+import { format } from 'date-fns';
 
-const UserDetailModal = ({ setPropertiesProductModal, setMoneyAdded }) => {
-  const infoData = {
-    fullName: 'Alex Mertiz',
-    userName: 'alex123',
-    email: 'alex123@gmail.com',
-    country: 'Turkey',
-    birthDate: '03/05/2024',
-    countryFlag: 'TR',
-    countryName: 'Turkey',
-  };
-  const BankInfoData = {
-    bankName: 'Bank of Americe',
-    IBAN: 'PK033310084246213',
-    bic_Number: 'PK033310084246213',
-    user_id: 33445554,
-  };
+const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded }) => {
+  console.log(user);
+  // const user = {
+  //   fullName: 'Alex Mertiz',
+  //   userName: 'alex123',
+  //   email: 'alex123@gmail.com',
+  //   country: 'Turkey',
+  //   birthDate: '03/05/2024',
+  //   countryFlag: 'TR',
+  //   countryName: 'Turkey',
+  // };
+  // const user?.bank? = {
+  //   bankName: 'Bank of Americe',
+  //   IBAN: 'PK033310084246213',
+  //   bic_Number: 'PK033310084246213',
+  //   user_id: 33445554,
+  // };
   const inheritanceData = {
     name: 'Logan Paulson',
     passport: '123467894562339',
@@ -37,52 +39,53 @@ const UserDetailModal = ({ setPropertiesProductModal, setMoneyAdded }) => {
       <div className="product-info">
         <div className="col">
           <span className="heading">Full Name:</span>
-          <span className="text">{infoData.fullName}</span>
+          <span className="text">{user.fullName}</span>
         </div>
         <div className="col">
           <span className="heading">Username:</span>
-          <span className="text">{infoData.userName}</span>
+          <span className="text">{user.username}</span>
         </div>
         <div className="col">
           <span className="heading">Emial Address:</span>
-          <span className="text">{infoData.email}</span>
+          <span className="text">{user.email}</span>
         </div>
         <div className="col">
           <span className="heading">Country:</span>
           <div className="flag-holder">
             <figure className="img-holder">
               <Image
-                src={`https://countryflagsapi.netlify.app/flag/${infoData.countryFlag}.svg`}
+                // src={`https://countryflagsapi.netlify.app/flag/${user.countryFlag}.svg`}
+                src={`https://countryflagsapi.netlify.app/flag/AL.svg`}
                 width={64}
                 height={64}
                 alt={`Flag of PK`}
               />
             </figure>
-            <span className="text">{infoData.countryName}</span>
+            <span className="text">{user.countryName}</span>
           </div>
         </div>
         <div className="col">
           <span className="heading">Birthdate (D.O.B):</span>
-          <span className="text">{infoData.birthDate}</span>
+          <span className="text">{format(user?.dob, 'yyyy-MM-dd')}</span>
         </div>
       </div>
       <span className="heading">Bank Info:</span>
       <div className="product-info">
         <div className="col">
-          <span className="heading">Full Name:</span>
-          <span className="text">{BankInfoData.bankName}</span>
+          <span className="heading">Bank Name:</span>
+          <span className="text">{user?.bank?.bankName || ''}</span>
         </div>
         <div className="col">
-          <span className="heading">Username:</span>
-          <span className="text">{BankInfoData.IBAN}</span>
+          <span className="heading">IBAN:</span>
+          <span className="text">{user?.bank?.iban || ''}</span>
         </div>
         <div className="col">
-          <span className="heading">Emial Address:</span>
-          <span className="text">{BankInfoData.bic_Number}</span>
+          <span className="heading">Swift/BIC Number:</span>
+          <span className="text">{user?.bank?.swiftBicNumber || ''}</span>
         </div>
         <div className="col">
-          <span className="heading">Birthdate (D.O.B):</span>
-          <span className="text">{BankInfoData.user_id}</span>
+          <span className="heading">User ID:</span>
+          <span className="text">{user?.bank?.userId}</span>
         </div>
       </div>
       <div className="col-holder">
@@ -130,20 +133,26 @@ const UserDetailModal = ({ setPropertiesProductModal, setMoneyAdded }) => {
         </div>
       </div>
       <span className="heading">Inheritance Info:</span>
-      <div className="product-info">
-        <div className="col">
-          <span className="heading">Name of Person:</span>
-          <span className="text">{inheritanceData.name}</span>
-        </div>
-        <div className="col">
-          <span className="heading">Passport Number:</span>
-          <span className="text">{inheritanceData.passport}</span>
-        </div>
-        <div className="col">
-          <span className="heading">Country of Residence:</span>
-          <span className="text">{inheritanceData.country}</span>
-        </div>
-      </div>
+      {user?.inheritances &&
+        user?.inheritances?.length > 0 &&
+        user?.inheritances?.map((ele, index) => {
+          return (
+            <div key={index} className="product-info">
+              <div className="col">
+                <span className="heading">Name of Person:</span>
+                <span className="text">{ele.name}</span>
+              </div>
+              <div className="col">
+                <span className="heading">Passport Number:</span>
+                <span className="text">{ele.passportNumber}</span>
+              </div>
+              <div className="col">
+                <span className="heading">Country of Residence:</span>
+                <span className="text">{ele.country}</span>
+              </div>
+            </div>
+          );
+        })}
       <span className="heading">Assets Categories Info:</span>
       <div className="product-info inheritance-info">
         <div className="col" onClick={() => setPropertiesProductModal(true)}>
