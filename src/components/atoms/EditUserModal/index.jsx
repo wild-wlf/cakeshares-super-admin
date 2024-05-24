@@ -93,7 +93,7 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
   useEffect(() => {
     // handelChange();
     if (user && Object.keys(user)?.length > 0) {
-      const country = countries.find(ele => ele.label === user?.country);
+      const country = countries.find(ele => ele.value === user?.country);
       form.setFieldsValue({
         fullName: user?.fullName,
         username: user?.username,
