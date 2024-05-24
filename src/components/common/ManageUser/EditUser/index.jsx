@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { countries } from '@/components/Constant';
 import UploadImg from '@/components/molecules/UploadImg';
 import Field from '@/components/molecules/Field';
-import { format } from 'date-fns';
 import userService from '@/services/userService';
 import Toast from '@/components/molecules/Toast';
 import { AuthContext } from '@/context/authContext';
@@ -19,12 +18,7 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
   const [form] = useForm();
   const [arr, setArr] = useState(countries);
   const [isLoading, setIsLoading] = useState(false);
-  const [inheritances, setInheritances] = useState([{ name: '', passportNumber: '', country: '' }]);
   const [profilePicture, setProfilePicture] = useState();
-
-  const addInheritance = () => {
-    setInheritances([...inheritances, { name: '', passportNumber: '', country: '' }]);
-  };
 
   function handelChange(value = 'PK') {
     const newArr = arr.map((elem, index) => ({
@@ -97,12 +91,6 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
         fullName: user?.fullName,
         username: user?.username,
         email: user?.email,
-        country: country || { value: '', label: '' },
-        dob: format(user?.dob, 'yyyy-MM-dd'),
-        bankName: user?.bank?.bankName,
-        iban: user?.bank?.iban,
-        swiftBicNumber: user?.bank?.swiftBicNumber,
-        userId: user?.bank?.userId,
       });
       setProfilePicture(user?.profilePicture);
       setInheritances(
@@ -115,7 +103,6 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
       <Form form={form} onSubmit={onSubmit}>
         <div className="personal-info">
           <h5>Personal Info:</h5>
-
           <div>
             <UploadImg img={user?.profilePicture} onChange={e => setProfilePicture(e)} />
             <div className="input-div">
@@ -162,7 +149,7 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
                 <Field />
               </Form.Item>
             </div>
-            <div className="input-div">
+            <div className="input-div email-input ">
               <Form.Item
                 type="text"
                 label="Email Address"

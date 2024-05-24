@@ -29,6 +29,10 @@ export const Wrapper = styled.div`
     display: flex;
     gap: 26px;
   }
+  .email-input {
+    width: 50%;
+    margin-bottom: 20px;
+  }
   .DOB-div {
     width: 48%;
   }
