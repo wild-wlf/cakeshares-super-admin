@@ -11,7 +11,7 @@ import { useContextHook } from 'use-context-hook';
 import Button from '@/components/atoms/Button';
 import { Wrapper } from '@/components/atoms/EditUserModal/EditUserModal.style';
 
-const EditUserModal = ({ user, handleSuccessEditModal }) => {
+const EditUserModal = ({ user, handleSuccessEditModal, onClose }) => {
   const { refetch } = useContextHook(AuthContext, v => ({
     refetch: v.refetch,
   }));
@@ -20,84 +20,59 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [profilePicture, setProfilePicture] = useState();
 
-  function handelChange(value = 'PK') {
-    const newArr = arr.map((elem, index) => ({
-      ...elem,
-      label: (
-        <div key={index} className="countrySelect">
-          <figure>
-            <Image
-              src={`https://flagsapi.com/${elem.value}/shiny/48.png`}
-              width={48}
-              height={48}
-              alt={`Flag of ${elem.value}`}
-            />
-          </figure>
-          {elem.label}
-        </div>
-      ),
-    }));
-    setArr(newArr);
-  }
-
   const onSubmit = async data => {
     const { country, bankName, iban, swiftBicNumber, userId, ...restData } = data;
 
-    const payload = {
-      ...restData,
-      country: country?.label,
-      profilePicture,
-      bankInfo: {
-        _id: user?.bank?._id,
-        bankName,
-        iban,
-        swiftBicNumber,
-        userId,
-      },
-      inheritanceInfo: inheritances,
-    };
+    // const payload = {
+    //   ...restData,
+    //   country: country?.label,
+    //   profilePicture,
+    //   bankInfo: {
+    //     _id: user?.bank?._id,
+    //     bankName,
+    //     iban,
+    //     swiftBicNumber,
+    //     userId,
+    //   },
+    //   inheritanceInfo: inheritances,
+    // };
 
-    const formDataToSend = new FormData();
-    Object.keys(payload).forEach(key => {
-      if (
-        key === 'bankInfo' ||
-        (key === 'inheritanceInfo' && (Array.isArray(payload[key]) || typeof payload[key] === 'object'))
-      ) {
-        formDataToSend.append(key, JSON.stringify(payload[key]));
-      } else {
-        formDataToSend.append(key, payload[key]);
-      }
-    });
-    try {
-      setIsLoading(true);
-      await userService.updateUser(user?._id, formDataToSend);
-      handleSuccessEditModal();
-      refetch();
-    } catch ({ message }) {
-      Toast({
-        type: 'error',
-        message,
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    // const formDataToSend = new FormData();
+    // Object.keys(payload).forEach(key => {
+    //   if (
+    //     key === 'bankInfo' ||
+    //     (key === 'inheritanceInfo' && (Array.isArray(payload[key]) || typeof payload[key] === 'object'))
+    //   ) {
+    //     formDataToSend.append(key, JSON.stringify(payload[key]));
+    //   } else {
+    //     formDataToSend.append(key, payload[key]);
+    //   }
+    // });
+    // try {
+    //   setIsLoading(true);
+    //   await userService.updateUser(user?._id, formDataToSend);
+    //   handleSuccessEditModal();
+    //   refetch();
+    // } catch ({ message }) {
+    //   Toast({
+    //     type: 'error',
+    //     message,
+    //   });
+    // } finally {
+    //   setIsLoading(false);
+    // }
   };
 
-  useEffect(() => {
-    handelChange();
-    if (user && Object.keys(user)?.length > 0) {
-      const country = countries.find(ele => ele.label === user?.country);
-      form.setFieldsValue({
-        fullName: user?.fullName,
-        username: user?.username,
-        email: user?.email,
-      });
-      setProfilePicture(user?.profilePicture);
-      setInheritances(
-        user?.inheritances?.length > 0 ? user?.inheritances : [{ name: '', passportNumber: '', country: '' }],
-      );
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user && Object.keys(user)?.length > 0) {
+  //     form.setFieldsValue({
+  //       fullName: user?.fullName,
+  //       username: user?.username,
+  //       email: user?.email,
+  //     });
+  //     setProfilePicture(user?.profilePicture);
+  //   }
+  // }, [user]);
   return (
     <Wrapper>
       <Form form={form} onSubmit={onSubmit}>
@@ -173,7 +148,7 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
           </div>
         </div>
 
-        <Button rounded md btntype="primary" loader={isLoading} width="170" htmlType="submit">
+        <Button rounded md btntype="primary" loader={isLoading} width="170" htmlType="submit" onClick={onClose}>
           Save Changes
         </Button>
       </Form>

@@ -6,10 +6,33 @@ import view from '../../../../../public/assets/view.svg';
 import downloadIcon from '../../../../../public/assets/downloadIcon.svg';
 import { StyledKycRequest } from '../KycRequest/KycRequest.style';
 
-const SellerKycRequest = ({ setkycApproved, setkycDecline }) => {
+const CompanySellerKycRequest = ({ setkycApproved, setkycDecline }) => {
   return (
-    <StyledKycRequest>
-      <strong className="title">Request for KYC Approval</strong>
+    <StyledKycRequest $flexWrap>
+      <strong className="title">Request for KYB Approval</strong>
+      <span className="wrapperTitle">Business Details Info:</span>
+      <div className="product-info">
+        <div className="col">
+          <span className="heading">Business Name:</span>
+          <span className="text">Bank of Americe</span>
+        </div>
+        <div className="col">
+          <span className="heading">Business Email</span>
+          <span className="text">info@fostoragency.com</span>
+        </div>
+        <div className="col">
+          <span className="heading">Owner Full Name:</span>
+          <span className="text">John Duo</span>
+        </div>
+        <div className="col">
+          <span className="heading">Owner Phone no:</span>
+          <span className="text">+1 123 456 789</span>
+        </div>
+        <div className="col">
+          <span className="heading">Tax no:</span>
+          <span className="text">123456789215246253</span>
+        </div>
+      </div>
       <span className="wrapperTitle">Bank Details Info:</span>
       <div className="product-info">
         <div className="col">
@@ -25,13 +48,13 @@ const SellerKycRequest = ({ setkycApproved, setkycDecline }) => {
           <span className="text">35402755003895</span>
         </div>
       </div>
-      <span className="wrapperTitle">Residence Proof Info:</span>
+      <span className="wrapperTitle">ID Proof Info:</span>
       <div className="product-info">
         <div className="uploadedDocDetail">
           <figure className="docType">
             <Image src={fileIcon} alt="fileIcon" />
           </figure>
-          <span>2023 - 2024 Bank Statement Statement Statement</span>
+          <span>Passport Image...jpeg</span>
         </div>
         <div className="actionButton">
           <div className="view">
@@ -42,13 +65,13 @@ const SellerKycRequest = ({ setkycApproved, setkycDecline }) => {
           </div>
         </div>
       </div>
-      <span className="wrapperTitle">ID Proof Info:</span>
+      <span className="wrapperTitle">Residence Proof Info:</span>
       <div className="product-info">
         <div className="uploadedDocDetail">
           <figure className="docType">
             <Image src={fileIcon} alt="fileIcon" />
           </figure>
-          <span>Passport Image...jpeg</span>
+          <span>2023 - 2024 Bank Statement....</span>
         </div>
         <div className="actionButton">
           <div className="view">
@@ -76,6 +99,23 @@ const SellerKycRequest = ({ setkycApproved, setkycDecline }) => {
           </div>
         </div>
       </div>
+      <span className="wrapperTitle">Comapany Documents Info:</span>
+      <div className="product-info">
+        <div className="uploadedDocDetail">
+          <figure className="docType">
+            <Image src={fileIcon} alt="fileIcon" />
+          </figure>
+          <span>company documnets....jpeg</span>
+        </div>
+        <div className="actionButton">
+          <div className="view">
+            <Image src={view} alt="view" />
+          </div>
+          <div className="download">
+            <Image src={downloadIcon} alt="downloadIcon" />
+          </div>
+        </div>
+      </div>
       <div className="btnWrap">
         <Button variant="danger" block onClick={() => setkycDecline(true)}>
           Decline
@@ -88,4 +128,4 @@ const SellerKycRequest = ({ setkycApproved, setkycDecline }) => {
   );
 };
 
-export default SellerKycRequest;
+export default CompanySellerKycRequest;
