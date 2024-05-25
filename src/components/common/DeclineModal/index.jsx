@@ -5,8 +5,9 @@ import userService from '@/services/userService';
 import { AuthContext } from '@/context/authContext';
 import { useContextHook } from 'use-context-hook';
 import Toast from '@/components/molecules/Toast';
+import productService from '@/services/productService';
 
-const DeclineModal = ({ onClose, userId, title = 'Decline Request!', btnText = 'Yes, Decline' }) => {
+const DeclineModal = ({ type, onClose, id, title = 'Decline Request!', btnText = 'Yes, Decline' }) => {
   const { refetch } = useContextHook(AuthContext, v => ({
     refetch: v.refetch,
   }));
@@ -14,12 +15,16 @@ const DeclineModal = ({ onClose, userId, title = 'Decline Request!', btnText = '
   const onDeclineUser = async () => {
     try {
       setIsLoading(true);
-      await userService.deleteUser(userId);
+      if (type === 'Product') {
+        await productService.deleteProduct(id);
+      } else {
+        await userService.deleteUser(id);
+      }
       Toast({
         type: 'success',
-        message: 'User Declined Successfully!',
+        message: `${type} Declined Successfully!`,
       });
-      onClose();
+      type !== 'Product' ? onClose() : null;
       refetch();
     } catch ({ message }) {
       Toast({

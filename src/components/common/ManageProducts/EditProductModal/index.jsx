@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Field from '@/components/molecules/Field';
 import Select from '@/components/atoms/Select';
 import Button from '@/components/atoms/Button';
@@ -6,31 +6,46 @@ import { IoAdd } from 'react-icons/io5';
 import UploadFile from '@/components/molecules/UploadFile';
 import Form, { useForm } from '@/components/molecules/Form';
 import { StyledCreateNewProduct } from '../CreateNewProduct/CreateNewProduct.styles';
+import { format } from 'date-fns';
 
-const EditProductModal = ({ createProductData, setEditProduct }) => {
+const EditProductModal = ({ product, createProductData, setEditProduct }) => {
   const [form] = useForm();
+  const [media, setMedia] = useState([]);
+  const [amenities, setAmenities] = useState([]);
   const handleSubmit = e => {
     console.log('e', e);
   };
+  const kycOptions = [
+    { label: 'Level 0', value: '0' },
+    { label: 'Level 1', value: '1' },
+    { label: 'Level 2', value: '2' },
+  ];
+
+  const addAmenity = () => {
+    setAmenities([...amenities, '']);
+  };
+
   useEffect(() => {
     form.setFieldsValue({
-      productName: createProductData.productName,
-      investmentType: createProductData.investmentType,
-      address: createProductData.address,
-      deadline: createProductData.deadline,
-      kycLevel: createProductData.kycLevel,
-      productDescription: createProductData.productDescription,
-      media1: createProductData.media1,
-      whyInvest: createProductData.whyInvest,
+      productName: product?.productName,
+      investmentType: product?.investmentType,
+      address: product?.address,
+      deadline: format(product?.deadline, 'yyyy-MM-dd'),
+      kycLevel: kycOptions.find(ele => ele.value === product.kycLevel.toString()),
+      productDescription: product.description,
+      whyInvest: product.investmentReason,
+      media1: product.investmentReason,
       amentity1: createProductData.amentity1,
       amentity1: createProductData.amentity2,
       amentity3: createProductData.amentity3,
-      minBackers: createProductData.minBackers,
-      maxBackers: createProductData.maxBackers,
-      assetValue: createProductData.assetValue,
-      minInvestment: createProductData.minInvestment,
+      minBackers: product.minimumBackers,
+      maxBackers: product.maximumBackers,
+      assetValue: product.assetValue,
+      minInvestment: product.minimumInvestment,
     });
-  }, []);
+    setMedia(product?.media);
+    setAmenities(product?.amenities);
+  }, [product]);
 
   return (
     <StyledCreateNewProduct>
@@ -123,13 +138,7 @@ const EditProductModal = ({ createProductData, setEditProduct }) => {
                 message: 'Please enter KYC Level',
               },
             ]}>
-            <Select
-              options={[
-                { label: 'Level 0', value: 'level0' },
-                { label: 'Level 1', value: 'level1' },
-                { label: 'Level 2', value: 'level2' },
-              ]}
-            />
+            <Select options={kycOptions} />
           </Form.Item>
         </div>
         <div className="product-description">
@@ -247,58 +256,46 @@ const EditProductModal = ({ createProductData, setEditProduct }) => {
           <span className="heading">Amenities</span>
           <div className="add-amenities">
             <span>You can add up to 10 amenities only!</span>
-            <div className="add-more">
+            <div onClick={addAmenity} className="add-more">
               <IoAdd />
               <span>Add more</span>
             </div>
           </div>
           <div className="amenities">
-            <Form.Item
-              type="text"
-              name="amentity1"
-              sm
-              rounded
-              placeholder="Enter text"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please enter Amentity',
-                },
-                {
-                  pattern: /^.{0,40}$/,
-                  message: 'Please enter a valid Amentity',
-                },
-              ]}>
-              <Field noMargin />
-            </Form.Item>
-            <Form.Item
-              type="text"
-              name="amentity2"
-              sm
-              rounded
-              placeholder="Enter text"
-              rules={[
-                {
-                  pattern: /^.{0,40}$/,
-                  message: 'Please enter a valid Amentity',
-                },
-              ]}>
-              <Field noMargin />
-            </Form.Item>
-            <Form.Item
-              type="text"
-              name="amentity3"
-              sm
-              rounded
-              placeholder="Enter text"
-              rules={[
-                {
-                  pattern: /^.{0,40}$/,
-                  message: 'Please enter a valid Amentity',
-                },
-              ]}>
-              <Field noMargin />
-            </Form.Item>
+            {amenities &&
+              amenities.length > 0 &&
+              amenities.map((amenity, index) => (
+                <Form.Item
+                  key={index}
+                  type="text"
+                  name={`amenity${index}`}
+                  sm
+                  rounded
+                  value={amenity}
+                  placeholder="Enter text"
+                  onChange={e => {
+                    form.setFieldsValue({
+                      [`amenity${index}`]: e.target.value,
+                    });
+                    setAmenities(prev => {
+                      const updatedAmenities = [...prev];
+                      updatedAmenities[index] = e.target.value;
+                      return updatedAmenities;
+                    });
+                  }}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please enter Amentity',
+                    },
+                    {
+                      pattern: /^.{0,40}$/,
+                      message: 'Please enter a valid Amentity',
+                    },
+                  ]}>
+                  <Field noMargin />
+                </Form.Item>
+              ))}
           </div>
         </div>
         <span className="heading">Investment Info:</span>
