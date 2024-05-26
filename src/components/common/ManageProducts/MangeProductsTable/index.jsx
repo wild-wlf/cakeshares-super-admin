@@ -20,8 +20,7 @@ import ProductsDetailModal from '../ProductsDetailModal';
 import SuccessfulModal from '@/components/atoms/UserDeleteModal/SuccessfulModal';
 import successIcon from '../../../../../public/assets/successIcon.png';
 import CenterModal from '@/components/molecules/Modal/CenterModal';
-import CreateNewProduct from '../CreateNewProduct';
-import EditProductModal from '../EditProductModal';
+import ProductModal from '../ProductModal';
 
 const MangeProductsTable = () => {
   const { fetch } = useContextHook(AuthContext, v => ({
@@ -32,7 +31,7 @@ const MangeProductsTable = () => {
   const [successModal, setSuccessModal] = useState(false);
   const [createProduct, setCreateProduct] = useState(false);
   const [createProductSuccessModal, setCreateProductSuccessModal] = useState(false);
-  const [editProduct, setEditProduct] = useState(false);
+  const [productModal, setProductModal] = useState(false);
   const [createProductData, setCreateProductData] = useState({});
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
@@ -71,7 +70,7 @@ const MangeProductsTable = () => {
                 setProduct={setProduct}
                 onClose={onClose}
                 setSuccessModal={setSuccessModal}
-                setEditProduct={setEditProduct}
+                setProductModal={setProductModal}
                 accountType={user.account_type}
               />
             )}
@@ -157,21 +156,29 @@ const MangeProductsTable = () => {
         width="543">
         <SuccessfulModal title="Product Created Successfully!" />
       </CenterModal>
-      <CenterModal open={createProduct} setOpen={setCreateProduct} title="Create new Product" width="900">
+      {/* <CenterModal open={createProduct} setOpen={setCreateProduct} title="Create new Product" width="900">
         <CreateNewProduct handleCreateProduct={handleCreateProduct} setCreateProductData={setCreateProductData} />
-      </CenterModal>
-      <CenterModal open={editProduct} setOpen={setEditProduct} title="Edit Product" width="900">
-        <EditProductModal product={product} createProductData={createProductData} setEditProduct={setEditProduct} />
+      </CenterModal> */}
+      <CenterModal open={productModal} setOpen={setProductModal} title="Edit Product" width="900">
+        <ProductModal
+          product={product}
+          setCreateProductSuccessModal={setCreateProductSuccessModal}
+          setProductModal={setProductModal}
+        />
       </CenterModal>
       <TableContainer>
         <Image src={TableStyle} className="tableStyle" alt="tableCurve" />
         <TableLayout
           manageProductsTabs
+          openProductModal={setProductModal}
           btnWidth="40px"
           btnText={tab === 2 && 'Create New Product'}
           btnType={tab === 2 && 'success'}
           iconImg={CalenderIcon}
-          openModal={() => setCreateProduct(true)}
+          openModal={() => {
+            setProduct();
+            setProductModal(true);
+          }}
           placeholder="Search Investments"
           onChangeFilters={filters => {
             setSearchQuery(_ => ({

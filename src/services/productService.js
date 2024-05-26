@@ -97,6 +97,16 @@ const productService = {
     throw new Error(message ?? 'Something went wrong');
   },
 
+  async createProduct(payload) {
+    let res = await Fetch.upload(`${this._url}/create-product`, 'POST', payload);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    }
+    const { message } = await res.json();
+    throw new Error(message ?? 'Something Went Wrong');
+  },
+
   async updateProduct(id, payload) {
     let res = await Fetch.upload(`${this._url}/update-product/${id}`, 'PUT', payload);
     if (res.status >= 200 && res.status < 300) {

@@ -20,13 +20,14 @@ import Toast from '@/components/molecules/Toast';
 import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
 
-const ProductsDetailModal = ({ userId, setProduct, onClose, setSuccessModal, setEditProduct, accountType }) => {
+const ProductsDetailModal = ({ userId, setProduct, onClose, setSuccessModal, setProductModal, accountType }) => {
   const { fetch, refetch } = useContextHook(AuthContext, v => ({
     fetch: v.fetch,
     refetch: v.refetch,
   }));
   const [isLoading, setIsLoading] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [productToDelete, setProductToDelete] = useState();
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
     itemsPerPage: 10,
@@ -124,13 +125,19 @@ const ProductsDetailModal = ({ userId, setProduct, onClose, setSuccessModal, set
                   className="btn edit"
                   onClick={() => {
                     setProduct(product);
-                    setEditProduct(true);
+                    setProductModal(true);
                   }}>
                   <MdModeEditOutline color="rgba(64, 143, 140, 1)" size={16} />
                 </button>
               </li>
               <li>
-                <button type="button" className="btn delete" onClick={() => setDeleteModal(true)}>
+                <button
+                  type="button"
+                  className="btn delete"
+                  onClick={() => {
+                    setProductToDelete(product?._id);
+                    setDeleteModal(true);
+                  }}>
                   <Image src={DeleteIcon} alt="DeleteIcon" />
                 </button>
               </li>
@@ -161,6 +168,7 @@ const ProductsDetailModal = ({ userId, setProduct, onClose, setSuccessModal, set
         title={<Image src={modalInfoIcon} alt="InfoIcon" />}
         width="543">
         <DeleteModal
+          id={productToDelete}
           title="Delete Product!"
           text="Are you sure you want to delete this Product?"
           closeDeleteModal={() => setDeleteModal(false)}
