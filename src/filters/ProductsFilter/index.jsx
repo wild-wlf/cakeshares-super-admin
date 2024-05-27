@@ -248,7 +248,7 @@ function ProductsFilter({
               <Select
                 placeholder="Select Account Type"
                 onChange={({ target: { value } }) => {
-                  onChangeFilters({ kycLevel: value?.value });
+                  onChangeFilters({ status: value?.value });
                 }}
                 options={productStatusData}
               />
