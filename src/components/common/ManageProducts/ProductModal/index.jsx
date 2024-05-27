@@ -1,55 +1,141 @@
 import React, { useState, useEffect } from 'react';
 import Field from '@/components/molecules/Field';
 import Select from '@/components/atoms/Select';
-import Button from '@/components/atoms/Button';
 import { IoAdd } from 'react-icons/io5';
 import UploadFile from '@/components/molecules/UploadFile';
 import Form, { useForm } from '@/components/molecules/Form';
 import { StyledCreateNewProduct } from '../CreateNewProduct/CreateNewProduct.styles';
 import { format } from 'date-fns';
+import Toast from '@/components/molecules/Toast';
+import productService from '@/services/productService';
+import Button from '@/components/atoms/Button';
+import { useContextHook } from 'use-context-hook';
+import { AuthContext } from '@/context/authContext';
 
-const EditProductModal = ({ product, createProductData, setEditProduct }) => {
+const EditProductModal = ({ product, setCreateProductSuccessModal, setProductModal }) => {
+  const { user, refetch } = useContextHook(AuthContext, v => ({
+    user: v.user,
+    refetch: v.refetch,
+  }));
   const [form] = useForm();
+  const [isLoading, setIsLoading] = useState(false);
   const [media, setMedia] = useState([]);
-  const [amenities, setAmenities] = useState([]);
-  const handleSubmit = e => {
-    console.log('e', e);
-  };
+  const [amenities, setAmenities] = useState(['']);
+  const [images, setImages] = useState([]);
+
+  const investmentTypeOptions = [
+    { label: 'Properties', value: 'properties' },
+    { label: 'Vehicles', value: 'vehicles' },
+  ];
   const kycOptions = [
-    { label: 'Level 0', value: '0' },
-    { label: 'Level 1', value: '1' },
-    { label: 'Level 2', value: '2' },
+    { label: 'Level 0', value: 0 },
+    { label: 'Level 1', value: 1 },
+    { label: 'Level 2', value: 2 },
   ];
 
   const addAmenity = () => {
     setAmenities([...amenities, '']);
   };
 
-  useEffect(() => {
-    form.setFieldsValue({
-      productName: product?.productName,
-      investmentType: product?.investmentType,
-      address: product?.address,
-      deadline: format(product?.deadline, 'yyyy-MM-dd'),
-      kycLevel: kycOptions.find(ele => ele.value === product.kycLevel.toString()),
-      productDescription: product.description,
-      whyInvest: product.investmentReason,
-      media1: product.investmentReason,
-      amentity1: createProductData.amentity1,
-      amentity1: createProductData.amentity2,
-      amentity3: createProductData.amentity3,
-      minBackers: product.minimumBackers,
-      maxBackers: product.maximumBackers,
-      assetValue: product.assetValue,
-      minInvestment: product.minimumInvestment,
+  const handleFileChange = (e, index) => {
+    const file = e.target.file;
+    setImages(prev => {
+      const updatedImages = [...prev];
+      updatedImages[index] = file;
+      return updatedImages;
     });
-    setMedia(product?.media);
-    setAmenities(product?.amenities);
+  };
+
+  const onSubmit = async data => {
+    try {
+      setIsLoading(true);
+      const payload = {
+        ...data,
+        investmentType: data?.investmentType?.value,
+        kycLevel: data?.kycLevel.value,
+        amenities,
+        media,
+        ...(images?.length > 0 && { images }),
+      };
+
+      const formDataToSend = new FormData();
+
+      Object.keys(payload).forEach(key => {
+        if (key === 'images') {
+          payload.images.forEach((file, index) => {
+            formDataToSend.append(`images[${index}]`, file);
+          });
+        } else if (
+          key === 'media' ||
+          (key === 'amenities' && (Array.isArray(payload[key]) || typeof payload[key] === 'object'))
+        ) {
+          formDataToSend.append(key, JSON.stringify(payload[key]));
+        } else {
+          formDataToSend.append(key, payload[key]);
+        }
+      });
+
+      if (product) {
+        await productService.updateProduct(product?._id, formDataToSend);
+      } else {
+        formDataToSend.append('userId', user?._id);
+        await productService.createProduct(formDataToSend);
+      }
+      setProductModal(false);
+      if (product) {
+        Toast({
+          type: 'success',
+          message: 'Product Updated Successfully!',
+        });
+      } else {
+        setCreateProductSuccessModal(true);
+      }
+      refetch();
+    } catch ({ message }) {
+      Toast({
+        type: 'error',
+        message,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (product && Object.keys(product)?.length !== 0) {
+      form.setFieldsValue({
+        productName: product?.productName,
+        investmentType: investmentTypeOptions.find(ele => ele.value === product?.investmentType),
+        address: product?.address,
+        deadline: format(product?.deadline, 'yyyy-MM-dd'),
+        kycLevel: kycOptions.find(ele => ele.value === product.kycLevel),
+        description: product.description,
+        investmentReason: product.investmentReason,
+        minimumBackers: product.minimumBackers,
+        maximumBackers: product.maximumBackers,
+        assetValue: product.assetValue,
+        minimumInvestment: product.minimumInvestment,
+      });
+      setMedia(product?.media);
+      product?.media.map((field, index) => {
+        form.setFieldsValue({
+          [`media${index}`]: field,
+        });
+        return field;
+      });
+      setAmenities(product?.amenities);
+      product?.amenities.map((field, index) => {
+        form.setFieldsValue({
+          [`amenity${index}`]: field,
+        });
+        return field;
+      });
+    }
   }, [product]);
 
   return (
     <StyledCreateNewProduct>
-      <Form form={form} onSubmit={handleSubmit}>
+      <Form form={form} onSubmit={onSubmit}>
         <span className="heading">Product Info:</span>
         <div className="input-grid">
           <Form.Item
@@ -84,14 +170,8 @@ const EditProductModal = ({ product, createProductData, setEditProduct }) => {
                 message: 'Please enter Investment Type',
               },
             ]}>
-            <Select
-              options={[
-                { label: 'Properties', value: 'properties' },
-                { label: 'Vehicles', value: 'vehicles' },
-              ]}
-            />
+            <Select options={investmentTypeOptions} />
           </Form.Item>
-
           <Form.Item
             type="text"
             label="Address"
@@ -146,7 +226,7 @@ const EditProductModal = ({ product, createProductData, setEditProduct }) => {
             <Form.Item
               type="textarea"
               label="Product Description"
-              name="productDescription"
+              name="description"
               sm
               rounded
               placeholder="Enter Text"
@@ -167,7 +247,7 @@ const EditProductModal = ({ product, createProductData, setEditProduct }) => {
             <Form.Item
               type="textarea"
               label="Why Invest in it?"
-              name="whyInvest"
+              name="investmentReason"
               sm
               rounded
               placeholder="Enter Text"
@@ -187,80 +267,33 @@ const EditProductModal = ({ product, createProductData, setEditProduct }) => {
         </div>
         <span className="heading">Upload Media</span>
         <div className="upload-image">
-          <div className="upload">
-            <Form.Item
-              type="file"
-              name="media1"
-              sm
-              rounded
-              rules={[
-                {
-                  required: true,
-                  message: 'Please upload media',
-                },
-              ]}>
-              <UploadFile
-                id="firstImg"
-                name="firstImg"
-                bg
-                noMargin
-                disc="image should be up to 1mb only"
-                onChange={e => console.log(e)}
-              />
-            </Form.Item>
-          </div>
-          <div className="upload">
-            <Form.Item
-              type="file"
-              name="media2"
-              sm
-              rounded
-              rules={[
-                {
-                  // required: true,
-                  message: 'Please upload media',
-                },
-              ]}>
-              <UploadFile
-                id="SecondImg"
-                bg
-                noMargin
-                disc="image should be up to 1mb only"
-                onChange={e => console.log(e)}
-              />
-            </Form.Item>
-          </div>
-          <div className="upload">
-            <Form.Item
-              type="file"
-              name="media3"
-              sm
-              rounded
-              rules={[
-                {
-                  // required: true,
-                  message: 'Please upload media',
-                },
-              ]}>
-              <UploadFile
-                id="thirdImg"
-                bg
-                noMargin
-                disc="image should be up to 1mb only"
-                onChange={e => console.log(e)}
-              />
-            </Form.Item>
-          </div>
+          {Array.from({ length: 3 }).map((_, index) => {
+            return (
+              <div key={index} className="upload">
+                <UploadFile
+                  id={`media${index}`}
+                  name={`media${index}`}
+                  bg
+                  img={media[index]}
+                  noMargin
+                  disc="image should be up to 1mb only"
+                  onChange={e => handleFileChange(e, index)}
+                />
+              </div>
+            );
+          })}
         </div>
         <div className="add-amenities-holder">
           <span className="heading">Amenities</span>
-          <div className="add-amenities">
-            <span>You can add up to 10 amenities only!</span>
-            <div onClick={addAmenity} className="add-more">
-              <IoAdd />
-              <span>Add more</span>
+          {amenities && amenities?.length < 10 && (
+            <div className="add-amenities">
+              <span>You can add up to 10 amenities only!</span>
+              <div onClick={addAmenity} className="add-more">
+                <IoAdd />
+                <span>Add more</span>
+              </div>
             </div>
-          </div>
+          )}
           <div className="amenities">
             {amenities &&
               amenities.length > 0 &&
@@ -303,7 +336,7 @@ const EditProductModal = ({ product, createProductData, setEditProduct }) => {
           <Form.Item
             type="number"
             label="Minimum Backers"
-            name="minBackers"
+            name="minimumBackers"
             sm
             rounded
             placeholder="01"
@@ -322,7 +355,7 @@ const EditProductModal = ({ product, createProductData, setEditProduct }) => {
           <Form.Item
             type="number"
             label="Maximum Backers"
-            name="maxBackers"
+            name="maximumBackers"
             sm
             rounded
             placeholder="01"
@@ -360,7 +393,7 @@ const EditProductModal = ({ product, createProductData, setEditProduct }) => {
           <Form.Item
             type="number"
             label="Min Investment"
-            name="minInvestment"
+            name="minimumInvestment"
             sm
             rounded
             placeholder="10"
@@ -377,8 +410,8 @@ const EditProductModal = ({ product, createProductData, setEditProduct }) => {
             <Field />
           </Form.Item>
         </div>
-        <Button width="150px" rounded type="submit" onClick={() => setEditProduct(false)}>
-          Save Changes
+        <Button rounded md btntype="primary" loader={isLoading} width="170" htmlType="submit">
+          {!product ? 'Create Product' : 'Save Changes'}
         </Button>
       </Form>
     </StyledCreateNewProduct>

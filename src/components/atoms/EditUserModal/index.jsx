@@ -116,7 +116,6 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
       <Form form={form} onSubmit={onSubmit}>
         <div className="personal-info">
           <h5>Personal Info:</h5>
-
           <div>
             <UploadImg img={user?.profilePicture} onChange={e => setProfilePicture(e)} />
             <div className="input-div">
@@ -360,7 +359,6 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
               </div>
             ))}
           </div>
-
           <div className="addmore">
             <button onClick={addInheritance} type="button">
               +Add more

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Form, { useForm } from '@/components/molecules/Form';
-import Image from 'next/image';
 import { countries } from '@/components/Constant';
 import UploadImg from '@/components/molecules/UploadImg';
 import Field from '@/components/molecules/Field';

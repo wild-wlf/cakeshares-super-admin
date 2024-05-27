@@ -11,6 +11,7 @@ import ProductsFilter from '../../../filters/ProductsFilter';
 
 function TableLayout({
   children,
+  openModal,
   currentPage = 1,
   pageSize = 10,
   totalCount = 0,
@@ -32,7 +33,6 @@ function TableLayout({
   btnWidth,
   filterBlock,
   iconImg,
-  openModal,
   buyerSellerTabs,
   manageProductsTabs,
   ProductsDetailSelect,
@@ -54,6 +54,7 @@ function TableLayout({
         <div className="inner-wrap">
           <ProductsFilter
             placeholder={placeholder}
+            openModal={openModal}
             btnType={btnType}
             btnText={btnText}
             btnImg={btnImg}
@@ -62,7 +63,6 @@ function TableLayout({
             buyerSellerTabs={buyerSellerTabs}
             manageProductsTabs={manageProductsTabs}
             ProductsDetailSelect={ProductsDetailSelect}
-            openModal={openModal}
             tab={tab}
             setTab={setTab}
             onChangeFilters={_ => {

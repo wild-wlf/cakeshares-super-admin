@@ -5,7 +5,7 @@ import TableLayout from '@/components/atoms/TableLayout';
 import Image from 'next/image';
 import { TableContainer } from '@/components/atoms/PermissionsTable/PermissionsTable.style';
 import Button from '@/components/atoms/Button';
-import userService from '@/services/userService';
+import productService from '@/services/productService';
 import { AuthContext } from '@/context/authContext';
 import { useContextHook } from 'use-context-hook';
 import ModalContainer from '@/components/molecules/ModalContainer';
@@ -20,18 +20,18 @@ import ProductsDetailModal from '../ProductsDetailModal';
 import SuccessfulModal from '@/components/atoms/UserDeleteModal/SuccessfulModal';
 import successIcon from '../../../../../public/assets/successIcon.png';
 import CenterModal from '@/components/molecules/Modal/CenterModal';
-import CreateNewProduct from '../CreateNewProduct';
-import EditProductModal from '../EditProductModal';
+import ProductModal from '../ProductModal';
 
 const MangeProductsTable = () => {
   const { fetch } = useContextHook(AuthContext, v => ({
     fetch: v.fetch,
   }));
   const [tab, setTab] = useState(1);
+  const [product, setProduct] = useState({});
   const [successModal, setSuccessModal] = useState(false);
   const [createProduct, setCreateProduct] = useState(false);
   const [createProductSuccessModal, setCreateProductSuccessModal] = useState(false);
-  const [editProduct, setEditProduct] = useState(false);
+  const [productModal, setProductModal] = useState(false);
   const [createProductData, setCreateProductData] = useState({});
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
@@ -39,67 +39,45 @@ const MangeProductsTable = () => {
     startDate: '',
     endDate: '',
     searchText: '',
+    section: 'Investments',
+    status: '',
+    accType: '',
   });
-  // function buyerRegistration(elem) {
-  //   setCreateProductData(prev => ({ ...prev, ...elem }));
-  // }
+
   function handleCreateProduct() {
     setCreateProductSuccessModal(true);
     setCreateProduct(false);
   }
 
-  const { user_data, user_loading } = userService.GetAllUsers(searchQuery, fetch);
+  const { user_data, user_loading } = productService.GetAllUsers(searchQuery, fetch);
 
   const actionBtns = user => {
-    if (!user.isVerified) {
-      return (
-        <ActionBtnList>
-          <li>
-            <Button variant="success" custom xsCustom>
-              Approve
-            </Button>
-          </li>
-          <li>
-            <ModalContainer
-              width={500}
-              title={<Image src={declineIcon} alt="declineIcon" />}
-              btnComponent={({ onClick }) => (
-                <Button variant="danger" custom xsCustom onClick={onClick}>
-                  Decline
-                </Button>
-              )}
-              content={({ onClose }) => <DeclineModal onClose={onClose} />}
-            />
-          </li>
-        </ActionBtnList>
-      );
-    }
-    if (user.isVerified) {
-      return (
-        <ActionBtnList>
-          <li>
-            <ModalContainer
-              width={1000}
-              title="Alex Mertiz Detail"
-              btnComponent={({ onClick }) => (
-                <Button variant="secondary" custom xsCustom onClick={onClick}>
-                  <Image src={detailIcon} alt="detailIcon" />
-                  View Detail
-                </Button>
-              )}
-              content={({ onClose }) => (
-                <ProductsDetailModal
-                  onClose={onClose}
-                  setSuccessModal={setSuccessModal}
-                  setEditProduct={setEditProduct}
-                  accountType={user.account_type}
-                />
-              )}
-            />
-          </li>
-        </ActionBtnList>
-      );
-    }
+    return (
+      <ActionBtnList>
+        <li>
+          <ModalContainer
+            width={1000}
+            title={`${user?.fullName} Products`}
+            btnComponent={({ onClick }) => (
+              <Button variant="secondary" custom xsCustom onClick={onClick}>
+                <Image src={detailIcon} alt="detailIcon" />
+                View Detail
+              </Button>
+            )}
+            content={({ onClose }) => (
+              <ProductsDetailModal
+                userId={user?._id}
+                setProduct={setProduct}
+                onClose={onClose}
+                setSuccessModal={setSuccessModal}
+                setProductModal={setProductModal}
+                accountType={user.account_type}
+              />
+            )}
+          />
+        </li>
+      </ActionBtnList>
+    );
   };
   const actionBtnss = () => (
     <ActionBtnList>
@@ -118,114 +96,49 @@ const MangeProductsTable = () => {
       </li>
     </ActionBtnList>
   );
-  const investments_data = [
-    {
-      userName: 'Logan Paulson',
-      total_investments: 50,
-      amount: '$40,256.000',
-    },
-    {
-      userName: 'Logan Paulson',
-      total_investments: 50,
-      amount: '$40,256.000',
-    },
-    {
-      userName: 'Logan Paulson',
-      total_investments: 50,
-      amount: '$40,256.000',
-    },
-    {
-      userName: 'Logan Paulson',
-      total_investments: 50,
-      amount: '$40,256.000',
-    },
-    {
-      userName: 'Logan Paulson',
-      total_investments: 50,
-      amount: '$40,256.000',
-    },
-    {
-      userName: 'Logan Paulson',
-      total_investments: 50,
-      amount: '$40,256.000',
-    },
-  ];
-  const productsData = [
-    {
-      username: 'Mickhel James',
-      account_type: 'Super Admin',
-      total_products: 50,
-      total_return: '$40,256.000',
-      isVerified: true,
-    },
-    {
-      username: 'Mickhel James',
-      account_type: 'Super Admin',
-      total_products: 50,
-      total_return: '$40,256.000',
-      isVerified: true,
-    },
-    {
-      username: 'Mickhel James',
-      account_type: 'Super Admin',
-      total_products: 50,
-      total_return: '$40,256.000',
-      isVerified: true,
-    },
-    {
-      username: 'Mickhel James',
-      account_type: 'Super Admin',
-      total_products: 50,
-      total_return: '$40,256.000',
-      isVerified: true,
-    },
-    {
-      username: 'Mickhel James',
-      account_type: 'Individual Seller',
-      total_products: 50,
-      total_return: '$40,256.000',
-      isVerified: true,
-    },
-    {
-      username: 'Mickhel James',
-      account_type: 'Super Admin',
-      total_products: 50,
-      total_return: '$40,256.000',
-      isVerified: false,
-    },
-  ];
-  const { product_rows, totalCount } = useMemo(() => ({
-    product_rows: investments_data?.map(user => [
-      <div className="table-img-holder" key={user?._id}>
-        <div className="img-holder">
-          <Image src={user?.profilePicture || userAvatar} width={20} height={20} alt="userImage" />
-        </div>
-        {user.userName || '------------'}
-      </div>,
-      user?.total_investments || '------------',
-      user?.amount || '------------',
-      actionBtnss(),
-    ]),
-    totalCount: investments_data?.totalItems,
-  }));
-  const { user_rows, totalCounts } = useMemo(() => ({
-    user_rows: productsData?.map(user => [
-      <div className="table-img-holder" key={user?._id}>
-        <div className="img-holder">
-          <Image src={user?.profilePicture || userAvatar} width={20} height={20} alt="userImage" />
-        </div>
-        {user.username || '------------'}
-      </div>,
-      user?.account_type || '------------',
-      user?.total_products || '------------',
-      user?.total_return || '------------',
-      user?.isVerified ? 'Approved' : 'pending' || '------------',
-      actionBtns(user),
-    ]),
-    totalCounts: user_data?.totalItems,
-  }));
-  const buyerColumns = [`User`, `Total Investments`, `Total Investments Amount`, `Actions   `];
-  const sellerColumns = [`User`, `Account Type`, `Total Products`, 'Total Return', `status`, 'Actions'];
+
+  const { investment_rows, totalCount } = useMemo(() => {
+    return {
+      investment_rows: user_data?.items?.map(user => [
+        <div className="table-img-holder" key={user?._id}>
+          <div className="img-holder">
+            <Image src={user?.profilePicture || userAvatar} width={20} height={20} alt="userImage" />
+          </div>
+          {user.fullName || '------------'}
+        </div>,
+        user?.totalInvestments ?? '------------',
+        `$ ${user.totalInvestmentAmount}` ?? '------------',
+        actionBtnss(),
+      ]),
+      totalCount: user_data?.totalItems,
+    };
+  }, [user_data]);
+
+  const { product_rows, totalCounts } = useMemo(() => {
+    return {
+      product_rows: user_data?.items?.map(user => {
+        const sellerType =
+          user?.type === 'Seller' ? (user.isIndividualSeller ? 'Individual Seller' : 'Company Seller') : 'Super Admin';
+        return [
+          <div className="table-img-holder" key={user?._id}>
+            <div className="img-holder">
+              <Image src={user?.profilePicture || userAvatar} width={20} height={20} alt="userImage" />
+            </div>
+            {user.fullName || '------------'}
+          </div>,
+          sellerType,
+          user?.totalProducts ?? '------------',
+          user?.total_return || '------------',
+          user?.isVerified ? 'Approved' : 'Pending',
+          actionBtns(user),
+        ];
+      }),
+      totalCounts: user_data?.totalItems,
+    };
+  }, [user_data]);
+
+  const investmentColumns = [`User`, `Total Investments`, `Total Investments Amount`, `Actions   `];
+  const productColumns = [`User`, `Account Type`, `Total Products`, 'Total Return', `status`, 'Actions'];
 
   return (
     <>
@@ -243,21 +156,29 @@ const MangeProductsTable = () => {
         width="543">
         <SuccessfulModal title="Product Created Successfully!" />
       </CenterModal>
-      <CenterModal open={createProduct} setOpen={setCreateProduct} title="Create new Product" width="900">
+      {/* <CenterModal open={createProduct} setOpen={setCreateProduct} title="Create new Product" width="900">
         <CreateNewProduct handleCreateProduct={handleCreateProduct} setCreateProductData={setCreateProductData} />
-      </CenterModal>
-      <CenterModal open={editProduct} setOpen={setEditProduct} title="Edit Product" width="900">
-        <EditProductModal createProductData={createProductData} setEditProduct={setEditProduct} />
+      </CenterModal> */}
+      <CenterModal open={productModal} setOpen={setProductModal} title="Edit Product" width="900">
+        <ProductModal
+          product={product}
+          setCreateProductSuccessModal={setCreateProductSuccessModal}
+          setProductModal={setProductModal}
+        />
       </CenterModal>
       <TableContainer>
         <Image src={TableStyle} className="tableStyle" alt="tableCurve" />
         <TableLayout
           manageProductsTabs
+          openProductModal={setProductModal}
           btnWidth="40px"
           btnText={tab === 2 && 'Create New Product'}
           btnType={tab === 2 && 'success'}
           iconImg={CalenderIcon}
-          openModal={() => setCreateProduct(true)}
+          openModal={() => {
+            setProduct();
+            setProductModal(true);
+          }}
           placeholder="Search Investments"
           onChangeFilters={filters => {
             setSearchQuery(_ => ({
@@ -272,9 +193,15 @@ const MangeProductsTable = () => {
           tab={tab}
           setTab={setTab}>
           {tab === 1 ? (
-            <Table width={1024} rowsData={product_rows} loading={user_loading} columnNames={buyerColumns} noPadding />
+            <Table
+              width={1024}
+              rowsData={investment_rows}
+              loading={user_loading}
+              columnNames={investmentColumns}
+              noPadding
+            />
           ) : (
-            <Table width={1024} rowsData={user_rows} loading={user_loading} columnNames={sellerColumns} noPadding />
+            <Table width={1024} rowsData={product_rows} loading={user_loading} columnNames={productColumns} noPadding />
           )}
         </TableLayout>
       </TableContainer>

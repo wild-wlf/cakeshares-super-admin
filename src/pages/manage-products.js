@@ -7,7 +7,7 @@ const index = () => {
   return (
     <div>
       <Head>
-        <title>CAKESHARES | MANAGE USERS</title>
+        <title>CAKESHARES | MANAGE PRODUCTS</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <AdminTopBar

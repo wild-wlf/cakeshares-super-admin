@@ -119,7 +119,7 @@ const ManageUserTable = () => {
                   Decline
                 </Button>
               )}
-              content={({ onClose }) => <DeclineModal onClose={onClose} />}
+              content={({ onClose }) => <DeclineModal type="User" onClose={onClose} id={user?._id} />}
             />
           </li>
         </ActionBtnList>
@@ -258,7 +258,7 @@ const ManageUserTable = () => {
                   Decline
                 </Button>
               )}
-              content={({ onClose }) => <DeclineModal userId={user?._id} onClose={onClose} />}
+              content={({ onClose }) => <DeclineModal type="User" onClose={onClose} id={user?._id} />}
             />
           </li>
         </ActionBtnList>

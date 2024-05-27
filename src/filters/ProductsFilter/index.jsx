@@ -114,7 +114,7 @@ function ProductsFilter({
       label: 'All',
     },
     {
-      value: 'Super Admin',
+      value: 'Admin',
       label: 'Super Admin',
     },
     {
@@ -156,7 +156,15 @@ function ProductsFilter({
               className={tab === 1 ? 'active' : ''}
               onClick={() => {
                 handleTabs(1);
-                onChangeFilters({ type: 'Buyer' });
+                onChangeFilters({
+                  page: 1,
+                  startDate: '',
+                  endDate: '',
+                  searchText: '',
+                  section: 'Investments',
+                  status: '',
+                  accType: '',
+                });
               }}>
               Investments
             </button>
@@ -164,7 +172,15 @@ function ProductsFilter({
               className={tab === 2 ? 'active' : ''}
               onClick={() => {
                 handleTabs(2);
-                onChangeFilters({ type: 'Seller' });
+                onChangeFilters({
+                  page: 1,
+                  startDate: '',
+                  endDate: '',
+                  searchText: '',
+                  section: 'Products',
+                  status: '',
+                  accType: '',
+                });
               }}>
               Products
             </button>
@@ -211,7 +227,7 @@ function ProductsFilter({
                 <Select
                   placeholder="Select Account Type"
                   onChange={({ target: { value } }) => {
-                    onChangeFilters({ kycLevel: value?.value });
+                    onChangeFilters({ accType: value?.value });
                   }}
                   options={productAccountTypeData}
                 />
@@ -220,7 +236,7 @@ function ProductsFilter({
                 <Select
                   placeholder="Select Status"
                   onChange={({ target: { value } }) => {
-                    onChangeFilters({ kycLevel: value?.value });
+                    onChangeFilters({ status: value?.value });
                   }}
                   options={productStatusData}
                 />
