@@ -1,12 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import Table from '@/components/molecules/Table';
 import TableLayout from '@/components/atoms/TableLayout';
-import { TableContainer } from '@/components/atoms/PermissionsTable/PermissionsTable.style';
-import userService from '@/services/userService';
-import { ActionBtnList } from '@/components/atoms/ActionBtns/ActionBtns.styles';
 import DeleteIcon from '../../../../../public/assets/table-delete-icon.svg';
-import { useRouter } from 'next/router';
-import { MdModeEditOutline } from 'react-icons/md';
 import Image from 'next/image';
 import CenterModal from '@/components/molecules/Modal/CenterModal';
 import DeleteModal from '@/components/atoms/UserDeleteModal/DeleteModal';
@@ -14,13 +9,15 @@ import modalInfoIcon from '../../../../../public/assets/infoIcon.png';
 import Button from '@/components/atoms/Button';
 import ModalContainer from '@/components/molecules/ModalContainer';
 import declineIcon from '../../../../../public/assets/decline-icon.svg';
+import detailIcon from '../../../../../public/assets/view-detail-icon.svg';
 import DeclineModal from '../../DeclineModal';
 import productService from '@/services/productService';
 import Toast from '@/components/molecules/Toast';
 import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
+import ProductDetail from '../ProductDetailModal';
 
-const ProductsDetailModal = ({ userId, setProduct, onClose, setSuccessModal, setProductModal, accountType }) => {
+const ViewProductsModal = ({ userId, setProduct, onClose, setSuccessModal, setProductModal, accountType }) => {
   const { fetch, refetch } = useContextHook(AuthContext, v => ({
     fetch: v.fetch,
     refetch: v.refetch,
@@ -67,7 +64,7 @@ const ProductsDetailModal = ({ userId, setProduct, onClose, setSuccessModal, set
     if (!product.isVerified) {
       return (
         <ActionBtnList>
-          <li>
+          {/* <li>
             <Button
               onClick={() => {
                 approveProduct(product?._id, 'Approve');
@@ -89,6 +86,19 @@ const ProductsDetailModal = ({ userId, setProduct, onClose, setSuccessModal, set
               )}
               content={({ onClose }) => <DeclineModal type="Product" onClose={onClose} id={product?._id} />}
             />
+          </li> */}
+          <li>
+            <ModalContainer
+              width={1500}
+              title="Product Detail"
+              btnComponent={({ onClick }) => (
+                <Button variant="secondary" custom xsCustom onClick={onClick}>
+                  <Image src={detailIcon} alt="detailIcon" />
+                  View Detail
+                </Button>
+              )}
+              content={({ onClose }) => <ProductDetailModal product={product} />}
+            />
           </li>
         </ActionBtnList>
       );
@@ -96,27 +106,42 @@ const ProductsDetailModal = ({ userId, setProduct, onClose, setSuccessModal, set
       return (
         <ActionBtnList>
           {product?.userId?.sellerType !== 'Individual' ? (
-            <li>
-              <ModalContainer
-                width={500}
-                title={<Image src={declineIcon} alt="declineIcon" />}
-                btnComponent={({ onClick }) => (
-                  <Button type="button" variant="danger" custom xsCustom onClick={onClick}>
-                    <Image src={DeleteIcon} alt="DeleteIcon" />
-                    Delete Product
-                  </Button>
-                )}
-                content={({ onClose }) => (
-                  <DeclineModal
-                    type="Product"
-                    onClose={handleDelete}
-                    id={product?._id}
-                    title="Delete Product!"
-                    btnText="Yes, Delete"
-                  />
-                )}
-              />
-            </li>
+            <>
+              <li>
+                <ModalContainer
+                  width={500}
+                  title={<Image src={declineIcon} alt="declineIcon" />}
+                  btnComponent={({ onClick }) => (
+                    <Button type="button" variant="danger" custom xsCustom onClick={onClick}>
+                      <Image src={DeleteIcon} alt="DeleteIcon" />
+                      Delete Product
+                    </Button>
+                  )}
+                  content={({ onClose }) => (
+                    <DeclineModal
+                      type="Product"
+                      onClose={handleDelete}
+                      id={product?._id}
+                      title="Delete Product!"
+                      btnText="Yes, Delete"
+                    />
+                  )}
+                />
+              </li>
+              <li>
+                <ModalContainer
+                  width={1500}
+                  title="Product Detail"
+                  btnComponent={({ onClick }) => (
+                    <Button variant="secondary" custom xsCustom onClick={onClick}>
+                      <Image src={detailIcon} alt="detailIcon" />
+                      View Detail
+                    </Button>
+                  )}
+                  content={({ onClose }) => <ProductDetailModal product={product} />}
+                />
+              </li>
+            </>
           ) : (
             <>
               <li>
@@ -197,4 +222,4 @@ const ProductsDetailModal = ({ userId, setProduct, onClose, setSuccessModal, set
   );
 };
 
-export default ProductsDetailModal;
+export default ViewProductsModal;
