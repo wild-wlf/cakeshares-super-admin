@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import { Container, DataContainer } from "./AdminTopBar.style";
-import Image from "next/image";
-import Notifications from "../../molecules/Notifications";
-import bell from "../../../../public/assets/bell.svg";
-import { HiOutlineMenuAlt1 } from "react-icons/hi";
+import React, { useState } from 'react';
+import { Container, DataContainer } from './AdminTopBar.style';
+import Image from 'next/image';
+import Notifications from '../../molecules/Notifications';
+import bell from '../../../../public/assets/bell.svg';
+import { HiOutlineMenuAlt1 } from 'react-icons/hi';
 
 const AdminTopBar = ({ title, tagLine, suffix }) => {
   const [notifications, setNotifications] = useState(false);
 
   const openSideNav = () => {
-    document.body.classList.toggle("sideNav-active");
-    document.body.style.overflow = "hidden";
+    document.body.classList.toggle('sideNav-active');
+    document.body.style.overflow = 'hidden';
   };
 
   return (
@@ -21,8 +21,7 @@ const AdminTopBar = ({ title, tagLine, suffix }) => {
             className="closedNav"
             onClick={() => {
               openSideNav();
-            }}
-          >
+            }}>
             <HiOutlineMenuAlt1 />
           </div>
           <div className="dataContainer">
@@ -39,17 +38,10 @@ const AdminTopBar = ({ title, tagLine, suffix }) => {
             className="notification"
             onClick={() => {
               setNotifications(!notifications);
-            }}
-          >
+            }}>
             <Image src={bell} alt="bell" className="bell" />
             {/* <Image src={bellWhite} alt="bell" className="bell-white" /> */}
-            <div
-              className={
-                notifications
-                  ? "notificationWrapper-visible"
-                  : "notificationWrapper"
-              }
-            >
+            <div className={notifications ? 'notificationWrapper-visible' : 'notificationWrapper'}>
               <Notifications />
             </div>
           </div>

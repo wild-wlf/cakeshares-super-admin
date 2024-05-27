@@ -13,8 +13,6 @@ import TableStyle from '../../../../../public/assets/table-style.jpg';
 import CalenderIcon from '../../../../../public/assets/calander.svg';
 import userAvatar from '../../../../../public/assets/user_avatar.png';
 import detailIcon from '../../../../../public/assets/view-detail-icon.svg';
-import declineIcon from '../../../../../public/assets/decline-icon.svg';
-import DeclineModal from '../../DeclineModal';
 import InvestmentDetailModal from '../InvestmentDetailModal';
 import ProductsDetailModal from '../ProductsDetailModal';
 import SuccessfulModal from '@/components/atoms/UserDeleteModal/SuccessfulModal';
@@ -23,8 +21,9 @@ import CenterModal from '@/components/molecules/Modal/CenterModal';
 import ProductModal from '../ProductModal';
 
 const MangeProductsTable = () => {
-  const { fetch } = useContextHook(AuthContext, v => ({
+  const { fetch, user } = useContextHook(AuthContext, v => ({
     fetch: v.fetch,
+    user: v.user,
   }));
   const [tab, setTab] = useState(1);
   const [product, setProduct] = useState({});
@@ -57,7 +56,7 @@ const MangeProductsTable = () => {
         <li>
           <ModalContainer
             width={1000}
-            title={`${user?.fullName} Products`}
+            title={`Products`}
             btnComponent={({ onClick }) => (
               <Button variant="secondary" custom xsCustom onClick={onClick}>
                 <Image src={detailIcon} alt="detailIcon" />
@@ -137,7 +136,7 @@ const MangeProductsTable = () => {
     };
   }, [user_data]);
 
-  const investmentColumns = [`User`, `Total Investments`, `Total Investments Amount`, `Actions   `];
+  const investmentColumns = [`User`, `Total Investments`, `Total Investments Amount`, `Actions`];
   const productColumns = [`User`, `Account Type`, `Total Products`, 'Total Return', `status`, 'Actions'];
 
   return (
@@ -159,7 +158,7 @@ const MangeProductsTable = () => {
       {/* <CenterModal open={createProduct} setOpen={setCreateProduct} title="Create new Product" width="900">
         <CreateNewProduct handleCreateProduct={handleCreateProduct} setCreateProductData={setCreateProductData} />
       </CenterModal> */}
-      <CenterModal open={productModal} setOpen={setProductModal} title="Edit Product" width="900">
+      <CenterModal open={productModal} setOpen={setProductModal} title="Create Product" width="900">
         <ProductModal
           product={product}
           setCreateProductSuccessModal={setCreateProductSuccessModal}

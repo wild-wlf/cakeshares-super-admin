@@ -279,7 +279,7 @@ function ProductsFilter({
             </Button>
           )}
           {iconImg && (
-            <div className="icon-div" onClick={openModal}>
+            <div className="icon-div" onClick={() => {}}>
               <Image src={iconImg} alt="iconImg" />
             </div>
           )}
