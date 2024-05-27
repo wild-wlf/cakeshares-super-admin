@@ -135,6 +135,7 @@ const ProductsDetailModal = ({ onClose, setSuccessModal, setEditProduct, account
 
       {/* <TableContainer> */}
       <TableLayout
+        noPadding
         ProductsDetailSelect
         noBorder
         onChangeFilters={filters => {

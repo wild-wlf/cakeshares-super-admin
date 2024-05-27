@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const TableContainer = styled.div`
   width: 100%;
   position: relative;
+
   .tableStyle {
     position: absolute;
     left: 50%;
@@ -16,7 +17,7 @@ export const TableContainer = styled.div`
       display: none;
     }
   }
-  @media (max-width: 530px) {
+  /* @media (max-width: 530px) {
     padding: 50px 20px;
-  }
+  } */
 `;
