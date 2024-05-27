@@ -16,13 +16,14 @@ import Toast from '@/components/molecules/Toast';
 import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
 import ProductDetail from '../ProductDetailModal';
+import { ActionBtnList } from '@/components/atoms/ActionBtns/ActionBtns.styles';
+import ProductDetailModal from '../ProductDetailModal';
 
-const ViewProductsModal = ({ userId, setProduct, onClose, setSuccessModal, setProductModal, accountType }) => {
+const ViewProductsModal = ({ userId, setProduct, onClose, setSuccessModal, setProductModal }) => {
   const { fetch, refetch } = useContextHook(AuthContext, v => ({
     fetch: v.fetch,
     refetch: v.refetch,
   }));
-  const [isLoading, setIsLoading] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState();
   const [searchQuery, setSearchQuery] = useState({
@@ -36,57 +37,11 @@ const ViewProductsModal = ({ userId, setProduct, onClose, setSuccessModal, setPr
     onClose();
   }
 
-  const approveProduct = async (id, type) => {
-    try {
-      setIsLoading(true);
-      const obj = { isVerified: type === 'Approve' ? true : false };
-      const payload = new FormData();
-      Object.keys(obj).forEach(key => payload.append(key, obj[key]));
-
-      await productService.updateProduct(id, payload);
-      Toast({
-        type: 'success',
-        message: 'Product Approved Successfully!',
-      });
-      refetch();
-    } catch ({ message }) {
-      Toast({
-        type: 'error',
-        message: `Failed to ${type} this Product! Please Try Again!`,
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const { products_data, products_loading } = productService.GetAllProducts(searchQuery, fetch, userId);
   const actionBtns = product => {
     if (!product.isVerified) {
       return (
         <ActionBtnList>
-          {/* <li>
-            <Button
-              onClick={() => {
-                approveProduct(product?._id, 'Approve');
-              }}
-              variant="success"
-              custom
-              xsCustom>
-              Approve
-            </Button>
-          </li>
-          <li>
-            <ModalContainer
-              width={500}
-              title={<Image src={declineIcon} alt="declineIcon" />}
-              btnComponent={({ onClick }) => (
-                <Button variant="danger" custom xsCustom onClick={onClick}>
-                  Decline
-                </Button>
-              )}
-              content={({ onClose }) => <DeclineModal type="Product" onClose={onClose} id={product?._id} />}
-            />
-          </li> */}
           <li>
             <ModalContainer
               width={1500}
