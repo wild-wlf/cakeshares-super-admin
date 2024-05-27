@@ -120,8 +120,8 @@ export const AuthContextProvider = props => {
         throw new Error(res?.message);
       }
 
-      setCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE, res.token);
       router.push('/dashboard');
+      setCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE, res.token);
       setIsLoggedIn(true);
       Toast({ type: 'success', message: 'Logged In Successfully!' });
       setLoadingUser(false);

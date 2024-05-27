@@ -9,7 +9,7 @@ const STATUS = {
 };
 
 const productService = {
-  _url: `${process.env.NEXT_PUBLIC_USER_URL}/product`,
+  _url: `${process.env.NEXT_PUBLIC_PRODUCT_URL}`,
 
   GetAllUsers(searchQuery, fetch) {
     const [users, setUsers] = useState({
