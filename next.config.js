@@ -12,6 +12,10 @@ const nextConfig = {
         protocol: 'http',
         hostname: '**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cakeshares.s3.us-west-1.amazonaws.com',
+      },
     ],
   },
 };
