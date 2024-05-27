@@ -45,7 +45,7 @@ export const AuthContextProvider = props => {
       clearCookie(process.env.NEXT_PUBLIC_ALLOWED_PAGES_COOKIE);
       clearCookie('is_email_verified');
       clearCookie('email');
-      await router.push('/sign-in');
+      router.push('/sign-in');
       Toast({ type: 'success', message: 'Logout Successfully' });
       setLoadingUser(false);
       setIsLoggedIn(false);
@@ -121,11 +121,6 @@ export const AuthContextProvider = props => {
       }
 
       setCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE, res.token);
-      setAllowedPages([...res?.admin?.permissions.filter(p => p.includes('.nav')).map(p => `/${p.split('.')[0]}`)]);
-      setCookie(
-        process.env.NEXT_PUBLIC_ALLOWED_PAGES_COOKIE,
-        JSON.stringify(res?.admin?.permissions.filter(p => p.includes('.nav')).map(p => `/${p.split('.')[0]}`)),
-      );
       router.push('/dashboard');
       setIsLoggedIn(true);
       Toast({ type: 'success', message: 'Logged In Successfully!' });
