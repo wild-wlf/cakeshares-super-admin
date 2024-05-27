@@ -31,6 +31,7 @@ const ProductsDetailModal = ({ userId, setProduct, onClose, setSuccessModal, set
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
     itemsPerPage: 10,
+    status: '',
   });
 
   function handleDelete() {

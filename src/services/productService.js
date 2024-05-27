@@ -77,8 +77,10 @@ const productService = {
     throw new Error(message ?? 'Something Went Wrong');
   },
 
-  async getAllProducts({ page = 1, itemsPerPage = 10 }, id) {
-    let res = await Fetch.get(`${this._url}/get-all-products/${id}?page=${page}&itemsPerPage=${itemsPerPage}`);
+  async getAllProducts({ page = 1, itemsPerPage = 10, status = '' }, id) {
+    let res = await Fetch.get(
+      `${this._url}/get-all-products/${id}?page=${page}&itemsPerPage=${itemsPerPage}&status=${status}`,
+    );
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
       return res;
