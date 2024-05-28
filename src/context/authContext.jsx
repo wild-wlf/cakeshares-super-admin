@@ -120,9 +120,9 @@ export const AuthContextProvider = props => {
         throw new Error(res?.message);
       }
 
-      router.push('/dashboard');
-      setCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE, res.token);
       setIsLoggedIn(true);
+      setCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE, res.token);
+      router.push('/dashboard');
       Toast({ type: 'success', message: 'Logged In Successfully!' });
       setLoadingUser(false);
       setLoading(false);
@@ -260,7 +260,7 @@ export const AuthContextProvider = props => {
       }
       if (cookie === process.env.NEXT_PUBLIC_ALLOWED_PAGES_COOKIE) {
         if (JSON.stringify(allowedPages) !== value && isLoggedIn) {
-          getPermissions();
+          // getPermissions();
         }
       }
     }, 1000);
