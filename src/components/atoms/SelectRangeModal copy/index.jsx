@@ -1,9 +1,9 @@
-import React from 'react';
-import { SelectRangeModalWrapper } from './SelectRangeModal.style';
-import DatePicker from '../../molecules/DatePicker';
-import CalenderIcon from '../../../../public/assets/calander.svg';
-import Image from 'next/image';
-import Button from '../Button';
+import React from "react";
+import { SelectRangeModalWrapper } from "./SelectRangeModal.style";
+import DatePicker from "../../molecules/DatePicker";
+import CalenderIcon from "../../../_assets/calander.svg";
+import Image from "next/image";
+import Button from "../Button";
 
 const SelectRangeModal = () => {
   return (
@@ -25,10 +25,10 @@ const SelectRangeModal = () => {
           </div>
         </div>
         <div className="btn-wrapper">
-          <Button sm rounded btntype={'green'}>
+          <Button sm rounded btntype={"green"}>
             Apply
           </Button>
-          <Button sm rounded btntype={'cancel'}>
+          <Button sm rounded btntype={"cancel"}>
             Reset
           </Button>
         </div>

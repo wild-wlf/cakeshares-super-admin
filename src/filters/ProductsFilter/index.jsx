@@ -24,6 +24,7 @@ function ProductsFilter({
   setTab,
   onChangeFilters,
   ProductsDetailSelect,
+  openDateModal,
 }) {
   const [searchText, setSearchText] = useState('');
   const debounceRef = useRef(0);
@@ -279,7 +280,7 @@ function ProductsFilter({
             </Button>
           )}
           {iconImg && (
-            <div className="icon-div" onClick={() => {}}>
+            <div className="icon-div" onClick={openDateModal}>
               <Image src={iconImg} alt="iconImg" />
             </div>
           )}

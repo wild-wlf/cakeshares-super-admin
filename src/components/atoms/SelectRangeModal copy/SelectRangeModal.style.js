@@ -1,10 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const SelectRangeModalWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding-top: 20px;
-
   .filter-div {
     width: 50%;
     h5 {
@@ -41,9 +40,6 @@ export const SelectRangeModalWrapper = styled.div`
     .btn-wrapper {
       display: flex;
       gap: 10px;
-      button {
-        min-width: 148px;
-      }
     }
   }
   .date-picker {

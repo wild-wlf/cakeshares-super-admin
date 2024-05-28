@@ -14,16 +14,9 @@ import Toast from '@/components/molecules/Toast';
 import productService from '@/services/productService';
 import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
+import { formatDateWithSuffix, daysLeft } from '@/helpers/common';
 
 const ProductDetailModal = ({ product }) => {
-  const arr = [
-    'Grade A Property',
-    'Grade A Property',
-    'Grade A Property',
-    'Premium Collection',
-    'Premium Collection',
-    'Premium Collection',
-  ];
   const { fetch, refetch } = useContextHook(AuthContext, v => ({
     fetch: v.fetch,
     refetch: v.refetch,
@@ -52,21 +45,21 @@ const ProductDetailModal = ({ product }) => {
       setIsLoading(false);
     }
   };
-
   return (
     <>
       <ProductDetailWrapper>
         <div className="titlewrapper">
           <div>
             <div className="title">
-              <span>Egypt Gov. Property</span>
+              <span>{product.productName}</span>
             </div>
             <div className="titledesc">
-              <span>Sector 9, Faiyum, Egypt</span>
+              <span>{product.address}</span>
               <span>
-                <span className="deadline">Deadline:</span> (12th March, 2024 / 05 days left)
+                <span className="deadline">Deadline:</span> ({formatDateWithSuffix(product.deadline)} /{' '}
+                {daysLeft(product.deadline)} left)
               </span>
-              <span>KYC (Level 3)</span>
+              <span>KYC ({product.kycLevel})</span>
             </div>
           </div>
 
@@ -74,7 +67,7 @@ const ProductDetailModal = ({ product }) => {
             <div className="headings">
               <div>
                 <span>Investment type</span>
-                <h3>Property</h3>
+                <h3>{product.investmentType}</h3>
               </div>
               <div>
                 <span>Return (%)</span>
@@ -86,7 +79,7 @@ const ProductDetailModal = ({ product }) => {
               </div>
               <div>
                 <span>Backers Limit</span>
-                <h3>20</h3>
+                <h3>{product.maximumBackers}</h3>
               </div>
               <div>
                 <span>Annual Cost (est.)</span>
@@ -98,36 +91,27 @@ const ProductDetailModal = ({ product }) => {
 
         <div className="imagewrapper">
           <div className="product1">
-            <Image src={property} alt="Product-Image" />
+            <Image src={product.media[0]} alt="Product-Image" width={660} height={360} />
           </div>
+
           <div className="product2">
-            <Image src={property2} alt="Product-Image" />
-            <Image src={property3} alt="Product-Image" />
+            {product?.media[1] && <Image src={product?.media[1]} alt="Product-Image" width={365} height={360} />}
+            {product?.media[2] && <Image src={product?.media[2]} alt="Product-Image" width={365} height={360} />}
           </div>
         </div>
 
         <div className="investwrapper">
           <div className="content-holder">
             <strong>Why Invest in this?</strong>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ultricies et mi quis scelerisque. Integer
-              vitae posuere est, nec mollis diam. Donec feugiat eu mauris sed rutrum. Interdum et malesuada fames ac
-              ante ipsum primis in faucibus. Aliquam auctor gravida nulla. Donec feugiat eu mauris sed rutrum. Interdum
-              et malesuada fames ac ante ipsum primis in faucibus. Aliquam auctor gravida nulla.
-            </p>
+            <p>{product.investmentReason}</p>
             <strong>Description</strong>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ultricies et mi quis scelerisque. Integer
-              vitae posuere est, nec mollis diam. Donec feugiat eu mauris sed rutrum. Interdum et malesuada fames ac
-              ante ipsum primis in faucibus. Aliquam auctor gravida nulla. Donec feugiat eu mauris sed rutrum. Interdum
-              et malesuada fames ac ante ipsum primis in faucibus. Aliquam auctor gravida nulla.
-            </p>
+            <p>{product.description}</p>
             <div className="amenties-holder">
               <div>
                 <span>Amenities</span>
               </div>
               <div className="amenities">
-                {arr.map((data, index) => (
+                {product.amenities.map((data, index) => (
                   <div className="amenity" key={index}>
                     <span>
                       <IoIosCheckmarkCircle className="icon" />
@@ -142,11 +126,11 @@ const ProductDetailModal = ({ product }) => {
             <div className="amountdiv">
               <div>
                 <span>Min Investment (USD)</span>
-                <strong className="amount">$ 5000</strong>
+                <strong className="amount">${product.minimumInvestment}</strong>
               </div>
               <div>
                 <span>Asset Value (USD)</span>
-                <strong className="amount">$ 2,000,000</strong>
+                <strong className="amount">${product.assetValue}</strong>
               </div>
             </div>
             <div className="total">
