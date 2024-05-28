@@ -88,44 +88,7 @@ const MangeProductsTable = () => {
     } else {
       return (
         <ActionBtnList>
-          {product?.userId?.sellerType === 'Individual' ? (
-            <>
-              <li>
-                <ModalContainer
-                  width={500}
-                  title={<Image src={declineIcon} alt="declineIcon" />}
-                  btnComponent={({ onClick }) => (
-                    <Button type="button" variant="danger" custom xsCustom onClick={onClick}>
-                      <Image src={DeleteIcon} alt="DeleteIcon" />
-                      Delete Product
-                    </Button>
-                  )}
-                  content={({ onClose }) => (
-                    <DeclineModal
-                      type="Product"
-                      onClose={handleDelete}
-                      id={product?._id}
-                      title="Delete Product!"
-                      btnText="Yes, Delete"
-                    />
-                  )}
-                />
-              </li>
-              <li>
-                <ModalContainer
-                  width={1500}
-                  title="Product Detail"
-                  btnComponent={({ onClick }) => (
-                    <Button variant="secondary" custom xsCustom onClick={onClick}>
-                      <Image src={detailIcon} alt="detailIcon" />
-                      View Detail
-                    </Button>
-                  )}
-                  content={({ onClose }) => <ProductDetailModal product={product} />}
-                />
-              </li>
-            </>
-          ) : (
+          {product?.userId?.sellerType !== 'Individual' && product?.userId?.sellerType !== 'Company' ? (
             <>
               <li>
                 <button
@@ -148,6 +111,43 @@ const MangeProductsTable = () => {
                   }}>
                   <Image src={DeleteIcon} alt="DeleteIcon" />
                 </button>
+              </li>
+              <li>
+                <ModalContainer
+                  width={1500}
+                  title="Product Detail"
+                  btnComponent={({ onClick }) => (
+                    <Button variant="secondary" custom xsCustom onClick={onClick}>
+                      <Image src={detailIcon} alt="detailIcon" />
+                      View Detail
+                    </Button>
+                  )}
+                  content={({ onClose }) => <ProductDetailModal product={product} />}
+                />
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <ModalContainer
+                  width={500}
+                  title={<Image src={declineIcon} alt="declineIcon" />}
+                  btnComponent={({ onClick }) => (
+                    <Button type="button" variant="danger" custom xsCustom onClick={onClick}>
+                      <Image src={DeleteIcon} alt="DeleteIcon" />
+                      Delete Product
+                    </Button>
+                  )}
+                  content={({ onClose }) => (
+                    <DeclineModal
+                      type="Product"
+                      onClose={handleDelete}
+                      id={product?._id}
+                      title="Delete Product!"
+                      btnText="Yes, Delete"
+                    />
+                  )}
+                />
               </li>
               <li>
                 <ModalContainer
@@ -211,7 +211,7 @@ const MangeProductsTable = () => {
         format(new Date(_?.created_at), 'yyyy-MM-dd') || '------------',
         _?.productName || '------------',
         _?.userId?.fullName || 'Super Admin' || '------------',
-        _?.userId?.isVerified || !_?.isVerified ? 'Approved' : 'Pending' || '------------',
+        _?.userId?.isVerified === undefined || _?.userId?.isVerified ? 'Approved' : 'Pending',
         !_?.userId?.sellerType
           ? 'Super Admin'
           : _?.userId?.sellerType === 'Individual'
