@@ -30,6 +30,7 @@ const ViewProductsModal = ({ userId, setProduct, onClose, setSuccessModal, setPr
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
     itemsPerPage: 10,
+    status: '',
   });
 
   function handleDelete() {
@@ -62,7 +63,7 @@ const ViewProductsModal = ({ userId, setProduct, onClose, setSuccessModal, setPr
     } else {
       return (
         <ActionBtnList>
-          {product?.userId?.sellerType === 'Individual Seller' ? (
+          {product?.userId?.sellerType === 'Individual' ? (
             <>
               <li>
                 <ModalContainer

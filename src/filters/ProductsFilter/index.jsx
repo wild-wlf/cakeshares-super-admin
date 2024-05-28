@@ -248,7 +248,7 @@ function ProductsFilter({
               <Select
                 placeholder="Select Account Type"
                 onChange={({ target: { value } }) => {
-                  onChangeFilters({ kycLevel: value?.value });
+                  onChangeFilters({ status: value?.value });
                 }}
                 options={productStatusData}
               />
@@ -279,7 +279,7 @@ function ProductsFilter({
             </Button>
           )}
           {iconImg && (
-            <div className="icon-div" onClick={openModal}>
+            <div className="icon-div" onClick={() => {}}>
               <Image src={iconImg} alt="iconImg" />
             </div>
           )}

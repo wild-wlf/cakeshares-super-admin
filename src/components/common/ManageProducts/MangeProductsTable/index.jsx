@@ -22,8 +22,9 @@ import ProductModal from '../ProductModal';
 import ViewProductsModal from '../ViewProductsModal';
 
 const MangeProductsTable = () => {
-  const { fetch } = useContextHook(AuthContext, v => ({
+  const { fetch, user } = useContextHook(AuthContext, v => ({
     fetch: v.fetch,
+    user: v.user,
   }));
   const [tab, setTab] = useState(1);
   const [product, setProduct] = useState({});
@@ -56,7 +57,7 @@ const MangeProductsTable = () => {
         <li>
           <ModalContainer
             width={1000}
-            title={`${user?.fullName} Products`}
+            title={`Products`}
             btnComponent={({ onClick }) => (
               <Button variant="secondary" custom xsCustom onClick={onClick}>
                 <Image src={detailIcon} alt="detailIcon" />
@@ -117,11 +118,7 @@ const MangeProductsTable = () => {
     return {
       product_rows: user_data?.items?.map(user => {
         const sellerType =
-          user?.type === 'Seller'
-            ? user.isIndividualSeller
-              ? 'Individual Seller'
-              : 'Company Seller'
-            : 'Individual Seller';
+          user?.type === 'Seller' ? (user.isIndividualSeller ? 'Individual Seller' : 'Company Seller') : 'Super Admin';
         return [
           <div className="table-img-holder" key={user?._id}>
             <div className="img-holder">
@@ -140,7 +137,7 @@ const MangeProductsTable = () => {
     };
   }, [user_data]);
 
-  const investmentColumns = [`User`, `Total Investments`, `Total Investments Amount`, `Actions   `];
+  const investmentColumns = [`User`, `Total Investments`, `Total Investments Amount`, `Actions`];
   const productColumns = [`User`, `Account Type`, `Total Products`, 'Total Return', `status`, 'Actions'];
 
   return (
@@ -162,7 +159,7 @@ const MangeProductsTable = () => {
       {/* <CenterModal open={createProduct} setOpen={setCreateProduct} title="Create new Product" width="900">
         <CreateNewProduct handleCreateProduct={handleCreateProduct} setCreateProductData={setCreateProductData} />
       </CenterModal> */}
-      <CenterModal open={productModal} setOpen={setProductModal} title="Create New Product" width="900">
+      <CenterModal open={productModal} setOpen={setProductModal} title="Create Product" width="900">
         <ProductModal
           product={product}
           setCreateProductSuccessModal={setCreateProductSuccessModal}
