@@ -22,7 +22,7 @@ function Pagination(props) {
     setInputCurrentPage(currentPage);
   }, [currentPage]);
   const onNext = () => {
-    // onPageChange(currentPage + 1);
+    onPageChange(currentPage + 1);
     setInputCurrentPage(currentPage + 1);
   };
 
@@ -50,13 +50,14 @@ function Pagination(props) {
           className="page-input"
           value={inputCurrentPage}
           onKeyPress={onKeyPress}
-          disabled={currentPage >= lastPage}
+          disabled={lastPage === 1}
           onChange={event => {
             if (!(+event.target.value > 0 && +event.target.value <= Math.ceil(totalCount / pageSize))) {
               setError(true);
             } else {
               setError(false);
             }
+            onPageChange(event.target.value);
             setInputCurrentPage(parseInt(event.target.value));
           }}
           sm

@@ -57,7 +57,18 @@ const MangeProductsTable = () => {
     setSuccessModal(true);
   }
 
-  const { products_data, products_loading } = productService.GetAllProducts(searchQuery, fetch);
+  let investments_data, investments_loading, products_data, products_loading;
+
+  if (searchQuery?.section === 'Investments') {
+    const result = productService.GetAllInvestments(searchQuery, fetch);
+    investments_data = result.investments_data;
+    investments_loading = result.investments_loading;
+  } else {
+    const result = productService.GetAllProducts(searchQuery, fetch);
+    products_data = result.products_data;
+    products_loading = result.products_loading;
+  }
+
   const actionBtns = product => {
     if (!product.isVerified) {
       return (
@@ -179,25 +190,22 @@ const MangeProductsTable = () => {
     </ActionBtnList>
   );
 
-  // const { investment_rows, totalCount } = useMemo(() => {
-  //   return {
-  //     investment_rows: products_data?.items?.map(user => [
-  //       <div className="table-img-holder" key={user?._id}>
-  //         <div className="img-holder">
-  //           <Image src={user?.profilePicture || userAvatar} width={20} height={20} alt="userImage" />
-  //         </div>
-  //         {user.fullName || '------------'}
-  //       </div>,
-  //       user?.totalInvestments ?? '------------',
-  //       `$ ${user.totalInvestmentAmount}` ?? '------------',
-  //       actionBtnss(),
-  //     ]),
-  //     totalCount: products_data?.totalItems,
-  //   };
-  // }, [products_data]);
+  const { investment_rows, investment_totalCount } = useMemo(() => {
+    return {
+      investment_rows: investments_data?.items?.map(_ => [
+        format(new Date(_?.created_at), 'yyyy-MM-dd') || '------------',
+        _?.userId?.fullName || '------------',
+        _?.product?.productName || '------------',
+        _?.product?.investmentType || '------------',
+        _?.investmentAmount ?? '------------',
+        actionBtnss(_),
+      ]),
+      investment_totalCount: investments_data?.totalItems,
+    };
+  }, [investments_data]);
 
-  const { product_rows, totalCount } = useMemo(
-    () => ({
+  const { product_rows, product_totalCount } = useMemo(() => {
+    return {
       product_rows: products_data?.items?.map(_ => [
         format(new Date(_?.created_at), 'yyyy-MM-dd') || '------------',
         _?.productName || '------------',
@@ -213,18 +221,17 @@ const MangeProductsTable = () => {
         _?.currentBackers ?? '------------',
         actionBtns(_),
       ]),
-      totalCount: products_data?.totalItems,
-    }),
-    [products_data],
-  );
+      product_totalCount: products_data?.totalItems,
+    };
+  }, [products_data]);
 
-  const investmentColumns = [`User`, `Total Investments`, `Total Investments Amount`, `Actions`];
+  const investmentColumns = [`Created At`, `User`, `Product`, `Investment Type`, `Investment Amount`, `Actions`];
   const productColumns = [
     `Created At`,
     `Product`,
     `Owner`,
     `Owner Status`,
-    `Account Type`,
+    `User Account Type`,
     `Category`,
     `Product Status`,
     `Current Backers`,
@@ -285,7 +292,7 @@ const MangeProductsTable = () => {
             setProduct();
             setProductModal(true);
           }}
-          placeholder="Search Investments"
+          placeholder={searchQuery?.section === 'Investments' ? 'Search Investments' : 'Search Products'}
           onChangeFilters={filters => {
             setSearchQuery(_ => ({
               ..._,
@@ -293,7 +300,7 @@ const MangeProductsTable = () => {
             }));
           }}
           currentPage={searchQuery.page}
-          totalCount={totalCount}
+          totalCount={investment_totalCount || product_totalCount}
           // totalCounts={totalItems}
           pageSize={searchQuery.itemsPerPage}
           tab={tab}
@@ -301,8 +308,8 @@ const MangeProductsTable = () => {
           {tab === 1 ? (
             <Table
               width={1024}
-              // rowsData={investment_rows}
-              // loading={user_loading}
+              rowsData={investment_rows}
+              loading={investments_loading}
               columnNames={investmentColumns}
               noPadding
             />

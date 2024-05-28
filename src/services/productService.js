@@ -34,9 +34,44 @@ const productService = {
     };
   },
 
-  async getAllProducts({ page = 1, itemsPerPage = 10, searchText = '', accType = '', section = '' }) {
+  async getAllProducts({ page = 1, itemsPerPage = 10, searchText = '', status = '', accType = '', section = '' }) {
     let res = await Fetch.get(
-      `${this._url}/get-all-products-super?page=${page}&itemsPerPage=${itemsPerPage}&searchText=${searchText}&accType=${accType}&section=${section}`,
+      `${this._url}/get-all-products-super?page=${page}&itemsPerPage=${itemsPerPage}&searchText=${searchText}&status=${status}&accType=${accType}&section=${section}`,
+    );
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    }
+    const { message } = await res.json();
+    throw new Error(message ?? 'Something Went Wrong');
+  },
+
+  GetAllInvestments(searchQuery, fetch) {
+    const [investments, setInvestments] = useState({
+      investments: [],
+      totalItems: 0,
+    });
+    const { cancellablePromise } = useCancellablePromise();
+    const [investmentStatus, setInvestmentStatus] = useState(STATUS.LOADING);
+    useEffect(() => {
+      setInvestmentStatus(STATUS.LOADING);
+      cancellablePromise(this.getAllInvestments(searchQuery))
+        .then(res => {
+          setInvestments(() => res);
+          setInvestmentStatus(STATUS.SUCCESS);
+        })
+        .catch(() => setInvestmentStatus(STATUS.ERROR));
+    }, [searchQuery, fetch]);
+    return {
+      investments_loading: investmentStatus === STATUS.LOADING,
+      investments_error: investmentStatus === STATUS.ERROR,
+      investments_data: investments,
+    };
+  },
+
+  async getAllInvestments({ page = 1, itemsPerPage = 10, searchText = '' }) {
+    let res = await Fetch.get(
+      `${this._url}/get-all-investments-super?page=${page}&itemsPerPage=${itemsPerPage}&searchText=${searchText}`,
     );
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
