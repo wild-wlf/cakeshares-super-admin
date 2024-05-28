@@ -70,6 +70,7 @@ const SellerPropertiesModal = () => {
     <TableContainer>
       <TableLayout
         noBorder
+        npPadding
         placeholder="Search Products"
         onChangeFilters={filters => {
           setSearchQuery(_ => ({

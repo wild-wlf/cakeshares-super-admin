@@ -39,6 +39,7 @@ function TableLayout({
   tab,
   setTab,
   noBorder,
+  noPadding,
   setResetFilter = () => {},
 }) {
   const [filterState, setFilterState] = useState('');
@@ -48,7 +49,8 @@ function TableLayout({
         noNegativeMargin={noNegativeMargin}
         noPagination={noPagination}
         filterBlock={filterBlock}
-        $noBorder={noBorder}>
+        $noBorder={noBorder}
+        $noPadding={noPadding}>
         <div className="inner-wrap">
           <ProductsFilter
             placeholder={placeholder}

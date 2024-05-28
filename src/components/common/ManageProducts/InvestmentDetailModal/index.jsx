@@ -111,6 +111,7 @@ const InvestmentDetailModal = () => {
     // <TableContainer>
     <TableLayout
       noBorder
+      noPadding
       onChangeFilters={filters => {
         setSearchQuery(_ => ({
           ..._,

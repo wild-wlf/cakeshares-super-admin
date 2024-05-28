@@ -14,12 +14,14 @@ import CalenderIcon from '../../../../../public/assets/calander.svg';
 import userAvatar from '../../../../../public/assets/user_avatar.png';
 import detailIcon from '../../../../../public/assets/view-detail-icon.svg';
 import InvestmentDetailModal from '../InvestmentDetailModal';
-import ProductsDetailModal from '../ProductsDetailModal';
+// import ProductsDetailModal from '../ViewProductsModal';
 import SuccessfulModal from '@/components/atoms/UserDeleteModal/SuccessfulModal';
 import successIcon from '../../../../../public/assets/successIcon.png';
 import CenterModal from '@/components/molecules/Modal/CenterModal';
 import ProductModal from '../ProductModal';
 import { format } from 'date-fns';
+import ViewProductsModal from '../ViewProductsModal';
+import ProductDetailModal from '../ProductDetailModal';
 
 const MangeProductsTable = () => {
   const { fetch, user } = useContextHook(AuthContext, v => ({
@@ -50,9 +52,8 @@ const MangeProductsTable = () => {
   }
 
   const { products_data, products_loading } = productService.GetAllProducts(searchQuery, fetch);
-  console.log(products_data);
 
-  const actionBtns = user => {
+  const actionBtns = product => {
     return (
       <ActionBtnList>
         <li>
@@ -62,18 +63,19 @@ const MangeProductsTable = () => {
             btnComponent={({ onClick }) => (
               <Button variant="secondary" custom xsCustom onClick={onClick}>
                 <Image src={detailIcon} alt="detailIcon" />
-                View Detail
+                View Products
               </Button>
             )}
             content={({ onClose }) => (
-              <ProductsDetailModal
-                userId={user?._id}
-                setProduct={setProduct}
-                onClose={onClose}
-                setSuccessModal={setSuccessModal}
-                setProductModal={setProductModal}
-                accountType={user.account_type}
-              />
+              // <ViewProductsModal
+              //   userId={user?._id}
+              //   setProduct={setProduct}
+              //   onClose={onClose}
+              //   setSuccessModal={setSuccessModal}
+              //   setProductModal={setProductModal}
+              //   accountType={user.account_type}
+              // />
+              <ProductDetailModal product={product} />
             )}
           />
         </li>
@@ -120,8 +122,13 @@ const MangeProductsTable = () => {
       product_rows: products_data?.items?.map(_ => [
         format(new Date(_?.created_at), 'yyyy-MM-dd') || '------------',
         _?.productName || '------------',
-        _?.userId?.fullName || '------------',
-        _?.userId?.isVerified ? 'Approved' : 'Pending' || '------------',
+        _?.userId?.fullName || 'Super Admin' || '------------',
+        _?.userId?.isVerified || !_?.isVerified ? 'Approved' : 'Pending' || '------------',
+        _?.userId?.isIndividualSeller
+          ? 'Individual Seller'
+          : _?.userId?.role === 'Super Admin'
+          ? 'Super Admin'
+          : 'Company Seller',
         _?.investmentType || '------------',
         _?.isVerified ? 'Approved' : 'Pending' || '------------',
         _?.currentBackers ?? '------------',
@@ -138,6 +145,7 @@ const MangeProductsTable = () => {
     `Product`,
     `Owner`,
     `Owner Status`,
+    `Account Type`,
     `Category`,
     `Product Status`,
     `Current Backers`,
