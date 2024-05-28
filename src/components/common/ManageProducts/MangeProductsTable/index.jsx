@@ -124,10 +124,10 @@ const MangeProductsTable = () => {
         _?.productName || '------------',
         _?.userId?.fullName || 'Super Admin' || '------------',
         _?.userId?.isVerified || !_?.isVerified ? 'Approved' : 'Pending' || '------------',
-        _?.userId?.isIndividualSeller
-          ? 'Individual Seller'
-          : _?.userId?.role === 'Super Admin'
+        !_?.userId?.sellerType
           ? 'Super Admin'
+          : _?.userId?.sellerType === 'Individual'
+          ? 'Individual Seller'
           : 'Company Seller',
         _?.investmentType || '------------',
         _?.isVerified ? 'Approved' : 'Pending' || '------------',
@@ -145,7 +145,7 @@ const MangeProductsTable = () => {
     `Product`,
     `Owner`,
     `Owner Status`,
-    `Account Type`,
+    `User Account Type`,
     `Category`,
     `Product Status`,
     `Current Backers`,
