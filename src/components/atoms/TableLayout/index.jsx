@@ -40,7 +40,7 @@ function TableLayout({
   setTab,
   noBorder,
   noPadding,
-  openDateModal,
+  // openDateModal,
   setResetFilter = () => {},
 }) {
   const [filterState, setFilterState] = useState('');
@@ -64,7 +64,7 @@ function TableLayout({
             buyerSellerTabs={buyerSellerTabs}
             manageProductsTabs={manageProductsTabs}
             ProductsDetailSelect={ProductsDetailSelect}
-            openDateModal={openDateModal}
+            // openDateModal={openDateModal}
             tab={tab}
             setTab={setTab}
             onChangeFilters={_ => {

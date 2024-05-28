@@ -8,6 +8,9 @@ import Button from '../../components/atoms/Button';
 import Image from 'next/image';
 import Select from '../../components/atoms/Select';
 import debounce from 'lodash/debounce';
+import SelectRangeModal from '@/components/atoms/SelectRangeModal';
+import CenterModal from '@/components/molecules/Modal/CenterModal';
+import { format } from 'date-fns';
 
 function ProductsFilter({
   tableHeading,
@@ -24,10 +27,13 @@ function ProductsFilter({
   setTab,
   onChangeFilters,
   ProductsDetailSelect,
-  openDateModal,
+  // openDateModal,
 }) {
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [searchText, setSearchText] = useState('');
   const debounceRef = useRef(0);
+  const [dateModal, setDateModal] = useState(false);
 
   const onSearchCallText = useMemo(
     () =>
@@ -128,165 +134,202 @@ function ProductsFilter({
     },
   ];
   return (
-    <StyledTableHeader>
-      <div className="head">
-        {tableHeading && <strong className="table-heading">{tableHeading}</strong>}
-        {buyerSellerTabs && (
-          <div className="btn-holder">
-            <button
-              className={tab === 1 ? 'active' : ''}
-              onClick={() => {
-                handleTabs(1);
-                onChangeFilters({ type: 'Buyer' });
-              }}>
-              Buyer
-            </button>
-            <button
-              className={tab === 2 ? 'active' : ''}
-              onClick={() => {
-                handleTabs(2);
-                onChangeFilters({ type: 'Seller' });
-              }}>
-              Seller
-            </button>
-          </div>
-        )}
-        {manageProductsTabs && (
-          <div className="btn-holder">
-            <button
-              className={tab === 1 ? 'active' : ''}
-              onClick={() => {
-                handleTabs(1);
-                onChangeFilters({
-                  page: 1,
-                  startDate: '',
-                  endDate: '',
-                  searchText: '',
-                  section: 'Investments',
-                  status: '',
-                  accType: '',
-                });
-              }}>
-              Investments
-            </button>
-            <button
-              className={tab === 2 ? 'active' : ''}
-              onClick={() => {
-                handleTabs(2);
-                onChangeFilters({
-                  page: 1,
-                  startDate: '',
-                  endDate: '',
-                  searchText: '',
-                  section: 'Products',
-                  status: '',
-                  accType: '',
-                });
-              }}>
-              Products
-            </button>
-          </div>
-        )}
-        <div className="actions">
+    <>
+      <StyledTableHeader>
+        <div className="head">
+          {tableHeading && <strong className="table-heading">{tableHeading}</strong>}
           {buyerSellerTabs && (
-            <>
-              <div className="select-holder">
-                <Select
-                  placeholder="Select KYC"
-                  onChange={({ target: { value } }) => {
-                    onChangeFilters({ kycLevel: value?.value });
-                  }}
-                  options={kycData}
-                  labelReverse
-                />
-              </div>
-              <div className="select-holder">
-                <Select
-                  placeholder="Select Status"
-                  onChange={({ target: { value } }) => {
-                    onChangeFilters({ status: value?.value });
-                  }}
-                  options={statusData}
-                />
-              </div>
-              {tab === 2 && (
+            <div className="btn-holder">
+              <button
+                className={tab === 1 ? 'active' : ''}
+                onClick={() => {
+                  handleTabs(1);
+                  onChangeFilters({ type: 'Buyer' });
+                }}>
+                Buyer
+              </button>
+              <button
+                className={tab === 2 ? 'active' : ''}
+                onClick={() => {
+                  handleTabs(2);
+                  onChangeFilters({ type: 'Seller' });
+                }}>
+                Seller
+              </button>
+            </div>
+          )}
+          {manageProductsTabs && (
+            <div className="btn-holder">
+              <button
+                className={tab === 1 ? 'active' : ''}
+                onClick={() => {
+                  handleTabs(1);
+                  setStartDate(null);
+                  setEndDate(null);
+                  onChangeFilters({
+                    page: 1,
+                    startDate: '',
+                    endDate: '',
+                    searchText: '',
+                    section: 'Investments',
+                    status: '',
+                    accType: '',
+                  });
+                }}>
+                Investments
+              </button>
+              <button
+                className={tab === 2 ? 'active' : ''}
+                onClick={() => {
+                  handleTabs(2);
+                  setStartDate(null);
+                  setEndDate(null);
+                  onChangeFilters({
+                    page: 1,
+                    startDate: '',
+                    endDate: '',
+                    searchText: '',
+                    section: 'Products',
+                    status: '',
+                    accType: '',
+                  });
+                }}>
+                Products
+              </button>
+            </div>
+          )}
+          <div className="actions">
+            {buyerSellerTabs && (
+              <>
                 <div className="select-holder">
                   <Select
-                    placeholder="Select Account type"
+                    placeholder="Select KYC"
+                    onChange={({ target: { value } }) => {
+                      onChangeFilters({ kycLevel: value?.value });
+                    }}
+                    options={kycData}
+                    labelReverse
+                  />
+                </div>
+                <div className="select-holder">
+                  <Select
+                    placeholder="Select Status"
+                    onChange={({ target: { value } }) => {
+                      onChangeFilters({ status: value?.value });
+                    }}
+                    options={statusData}
+                  />
+                </div>
+                {tab === 2 && (
+                  <div className="select-holder">
+                    <Select
+                      placeholder="Select Account type"
+                      onChange={({ target: { value } }) => {
+                        onChangeFilters({ accType: value?.value });
+                      }}
+                      options={accountTypeData}
+                    />
+                  </div>
+                )}
+              </>
+            )}
+            {manageProductsTabs && tab === 2 && (
+              <>
+                <div className="select-holder">
+                  <Select
+                    placeholder="Select Account Type"
                     onChange={({ target: { value } }) => {
                       onChangeFilters({ accType: value?.value });
                     }}
-                    options={accountTypeData}
+                    options={productAccountTypeData}
                   />
                 </div>
-              )}
-            </>
-          )}
-          {manageProductsTabs && tab === 2 && (
-            <>
+                <div className="select-holder">
+                  <Select
+                    placeholder="Select Status"
+                    onChange={({ target: { value } }) => {
+                      onChangeFilters({ status: value?.value });
+                    }}
+                    options={productStatusData}
+                  />
+                </div>
+              </>
+            )}
+            {ProductsDetailSelect && (
               <div className="select-holder">
                 <Select
                   placeholder="Select Account Type"
-                  onChange={({ target: { value } }) => {
-                    onChangeFilters({ accType: value?.value });
-                  }}
-                  options={productAccountTypeData}
-                />
-              </div>
-              <div className="select-holder">
-                <Select
-                  placeholder="Select Status"
                   onChange={({ target: { value } }) => {
                     onChangeFilters({ status: value?.value });
                   }}
                   options={productStatusData}
                 />
               </div>
-            </>
-          )}
-          {ProductsDetailSelect && (
-            <div className="select-holder">
-              <Select
-                placeholder="Select Account Type"
-                onChange={({ target: { value } }) => {
-                  onChangeFilters({ status: value?.value });
-                }}
-                options={productStatusData}
-              />
-            </div>
-          )}
-          {placeholder && (
-            <div className="item">
-              <div className="Search">
-                <Field
-                  type="search"
-                  rounded
-                  sm
-                  name="search"
-                  placeholder={placeholder}
-                  suffix={<CiSearch className="icon" />}
-                  onChange={({ target: { value } }) => {
-                    setSearchText(value);
-                    onSearchCallText(value.trim());
-                  }}
-                />
+            )}
+            {placeholder && (
+              <div className="item">
+                <div className="Search">
+                  <Field
+                    type="search"
+                    rounded
+                    sm
+                    name="search"
+                    placeholder={placeholder}
+                    suffix={<CiSearch className="icon" />}
+                    onChange={({ target: { value } }) => {
+                      setSearchText(value);
+                      onSearchCallText(value.trim());
+                    }}
+                  />
+                </div>
               </div>
-            </div>
-          )}
-          {btnText && (
-            <Button rounded width={btnWidth ? btnWidth : '100%'} variant={btnType} onClick={openModal}>
-              {btnText}
-              {btnImg && <Image src={btnImg} alt="btnImg" />}
-            </Button>
-          )}
-          {iconImg && (
-            <div className="icon-div" onClick={openDateModal}>
-              <Image src={iconImg} alt="iconImg" />
-            </div>
-          )}
+            )}
+            {btnText && (
+              <Button rounded width={btnWidth ? btnWidth : '100%'} variant={btnType} onClick={openModal}>
+                {btnText}
+                {btnImg && <Image src={btnImg} alt="btnImg" />}
+              </Button>
+            )}
+            {iconImg && (
+              <div className="icon-div" onClick={() => setDateModal(true)}>
+                <Image src={iconImg} alt="iconImg" />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </StyledTableHeader>
+      </StyledTableHeader>
+      <CenterModal open={dateModal} setOpen={setDateModal} width="666" padding={'30px'} title="Select Range">
+        <SelectRangeModal
+          startDate={startDate}
+          endDate={endDate}
+          onChange={dates => {
+            const [start, end] = dates?.target?.value;
+            setStartDate(start);
+            setEndDate(end);
+          }}
+          onApplyDate={() => {
+            if (startDate && endDate) {
+              onChangeFilters({
+                startDate: format(new Date(startDate), 'yyyy-MM-dd'),
+                endDate: format(new Date(endDate), 'yyyy-MM-dd'),
+              });
+              setDateModal(false);
+            }
+          }}
+          onClearDate={() => {
+            setStartDate(null);
+            setEndDate(null);
+            if (startDate && endDate) {
+              onChangeFilters({
+                startDate: '',
+                endDate: '',
+              });
+            }
+          }}
+          setDateModal={setDateModal}
+        />
+      </CenterModal>
+    </>
   );
 }
 

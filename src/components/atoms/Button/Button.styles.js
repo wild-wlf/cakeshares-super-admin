@@ -1,13 +1,13 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
 export const StyledButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: ${({ $gap }) => ($gap ? $gap : "10px")};
+  gap: ${({ $gap }) => ($gap ? $gap : '10px')};
   padding: 11px 15px;
   border-radius: 52px;
-  font: 400 14px/17px "Outfit";
+  font: 400 14px/17px 'Outfit';
   width: ${({ $width }) => $width};
   min-width: 170px;
   background: var(--green);
@@ -53,36 +53,36 @@ ${({ $custom }) =>
     `}
   /***** Background-Variants-Start *****/
   ${({ $variant }) =>
-    $variant == "primary" &&
+    $variant == 'primary' &&
     css`
       background: var(--green-50);
     `}
   ${({ $variant }) =>
-    $variant == "secondary" &&
+    $variant == 'secondary' &&
     css`
       background: rgba(78, 97, 153, 0.1);
       color: var(--secondary-50);
     `}
   ${({ $variant }) =>
-    $variant == "success" &&
+    $variant == 'success' &&
     css`
       background: rgba(64, 143, 140, 0.1);
       color: var(--green);
     `}
   ${({ $variant }) =>
-    $variant == "danger" &&
+    $variant == 'danger' &&
     css`
       background: rgba(215, 65, 32, 0.1);
       color: var(--danger-50);
     `}
   ${({ $variant }) =>
-    $variant == "info" &&
+    $variant == 'info' &&
     css`
       background: rgba(81, 178, 255, 0.1);
       color: #51b2ff;
     `}
   ${({ $variant }) =>
-    $variant == "dark" &&
+    $variant == 'dark' &&
     css`
       background: #235d5e;
     `}
@@ -103,7 +103,7 @@ ${({ $custom }) =>
       }
     `}
   ${({ $outline }) =>
-    $outline == "primary" &&
+    $outline == 'primary' &&
     css`
       border: 1px solid var(--primary-500);
       background: transparent;
@@ -115,7 +115,7 @@ ${({ $custom }) =>
       }
     `}
   ${({ $outline }) =>
-    $outline == "secondary" &&
+    $outline == 'secondary' &&
     css`
       border: 1px solid var(--secondary-500);
       background: transparent;
@@ -127,7 +127,7 @@ ${({ $custom }) =>
       }
     `}
   ${({ $outline }) =>
-    $outline == "success" &&
+    $outline == 'success' &&
     css`
       border: 1px solid var(--success-500);
       background: transparent;
@@ -139,7 +139,7 @@ ${({ $custom }) =>
       }
     `}
   ${({ $outline }) =>
-    $outline == "danger" &&
+    $outline == 'danger' &&
     css`
       border: 1px solid var(--danger-500);
       background: transparent;
@@ -170,4 +170,11 @@ ${({ $custom }) =>
       transform: rotate(360deg);
     }
   }
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      pointer-events: none;
+      opacity: 0.6;
+    `}
 `;

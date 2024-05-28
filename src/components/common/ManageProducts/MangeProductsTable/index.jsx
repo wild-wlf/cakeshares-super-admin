@@ -11,7 +11,6 @@ import { useContextHook } from 'use-context-hook';
 import ModalContainer from '@/components/molecules/ModalContainer';
 import TableStyle from '../../../../../public/assets/table-style.jpg';
 import CalenderIcon from '../../../../../public/assets/calander.svg';
-import userAvatar from '../../../../../public/assets/user_avatar.png';
 import detailIcon from '../../../../../public/assets/view-detail-icon.svg';
 import DeleteIcon from '../../../../../public/assets/table-delete-icon.svg';
 import declineIcon from '../../../../../public/assets/decline-icon.svg';
@@ -26,7 +25,6 @@ import ProductDetailModal from '../ProductDetailModal';
 import { MdModeEditOutline } from 'react-icons/md';
 import DeclineModal from '../../DeclineModal';
 import DeleteModal from '@/components/atoms/UserDeleteModal/DeleteModal';
-import SelectRangeModal from '@/components/atoms/SelectRangeModal';
 
 const MangeProductsTable = () => {
   const { fetch, user } = useContextHook(AuthContext, v => ({
@@ -36,7 +34,6 @@ const MangeProductsTable = () => {
   const [tab, setTab] = useState(1);
   const [product, setProduct] = useState({});
   const [successModal, setSuccessModal] = useState(false);
-  const [dateModal, setDateModal] = useState(false);
   const [createProductSuccessModal, setCreateProductSuccessModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -175,7 +172,12 @@ const MangeProductsTable = () => {
   const actionBtnss = () => (
     <ActionBtnList>
       <li>
-        <ModalContainer
+        <Button variant="secondary" custom xsCustom>
+          <Image src={detailIcon} alt="detailIcon" />
+          View Product
+        </Button>
+      </li>
+      {/* <ModalContainer
           width={1100}
           title="Logan’s Investments"
           btnComponent={({ onClick }) => (
@@ -185,8 +187,7 @@ const MangeProductsTable = () => {
             </Button>
           )}
           content={({ onClose }) => <InvestmentDetailModal onClose={onClose} />}
-        />
-      </li>
+        /> */}
     </ActionBtnList>
   );
 
@@ -240,9 +241,6 @@ const MangeProductsTable = () => {
 
   return (
     <>
-      <CenterModal open={dateModal} setOpen={setDateModal} width="666" padding={'30px'} title="Select Range">
-        <SelectRangeModal />
-      </CenterModal>
       <CenterModal
         open={successModal}
         setOpen={setSuccessModal}
@@ -283,7 +281,7 @@ const MangeProductsTable = () => {
         <TableLayout
           manageProductsTabs
           openProductModal={setProductModal}
-          openDateModal={() => setDateModal(true)}
+          // openDateModal={() => setDateModal(true)}
           btnWidth="40px"
           btnText={tab === 2 && 'Create New Product'}
           btnType={tab === 2 && 'success'}

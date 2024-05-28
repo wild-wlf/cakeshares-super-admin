@@ -34,9 +34,18 @@ const productService = {
     };
   },
 
-  async getAllProducts({ page = 1, itemsPerPage = 10, searchText = '', status = '', accType = '', section = '' }) {
+  async getAllProducts({
+    page = 1,
+    itemsPerPage = 10,
+    searchText = '',
+    startDate = '',
+    endDate = '',
+    status = '',
+    accType = '',
+    section = '',
+  }) {
     let res = await Fetch.get(
-      `${this._url}/get-all-products-super?page=${page}&itemsPerPage=${itemsPerPage}&searchText=${searchText}&status=${status}&accType=${accType}&section=${section}`,
+      `${this._url}/get-all-products-super?page=${page}&itemsPerPage=${itemsPerPage}&searchText=${searchText}&startDate=${startDate}&endDate=${endDate}&status=${status}&accType=${accType}&section=${section}`,
     );
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
@@ -69,9 +78,9 @@ const productService = {
     };
   },
 
-  async getAllInvestments({ page = 1, itemsPerPage = 10, searchText = '' }) {
+  async getAllInvestments({ page = 1, itemsPerPage = 10, searchText = '', startDate = '', endDate = '' }) {
     let res = await Fetch.get(
-      `${this._url}/get-all-investments-super?page=${page}&itemsPerPage=${itemsPerPage}&searchText=${searchText}`,
+      `${this._url}/get-all-investments-super?page=${page}&itemsPerPage=${itemsPerPage}&searchText=${searchText}&startDate=${startDate}&endDate=${endDate}`,
     );
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
