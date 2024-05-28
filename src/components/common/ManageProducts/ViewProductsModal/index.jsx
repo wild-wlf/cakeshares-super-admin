@@ -18,8 +18,9 @@ import { AuthContext } from '@/context/authContext';
 import ProductDetail from '../ProductDetailModal';
 import { ActionBtnList } from '@/components/atoms/ActionBtns/ActionBtns.styles';
 import ProductDetailModal from '../ProductDetailModal';
+import { MdModeEditOutline } from 'react-icons/md';
 
-const ViewProductsModal = ({ userId, setProduct, onClose, setSuccessModal, setProductModal }) => {
+const ViewProductsModal = ({ userId, setProduct, onClose, setSuccessModal, setProductModal, sellerType }) => {
   const { fetch, refetch } = useContextHook(AuthContext, v => ({
     fetch: v.fetch,
     refetch: v.refetch,
@@ -38,6 +39,7 @@ const ViewProductsModal = ({ userId, setProduct, onClose, setSuccessModal, setPr
   }
 
   const { products_data, products_loading } = productService.GetAllProducts(searchQuery, fetch, userId);
+
   const actionBtns = product => {
     if (!product.isVerified) {
       return (
@@ -60,7 +62,7 @@ const ViewProductsModal = ({ userId, setProduct, onClose, setSuccessModal, setPr
     } else {
       return (
         <ActionBtnList>
-          {product?.userId?.sellerType !== 'Individual' ? (
+          {product?.userId?.sellerType === 'Individual Seller' ? (
             <>
               <li>
                 <ModalContainer
@@ -120,6 +122,19 @@ const ViewProductsModal = ({ userId, setProduct, onClose, setSuccessModal, setPr
                   }}>
                   <Image src={DeleteIcon} alt="DeleteIcon" />
                 </button>
+              </li>
+              <li>
+                <ModalContainer
+                  width={1500}
+                  title="Product Detail"
+                  btnComponent={({ onClick }) => (
+                    <Button variant="secondary" custom xsCustom onClick={onClick}>
+                      <Image src={detailIcon} alt="detailIcon" />
+                      View Detail
+                    </Button>
+                  )}
+                  content={({ onClose }) => <ProductDetailModal product={product} />}
+                />
               </li>
             </>
           )}

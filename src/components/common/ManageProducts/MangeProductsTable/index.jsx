@@ -117,7 +117,11 @@ const MangeProductsTable = () => {
     return {
       product_rows: user_data?.items?.map(user => {
         const sellerType =
-          user?.type === 'Seller' ? (user.isIndividualSeller ? 'Individual Seller' : 'Company Seller') : 'Super Admin';
+          user?.type === 'Seller'
+            ? user.isIndividualSeller
+              ? 'Individual Seller'
+              : 'Company Seller'
+            : 'Individual Seller';
         return [
           <div className="table-img-holder" key={user?._id}>
             <div className="img-holder">
