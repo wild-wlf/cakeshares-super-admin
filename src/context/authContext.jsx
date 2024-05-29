@@ -135,9 +135,9 @@ export const AuthContextProvider = props => {
       }
 
       setIsLoggedIn(true);
+      router.push('/dashboard');
       setCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE, res.token);
       console.log('token set', process.env.NEXT_PUBLIC_TOKEN_COOKIE);
-      router.push('/dashboard');
       setLoadingUser(false);
       setLoading(false);
       Toast({ type: 'success', message: 'Logged In Successfully!' });
