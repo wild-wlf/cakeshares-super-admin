@@ -56,11 +56,16 @@ export const AuthContextProvider = props => {
 
   const getPermissions = () => {
     // debugger
-    if (!isLoggedIn) return;
+    // if (!isLoggedIn) return;
     setLoadingUser(true);
-    if (!allowedPages) return;
+    // if (!allowedPages) return;
     cancellablePromise(authService.getCurrentAdmin())
       .then(res => {
+        console.log(
+          res.permissions.filter(p => p.includes('.nav')).map(p => `/${p.split('.')[0]}`),
+          [...res.permissions.filter(p => p.includes('.nav')).map(p => p.split('.')[0])],
+          ' current admin hello',
+        );
         setAllowedPages(res.permissions.filter(p => p.includes('.nav')).map(p => `/${p.split('.')[0]}`));
         setCookie(
           process.env.NEXT_PUBLIC_ALLOWED_PAGES_COOKIE,
@@ -69,11 +74,15 @@ export const AuthContextProvider = props => {
 
         setLoadingUser(false);
         setUser(res);
+        console.log(router.pathname, 'push to perm in');
+        console.log(publicPages.includes(router.pathname), 'publicPages.includes(router.pathname)');
         if (publicPages.includes(router.pathname)) {
           router.push('/dashboard');
         }
       })
       .catch(err => {
+        setAllowedPages(['no-permissions']);
+        setCookie(process.env.REACT_APP_ALLOWED_PAGES_COOKIE, JSON.stringify(['no-permissions']));
         setLoadingUser(false);
         Toast({
           type: 'error',
@@ -101,10 +110,15 @@ export const AuthContextProvider = props => {
 
   useEffect(() => {
     if (isLoggedIn) {
+      console.log(isLoggedIn, 'isLoggedIn');
       getPermissions();
     } else if (!isLoggedIn) {
+      console.log(isLoggedIn, '!isLoggedIn');
+      console.log(router.pathname, 'push to sign in');
+      console.log(privatePages.includes(router.pathname), 'privatePages.includes(router.pathname)');
       if (privatePages.includes(router.pathname)) {
         router.push('/sign-in');
+        console.log('push to sign in');
       }
     }
   }, [isLoggedIn]);
@@ -124,10 +138,11 @@ export const AuthContextProvider = props => {
 
       setIsLoggedIn(true);
       setCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE, res.token);
+      console.log('token set', process.env.NEXT_PUBLIC_TOKEN_COOKIE);
       router.push('/dashboard');
-      Toast({ type: 'success', message: 'Logged In Successfully!' });
       setLoadingUser(false);
       setLoading(false);
+      Toast({ type: 'success', message: 'Logged In Successfully!' });
     } catch ({ message }) {
       setIsLoggedIn(false);
       setLoadingUser(false);
@@ -269,6 +284,7 @@ export const AuthContextProvider = props => {
   }, []);
 
   const hasPermission = perm => user?.permissions?.includes(perm);
+
   return (
     <AuthContext.Provider
       value={{
