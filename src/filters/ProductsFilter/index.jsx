@@ -144,7 +144,17 @@ function ProductsFilter({
                 className={tab === 1 ? 'active' : ''}
                 onClick={() => {
                   handleTabs(1);
-                  onChangeFilters({ type: 'Buyer' });
+                  onChangeFilters({
+                    page: 1,
+                    itemsPerPage: 10,
+                    startDate: '',
+                    endDate: '',
+                    searchText: '',
+                    type: 'Buyer',
+                    kycLevel: '',
+                    status: '',
+                    accType: '',
+                  });
                 }}>
                 Buyer
               </button>
@@ -152,7 +162,17 @@ function ProductsFilter({
                 className={tab === 2 ? 'active' : ''}
                 onClick={() => {
                   handleTabs(2);
-                  onChangeFilters({ type: 'Seller' });
+                  onChangeFilters({
+                    page: 1,
+                    itemsPerPage: 10,
+                    startDate: '',
+                    endDate: '',
+                    searchText: '',
+                    type: 'Seller',
+                    kycLevel: '',
+                    status: '',
+                    accType: '',
+                  });
                 }}>
                 Seller
               </button>

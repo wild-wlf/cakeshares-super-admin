@@ -34,6 +34,16 @@ const productService = {
     };
   },
 
+  async getDashboardCards() {
+    let res = await Fetch.get(`${this._url}/get-dashboard-cards`);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    }
+    const { message } = await res.json();
+    throw new Error(message ?? 'Something Went Wrong');
+  },
+
   async getAllProducts({
     page = 1,
     itemsPerPage = 10,

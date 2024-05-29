@@ -162,4 +162,9 @@ export const StyledUserDetailModal = styled.div`
       }
     }
   }
+  .btn-holder {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
 `;

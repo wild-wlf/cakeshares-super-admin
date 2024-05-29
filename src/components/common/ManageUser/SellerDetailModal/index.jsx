@@ -9,8 +9,10 @@ import vehicleIcon from '../../../../../public/assets/vehicle-icon.svg';
 import AddMoney from '../AddMoney';
 import ModalContainer from '@/components/molecules/ModalContainer';
 import { StyledUserDetailModal } from '../UserDetailModal/UserDetailModal.styles';
+import declineIcon from '../../../../../public/assets/decline-icon.svg';
+import DeclineModal from '../../DeclineModal';
 
-const SellerDetailModal = ({ user, setSellerPropertiesModal, setMoneyAdded }) => {
+const SellerDetailModal = ({ user, setSellerPropertiesModal, setMoneyAdded, handleConfirmActivate }) => {
   return (
     <StyledUserDetailModal>
       <span className="heading">Personal Info:</span>
@@ -105,6 +107,29 @@ const SellerDetailModal = ({ user, setSellerPropertiesModal, setMoneyAdded }) =>
           <span className="text">Vehicles</span>
         </div>
       </div>
+      {!user?.isVerified && (
+        <div className="btn-holder">
+          <Button
+            onClick={() => {
+              handleConfirmActivate(user?._id, 'Approve');
+            }}
+            variant="success"
+            custom
+            xsCustom>
+            Approve
+          </Button>
+          <ModalContainer
+            width={500}
+            title={<Image src={declineIcon} alt="declineIcon" />}
+            btnComponent={({ onClick }) => (
+              <Button variant="danger" custom xsCustom onClick={onClick}>
+                Decline
+              </Button>
+            )}
+            content={({ onClose }) => <DeclineModal type="User" onClose={onClose} id={user?._id} />}
+          />
+        </div>
+      )}
     </StyledUserDetailModal>
   );
 };
