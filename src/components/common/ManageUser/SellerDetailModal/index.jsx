@@ -56,7 +56,7 @@ const SellerDetailModal = ({ user, setSellerPropertiesModal, setMoneyAdded, hand
           <div className="content">
             <div>
               <span className="heading">Total Balance:</span>
-              <span className="text">$40,256.000</span>
+              <span className="text">$ {user?.wallet?.toLocaleString() || 0}</span>
             </div>
             <div>
               <span className="heading">Actions</span>
@@ -68,7 +68,9 @@ const SellerDetailModal = ({ user, setSellerPropertiesModal, setMoneyAdded, hand
                     Add Balance
                   </Button>
                 )}
-                content={({ onClose }) => <AddMoney setMoneyAdded={setMoneyAdded} />}
+                content={({ onClose }) => (
+                  <AddMoney id={user?._id} currentBalance={user?.wallet} setMoneyAdded={setMoneyAdded} />
+                )}
               />
             </div>
           </div>

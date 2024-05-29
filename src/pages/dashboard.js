@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Head from 'next/head';
 import AdminTopBar from '@/components/common/AdminTopBar/AdminTopBar';
 import handIcon from '../../public/assets/handIcon.png';
 import QuickStatsSection from '@/components/atoms/QuickStatsSection';
@@ -18,9 +19,12 @@ const dashboard = () => {
       setCardsData(data?.cardsData);
     });
   }, []);
-  console.log(cardsData);
   return (
     <>
+      <Head>
+        <title>CAKESHARES | DASHBOARD</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <AdminTopBar
         title={`Welcome ${user?.fullName}!`}
         suffix={handIcon}
