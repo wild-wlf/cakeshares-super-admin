@@ -4,8 +4,9 @@ import { createContextHook } from 'use-context-hook';
 import { clearCookie, getCookie, setCookie } from '@/helpers/common';
 import authService from '@/services/authService';
 import { useCancellablePromise } from '@/helpers/promiseHandler';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import Toast from '@/components/molecules/Toast';
+import { useRouter } from 'next/navigation';
 
 const context = {};
 
@@ -13,6 +14,7 @@ export const AuthContext = createContextHook(context);
 
 export const AuthContextProvider = props => {
   const [isLoggedIn, setIsLoggedIn] = useState(!!getCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE));
+  // const router = useRouter();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
