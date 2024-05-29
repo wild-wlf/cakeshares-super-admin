@@ -25,7 +25,7 @@ export const AuthContextProvider = props => {
     JSON.parse(getCookie(process.env.NEXT_PUBLIC_ALLOWED_PAGES_COOKIE)) || [],
   );
 
-  const publicPages = ['/sign-in'];
+  const publicPages = ['/'];
 
   const privatePages = [
     '/',
@@ -45,7 +45,7 @@ export const AuthContextProvider = props => {
       clearCookie(process.env.NEXT_PUBLIC_ALLOWED_PAGES_COOKIE);
       clearCookie('is_email_verified');
       clearCookie('email');
-      router.push('/sign-in');
+      router.push('/');
       Toast({ type: 'success', message: 'Logout Successfully' });
       setLoadingUser(false);
       setIsLoggedIn(false);
@@ -59,11 +59,6 @@ export const AuthContextProvider = props => {
     // if (!allowedPages) return;
     cancellablePromise(authService.getCurrentAdmin())
       .then(res => {
-        console.log(
-          res.permissions.filter(p => p.includes('.nav')).map(p => `/${p.split('.')[0]}`),
-          [...res.permissions.filter(p => p.includes('.nav')).map(p => p.split('.')[0])],
-          ' current admin hello',
-        );
         setAllowedPages(res.permissions.filter(p => p.includes('.nav')).map(p => `/${p.split('.')[0]}`));
         setCookie(
           process.env.NEXT_PUBLIC_ALLOWED_PAGES_COOKIE,
@@ -72,8 +67,6 @@ export const AuthContextProvider = props => {
 
         setLoadingUser(false);
         setUser(res);
-        console.log(router.pathname, 'push to perm in');
-        console.log(publicPages.includes(router.pathname), 'publicPages.includes(router.pathname)');
         if (publicPages.includes(router.pathname)) {
           router.push('/dashboard');
         }
@@ -108,15 +101,10 @@ export const AuthContextProvider = props => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      console.log(isLoggedIn, 'isLoggedIn');
       getPermissions();
     } else if (!isLoggedIn) {
-      console.log(isLoggedIn, '!isLoggedIn');
-      console.log(router.pathname, 'push to sign in');
-      console.log(privatePages.includes(router.pathname), 'privatePages.includes(router.pathname)');
       if (privatePages.includes(router.pathname)) {
-        router.push('/sign-in');
-        console.log('push to sign in');
+        router.push('/');
       }
     }
   }, [isLoggedIn]);
@@ -135,9 +123,7 @@ export const AuthContextProvider = props => {
       }
 
       setIsLoggedIn(true);
-      router.push('/dashboard');
       setCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE, res.token);
-      console.log('token set', process.env.NEXT_PUBLIC_TOKEN_COOKIE);
       setLoadingUser(false);
       setLoading(false);
       Toast({ type: 'success', message: 'Logged In Successfully!' });
