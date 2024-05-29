@@ -14,11 +14,12 @@ import CalenderIcon from '../../../../../public/assets/calander.svg';
 import userAvatar from '../../../../../public/assets/user_avatar.png';
 import detailIcon from '../../../../../public/assets/view-detail-icon.svg';
 import InvestmentDetailModal from '../InvestmentDetailModal';
-import ProductsDetailModal from '../ProductsDetailModal';
+import ProductsDetailModal from '../ViewProductsModal';
 import SuccessfulModal from '@/components/atoms/UserDeleteModal/SuccessfulModal';
 import successIcon from '../../../../../public/assets/successIcon.png';
 import CenterModal from '@/components/molecules/Modal/CenterModal';
 import ProductModal from '../ProductModal';
+import ViewProductsModal from '../ViewProductsModal';
 
 const MangeProductsTable = () => {
   const { fetch, user } = useContextHook(AuthContext, v => ({
@@ -60,11 +61,11 @@ const MangeProductsTable = () => {
             btnComponent={({ onClick }) => (
               <Button variant="secondary" custom xsCustom onClick={onClick}>
                 <Image src={detailIcon} alt="detailIcon" />
-                View Detail
+                View Products
               </Button>
             )}
             content={({ onClose }) => (
-              <ProductsDetailModal
+              <ViewProductsModal
                 userId={user?._id}
                 setProduct={setProduct}
                 onClose={onClose}
@@ -158,7 +159,7 @@ const MangeProductsTable = () => {
       {/* <CenterModal open={createProduct} setOpen={setCreateProduct} title="Create new Product" width="900">
         <CreateNewProduct handleCreateProduct={handleCreateProduct} setCreateProductData={setCreateProductData} />
       </CenterModal> */}
-      <CenterModal open={productModal} setOpen={setProductModal} title="Create Product" width="900">
+      <CenterModal open={productModal} setOpen={setProductModal} title="Create New Product" width="900">
         <ProductModal
           product={product}
           setCreateProductSuccessModal={setCreateProductSuccessModal}
