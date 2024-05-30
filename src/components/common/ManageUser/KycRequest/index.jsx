@@ -5,23 +5,58 @@ import { StyledKycRequest } from './KycRequest.style';
 import fileIcon from '../../../../../public/assets/fileIcon.svg';
 import view from '../../../../../public/assets/view.svg';
 import downloadIcon from '../../../../../public/assets/downloadIcon.svg';
-const KycRequest = ({ setkycApproved, setkycDecline }) => {
+import kycService from '@/services/kycService';
+import Toast from '@/components/molecules/Toast';
+import { useContextHook } from 'use-context-hook';
+import { AuthContext } from '@/context/authContext';
+
+const KycRequest = ({ user, setkycApproved, setkycDecline, setApprovedorDeclinedKycLevel }) => {
+  const { refetch } = useContextHook(AuthContext, v => ({
+    refetch: v.refetch,
+  }));
+  const approveKyc = async () => {
+    try {
+      await kycService.approveKyc(user?._id);
+      setApprovedorDeclinedKycLevel(user?.kycRequestLevel);
+      setkycApproved(true);
+      refetch();
+    } catch ({ message }) {
+      Toast({
+        type: 'error',
+        message,
+      });
+    }
+  };
+
+  const declineKyc = async () => {
+    try {
+      await kycService.declineKyc(user?._id);
+      setApprovedorDeclinedKycLevel(user?.kycRequestLevel);
+      setkycDecline(true);
+      refetch();
+    } catch ({ message }) {
+      Toast({
+        type: 'error',
+        message,
+      });
+    }
+  };
   return (
     <StyledKycRequest>
-      <strong className="title">Request for KYC Level 2:</strong>
+      <strong className="title">Request for KYC Level: {user?.kycRequestLevel || 'None'}:</strong>
       <span className="wrapperTitle">Bank Details Info:</span>
       <div className="product-info">
         <div className="col">
           <span className="heading">Bank Name:</span>
-          <span className="text">Bank of Americe</span>
+          <span className="text">{user?.bank?.bankName}</span>
         </div>
         <div className="col">
           <span className="heading">Account Holder Name:</span>
-          <span className="text">Alex Mertiz</span>
+          <span className="text">{user?.fullName}</span>
         </div>
         <div className="col">
           <span className="heading">Account no:</span>
-          <span className="text">35402755003895</span>
+          <span className="text">{user?.bank?.userId}</span>
         </div>
       </div>
       <span className="wrapperTitle">Residence Proof Info:</span>
@@ -42,10 +77,10 @@ const KycRequest = ({ setkycApproved, setkycDecline }) => {
         </div>
       </div>
       <div className="btnWrap">
-        <Button variant="danger" block onClick={() => setkycDecline(true)}>
+        <Button variant="danger" block onClick={declineKyc}>
           Decline
         </Button>
-        <Button block onClick={() => setkycApproved(true)}>
+        <Button block onClick={approveKyc}>
           Approve
         </Button>
       </div>

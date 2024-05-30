@@ -14,7 +14,6 @@ import { format } from 'date-fns';
 import DeclineModal from '../../DeclineModal';
 
 const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded, handleConfirmActivate }) => {
-  console.log(user);
   return (
     <StyledUserDetailModal>
       <span className="heading">Personal Info:</span>
@@ -74,21 +73,27 @@ const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded, handl
           <div className="head">
             <span className="heading">KYC Info:</span>
             <div className="button">
-              <span>Level 1</span>
+              <span>Level {user?.kycLevel}</span>
             </div>
           </div>
+          {/* {user?.isKycRequested && ( */}
           <div className="content">
             <div>
               <span className="heading">Request For:</span>
-              <span className="text">level 2</span>
+              <span className="text">Level: {user?.kycRequestLevel || 'None'}</span>
             </div>
             <div>
               <span className="heading">Actions</span>
-              <Button variant="success" $custom>
+              <Button
+              disable={!user?.isKycRequested}
+                //  onClick={() => approveKyc(user?._id)}
+                variant="success"
+                $custom>
                 Check Details
               </Button>
             </div>
           </div>
+          {/* )} */}
         </div>
         <div className="col col-2">
           <span className="heading">Wallet Balance Info:</span>

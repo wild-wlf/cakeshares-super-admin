@@ -256,7 +256,11 @@ const MangeProductsTable = () => {
         <SuccessfulModal title="Product Created Successfully!" />
       </CenterModal>
 
-      <CenterModal open={productModal} setOpen={setProductModal} title="Create Product" width="900">
+      <CenterModal
+        open={productModal}
+        setOpen={setProductModal}
+        title={product ? 'Edit Product' : 'Create Product'}
+        width="900">
         <ProductModal
           product={product}
           setCreateProductSuccessModal={setCreateProductSuccessModal}
