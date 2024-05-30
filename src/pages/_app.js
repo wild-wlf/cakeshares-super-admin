@@ -60,9 +60,13 @@ export default function App({ Component, pageProps }) {
         <GlobalStyles />
         {loading && <PreLoader />}
         <div style={{ filter: loading ? 'blur(3px)' : 'none', transition: 'filter 0.3s' }}>
-          <Layout>
+          {pageProps.statusCode === 404 ? (
             <Component {...pageProps} />
-          </Layout>
+          ) : (
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          )}
         </div>
         <StyledToastContainer />
       </AuthContextProvider>

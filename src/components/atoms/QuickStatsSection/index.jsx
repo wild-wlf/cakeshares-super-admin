@@ -20,7 +20,7 @@ const QuickStatsSection = ({ cardsData }) => {
             {/* <BsThreeDots size={20} /> */}
           </div>
           <div className="value-wrapper">
-            <strong>{formatNumber(cardsData?.userCount) ?? 0}</strong>
+            <strong>{formatNumber(cardsData?.userCount) || 0}</strong>
             <div>
               <span className="green-text">+28%</span>
               <span className="desc">From the last week</span>
@@ -36,7 +36,7 @@ const QuickStatsSection = ({ cardsData }) => {
             {/* <BsThreeDots size={20} /> */}
           </div>
           <div className="value-wrapper">
-            <strong>{formatNumber(cardsData?.investmentCount) ?? 0}</strong>
+            <strong>{formatNumber(cardsData?.investmentCount) || 0}</strong>
             <div>
               <span className="green-text">+15%</span>
               <span className="desc">From the last week</span>
