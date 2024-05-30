@@ -1,12 +1,8 @@
-import ForgotPassword from "@/components/common/login/ForgotPassword";
-import React from "react";
+import ForgotPassword from '@/components/common/login/ForgotPassword';
+import React from 'react';
 
 const index = () => {
-  return (
-    <>
-      <ForgotPassword />
-    </>
-  );
+  return <ForgotPassword />;
 };
 
 export default index;
