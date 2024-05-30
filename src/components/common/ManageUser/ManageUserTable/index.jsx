@@ -77,7 +77,7 @@ const ManageUserTable = () => {
   const handleConfirmActivate = useCallback(async (id, type) => {
     try {
       setIsLoading(true);
-      const obj = { isVerified: type === 'Approve' };
+      const obj = { isVerified: type === 'Approve', status: 'Active' };
       const payload = new FormData();
       Object.keys(obj).forEach(key => payload.append(key, obj[key]));
 
