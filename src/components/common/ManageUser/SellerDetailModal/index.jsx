@@ -41,11 +41,11 @@ const SellerDetailModal = ({ user, setSellerPropertiesModal, setMoneyAdded, hand
           <div className="content">
             <div>
               <span className="heading">Request For:</span>
-              <span className="text">Max Level</span>
+              <span className="text">Level: {user?.kycRequestLevel || 'None'}</span>
             </div>
             <div>
               <span className="heading">Actions</span>
-              <Button variant="success" $custom>
+              <Button disable={!user?.isKycRequested} variant="success" $custom>
                 Check Details
               </Button>
             </div>

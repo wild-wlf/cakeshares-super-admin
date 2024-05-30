@@ -19,7 +19,7 @@
   --primary: #36469a;
   --light-primary: #d4f7eb;
   --secondary: #6180f2;
-  --secondary-50: #4E6199;
+  --secondary-50: #4e6199;
   --light: #eff2f8;
   --light-secondary: #f6f8fa;
   --success: #53b13e;
@@ -31,7 +31,7 @@
   --warning: #f9c055;
   --yellow: #fecf31;
   --green: #408f8c;
-  --green-50: #235D5E;
+  --green-50: #235d5e;
   --dark-green: #009563;
   --pink: #f7f1ff;
   --blue: #3dcdff;
@@ -44,11 +44,9 @@
 
   --primary-gradient: linear-gradient(178.19deg, #feeffe 20%, #34dba1 100%);
 
-  --base-font-sans-serif: "Outfit", sans-serif;
-  --plus-jakarta-font: "Plus Jakarta Sans", "Arial", "Helvetica Neue",
-    "Helvetica", sans-serif;
-  --base-font-serif: "Times New Roman", "Times", "Baskerville", "GeorFgia",
-    serif;
+  --base-font-sans-serif: 'Outfit', sans-serif;
+  --plus-jakarta-font: 'Plus Jakarta Sans', 'Arial', 'Helvetica Neue', 'Helvetica', sans-serif;
+  --base-font-serif: 'Times New Roman', 'Times', 'Baskerville', 'GeorFgia', serif;
 
   /* Body */
   --base-text-color: var(--dark);
