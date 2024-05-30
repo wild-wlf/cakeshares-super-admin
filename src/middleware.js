@@ -44,6 +44,5 @@ export function middleware(request) {
     }
     return NextResponse.redirect(`${currentOrigin}/`);
   }
-
-  return NextResponse.redirect(`${currentOrigin}/`);
+  // return NextResponse.redirect(`${currentOrigin}/sign-in`);
 }
