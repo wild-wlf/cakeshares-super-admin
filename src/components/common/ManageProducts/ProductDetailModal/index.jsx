@@ -71,11 +71,11 @@ const ProductDetailModal = ({ product }) => {
               </div>
               <div>
                 <span>Return (%)</span>
-                <h3>30%</h3>
+                <h3>0%</h3>
               </div>
               <div>
                 <span>Funding Ratio</span>
-                <h3>56%</h3>
+                <h3>0%</h3>
               </div>
               <div>
                 <span>Backers Limit</span>
@@ -83,7 +83,7 @@ const ProductDetailModal = ({ product }) => {
               </div>
               <div>
                 <span>Annual Cost (est.)</span>
-                <h3>$2,000</h3>
+                <h3>$0.00</h3>
               </div>
             </div>
           </div>
@@ -126,15 +126,15 @@ const ProductDetailModal = ({ product }) => {
             <div className="amountdiv">
               <div>
                 <span>Min Investment (USD)</span>
-                <strong className="amount">${product.minimumInvestment}</strong>
+                <strong className="amount">${product?.minimumInvestment?.toLocaleString('en-US')}</strong>
               </div>
               <div>
                 <span>Asset Value (USD)</span>
-                <strong className="amount">${product.assetValue}</strong>
+                <strong className="amount">${product.assetValue?.toLocaleString('en-US')}</strong>
               </div>
             </div>
             <div className="total">
-              Total Value Raised (USD) <span> $ 50,000</span>
+              Total Value Raised (USD) <span> $ 0.00</span>
             </div>
           </div>
         </div>

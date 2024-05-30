@@ -103,7 +103,7 @@ const ManageUserTable = () => {
         <li>
           <ModalContainer
             width={1000}
-            title={`${user?.fullName} Detail`}
+            title={`${user?.fullName || user?.username} Detail`}
             btnComponent={({ onClick }) => (
               <button type="button" className="btn file" onClick={onClick}>
                 <Image src={detailIcon} alt="detailIcon" height={18} width={18} />
@@ -324,7 +324,7 @@ const ManageUserTable = () => {
         <div className="img-holder">
           <Image src={user?.profilePicture || userAvatar} width={20} height={20} alt="userImage" />
         </div>
-        {user.fullName || '------------'}
+        {user.fullName || user.username || '------------'}
       </div>,
       user?.type || '------------',
       user?.total_assets || '------------',
@@ -342,7 +342,7 @@ const ManageUserTable = () => {
         <div className="img-holder">
           <Image src={user?.profilePicture || userAvatar} width={20} height={20} alt="userImage" />
         </div>
-        {user.fullName || '------------'}
+        {user.fullName || user.username || '------------'}
       </div>,
       user?.isIndividualSeller ? 'Individual Seller' : 'Compnay Seller',
       user?.totalProducts ?? '------------',
