@@ -1,8 +1,14 @@
-import Button from "@/components/atoms/Button";
-import React from "react";
+import React from 'react';
+import Head from 'next/head';
+import Login from '@/components/common/login';
 
-const index = () => {
-  return <div></div>;
-};
+const SignIn = () => (
+  <>
+    <Head>
+      <title>CAKESHARES | SIGNIN</title>
+    </Head>
+    <Login />
+  </>
+);
 
-export default index;
+export default SignIn;

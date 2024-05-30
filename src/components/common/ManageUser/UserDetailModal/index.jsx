@@ -14,6 +14,7 @@ import { format } from 'date-fns';
 import DeclineModal from '../../DeclineModal';
 
 const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded, handleConfirmActivate }) => {
+  console.log(user);
   return (
     <StyledUserDetailModal>
       <span className="heading">Personal Info:</span>
@@ -94,7 +95,7 @@ const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded, handl
           <div className="content">
             <div>
               <span className="heading">Total Balance:</span>
-              <span className="text">$40,256.000</span>
+              <span className="text">$ {user?.wallet.toLocaleString()}</span>
             </div>
             <div>
               <span className="heading">Actions</span>
@@ -106,7 +107,9 @@ const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded, handl
                     Add Balance
                   </Button>
                 )}
-                content={({ onClose }) => <AddMoney setMoneyAdded={setMoneyAdded} />}
+                content={({ onClose }) => (
+                  <AddMoney id={user?._id} currentBalance={user?.wallet} setMoneyAdded={setMoneyAdded} />
+                )}
               />
             </div>
           </div>
