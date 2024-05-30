@@ -67,7 +67,7 @@ const ProductDetailModal = ({ product }) => {
             <div className="headings">
               <div>
                 <span>Investment type</span>
-                <h3>{product.investmentType}</h3>
+                <h3>{product.investmentType?.name}</h3>
               </div>
               <div>
                 <span>Return (%)</span>

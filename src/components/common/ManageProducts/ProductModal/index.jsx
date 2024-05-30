@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Field from '@/components/molecules/Field';
 import Select from '@/components/atoms/Select';
 import { IoAdd } from 'react-icons/io5';
@@ -11,10 +11,12 @@ import productService from '@/services/productService';
 import Button from '@/components/atoms/Button';
 import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
+import categoryService from '@/services/categoryService';
 
 const EditProductModal = ({ product, setCreateProductSuccessModal, setProductModal }) => {
-  const { user, refetch } = useContextHook(AuthContext, v => ({
+  const { user, fetch, refetch } = useContextHook(AuthContext, v => ({
     user: v.user,
+    fetch: v.fetch,
     refetch: v.refetch,
   }));
   const [form] = useForm();
@@ -23,10 +25,22 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
   const [amenities, setAmenities] = useState(['']);
   const [images, setImages] = useState([]);
 
-  const investmentTypeOptions = [
-    { label: 'Properties', value: 'properties' },
-    { label: 'Vehicles', value: 'vehicles' },
-  ];
+  const { categories_data } = categoryService.GetAllCategories(
+    {
+      getAll: true,
+    },
+    fetch,
+  );
+
+  const categoriesOptions = useMemo(() => {
+    return categories_data?.items
+      ?.filter(item => item?.status !== 'Inactive')
+      ?.map(ele => ({
+        value: ele?._id,
+        label: ele?.name,
+      }));
+  }, [categories_data?.items]);
+
   const kycOptions = [
     { label: 'Level 0', value: 0 },
     { label: 'Level 1', value: 1 },
@@ -100,21 +114,21 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
       setIsLoading(false);
     }
   };
-
   useEffect(() => {
-    if (product && Object.keys(product)?.length !== 0) {
+    if (product) {
       form.setFieldsValue({
         productName: product?.productName,
-        investmentType: investmentTypeOptions.find(ele => ele.value === product?.investmentType),
+        investmentType:
+          categoriesOptions && categoriesOptions?.find(({ value }) => product?.investmentType?._id === value),
         address: product?.address,
         deadline: format(product?.deadline, 'yyyy-MM-dd'),
-        kycLevel: kycOptions.find(ele => ele.value === product.kycLevel),
-        description: product.description,
-        investmentReason: product.investmentReason,
-        minimumBackers: product.minimumBackers,
-        maximumBackers: product.maximumBackers,
-        assetValue: product.assetValue,
-        minimumInvestment: product.minimumInvestment,
+        kycLevel: kycOptions?.find(ele => ele?.value === product?.kycLevel),
+        description: product?.description,
+        investmentReason: product?.investmentReason,
+        minimumBackers: product?.minimumBackers,
+        maximumBackers: product?.maximumBackers,
+        assetValue: product?.assetValue,
+        minimumInvestment: product?.minimumInvestment,
       });
       setMedia(product?.media);
       product?.media.map((field, index) => {
@@ -131,7 +145,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
         return field;
       });
     }
-  }, [product]);
+  }, [product, categoriesOptions]);
 
   return (
     <StyledCreateNewProduct>
@@ -158,11 +172,12 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
             <Field />
           </Form.Item>
           <Form.Item
-            type="text"
             label="Investment Type"
             name="investmentType"
+            options={categoriesOptions}
             sm
             rounded
+            isSearchable
             placeholder="Investment Type"
             rules={[
               {
@@ -170,7 +185,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                 message: 'Please enter Investment Type',
               },
             ]}>
-            <Select options={investmentTypeOptions} />
+            <Select />
           </Form.Item>
           <Form.Item
             type="text"
