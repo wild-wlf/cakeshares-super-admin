@@ -47,7 +47,7 @@ const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded, handl
         </div>
         <div className="col">
           <span className="heading">Birthdate (D.O.B):</span>
-          <span className="text">{format(user?.dob, 'yyyy-MM-dd')}</span>
+          <span className="text">{format(new Date(user?.dob), 'yyyy-MM-dd')}</span>
         </div>
       </div>
       <span className="heading">Bank Info:</span>
@@ -95,7 +95,7 @@ const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded, handl
           <div className="content">
             <div>
               <span className="heading">Total Balance:</span>
-              <span className="text">$ {user?.wallet.toLocaleString()}</span>
+              <span className="text">$ {user?.wallet?.toLocaleString()}</span>
             </div>
             <div>
               <span className="heading">Actions</span>
