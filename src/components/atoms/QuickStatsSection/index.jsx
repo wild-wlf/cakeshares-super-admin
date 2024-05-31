@@ -15,7 +15,7 @@ const QuickStatsSection = ({ cardsData }) => {
           <div className="value-wrapper">
             <span className="heading">
               <MdSupervisorAccount className="icon" />
-              Total User
+              Total Users
             </span>
             {/* <BsThreeDots size={20} /> */}
           </div>
