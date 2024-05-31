@@ -7,7 +7,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import Layout from '@/components/molecules/Layout';
 import { AuthContextProvider } from '@/context/authContext';
 import Variables from '../styles/variables.css';
-import PreLoader from '@/components/molecules/PreLoader';
+import Loader from '@/components/molecules/Loader';
 
 const GlobalStyles = createGlobalStyle`
   ${Variables}
@@ -58,16 +58,14 @@ export default function App({ Component, pageProps }) {
     <>
       <AuthContextProvider>
         <GlobalStyles />
-        {loading && <PreLoader />}
-        <div style={{ filter: loading ? 'blur(3px)' : 'none', transition: 'filter 0.3s' }}>
-          {pageProps.statusCode === 404 ? (
+        {loading && <Loader />}
+        {pageProps.statusCode === 404 ? (
+          <Component {...pageProps} />
+        ) : (
+          <Layout>
             <Component {...pageProps} />
-          ) : (
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          )}
-        </div>
+          </Layout>
+        )}
         <StyledToastContainer />
       </AuthContextProvider>
     </>
