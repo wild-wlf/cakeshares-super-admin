@@ -197,7 +197,7 @@ const MangeProductsTable = () => {
         format(new Date(_?.created_at), 'yyyy-MM-dd') || '------------',
         _?.userId?.fullName || '------------',
         _?.product?.productName || '------------',
-        _?.product?.investmentType || '------------',
+        _?.product?.investmentType?.name || '------------',
         _?.investmentAmount ?? '------------',
         actionBtnss(_),
       ]),
@@ -217,7 +217,7 @@ const MangeProductsTable = () => {
           : _?.userId?.sellerType === 'Individual'
           ? 'Individual Seller'
           : 'Company Seller',
-        _?.investmentType || '------------',
+        _?.investmentType?.name || '------------',
         _?.isVerified ? 'Approved' : 'Pending' || '------------',
         _?.currentBackers ?? '------------',
         actionBtns(_),

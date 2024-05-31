@@ -39,16 +39,17 @@ export const AuthContextProvider = props => {
 
   const onLogout = async () => {
     try {
-      await authService.logout();
-    } finally {
       clearCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE);
       clearCookie(process.env.NEXT_PUBLIC_ALLOWED_PAGES_COOKIE);
       clearCookie('is_email_verified');
       clearCookie('email');
       router.push('/');
-      Toast({ type: 'success', message: 'Logout Successfully' });
       setLoadingUser(false);
       setIsLoggedIn(false);
+      Toast({ type: 'success', message: 'Logout Successfully' });
+      await authService.logout();
+    } catch (error) {
+      console.error('Error during logout:', error);
     }
   };
 

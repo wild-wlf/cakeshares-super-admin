@@ -46,7 +46,7 @@ const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded, handl
         </div>
         <div className="col">
           <span className="heading">Birthdate (D.O.B):</span>
-          <span className="text">{format(user?.dob, 'yyyy-MM-dd')}</span>
+          <span className="text">{format(new Date(user?.dob), 'yyyy-MM-dd')}</span>
         </div>
       </div>
       <span className="heading">Bank Info:</span>
@@ -85,7 +85,7 @@ const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded, handl
             <div>
               <span className="heading">Actions</span>
               <Button
-              disable={!user?.isKycRequested}
+                disable={!user?.isKycRequested}
                 //  onClick={() => approveKyc(user?._id)}
                 variant="success"
                 $custom>
@@ -100,7 +100,7 @@ const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded, handl
           <div className="content">
             <div>
               <span className="heading">Total Balance:</span>
-              <span className="text">$ {user?.wallet.toLocaleString()}</span>
+              <span className="text">$ {user?.wallet?.toLocaleString() || '0.00'}</span>
             </div>
             <div>
               <span className="heading">Actions</span>
