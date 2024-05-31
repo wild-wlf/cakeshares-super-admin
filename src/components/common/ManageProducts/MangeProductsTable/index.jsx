@@ -72,7 +72,7 @@ const MangeProductsTable = () => {
         <ActionBtnList>
           <li>
             <ModalContainer
-              width={1500}
+              width={1000}
               title="Product Detail"
               btnComponent={({ onClick }) => (
                 <Button variant="secondary" custom xsCustom onClick={onClick}>
@@ -114,7 +114,7 @@ const MangeProductsTable = () => {
               </li>
               <li>
                 <ModalContainer
-                  width={1500}
+                  width={1000}
                   title="Product Detail"
                   btnComponent={({ onClick }) => (
                     <Button variant="secondary" custom xsCustom onClick={onClick}>
@@ -151,7 +151,7 @@ const MangeProductsTable = () => {
               </li>
               <li>
                 <ModalContainer
-                  width={1500}
+                  width={1000}
                   title="Product Detail"
                   btnComponent={({ onClick }) => (
                     <Button variant="secondary" custom xsCustom onClick={onClick}>
