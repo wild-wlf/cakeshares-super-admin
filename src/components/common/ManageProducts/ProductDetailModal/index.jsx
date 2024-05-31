@@ -91,7 +91,7 @@ const ProductDetailModal = ({ product }) => {
 
         <div className="imagewrapper">
           <div className="product1">
-            <Image src={product.media[0]} alt="Product-Image" width={660} height={360} />
+            <Image src={product?.media[0]} alt="Product-Image" width={660} height={360} />
           </div>
 
           <div className="product2">
