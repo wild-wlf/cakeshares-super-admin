@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { ActionBtnList } from '@/components/atoms/ActionBtns/ActionBtns.styles';
 import Table from '@/components/molecules/Table';
 import TableLayout from '@/components/atoms/TableLayout';
@@ -26,10 +26,9 @@ import { MdModeEditOutline } from 'react-icons/md';
 import DeclineModal from '../../DeclineModal';
 import DeleteModal from '@/components/atoms/UserDeleteModal/DeleteModal';
 
-const MangeProductsTable = () => {
-  const { fetch, user } = useContextHook(AuthContext, v => ({
+const MangeProductsTable = ({ setProductCount }) => {
+  const { fetch } = useContextHook(AuthContext, v => ({
     fetch: v.fetch,
-    user: v.user,
   }));
   const [tab, setTab] = useState(1);
   const [product, setProduct] = useState({});
@@ -65,6 +64,10 @@ const MangeProductsTable = () => {
     products_data = result.products_data;
     products_loading = result.products_loading;
   }
+
+  useEffect(() => {
+    setProductCount(products_data?.allProductsinDb || investments_data?.allProductsinDb);
+  }, [products_data?.allProductsinDb, investments_data?.allProductsinDb]);
 
   const actionBtns = product => {
     if (!product.isVerified) {
