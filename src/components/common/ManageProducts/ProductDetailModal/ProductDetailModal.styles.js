@@ -49,22 +49,33 @@ export const ProductDetailWrapper = styled.div`
     }
   }
   .product1 {
-    width: 50%;
+    width: 100%;
+    max-width: 660px;
     height: 364px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
   .product2 {
     display: flex;
     gap: 20px;
-    width: 50%;
-    height: 364px;
+    max-width: 365px;
+    width: 100%;
+    height: 360px;
+
     img {
-      width: 48%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
 
   .investwrapper {
     padding-top: 50px;
     display: flex;
+    justify-content: space-between;
     gap: 30px;
     flex-direction: column-reverse;
     @media (min-width: 992px) {

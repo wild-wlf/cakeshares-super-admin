@@ -11,29 +11,7 @@ const STATUS = {
 const productService = {
   _url: `${process.env.NEXT_PUBLIC_PRODUCT_URL}`,
 
-  GetAllUsers(searchQuery, fetch) {
-    const [users, setUsers] = useState({
-      users: [],
-    });
-    const { cancellablePromise } = useCancellablePromise();
-    const [userStatus, setUserStatus] = useState(STATUS.LOADING);
-    useEffect(() => {
-      setUserStatus(STATUS.LOADING);
-      cancellablePromise(this.getAllUsers(searchQuery))
-        .then(res => {
-          setUsers(() => res);
-          setUserStatus(STATUS.SUCCESS);
-        })
-        .catch(() => setUserStatus(STATUS.ERROR));
-    }, [searchQuery, fetch]);
-    return {
-      user_loading: userStatus === STATUS.LOADING,
-      user_error: userStatus === STATUS.ERROR,
-      user_data: users,
-    };
-  },
-
-  GetAllProducts(searchQuery, fetch, id) {
+  GetAllProducts(searchQuery, fetch) {
     const [products, setProducts] = useState({
       products: [],
       totalItems: 0,
@@ -42,7 +20,7 @@ const productService = {
     const [productStatus, setProductStatus] = useState(STATUS.LOADING);
     useEffect(() => {
       setProductStatus(STATUS.LOADING);
-      cancellablePromise(this.getAllProducts(searchQuery, id))
+      cancellablePromise(this.getAllProducts(searchQuery))
         .then(res => {
           setProducts(() => res);
           setProductStatus(STATUS.SUCCESS);
@@ -56,18 +34,18 @@ const productService = {
     };
   },
 
-  async getAllUsers({
+  async getAllProducts({
     page = 1,
     itemsPerPage = 10,
+    searchText = '',
     startDate = '',
     endDate = '',
-    searchText = '',
-    section = '',
     status = '',
     accType = '',
+    section = '',
   }) {
     let res = await Fetch.get(
-      `${this._url}/get-all-users?page=${page}&itemsPerPage=${itemsPerPage}&startDate=${startDate}&endDate=${endDate}&searchText=${searchText}&section=${section}&status=${status}&accType=${accType}`,
+      `${this._url}/get-all-products-super?page=${page}&itemsPerPage=${itemsPerPage}&searchText=${searchText}&startDate=${startDate}&endDate=${endDate}&status=${status}&accType=${accType}&section=${section}`,
     );
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
@@ -77,9 +55,32 @@ const productService = {
     throw new Error(message ?? 'Something Went Wrong');
   },
 
-  async getAllProducts({ page = 1, itemsPerPage = 10, status = '' }, id) {
+  GetAllInvestments(searchQuery, fetch) {
+    const [investments, setInvestments] = useState({
+      investments: [],
+      totalItems: 0,
+    });
+    const { cancellablePromise } = useCancellablePromise();
+    const [investmentStatus, setInvestmentStatus] = useState(STATUS.LOADING);
+    useEffect(() => {
+      setInvestmentStatus(STATUS.LOADING);
+      cancellablePromise(this.getAllInvestments(searchQuery))
+        .then(res => {
+          setInvestments(() => res);
+          setInvestmentStatus(STATUS.SUCCESS);
+        })
+        .catch(() => setInvestmentStatus(STATUS.ERROR));
+    }, [searchQuery, fetch]);
+    return {
+      investments_loading: investmentStatus === STATUS.LOADING,
+      investments_error: investmentStatus === STATUS.ERROR,
+      investments_data: investments,
+    };
+  },
+
+  async getAllInvestments({ page = 1, itemsPerPage = 10, searchText = '', startDate = '', endDate = '' }) {
     let res = await Fetch.get(
-      `${this._url}/get-all-products/${id}?page=${page}&itemsPerPage=${itemsPerPage}&status=${status}`,
+      `${this._url}/get-all-investments-super?page=${page}&itemsPerPage=${itemsPerPage}&searchText=${searchText}&startDate=${startDate}&endDate=${endDate}`,
     );
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();

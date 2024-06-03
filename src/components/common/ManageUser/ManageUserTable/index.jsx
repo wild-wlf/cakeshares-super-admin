@@ -53,6 +53,7 @@ const ManageUserTable = () => {
   const [kycDecline, setkycDecline] = useState(false);
   const [propertiesProductModal, setPropertiesProductModal] = useState(false);
   const [sellerPropertiesModal, setSellerPropertiesModal] = useState(false);
+  const [userToDelete, setUserToDelete] = useState();
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
     itemsPerPage: 10,
@@ -227,7 +228,14 @@ const ManageUserTable = () => {
 
           <li>
             <button type="button" className="btn delete">
-              <Image src={DeleteIcon} alt="DeleteIcon" onClick={() => setDeleteModal(true)} />
+              <Image
+                src={DeleteIcon}
+                alt="DeleteIcon"
+                onClick={() => {
+                  setUserToDelete(user?._id);
+                  setDeleteModal(true);
+                }}
+              />
             </button>
           </li>
         </ActionBtnList>
@@ -329,7 +337,14 @@ const ManageUserTable = () => {
 
           <li>
             <button type="button" className="btn delete">
-              <Image src={DeleteIcon} alt="DeleteIcon" onClick={() => setDeleteModal(true)} />
+              <Image
+                src={DeleteIcon}
+                alt="DeleteIcon"
+                onClick={() => {
+                  setUserToDelete(user?._id);
+                  setDeleteModal(true);
+                }}
+              />
             </button>
           </li>
         </ActionBtnList>
@@ -413,6 +428,7 @@ const ManageUserTable = () => {
         title={<Image src={modalinfoIcon} alt="InfoIcon" />}
         width="543">
         <DeleteModal
+          id={userToDelete}
           closeDeleteModal={() => {
             setDeleteModal(false);
           }}
@@ -420,6 +436,7 @@ const ManageUserTable = () => {
             setDeleteModal(false);
             setSuccessModal(true);
           }}
+          type="user"
         />
       </CenterModal>
       {/* Kyc Apprvove Modal */}
