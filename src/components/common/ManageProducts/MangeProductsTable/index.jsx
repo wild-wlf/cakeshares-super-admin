@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { ActionBtnList } from '@/components/atoms/ActionBtns/ActionBtns.styles';
 import Table from '@/components/molecules/Table';
 import TableLayout from '@/components/atoms/TableLayout';
@@ -26,10 +26,9 @@ import { MdModeEditOutline } from 'react-icons/md';
 import DeclineModal from '../../DeclineModal';
 import DeleteModal from '@/components/atoms/UserDeleteModal/DeleteModal';
 
-const MangeProductsTable = () => {
-  const { fetch, user } = useContextHook(AuthContext, v => ({
+const MangeProductsTable = ({ setProductCount }) => {
+  const { fetch } = useContextHook(AuthContext, v => ({
     fetch: v.fetch,
-    user: v.user,
   }));
   const [tab, setTab] = useState(1);
   const [product, setProduct] = useState({});
@@ -66,13 +65,17 @@ const MangeProductsTable = () => {
     products_loading = result.products_loading;
   }
 
+  useEffect(() => {
+    setProductCount(products_data?.allProductsinDb || investments_data?.allProductsinDb);
+  }, [products_data?.allProductsinDb, investments_data?.allProductsinDb]);
+
   const actionBtns = product => {
     if (!product.isVerified) {
       return (
         <ActionBtnList>
           <li>
             <ModalContainer
-              width={1500}
+              width={1000}
               title="Product Detail"
               btnComponent={({ onClick }) => (
                 <Button variant="secondary" custom xsCustom onClick={onClick}>
@@ -114,7 +117,7 @@ const MangeProductsTable = () => {
               </li>
               <li>
                 <ModalContainer
-                  width={1500}
+                  width={1000}
                   title="Product Detail"
                   btnComponent={({ onClick }) => (
                     <Button variant="secondary" custom xsCustom onClick={onClick}>
@@ -151,7 +154,7 @@ const MangeProductsTable = () => {
               </li>
               <li>
                 <ModalContainer
-                  width={1500}
+                  width={1000}
                   title="Product Detail"
                   btnComponent={({ onClick }) => (
                     <Button variant="secondary" custom xsCustom onClick={onClick}>
@@ -197,7 +200,7 @@ const MangeProductsTable = () => {
         format(new Date(_?.created_at), 'yyyy-MM-dd') || '------------',
         _?.userId?.fullName || '------------',
         _?.product?.productName || '------------',
-        _?.product?.investmentType || '------------',
+        _?.product?.investmentType?.name || '------------',
         _?.investmentAmount ?? '------------',
         actionBtnss(_),
       ]),
@@ -217,7 +220,7 @@ const MangeProductsTable = () => {
           : _?.userId?.sellerType === 'Individual'
           ? 'Individual Seller'
           : 'Company Seller',
-        _?.investmentType || '------------',
+        _?.investmentType?.name || '------------',
         _?.isVerified ? 'Approved' : 'Pending' || '------------',
         _?.currentBackers ?? '------------',
         actionBtns(_),
@@ -256,7 +259,11 @@ const MangeProductsTable = () => {
         <SuccessfulModal title="Product Created Successfully!" />
       </CenterModal>
 
-      <CenterModal open={productModal} setOpen={setProductModal} title="Create Product" width="900">
+      <CenterModal
+        open={productModal}
+        setOpen={setProductModal}
+        title={product ? 'Edit Product' : 'Create Product'}
+        width="900">
         <ProductModal
           product={product}
           setCreateProductSuccessModal={setCreateProductSuccessModal}

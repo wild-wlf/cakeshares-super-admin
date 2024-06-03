@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "env-cmd -e development next dev -p 3001",
     "build": "env-cmd -e production next build",
-    "start": "env-cmd -e production next start -p 3003",
+    "start": "env-cmd -e production next start -p 3001",
     "lint": "next lint"
   },
   "dependencies": {
@@ -27,6 +27,7 @@
     "react-select": "^5.8.0",
     "react-toastify": "^10.0.5",
     "react-tooltip": "^5.26.4",
+    "socket.io-client": "^4.7.5",
     "styled-components": "^6.1.11",
     "use-context-hook": "^2.0.5",
     "uuid": "^9.0.1"

@@ -6,10 +6,10 @@ import SideBar from './sideNav';
 
 const Layout = ({ children }) => {
   const router = useRouter();
-  const withLayout = ['/sign-in', '/'];
+  const withLayout = ['/', '/'];
+
   return (
     <>
-      {/* {router.pathname !== '/sign-in' || '/' ? ( */}
       {!withLayout.includes(router.pathname) ? (
         <>
           <MainWrapper>

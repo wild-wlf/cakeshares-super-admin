@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
-const publicPages = ['/sign-in'];
+const publicPages = ['/'];
 
 const privatePages = [
   '/',
@@ -15,8 +15,8 @@ const privatePages = [
 
 export function middleware(request) {
   const cookieHeader = cookies(request.headers);
-  const token = cookieHeader.get('_devcks');
-  const allowedPages = cookieHeader.get('_allowedpagecks');
+  const token = cookieHeader.get(process.env.NEXT_PUBLIC_ALLOWED_PAGES_COOKIE);
+  const allowedPages = cookieHeader.get(process.env.NEXT_PUBLIC_ALLOWED_PAGES_COOKIE);
   const path = new URL(request.url).pathname;
 
   const isPublicPage = publicPages.includes(path);
@@ -42,8 +42,7 @@ export function middleware(request) {
         return NextResponse.next();
       }
     }
-    return NextResponse.redirect(`${currentOrigin}/sign-in`);
+    return NextResponse.redirect(`${currentOrigin}/`);
   }
-
   return NextResponse.next();
 }

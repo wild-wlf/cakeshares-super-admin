@@ -9,9 +9,11 @@ import bazarIcon from '../../../../../public/assets/bazar-icon.svg';
 import vehicleIcon from '../../../../../public/assets/vehicle-icon.svg';
 import AddMoney from '../AddMoney';
 import ModalContainer from '@/components/molecules/ModalContainer';
+import declineIcon from '../../../../../public/assets/decline-icon.svg';
 import { format } from 'date-fns';
+import DeclineModal from '../../DeclineModal';
 
-const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded }) => {
+const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded, handleConfirmActivate }) => {
   return (
     <StyledUserDetailModal>
       <span className="heading">Personal Info:</span>
@@ -44,7 +46,7 @@ const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded }) => 
         </div>
         <div className="col">
           <span className="heading">Birthdate (D.O.B):</span>
-          <span className="text">{format(user?.dob, 'yyyy-MM-dd')}</span>
+          <span className="text">{format(new Date(user?.dob), 'yyyy-MM-dd')}</span>
         </div>
       </div>
       <span className="heading">Bank Info:</span>
@@ -71,28 +73,34 @@ const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded }) => 
           <div className="head">
             <span className="heading">KYC Info:</span>
             <div className="button">
-              <span>Level 1</span>
+              <span>Level {user?.kycLevel}</span>
             </div>
           </div>
+          {/* {user?.isKycRequested && ( */}
           <div className="content">
             <div>
               <span className="heading">Request For:</span>
-              <span className="text">level 2</span>
+              <span className="text">Level: {user?.kycRequestLevel || 'None'}</span>
             </div>
             <div>
               <span className="heading">Actions</span>
-              <Button variant="success" $custom>
+              <Button
+                disable={!user?.isKycRequested}
+                //  onClick={() => approveKyc(user?._id)}
+                variant="success"
+                $custom>
                 Check Details
               </Button>
             </div>
           </div>
+          {/* )} */}
         </div>
         <div className="col col-2">
           <span className="heading">Wallet Balance Info:</span>
           <div className="content">
             <div>
               <span className="heading">Total Balance:</span>
-              <span className="text">$40,256.000</span>
+              <span className="text">$ {user?.wallet?.toLocaleString() || '0.00'}</span>
             </div>
             <div>
               <span className="heading">Actions</span>
@@ -100,11 +108,13 @@ const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded }) => 
                 width={600}
                 title="Add Money to Wallet"
                 btnComponent={({ onClick }) => (
-                  <Button variant="success" $custom onClick={onClick}>
+                  <Button disable={!user?.isVerified} variant="success" $custom onClick={onClick}>
                     Add Balance
                   </Button>
                 )}
-                content={({ onClose }) => <AddMoney setMoneyAdded={setMoneyAdded} />}
+                content={({ onClose }) => (
+                  <AddMoney id={user?._id} currentBalance={user?.wallet} setMoneyAdded={setMoneyAdded} />
+                )}
               />
             </div>
           </div>
@@ -164,6 +174,29 @@ const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded }) => 
           <span className="text">Vehicles</span>
         </div>
       </div>
+      {!user?.isVerified && (
+        <div className="btn-holder">
+          <Button
+            onClick={() => {
+              handleConfirmActivate(user?._id, 'Approve');
+            }}
+            variant="success"
+            custom
+            xsCustom>
+            Approve
+          </Button>
+          <ModalContainer
+            width={500}
+            title={<Image src={declineIcon} alt="declineIcon" />}
+            btnComponent={({ onClick }) => (
+              <Button variant="danger" custom xsCustom onClick={onClick}>
+                Decline
+              </Button>
+            )}
+            content={({ onClose }) => <DeclineModal type="User" onClose={onClose} id={user?._id} />}
+          />
+        </div>
+      )}
     </StyledUserDetailModal>
   );
 };

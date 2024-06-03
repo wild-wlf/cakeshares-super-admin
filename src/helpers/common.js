@@ -37,6 +37,10 @@ export const clearCookie = name => {
   return true;
 };
 
+export const formatNumber = number => {
+  return new Intl.NumberFormat().format(number);
+};
+
 export const convertPdfBase64 = file =>
   new Promise(resolve => {
     const reader = new FileReader();

@@ -9,8 +9,10 @@ import vehicleIcon from '../../../../../public/assets/vehicle-icon.svg';
 import AddMoney from '../AddMoney';
 import ModalContainer from '@/components/molecules/ModalContainer';
 import { StyledUserDetailModal } from '../UserDetailModal/UserDetailModal.styles';
+import declineIcon from '../../../../../public/assets/decline-icon.svg';
+import DeclineModal from '../../DeclineModal';
 
-const SellerDetailModal = ({ user, setSellerPropertiesModal, setMoneyAdded }) => {
+const SellerDetailModal = ({ user, setSellerPropertiesModal, setMoneyAdded, handleConfirmActivate }) => {
   return (
     <StyledUserDetailModal>
       <span className="heading">Personal Info:</span>
@@ -39,11 +41,11 @@ const SellerDetailModal = ({ user, setSellerPropertiesModal, setMoneyAdded }) =>
           <div className="content">
             <div>
               <span className="heading">Request For:</span>
-              <span className="text">Max Level</span>
+              <span className="text">Level: {user?.kycRequestLevel || 'None'}</span>
             </div>
             <div>
               <span className="heading">Actions</span>
-              <Button variant="success" $custom>
+              <Button disable={!user?.isKycRequested} variant="success" $custom>
                 Check Details
               </Button>
             </div>
@@ -54,7 +56,7 @@ const SellerDetailModal = ({ user, setSellerPropertiesModal, setMoneyAdded }) =>
           <div className="content">
             <div>
               <span className="heading">Total Balance:</span>
-              <span className="text">$40,256.000</span>
+              <span className="text">$ {user?.wallet?.toLocaleString() || 0}</span>
             </div>
             <div>
               <span className="heading">Actions</span>
@@ -66,7 +68,9 @@ const SellerDetailModal = ({ user, setSellerPropertiesModal, setMoneyAdded }) =>
                     Add Balance
                   </Button>
                 )}
-                content={({ onClose }) => <AddMoney setMoneyAdded={setMoneyAdded} />}
+                content={({ onClose }) => (
+                  <AddMoney id={user?._id} currentBalance={user?.wallet} setMoneyAdded={setMoneyAdded} />
+                )}
               />
             </div>
           </div>
@@ -105,6 +109,29 @@ const SellerDetailModal = ({ user, setSellerPropertiesModal, setMoneyAdded }) =>
           <span className="text">Vehicles</span>
         </div>
       </div>
+      {!user?.isVerified && (
+        <div className="btn-holder">
+          <Button
+            onClick={() => {
+              handleConfirmActivate(user?._id, 'Approve');
+            }}
+            variant="success"
+            custom
+            xsCustom>
+            Approve
+          </Button>
+          <ModalContainer
+            width={500}
+            title={<Image src={declineIcon} alt="declineIcon" />}
+            btnComponent={({ onClick }) => (
+              <Button variant="danger" custom xsCustom onClick={onClick}>
+                Decline
+              </Button>
+            )}
+            content={({ onClose }) => <DeclineModal type="User" onClose={onClose} id={user?._id} />}
+          />
+        </div>
+      )}
     </StyledUserDetailModal>
   );
 };

@@ -4,8 +4,8 @@ import { createContextHook } from 'use-context-hook';
 import { clearCookie, getCookie, setCookie } from '@/helpers/common';
 import authService from '@/services/authService';
 import { useCancellablePromise } from '@/helpers/promiseHandler';
-import { useRouter } from 'next/router';
 import Toast from '@/components/molecules/Toast';
+import { useRouter } from 'next/router';
 
 const context = {};
 
@@ -25,7 +25,7 @@ export const AuthContextProvider = props => {
     JSON.parse(getCookie(process.env.NEXT_PUBLIC_ALLOWED_PAGES_COOKIE)) || [],
   );
 
-  const publicPages = ['/sign-in'];
+  const publicPages = ['/'];
 
   const privatePages = [
     '/',
@@ -39,24 +39,25 @@ export const AuthContextProvider = props => {
 
   const onLogout = async () => {
     try {
-      await authService.logout();
-    } finally {
       clearCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE);
       clearCookie(process.env.NEXT_PUBLIC_ALLOWED_PAGES_COOKIE);
       clearCookie('is_email_verified');
       clearCookie('email');
-      router.push('/sign-in');
-      Toast({ type: 'success', message: 'Logout Successfully' });
+      router.push('/');
       setLoadingUser(false);
       setIsLoggedIn(false);
+      Toast({ type: 'success', message: 'Logout Successfully' });
+      await authService.logout();
+    } catch (error) {
+      console.error('Error during logout:', error);
     }
   };
 
   const getPermissions = () => {
     // debugger
-    if (!isLoggedIn) return;
+    // if (!isLoggedIn) return;
     setLoadingUser(true);
-    if (!allowedPages) return;
+    // if (!allowedPages) return;
     cancellablePromise(authService.getCurrentAdmin())
       .then(res => {
         setAllowedPages(res.permissions.filter(p => p.includes('.nav')).map(p => `/${p.split('.')[0]}`));
@@ -72,6 +73,8 @@ export const AuthContextProvider = props => {
         }
       })
       .catch(err => {
+        setAllowedPages(['no-permissions']);
+        setCookie(process.env.REACT_APP_ALLOWED_PAGES_COOKIE, JSON.stringify(['no-permissions']));
         setLoadingUser(false);
         Toast({
           type: 'error',
@@ -102,7 +105,7 @@ export const AuthContextProvider = props => {
       getPermissions();
     } else if (!isLoggedIn) {
       if (privatePages.includes(router.pathname)) {
-        router.push('/sign-in');
+        router.push('/');
       }
     }
   }, [isLoggedIn]);
@@ -122,10 +125,9 @@ export const AuthContextProvider = props => {
 
       setIsLoggedIn(true);
       setCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE, res.token);
-      router.push('/dashboard');
-      Toast({ type: 'success', message: 'Logged In Successfully!' });
       setLoadingUser(false);
       setLoading(false);
+      Toast({ type: 'success', message: 'Logged In Successfully!' });
     } catch ({ message }) {
       setIsLoggedIn(false);
       setLoadingUser(false);
@@ -267,6 +269,7 @@ export const AuthContextProvider = props => {
   }, []);
 
   const hasPermission = perm => user?.permissions?.includes(perm);
+
   return (
     <AuthContext.Provider
       value={{

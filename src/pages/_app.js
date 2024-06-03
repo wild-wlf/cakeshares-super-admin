@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { HelperClasses, Styling } from '@/styles/GlobalStyles.styles';
 import { ToastContainer } from 'react-toastify';
+import { useRouter } from 'next/router';
 import 'react-toastify/dist/ReactToastify.css';
 import styled, { createGlobalStyle } from 'styled-components';
 import Layout from '@/components/molecules/Layout';
 import { AuthContextProvider } from '@/context/authContext';
 import Variables from '../styles/variables.css';
+import Loader from '@/components/molecules/Loader';
 
 const GlobalStyles = createGlobalStyle`
   ${Variables}
@@ -37,13 +39,33 @@ export const StyledToastContainer = styled(ToastContainer)`
 `;
 
 export default function App({ Component, pageProps }) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    router.events.on('routeChangeError', () => setLoading(false));
+    router.events.on('routeChangeStart', () => setLoading(true));
+    router.events.on('routeChangeComplete', () => setLoading(false));
+
+    return () => {
+      router.events.off('routeChangeError', () => setLoading(false));
+      router.events.off('routeChangeStart', () => setLoading(true));
+      router.events.off('routeChangeComplete', () => setLoading(false));
+    };
+  }, [router.events]);
+
   return (
     <>
       <AuthContextProvider>
         <GlobalStyles />
-        <Layout>
+        {loading && <Loader />}
+        {pageProps.statusCode === 404 ? (
           <Component {...pageProps} />
-        </Layout>
+        ) : (
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        )}
         <StyledToastContainer />
       </AuthContextProvider>
     </>
