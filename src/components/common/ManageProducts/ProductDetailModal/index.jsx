@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
-import property from '../../../../../public/assets/property.png';
-import property2 from '../../../../../public/assets/property2.png';
-import property3 from '../../../../../public/assets/property3.png';
-import { IoIosCheckmarkCircle } from 'react-icons/io';
-import { ProductDetailWrapper } from './ProductDetailModal.styles';
-import declineIcon from '../../../../../public/assets/decline-icon.svg';
-import { MdModeEditOutline } from 'react-icons/md';
+import { StyledProductDetailModal } from './ProductDetailModal.styles';
 import Button from '@/components/atoms/Button';
-import DeclineModal from '../../DeclineModal';
+import bellIcon from '../../../../../public/assets/bell.svg';
+import Image from 'next/image';
+import { daysLeft, formatDateWithSuffix } from '@/helpers/common';
 import ModalContainer from '@/components/molecules/ModalContainer';
-import Toast from '@/components/molecules/Toast';
-import productService from '@/services/productService';
+import declineIcon from '../../../../../public/assets/decline-icon.svg';
+import DeclineModal from '../../DeclineModal';
 import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
-import { formatDateWithSuffix, daysLeft } from '@/helpers/common';
+import Toast from '@/components/molecules/Toast';
+import productService from '@/services/productService';
 
 const ProductDetailModal = ({ product }) => {
   const { fetch, refetch } = useContextHook(AuthContext, v => ({
@@ -45,123 +41,146 @@ const ProductDetailModal = ({ product }) => {
       setIsLoading(false);
     }
   };
+  const infoData = [
+    {
+      heading: 'Product Name:',
+      text: product?.productName ? product.productName : '---------------',
+    },
+    {
+      heading: 'Investment Type:',
+      text: product?.investmentType?.name,
+    },
+    {
+      heading: 'Address:',
+      text: product?.address,
+    },
+    {
+      heading: 'Deadline:',
+      text: `(${formatDateWithSuffix(product?.deadline)} / ${daysLeft(product?.deadline)} left) `,
+    },
+    {
+      heading: 'KYC Level:',
+      text: `Level ${product?.kycLevel}`,
+    },
+  ];
+  const investmentData = [
+    {
+      heading: 'Return Rate (%):',
+      text: '0%',
+    },
+    {
+      heading: 'Funding Ratio:',
+      text: '0%',
+    },
+    {
+      heading: 'Minimum Backers:',
+      text: product?.minimumBackers,
+    },
+    {
+      heading: 'Maximum Backers:',
+      text: product?.maximumBackers,
+    },
+    {
+      heading: 'Annual Cost:',
+      text: '$0.00',
+    },
+    {
+      heading: 'Min Investment:',
+      text: `$${product?.minimumInvestment?.toLocaleString('en-US')}`,
+    },
+    {
+      heading: 'Total Asset Value',
+      text: `$${product?.assetValue?.toLocaleString('en-US')}`,
+    },
+  ];
+  const productDescription = [
+    {
+      heading: 'Product Description',
+      text: product?.description,
+    },
+    {
+      heading: 'Why Invest in it?',
+      text: product?.investmentReason,
+    },
+  ];
   return (
-    <>
-      <ProductDetailWrapper>
-        <div className="titlewrapper">
-          <div>
-            <div className="title">
-              <span>{product.productName}</span>
-            </div>
-            <div className="titledesc">
-              <span>{product.address}</span>
-              <span>
-                <span className="deadline">Deadline:</span> ({formatDateWithSuffix(product.deadline)} /{' '}
-                {daysLeft(product.deadline)} left)
-              </span>
-              <span>KYC ({product.kycLevel})</span>
+    <StyledProductDetailModal>
+      <div className="head">
+        <span className="heading">Product Info:</span>
+        <Button type="primary" width="300" rounded sm>
+          <Image src={bellIcon} alt="bellIcon" />
+          Product Advertised
+        </Button>
+      </div>
+      <div className="product-info">
+        {infoData?.map((item, index) => (
+          <div className="col" key={index}>
+            <span className="heading">{item.heading}</span>
+            <span className="text">{item.text}</span>
+          </div>
+        ))}
+      </div>
+      <div className="product-description">
+        {productDescription?.map((item, index) => (
+          <div className="description-holder" key={index}>
+            <span className="heading">{item.heading}</span>
+            <div className="description">
+              <p>{item.text}</p>
             </div>
           </div>
-
-          <div>
-            <div className="headings">
-              <div>
-                <span>Investment type</span>
-                <h3>{product.investmentType?.name}</h3>
-              </div>
-              <div>
-                <span>Return (%)</span>
-                <h3>0%</h3>
-              </div>
-              <div>
-                <span>Funding Ratio</span>
-                <h3>0%</h3>
-              </div>
-              <div>
-                <span>Backers Limit</span>
-                <h3>{product.maximumBackers}</h3>
-              </div>
-              <div>
-                <span>Annual Cost (est.)</span>
-                <h3>$0.00</h3>
-              </div>
+        ))}
+      </div>
+      <div className="product-media">
+        <span className="heading">Product Media:</span>
+        <div className="product-images">
+          {product?.media?.map((item, index) => (
+            <div className="img-holder" key={index}>
+              <Image src={item} alt="productImg1" width={319} height={191} />
             </div>
-          </div>
+          ))}
         </div>
-
-        <div className="imagewrapper">
-          <div className="product1">
-            <Image src={product?.media[0]} alt="Product-Image" width={660} height={360} />
-          </div>
-
-          <div className="product2">
-            {product?.media[1] && <Image src={product?.media[1]} alt="Product-Image" width={365} height={360} />}
-            {product?.media[2] && <Image src={product?.media[2]} alt="Product-Image" width={365} height={360} />}
-          </div>
+      </div>
+      <div className="amenities-holder">
+        <span className="heading">Amenities:</span>
+        <div className="amenities">
+          {product?.amenities.map((item, index) => (
+            <div className="product-property" key={index}>
+              <span>{item}</span>
+            </div>
+          ))}
         </div>
-
-        <div className="investwrapper">
-          <div className="content-holder">
-            <strong>Why Invest in this?</strong>
-            <p>{product.investmentReason}</p>
-            <strong>Description</strong>
-            <p>{product.description}</p>
-            <div className="amenties-holder">
-              <div>
-                <span>Amenities</span>
-              </div>
-              <div className="amenities">
-                {product.amenities.map((data, index) => (
-                  <div className="amenity" key={index}>
-                    <span>
-                      <IoIosCheckmarkCircle className="icon" />
-                      {data}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
+      </div>
+      <div className="product-info investment-info">
+        {investmentData?.map((item, index) => (
+          <div className="col" key={index}>
+            <span className="heading">{item.heading}</span>
+            <span className="text">{item.text}</span>
           </div>
-          <div className="investment">
-            <div className="amountdiv">
-              <div>
-                <span>Min Investment (USD)</span>
-                <strong className="amount">${product?.minimumInvestment?.toLocaleString('en-US')}</strong>
-              </div>
-              <div>
-                <span>Asset Value (USD)</span>
-                <strong className="amount">${product.assetValue?.toLocaleString('en-US')}</strong>
-              </div>
-            </div>
-            <div className="total">
-              Total Value Raised (USD) <span> $ 0.00</span>
-            </div>
-          </div>
+        ))}
+      </div>
+      {product.isVerified === false && (
+        <div className="btn-holder">
+          <Button
+            variant="success"
+            custom
+            onClick={() => {
+              approveProduct(product?._id, 'Approve');
+            }}>
+            Approve
+          </Button>
+          <ModalContainer
+            width={500}
+            title={<Image src={declineIcon} alt="declineIcon" />}
+            btnComponent={({ onClick }) => (
+              <Button variant="danger" custom onClick={onClick}>
+                Decline
+              </Button>
+            )}
+            content={({ onClose }) => <DeclineModal type="Product" id={product?._id} onClose={onClose} />}
+          />
         </div>
-        {product.isVerified === false && (
-          <div className="btn-holder">
-            <Button
-              variant="success"
-              custom
-              onClick={() => {
-                approveProduct(product?._id, 'Approve');
-              }}>
-              Approve
-            </Button>
-            <ModalContainer
-              width={500}
-              title={<Image src={declineIcon} alt="declineIcon" />}
-              btnComponent={({ onClick }) => (
-                <Button variant="danger" custom onClick={onClick}>
-                  Decline
-                </Button>
-              )}
-              content={({ onClose }) => <DeclineModal type="Product" id={product?._id} onClose={onClose} />}
-            />
-          </div>
-        )}
-      </ProductDetailWrapper>
-    </>
+      )}
+    </StyledProductDetailModal>
   );
 };
 

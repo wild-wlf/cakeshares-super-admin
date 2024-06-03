@@ -3,6 +3,7 @@ import { GrNext } from 'react-icons/gr';
 import { StyledProfileSetting } from './ProfileSetting.styles';
 import userImage from '../../../../../public/assets/user-img.png';
 import Image from 'next/image';
+import PersonalInfo from '../PersonalInfo';
 
 const ProfileSetting = () => {
   const [tab, setTab] = useState(1);
@@ -28,7 +29,11 @@ const ProfileSetting = () => {
         </div>
       </div>
       <div className="tab-content">
-        {tab === 1 && <span>Tab 1</span>}
+        {tab === 1 && (
+          <span>
+            <PersonalInfo />
+          </span>
+        )}
         {tab === 2 && <span>Tab 2</span>}
       </div>
     </StyledProfileSetting>

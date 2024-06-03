@@ -15,14 +15,14 @@ const QuickStatsSection = ({ cardsData }) => {
           <div className="value-wrapper">
             <span className="heading">
               <MdSupervisorAccount className="icon" />
-              Total User
+              Total Users
             </span>
             {/* <BsThreeDots size={20} /> */}
           </div>
           <div className="value-wrapper">
             <strong>{formatNumber(cardsData?.userCount) || 0}</strong>
             <div>
-              <span className="green-text">+28%</span>
+              <span className="green-text">0%</span>
               <span className="desc">From the last week</span>
             </div>
           </div>
@@ -38,7 +38,7 @@ const QuickStatsSection = ({ cardsData }) => {
           <div className="value-wrapper">
             <strong>{formatNumber(cardsData?.investmentCount) || 0}</strong>
             <div>
-              <span className="green-text">+15%</span>
+              <span className="green-text">0%</span>
               <span className="desc">From the last week</span>
             </div>
           </div>
