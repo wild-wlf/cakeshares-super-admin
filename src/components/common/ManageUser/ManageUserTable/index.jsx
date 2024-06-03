@@ -34,6 +34,7 @@ import EditUser from '../EditUser';
 import Toast from '@/components/molecules/Toast';
 import CompanySellerKycRequest from '../CompanySellerKycRequest';
 import Tooltip from '@/components/atoms/Tooltip';
+import { formatNumber } from '@/helpers/common';
 
 const ManageUserTable = ({ setUserCount }) => {
   const { fetch, refetch } = useContextHook(AuthContext, v => ({
@@ -331,9 +332,9 @@ const ManageUserTable = ({ setUserCount }) => {
         {user.fullName || user.username || '------------'}
       </div>,
       user?.type || '------------',
-      user?.totalAssets || '------------',
-      user?.totalInvestmentAmount ?? '------------',
-      user?.wallet || '------------',
+      user?.totalAssets ?? 0 ?? '------------',
+      formatNumber(user?.totalInvestmentAmount) ?? 0 ?? '------------',
+      formatNumber(user?.wallet) ?? 0 ?? '------------',
       user?.kycLevel ?? '------------',
       user?.isVerified ? 'Approved' : 'Pending' ?? '------------',
       actionBuyerBtns(user),
@@ -349,9 +350,9 @@ const ManageUserTable = ({ setUserCount }) => {
         {user.fullName || user.username || '------------'}
       </div>,
       user?.isIndividualSeller ? 'Individual Seller' : 'Compnay Seller',
-      user?.totalProducts ?? '------------',
-      user?.totalRevenue || '------------',
-      user?.wallet || '------------',
+      user?.totalProducts ?? 0 ?? '------------',
+      formatNumber(user?.totalRevenue) ?? 0 ?? '------------',
+      formatNumber(user?.wallet) ?? 0 ?? '------------',
       user?.kycLevel ?? '------------',
       actionSellerBtns(user),
     ]),

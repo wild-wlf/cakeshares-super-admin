@@ -11,8 +11,10 @@ import ModalContainer from '@/components/molecules/ModalContainer';
 import { StyledUserDetailModal } from '../UserDetailModal/UserDetailModal.styles';
 import declineIcon from '../../../../../public/assets/decline-icon.svg';
 import DeclineModal from '../../DeclineModal';
+import { formatNumber } from '@/helpers/common';
 
 const SellerDetailModal = ({ user, setSellerPropertiesModal, setMoneyAdded, handleConfirmActivate }) => {
+  console.log(user);
   return (
     <StyledUserDetailModal>
       <span className="heading">Personal Info:</span>
@@ -56,7 +58,7 @@ const SellerDetailModal = ({ user, setSellerPropertiesModal, setMoneyAdded, hand
           <div className="content">
             <div>
               <span className="heading">Total Balance:</span>
-              <span className="text">$ {user?.wallet?.toLocaleString() || 0}</span>
+              <span className="text">$ {formatNumber(user?.wallet) || '0.00'}</span>
             </div>
             <div>
               <span className="heading">Actions</span>
@@ -78,36 +80,18 @@ const SellerDetailModal = ({ user, setSellerPropertiesModal, setMoneyAdded, hand
       </div>
       <span className="heading">Seller’s Products Categories Info:</span>
       <div className="product-info inheritance-info">
-        <div className="col" onClick={() => setSellerPropertiesModal(true)}>
-          <figure className="img-holder">
-            <Image src={propertyIcon} alt="property-icon" />
-          </figure>
-          <span className="text">Properties</span>
-        </div>
-        <div className="col">
-          <figure className="img-holder">
-            <Image src={popularIcon} alt="Popular-icon" />
-          </figure>
-          <span className="text">Popular</span>
-        </div>
-        <div className="col">
-          <figure className="img-holder">
-            <Image src={ventureIcon} alt="Venture-icon" />
-          </figure>
-          <span className="text">Properties</span>
-        </div>
-        <div className="col">
-          <figure className="img-holder">
-            <Image src={bazarIcon} alt="Bazaar-icon" />
-          </figure>
-          <span className="text">Bazaar</span>
-        </div>
-        <div className="col">
-          <figure className="img-holder">
-            <Image src={vehicleIcon} alt="Vehicles-icon" />
-          </figure>
-          <span className="text">Vehicles</span>
-        </div>
+        {user?.uniqueSellerCategories && user?.uniqueSellerCategories?.length > 0 ? (
+          user?.uniqueSellerCategories?.map((ele, index) => (
+            <div key={ele?._id} className="col" onClick={() => setSellerPropertiesModal(true)}>
+              <figure className="img-holder">
+                <Image src={ele?.icon || popularIcon} alt="property-icon" />
+              </figure>
+              <span className="text">{ele?.name}</span>
+            </div>
+          ))
+        ) : (
+          <span>No Categories Available</span>
+        )}
       </div>
       {!user?.isVerified && (
         <div className="btn-holder">
