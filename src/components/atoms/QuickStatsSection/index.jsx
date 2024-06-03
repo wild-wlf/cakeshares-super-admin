@@ -8,6 +8,14 @@ import StackCharts from '@/components/molecules/StackedChart';
 import { formatNumber } from '@/helpers/common';
 
 const QuickStatsSection = ({ cardsData }) => {
+  const userData = [
+    72, 128, 106, 43, 159, 78, 112, 107, 120, 134, 59, 63, 148, 93, 159, 124, 127, 102, 66, 181, 96, 112, 127, 142, 97,
+    71, 185, 100, 155, 130,
+  ];
+  const investmentData = [
+    72, 128, 106, 43, 159, 78, 112, 107, 120, 134, 59, 63, 148, 93, 159, 124, 127, 102, 66, 181, 96, 112, 127, 142, 97,
+    71, 185, 100, 155, 130,
+  ];
   return (
     <QuickStatsSectionWrapper>
       <div className="column-wrapper">

@@ -66,6 +66,8 @@ export const AuthContextProvider = props => {
           JSON.stringify(res.permissions.filter(p => p.includes('.nav')).map(p => `/${p.split('.')[0]}`)),
         );
 
+        console.log({ res });
+
         setLoadingUser(false);
         setUser(res);
         if (publicPages.includes(router.pathname)) {
