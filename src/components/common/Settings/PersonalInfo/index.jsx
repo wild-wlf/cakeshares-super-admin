@@ -65,6 +65,8 @@ const PersonalInfo = ({ user }) => {
     }
   }, [user, form]);
 
+const PersonalInfo = () => {
+  const [form] = useForm();
   return (
     <>
       <CenterModal

@@ -8,6 +8,7 @@ import Layout from '@/components/molecules/Layout';
 import { AuthContextProvider } from '@/context/authContext';
 import Variables from '../styles/variables.css';
 import Loader from '@/components/molecules/Loader';
+import { SocketContextProvider } from '@/context/socketContext';
 
 const GlobalStyles = createGlobalStyle`
   ${Variables}
@@ -57,16 +58,18 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <AuthContextProvider>
-        <GlobalStyles />
-        {loading && <Loader />}
-        {pageProps.statusCode === 404 ? (
-          <Component {...pageProps} />
-        ) : (
-          <Layout>
+        <SocketContextProvider>
+          <GlobalStyles />
+          {loading && <Loader />}
+          {pageProps.statusCode === 404 ? (
             <Component {...pageProps} />
-          </Layout>
-        )}
-        <StyledToastContainer />
+          ) : (
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          )}
+          <StyledToastContainer />
+        </SocketContextProvider>
       </AuthContextProvider>
     </>
   );
