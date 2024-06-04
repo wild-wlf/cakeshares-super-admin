@@ -1,8 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const LoaderWrap = styled.div`
   position: fixed;
   inset: 0;
+  backdrop-filter: blur(3px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,7 +22,7 @@ export const LoaderStyled = styled.div`
   position: relative;
 
   &::after {
-    content: '';
+    content: "";
     box-sizing: border-box;
     position: absolute;
     left: 0;

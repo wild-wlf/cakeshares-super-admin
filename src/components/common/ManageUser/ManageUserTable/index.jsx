@@ -432,7 +432,7 @@ const ManageUserTable = ({ setUserCount }) => {
         setOpen={setkycDecline}
         title={<Image src={modalinfoIcon} alt="modalinfoIcon" />}
         width="543">
-        <SuccessfulModal title="KYC Level 2 Request Declined Successfully!" />
+        <SuccessfulModal title={`KYC Level ${approvedorDeclinedKycLevel} Request Declined Successfully!`} />
       </CenterModal>
       {/* Kyc decline Modal */}
 
