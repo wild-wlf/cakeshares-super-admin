@@ -58,18 +58,18 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <AuthContextProvider>
-        {/* <SocketContextProvider> */}
-        <GlobalStyles />
-        {loading && <Loader />}
-        {pageProps.statusCode === 404 ? (
-          <Component {...pageProps} />
-        ) : (
-          <Layout>
+        <SocketContextProvider>
+          <GlobalStyles />
+          {loading && <Loader />}
+          {pageProps.statusCode === 404 ? (
             <Component {...pageProps} />
-          </Layout>
-        )}
-        <StyledToastContainer />
-        {/* </SocketContextProvider> */}
+          ) : (
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          )}
+          <StyledToastContainer />
+        </SocketContextProvider>
       </AuthContextProvider>
     </>
   );

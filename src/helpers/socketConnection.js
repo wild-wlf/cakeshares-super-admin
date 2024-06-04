@@ -1,17 +1,15 @@
 import { io } from 'socket.io-client';
 let socket = null;
 
-const SOCKET_URL = process.env.NEXT_PUBLIC_BACKEND_ORIGIN;
-console.log(SOCKET_URL);
-
-export const connectionWithSocketServer = (token, ...rest) => {
+export const connectionWithSocketServer = token => {
   const jwtToken = token;
-  console.log(SOCKET_URL);
-  socket = io(SOCKET_URL, {
-    // auth: {
-    //   token: jwtToken,
-    //   type: 'user',
-    // },
+
+  socket = io(process.env.NEXT_PUBLIC_BACKEND_ORIGIN, {
+    path: '/websocket',
+    auth: {
+      token: jwtToken,
+      type: 'admin',
+    },
   });
 
   socket.on('connect', () => {
