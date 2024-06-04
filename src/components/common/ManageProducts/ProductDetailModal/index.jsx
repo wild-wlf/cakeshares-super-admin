@@ -13,7 +13,6 @@ import Toast from '@/components/molecules/Toast';
 import productService from '@/services/productService';
 
 const ProductDetailModal = ({ product }) => {
-  console.log(product);
   const { fetch, refetch } = useContextHook(AuthContext, v => ({
     fetch: v.fetch,
     refetch: v.refetch,

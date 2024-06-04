@@ -11,7 +11,6 @@ import Button from '@/components/atoms/Button';
 import { Wrapper } from '@/components/atoms/EditUserModal/EditUserModal.style';
 
 const EditUserModal = ({ user, setSuccessUpdatedModal, onClose }) => {
-  console.log(user);
   const { refetch } = useContextHook(AuthContext, v => ({
     refetch: v.refetch,
   }));
@@ -21,7 +20,6 @@ const EditUserModal = ({ user, setSuccessUpdatedModal, onClose }) => {
   const [profilePicture, setProfilePicture] = useState();
 
   const onSubmit = async data => {
-    console.log(data);
     const { country, ...restData } = data;
 
     const payload = {

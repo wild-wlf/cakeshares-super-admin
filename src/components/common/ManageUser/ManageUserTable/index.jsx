@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { ActionBtnList } from '@/components/atoms/ActionBtns/ActionBtns.styles';
 import Table from '@/components/molecules/Table';
 import TableLayout from '@/components/atoms/TableLayout';
@@ -35,7 +35,7 @@ import Toast from '@/components/molecules/Toast';
 import CompanySellerKycRequest from '../CompanySellerKycRequest';
 import Tooltip from '@/components/atoms/Tooltip';
 
-const ManageUserTable = () => {
+const ManageUserTable = ({ setUserCount }) => {
   const { fetch, refetch } = useContextHook(AuthContext, v => ({
     fetch: v.fetch,
     refetch: v.refetch,
@@ -73,6 +73,10 @@ const ManageUserTable = () => {
     setEditModal(false);
     setSuccessUpdatedModal(true);
   };
+
+  useEffect(() => {
+    setUserCount(user_data?.allUsersinDb);
+  }, [user_data?.allUsersinDb]);
 
   const handleConfirmActivate = useCallback(async (id, type) => {
     try {
