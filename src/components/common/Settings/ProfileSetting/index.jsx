@@ -24,7 +24,7 @@ const ProfileSetting = () => {
     <StyledProfileSetting>
       <div className="side-bar">
         <div className="img-holder">
-          <Image src={user?.profilePicture} alt="userImage" />
+          <Image src={user?.profilePicture} alt="userImage" width={250} height={300} />
         </div>
         <span className="name">{user?.fullName}</span>
         <span className="email">{user?.email}</span>
