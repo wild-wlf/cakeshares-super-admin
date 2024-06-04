@@ -1,15 +1,14 @@
 import { io } from 'socket.io-client';
 let socket = null;
 
-const SOCKET_URL = process.env.NEXT_PUBLIC_BACKEND_ORIGIN;
-console.log(SOCKET_URL);
-
-export const connectionWithSocketServer = (token, ...rest) => {
+export const connectionWithSocketServer = token => {
   const jwtToken = token;
-  socket = io(SOCKET_URL, {
+
+  socket = io(process.env.NEXT_PUBLIC_BACKEND_ORIGIN, {
+    path: '/websocket',
     auth: {
       token: jwtToken,
-      type: 'user',
+      type: 'admin',
     },
   });
 
@@ -17,7 +16,7 @@ export const connectionWithSocketServer = (token, ...rest) => {
     console.log('User Connected');
   });
 
-  socket.on('admin_notification', data => {
+  socket.on('adminNotification', data => {
     console.log('DATA: ', data);
     window.dispatchEvent(new CustomEvent('admin_notification', { detail: data }));
   });
