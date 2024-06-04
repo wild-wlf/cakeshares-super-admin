@@ -110,7 +110,7 @@ export const AuthContextProvider = props => {
         router.push('/');
       }
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, fetch_user]);
 
   const onLogin = async ({ email, password, rememberMe }) => {
     setLoadingUser(true);

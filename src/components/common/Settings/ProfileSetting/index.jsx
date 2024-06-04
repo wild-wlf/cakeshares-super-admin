@@ -20,28 +20,16 @@ const ProfileSetting = () => {
     setTab(index);
   };
 
-  async function UpdateAdmin(id) {
-    try {
-      const res = await AdminService.UpdateAdmin(id);
-      console.log('res', res);
-    } catch (error) {
-      Toast({
-        type: error,
-        message: error.message,
-      });
-    }
-  }
-
   return (
     <StyledProfileSetting>
       <div className="side-bar">
         <div className="img-holder">
-          <Image src={userImage} alt="userImage" />
+          <Image src={user?.profilePicture} alt="userImage" />
         </div>
         <span className="name">{user?.fullName}</span>
         <span className="email">{user?.email}</span>
         <div className={tab === 1 ? 'tab active' : 'tab'} onClick={() => handleTabs(1)}>
-          <span onClick={() => UpdateAdmin()}>Personal Info</span>
+          <span>Personal Info</span>
           <GrNext />
         </div>
         <div className={tab === 2 ? 'tab active' : 'tab'} onClick={() => handleTabs(2)}>

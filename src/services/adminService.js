@@ -1,11 +1,11 @@
 import { Fetch } from '@/helpers/fetchWrapper';
 
 const AdminService = {
-  _url: `${process.env.NEXT_PUBLIC_USER_URL}`,
+  _url: `${process.env.NEXT_PUBLIC_ADMIN_URL}`,
 
   async UpdateAdmin(id, payload) {
-    let res = await Fetch.upload(`${this._url}/update-admin/${id}`, 'PUT', payload);
-    if (res.status > 200 && res.status < 300) {
+    let res = await Fetch.customPatch(`${this._url}/update-admin/${id}`, payload);
+    if (res.status >= 200 && res.status <= 300) {
       res = await res.json();
       return res;
     }

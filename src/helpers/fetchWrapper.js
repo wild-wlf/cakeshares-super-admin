@@ -91,6 +91,21 @@ function patch(url, body) {
   return fetch(url, requestOptions).then(res => handleResponse(res));
 }
 
+function customPatch(url, body) {
+  const headers = {
+    // 'Content-Type': 'multipart/form-data',
+    authorization: `Bearer ${getCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE)}`,
+  };
+
+  const requestOptions = {
+    method: 'PATCH',
+    headers,
+    body,
+  };
+
+  return fetch(url, requestOptions).then(res => handleResponse(res));
+}
+
 export const Fetch = {
   get,
   post,
@@ -98,4 +113,5 @@ export const Fetch = {
   delete: _delete,
   patch,
   upload,
+  customPatch,
 };

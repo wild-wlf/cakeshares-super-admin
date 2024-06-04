@@ -11,36 +11,57 @@ import SuccessModal from '@/components/molecules/SuccessModal/SuccessModal';
 import successIcon from '../../../../../public/assets/success-icon.png';
 import AdminService from '@/services/adminService';
 import Toast from '@/components/molecules/Toast';
+import { AuthContext } from '@/context/authContext';
+import { useContextHook } from 'use-context-hook';
+import Loader from '@/components/molecules/Loader';
 
 const PersonalInfo = ({ user }) => {
+  const { fetchUser } = useContextHook(AuthContext, v => ({
+    fetchUser: v.fetchUser,
+  }));
   const [form] = useForm();
   const [successModal, setSuccessModal] = useState(false);
-  const onSubmit = async () => {
+  const [profilePicture, setProfilePicture] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onSubmit = async data => {
     try {
-      const data = await form.validateFields();
+      setIsLoading(true);
       const { firstName, lastName, email } = data;
       const fullName = `${firstName} ${lastName}`;
       const payload = {
+        profilePicture,
         fullName,
         email,
       };
-      console.log('payload', payload);
-      await AdminService.UpdateAdmin(user._id, payload);
+      const formDataToSend = new FormData();
+      Object.keys(payload).forEach(key => {
+        formDataToSend.append(key, payload[key]);
+      });
+      await AdminService.UpdateAdmin(user._id, formDataToSend);
       setSuccessModal(true);
+      fetchUser();
     } catch (error) {
       Toast({
         type: 'error',
         message: error.message,
       });
+    } finally {
+      setIsLoading(false);
     }
   };
+
   useEffect(() => {
     if (user) {
+      const fullName = user.fullName || '';
+      const [firstName, ...rest] = fullName.split(' ');
+      const lastName = rest.join(' ');
       form.setFieldsValue({
-        firstName: user.firstName,
-        lastName: user.lastName,
+        firstName: firstName || '',
+        lastName: lastName || '',
         email: user.email,
       });
+      setProfilePicture(user?.profilePicture);
     }
   }, [user, form]);
 
@@ -55,7 +76,7 @@ const PersonalInfo = ({ user }) => {
       </CenterModal>
       <StyledPersonalInfo>
         <div className="img-holder">
-          <UploadImg onChange={e => e.target.value} />
+          <UploadImg img={user?.profilePicture} onChange={e => setProfilePicture(e)} />
         </div>
         <div className="form">
           <Form form={form} onSubmit={onSubmit}>
@@ -65,7 +86,7 @@ const PersonalInfo = ({ user }) => {
                 label="First Name"
                 name="firstName"
                 rounded
-                placeholder="Mickhel"
+                // placeholder="Mickhel"
                 rules={[
                   {
                     required: true,
@@ -87,7 +108,7 @@ const PersonalInfo = ({ user }) => {
                 label="Last Name"
                 name="lastName"
                 rounded
-                placeholder="James"
+                // placeholder="James"
                 rules={[
                   {
                     required: true,
@@ -105,11 +126,12 @@ const PersonalInfo = ({ user }) => {
                 <Field />
               </Form.Item>
               <Form.Item
+                disabled
                 type="email"
                 label="Email Address"
                 name="email"
                 rounded
-                placeholder="Mickheljames@gmail.com"
+                // placeholder="Mickheljames@gmail.com"
                 rules={[
                   {
                     required: true,
@@ -119,7 +141,7 @@ const PersonalInfo = ({ user }) => {
                 <Field />
               </Form.Item>
             </div>
-            <Button variant="green" htmlType="submit">
+            <Button variant="green" htmlType="submit" loader={isLoading} disable={isLoading}>
               Save Changes
             </Button>
           </Form>
