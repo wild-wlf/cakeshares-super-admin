@@ -1,14 +1,14 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Sidenav = styled.div`
   position: fixed;
-  left: 0;
+  left: -100%;
   top: 0;
   display: flex;
   flex-direction: column;
   gap: 50px;
   background-color: var(--green);
-  width: 270px;
+  width: 250px;
   padding: 30px 20px 30px 30px;
   height: 100%;
   z-index: 50;
@@ -16,8 +16,13 @@ export const Sidenav = styled.div`
   border-top-right-radius: 40px;
   border-bottom-right-radius: 40px;
   /* box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); */
-  @media (max-width: 992px) {
-    left: -100%;
+  @media (min-width: 992px) {
+    left: 0;
+    gap: 30px;
+  }
+  @media (min-width: 1200px) {
+    gap: 50px;
+    width: 270px;
   }
 
   .sideNav-active & {
@@ -105,9 +110,12 @@ export const UserDet = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 10px 17px;
+  padding: 10px;
   gap: 10px;
   color: var(--white);
+  @media (min-width: 1200px) {
+    padding: 10px 17px;
+  }
   img {
     border-radius: 50%;
   }

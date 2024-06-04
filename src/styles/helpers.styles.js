@@ -1,53 +1,53 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
 export const Flex = styled.div`
   display: flex;
-  flex-wrap: ${(props) => !props.nowrap && "wrap"};
+  flex-wrap: ${props => !props.nowrap && 'wrap'};
 
-  ${(props) =>
-    props.direction === "column" &&
+  ${props =>
+    props.direction === 'column' &&
     css`
       flex-direction: column;
     `}
 
-  ${(props) =>
-    props.direction === "columnReverse" &&
+  ${props =>
+    props.direction === 'columnReverse' &&
     css`
       flex-direction: column;
     `}
 
-  ${(props) =>
-    props.justify === "center" &&
+  ${props =>
+    props.justify === 'center' &&
     css`
       justify-content: center;
     `}
 
-  ${(props) =>
-    props.justify === "space-between" &&
+  ${props =>
+    props.justify === 'space-between' &&
     css`
       justify-content: space-between;
     `}
 
-  ${(props) =>
-    props.justify === "end" &&
+  ${props =>
+    props.justify === 'end' &&
     css`
       justify-content: flex-end;
     `}
 
-  ${(props) =>
-    props.align === "top" &&
+  ${props =>
+    props.align === 'top' &&
     css`
       align-items: flex-start;
     `}
 
-  ${(props) =>
-    props.align === "middle" &&
+  ${props =>
+    props.align === 'middle' &&
     css`
       align-items: center;
     `}
 
-    ${(props) =>
-    props.align === "bottom" &&
+    ${props =>
+    props.align === 'bottom' &&
     css`
       align-items: flex-end;
     `}
@@ -60,14 +60,12 @@ export const Centered = css`
 `;
 
 export const StyledFormGroup = styled.div`
-  margin-bottom: ${({ $invalid, noMargin }) =>
-    $invalid || noMargin ? "0px" : "10px"};
+  margin-bottom: ${({ $invalid, noMargin }) => ($invalid || noMargin ? '0px' : '10px')};
   @media (min-width: 768px) {
-    margin-bottom: ${({ $invalid, noMargin }) =>
-      $invalid || noMargin ? "0px" : "20px"};
+    margin-bottom: ${({ $invalid, noMargin }) => ($invalid || noMargin ? '0px' : '20px')};
   }
   /* position: relative; */
-  font-family: "Outfit", sans-serif;
+  font-family: 'Outfit', sans-serif;
   width: 100%;
   &:nth-last-child(1) {
     margin-bottom: 0;
@@ -80,10 +78,7 @@ export const InputHolder = styled.div`
 
 export const ActionBtnHolder = styled.div`
   display: grid;
-  grid-template-columns: repeat(
-    ${({ numOfBtns }) => (numOfBtns === 4 ? 4 : 3)},
-    minmax(20px, 20px)
-  );
+  grid-template-columns: repeat(${({ numOfBtns }) => (numOfBtns === 4 ? 4 : 3)}, minmax(20px, 20px));
   align-items: center;
   justify-content: center;
   position: absolute;
@@ -101,7 +96,7 @@ export const ActionBtnHolder = styled.div`
         position: relative;
 
         &:before {
-          content: "";
+          content: '';
           position: absolute;
           top: 0;
           right: 0;
@@ -119,8 +114,7 @@ export const ActionBtnHolder = styled.div`
       justify-content: center;
     }
     @media (max-width: 992px) {
-      grid-column: ${({ numOfBtns }) =>
-        numOfBtns === 4 ? `span 4 / span 4` : `span 3 / span 3`};
+      grid-column: ${({ numOfBtns }) => (numOfBtns === 4 ? `span 4 / span 4` : `span 3 / span 3`)};
     }
   }
   @media (min-width: 992px) {
@@ -148,12 +142,18 @@ export const ChildWrapper = styled.div`
   padding: 30px 15px;
   min-height: calc(100vh - 30px);
   @media screen and (min-width: 768px) {
+    padding: 20px;
+  }
+  @media screen and (min-width: 1200px) {
     padding: 30px;
   }
 `;
 export const MainWrapper = styled.div`
   padding: 15px;
-  @media screen and (min-width: 993px) {
+  @media screen and (min-width: 992px) {
+    padding-left: 260px;
+  }
+  @media screen and (min-width: 1200px) {
     padding: 15px 15px 15px 300px;
   }
   .layer {

@@ -65,7 +65,7 @@ const SideBar = ({ data }) => {
         </LinkContainer>
 
         <UserDet>
-          <Image src={avatar_icon} height={40} width={40} alt="user-profile" />
+          <Image src={user?.profilePicture || avatar_icon} height={40} width={40} alt="user-profile" />
           <div className="detailContainer">
             <span className="userName">{user?.fullName}</span>
             <span className="type">{user?.email}</span>

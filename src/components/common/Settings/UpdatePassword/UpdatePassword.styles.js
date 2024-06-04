@@ -9,10 +9,15 @@ export const StyledUpdatePassword = styled.div`
     margin-bottom: 16px;
   }
   .text {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 20px;
     color: var(--gray);
     margin-bottom: 30px;
+
+    @media (min-width: 1400px) {
+      font-size: 18px;
+      line-height: 22px;
+    }
   }
   .input-wrap {
     display: flex;
