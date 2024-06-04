@@ -13,7 +13,6 @@ import AdminService from '@/services/adminService';
 import Toast from '@/components/molecules/Toast';
 import { AuthContext } from '@/context/authContext';
 import { useContextHook } from 'use-context-hook';
-import Loader from '@/components/molecules/Loader';
 
 const PersonalInfo = ({ user }) => {
   const { fetchUser } = useContextHook(AuthContext, v => ({
@@ -40,13 +39,13 @@ const PersonalInfo = ({ user }) => {
       });
       await AdminService.UpdateAdmin(user._id, formDataToSend);
       setSuccessModal(true);
-      fetchUser();
     } catch (error) {
       Toast({
         type: 'error',
         message: error.message,
       });
     } finally {
+      fetchUser();
       setIsLoading(false);
     }
   };

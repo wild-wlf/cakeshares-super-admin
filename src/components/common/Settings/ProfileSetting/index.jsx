@@ -24,7 +24,7 @@ const ProfileSetting = () => {
     <StyledProfileSetting>
       <div className="side-bar">
         <div className="img-holder">
-          <Image src={user?.profilePicture} alt="userImage" />
+          <Image src={user?.profilePicture || userImage} alt="userImage" width={120} height={120} />
         </div>
         <span className="name">{user?.fullName}</span>
         <span className="email">{user?.email}</span>
@@ -45,7 +45,7 @@ const ProfileSetting = () => {
         )}
         {tab === 2 && (
           <span>
-            <UpdatePassword />
+            <UpdatePassword user={user} />
           </span>
         )}
       </div>
