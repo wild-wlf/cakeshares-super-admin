@@ -33,6 +33,7 @@ const PersonalInfo = ({ user }) => {
         fullName,
         email,
       };
+      console.log(payload);
       const formDataToSend = new FormData();
       Object.keys(payload).forEach(key => {
         formDataToSend.append(key, payload[key]);
