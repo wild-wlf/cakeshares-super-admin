@@ -6,18 +6,19 @@ console.log(SOCKET_URL);
 
 export const connectionWithSocketServer = (token, ...rest) => {
   const jwtToken = token;
+  console.log(SOCKET_URL);
   socket = io(SOCKET_URL, {
-    auth: {
-      token: jwtToken,
-      type: 'user',
-    },
+    // auth: {
+    //   token: jwtToken,
+    //   type: 'user',
+    // },
   });
 
   socket.on('connect', () => {
     console.log('User Connected');
   });
 
-  socket.on('admin_notification', data => {
+  socket.on('adminNotification', data => {
     console.log('DATA: ', data);
     window.dispatchEvent(new CustomEvent('admin_notification', { detail: data }));
   });

@@ -5,7 +5,7 @@ import Form, { useForm } from '@/components/molecules/Form';
 import Field from '@/components/molecules/Field';
 
 const PersonalInfo = () => {
-  const form = useForm();
+  const [form] = useForm();
   return (
     <StyledPersonalInfo>
       <UploadImg />
