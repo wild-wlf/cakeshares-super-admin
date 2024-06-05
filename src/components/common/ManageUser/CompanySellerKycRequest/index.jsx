@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Button from '@/components/atoms/Button';
 import fileIcon from '../../../../../public/assets/fileIcon.svg';
@@ -9,11 +9,23 @@ import kycService from '@/services/kycService';
 import Toast from '@/components/molecules/Toast';
 import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
+import CenterModal from '@/components/molecules/Modal/CenterModal';
+import DocumentViewerModal from '@/components/molecules/DocumentViewerModal';
+import { getKycFileName } from '@/helpers/common';
+import Link from 'next/link';
+import KYCDeclineModal from '../../KYCDeclineModal';
+import declineIcon from '../../../../../public/assets/decline-icon.svg';
 
 const CompanySellerKycRequest = ({ user, setkycApproved, setkycDecline, setApprovedorDeclinedKycLevel }) => {
   const { refetch } = useContextHook(AuthContext, v => ({
     refetch: v.refetch,
   }));
+  const [isLoading, setIsLoading] = useState(false);
+  const [declineKycModal, setDeclineKycModal] = useState(false);
+  const [viewDocument, setViewDocument] = useState(false);
+  const [documentToPreview, setDocumentToPreview] = useState();
+  const [kycInfo, setKycInfo] = useState();
+
   const approveKyc = async () => {
     try {
       await kycService.approveKyc(user?._id);
@@ -28,9 +40,10 @@ const CompanySellerKycRequest = ({ user, setkycApproved, setkycDecline, setAppro
     }
   };
 
-  const declineKyc = async () => {
+  const declineKyc = async data => {
     try {
-      await kycService.declineKyc(user?._id);
+      setIsLoading(true);
+      await kycService.declineKyc(user?._id, { ...data });
       setApprovedorDeclinedKycLevel(user?.kycRequestLevel);
       setkycDecline(true);
       refetch();
@@ -39,126 +52,93 @@ const CompanySellerKycRequest = ({ user, setkycApproved, setkycDecline, setAppro
         type: 'error',
         message,
       });
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    kycService.getKycInfo(user?._id).then(data => {
+      setKycInfo(data?.finalKycData);
+    });
+  }, []);
+
   return (
-    <StyledKycRequest $flexWrap>
-      <strong className="title">Request for KYB Approval</strong>
-      <span className="wrapperTitle">Business Details Info:</span>
-      <div className="product-info">
-        <div className="col">
-          <span className="heading">Business Name:</span>
-          <span className="text">{user?.fullName}</span>
-        </div>
-        <div className="col">
-          <span className="heading">Business Email</span>
-          <span className="text">{user?.email}</span>
-        </div>
-        <div className="col">
-          <span className="heading">Owner Full Name:</span>
-          <span className="text">John Duo</span>
-        </div>
-        <div className="col">
-          <span className="heading">Owner Phone no:</span>
-          <span className="text">+1 123 456 789</span>
-        </div>
-        <div className="col">
-          <span className="heading">Tax no:</span>
-          <span className="text">123456789215246253</span>
-        </div>
-      </div>
-      <span className="wrapperTitle">Bank Details Info:</span>
-      <div className="product-info">
-        <div className="col">
-          <span className="heading">Bank Name:</span>
-          <span className="text">{user?.bank?.bankName}</span>
-        </div>
-        <div className="col">
-          <span className="heading">IBAN:</span>
-          <span className="text">{user?.bank?.bankName}</span>
-        </div>
-        <div className="col">
-          <span className="heading">Use ID:</span>
-          <span className="text">{user?.bank?.userId}</span>
-        </div>
-      </div>
-      <span className="wrapperTitle">ID Proof Info:</span>
-      <div className="product-info">
-        <div className="uploadedDocDetail">
-          <figure className="docType">
-            <Image src={fileIcon} alt="fileIcon" />
-          </figure>
-          <span>Passport Image...jpeg</span>
-        </div>
-        <div className="actionButton">
-          <div className="view">
-            <Image src={view} alt="view" />
+    <>
+      <CenterModal open={viewDocument} setOpen={setViewDocument} title="View Document" width="543">
+        <DocumentViewerModal documentToPreview={documentToPreview} />
+      </CenterModal>
+      <CenterModal
+        title={<Image src={declineIcon} alt="declineIcon" />}
+        open={declineKycModal}
+        setOpen={setDeclineKycModal}
+        width="543">
+        <KYCDeclineModal declineKyc={declineKyc} isLoading={isLoading} />
+      </CenterModal>
+      <StyledKycRequest $flexWrap>
+        <strong className="title">Request for KYB Approval</strong>
+        <span className="wrapperTitle">Business Details Info:</span>
+        <div className="product-info">
+          <div className="col">
+            <span className="heading">Bank Name:</span>
+            <span className="text">{kycInfo?.bankDetails?.bankName || '-----------'}</span>
           </div>
-          <div className="download">
-            <Image src={downloadIcon} alt="downloadIcon" />
+          <div className="col">
+            <span className="heading">Account Holder:</span>
+            <span className="text">{kycInfo?.bankDetails?.accountHolder || '-----------'}</span>
+          </div>
+          <div className="col">
+            <span className="heading">Account Number:</span>
+            <span className="text">{kycInfo?.bankDetails?.accountNumber || '-----------'}</span>
           </div>
         </div>
-      </div>
-      <span className="wrapperTitle">Residence Proof Info:</span>
-      <div className="product-info">
-        <div className="uploadedDocDetail">
-          <figure className="docType">
-            <Image src={fileIcon} alt="fileIcon" />
-          </figure>
-          <span>2023 - 2024 Bank Statement....</span>
+
+        {kycInfo?.images &&
+          kycInfo?.images?.length > 0 &&
+          kycInfo?.images?.map((ele, index) => {
+            const fileName = getKycFileName(ele?.url);
+            return (
+              <>
+                <span className="wrapperTitle">{ele?.fieldName}:</span>
+                <div key={index} className="product-info">
+                  <div className="uploadedDocDetail">
+                    <figure className="docType">
+                      <Image src={fileIcon} alt="fileIcon" />
+                    </figure>
+                    <span>{fileName}</span>
+                  </div>
+                  <div className="actionButton">
+                    <div className="view">
+                      <Image
+                        onClick={() => {
+                          setDocumentToPreview(ele?.url);
+                          setViewDocument(true);
+                        }}
+                        src={view}
+                        alt="view"
+                      />
+                    </div>
+                    <div className="download">
+                      <Link href={ele?.url} download={fileName}>
+                        <Image src={downloadIcon} alt="downloadIcon" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </>
+            );
+          })}
+
+        <div className="btnWrap">
+          <Button variant="danger" block onClick={() => setDeclineKycModal(true)}>
+            Decline
+          </Button>
+          <Button block onClick={approveKyc}>
+            Approve
+          </Button>
         </div>
-        <div className="actionButton">
-          <div className="view">
-            <Image src={view} alt="view" />
-          </div>
-          <div className="download">
-            <Image src={downloadIcon} alt="downloadIcon" />
-          </div>
-        </div>
-      </div>
-      <span className="wrapperTitle">Facial Info:</span>
-      <div className="product-info">
-        <div className="uploadedDocDetail">
-          <figure className="docType">
-            <Image src={fileIcon} alt="fileIcon" />
-          </figure>
-          <span>Video1242632...mp4</span>
-        </div>
-        <div className="actionButton">
-          <div className="view">
-            <Image src={view} alt="view" />
-          </div>
-          <div className="download">
-            <Image src={downloadIcon} alt="downloadIcon" />
-          </div>
-        </div>
-      </div>
-      <span className="wrapperTitle">Comapany Documents Info:</span>
-      <div className="product-info">
-        <div className="uploadedDocDetail">
-          <figure className="docType">
-            <Image src={fileIcon} alt="fileIcon" />
-          </figure>
-          <span>company documnets....jpeg</span>
-        </div>
-        <div className="actionButton">
-          <div className="view">
-            <Image src={view} alt="view" />
-          </div>
-          <div className="download">
-            <Image src={downloadIcon} alt="downloadIcon" />
-          </div>
-        </div>
-      </div>
-      <div className="btnWrap">
-        <Button variant="danger" block onClick={declineKyc}>
-          Decline
-        </Button>
-        <Button block onClick={approveKyc}>
-          Approve
-        </Button>
-      </div>
-    </StyledKycRequest>
+      </StyledKycRequest>
+    </>
   );
 };
 

@@ -7,7 +7,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import Layout from '@/components/molecules/Layout';
 import { AuthContextProvider } from '@/context/authContext';
 import Variables from '../styles/variables.css';
-import Loader from '@/components/molecules/Loader';
+import PreLoader from '@/components/molecules/PreLoader';
 import { SocketContextProvider } from '@/context/socketContext';
 
 const GlobalStyles = createGlobalStyle`
@@ -60,7 +60,7 @@ export default function App({ Component, pageProps }) {
       <AuthContextProvider>
         <SocketContextProvider>
           <GlobalStyles />
-          {loading && <Loader />}
+          {loading && <PreLoader />}
           {pageProps.statusCode === 404 ? (
             <Component {...pageProps} />
           ) : (
