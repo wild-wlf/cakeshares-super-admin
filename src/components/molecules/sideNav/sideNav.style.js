@@ -116,8 +116,17 @@ export const UserDet = styled.div`
   @media (min-width: 1200px) {
     padding: 10px 17px;
   }
-  img {
+  .img-holder {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
+    overflow: hidden;
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
   }
   .detailContainer {
     display: flex;

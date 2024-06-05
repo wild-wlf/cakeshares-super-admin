@@ -14,7 +14,6 @@ const ProfileSetting = () => {
   const { user } = useContextHook(AuthContext, v => ({
     user: v.user,
   }));
-  console.log(user);
   const [tab, setTab] = useState(1);
   const handleTabs = index => {
     setTab(index);

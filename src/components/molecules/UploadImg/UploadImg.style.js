@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const StyledUploadImage = styled.div`
   width: 100%;
@@ -16,13 +16,13 @@ export const StyledUploadImage = styled.div`
   }
   .labelButton {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     width: 100%;
     height: 100px;
     overflow: hidden;
     cursor: pointer;
-    background: ${({ $bg }) => ($bg ? "var(--white)" : "#F1F1F1")};
+    background: ${({ $bg }) => ($bg ? 'var(--white)' : '#F1F1F1')};
     border-radius: 50px;
     border: 1px dashed #d9d9d9;
 
@@ -56,7 +56,7 @@ export const StyledUploadImage = styled.div`
   img {
     display: block;
     max-width: 100%;
-    height: 100%;
+    height: auto;
     object-fit: cover;
   }
   .uploaded-file-name {
