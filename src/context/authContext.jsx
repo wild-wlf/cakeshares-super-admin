@@ -66,6 +66,8 @@ export const AuthContextProvider = props => {
           JSON.stringify(res.permissions.filter(p => p.includes('.nav')).map(p => `/${p.split('.')[0]}`)),
         );
 
+        console.log({ res });
+
         setLoadingUser(false);
         setUser(res);
         if (publicPages.includes(router.pathname)) {
@@ -108,7 +110,7 @@ export const AuthContextProvider = props => {
         router.push('/');
       }
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, fetch_user]);
 
   const onLogin = async ({ email, password, rememberMe }) => {
     setLoadingUser(true);

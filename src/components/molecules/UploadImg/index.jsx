@@ -48,7 +48,7 @@ const UploadImg = ({ id = 'upload', img, onChange, fileSize = 2, accept = 'image
       <label htmlFor={id} className="labelButton">
         {!uploaded && (
           <span className="upload-text">
-            <Image className="icon-img" src={ProfilePic} alt="icon" />
+            <Image className="icon-img" src={ProfilePic} alt="icon" width={250} height={300} />
           </span>
         )}
         {uploaded && typeof uploaded === 'string' ? (
@@ -57,7 +57,7 @@ const UploadImg = ({ id = 'upload', img, onChange, fileSize = 2, accept = 'image
           uploaded && <Image src={URL.createObjectURL(uploaded)} alt="img" width={250} height={300} />
         )}
         <input type="file" id={id} accept={accept} onChange={e => handelChange(e)} />
-        <Image src={Camera} alt="Camera" className="camera" />
+        <Image src={Camera} alt="Camera" className="camera" width={250} height={300} />
       </label>
     </StyledUploadImage>
   );

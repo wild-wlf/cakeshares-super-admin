@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
@@ -89,7 +89,7 @@ export const Container = styled.div`
       gap: 8px;
 
       &::before {
-        content: "";
+        content: '';
         position: absolute;
         height: 1px;
         width: 0;
@@ -107,7 +107,7 @@ export const Container = styled.div`
       }
     }
     .textField::after {
-      content: "";
+      content: '';
       position: absolute;
       bottom: 0;
       left: 0;
@@ -131,11 +131,11 @@ export const Container = styled.div`
   }
 
   @media (max-width: 1200px) {
-    .barData {
+    /* .barData {
       p {
         width: 250px;
       }
-    }
+    } */
     .barActions {
       .textFieldRight {
         .heading {
@@ -146,14 +146,14 @@ export const Container = styled.div`
   }
 
   @media (max-width: 1042px) {
-    .barData {
+    /* .barData {
       p {
         width: 200px;
       }
-    }
+    } */
   }
 
-  @media (max-width: 992px) {
+  @media (max-width: 991px) {
     .barData {
       .closedNav {
         display: block;
@@ -191,7 +191,7 @@ export const DataContainer = styled.div`
     font-weight: 300;
     padding-top: 5px;
   }
-  @media (max-width: 992px) {
+  @media (max-width: 991px) {
     display: block;
   }
 `;
