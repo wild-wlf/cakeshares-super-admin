@@ -13,12 +13,15 @@ import { getKycFileName } from '@/helpers/common';
 import Link from 'next/link';
 import CenterModal from '@/components/molecules/Modal/CenterModal';
 import DocumentViewerModal from '@/components/molecules/DocumentViewerModal';
+import KYCDeclineModal from '../../KYCDeclineModal';
+import declineIcon from '../../../../../public/assets/decline-icon.svg';
 
 const KycRequest = ({ user, setkycApproved, setkycDecline, setApprovedorDeclinedKycLevel }) => {
   const { refetch } = useContextHook(AuthContext, v => ({
     refetch: v.refetch,
   }));
-  const [currentDocName, setCurrentDocName] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [declineKycModal, setDeclineKycModal] = useState(false);
   const [viewDocument, setViewDocument] = useState(false);
   const [documentToPreview, setDocumentToPreview] = useState();
   const [kycInfo, setKycInfo] = useState();
@@ -36,9 +39,10 @@ const KycRequest = ({ user, setkycApproved, setkycDecline, setApprovedorDeclined
     }
   };
 
-  const declineKyc = async () => {
+  const declineKyc = async data => {
     try {
-      await kycService.declineKyc(user?._id);
+      setIsLoading(true);
+      await kycService.declineKyc(user?._id, { ...data });
       setApprovedorDeclinedKycLevel(user?.kycRequestLevel);
       setkycDecline(true);
       refetch();
@@ -47,6 +51,8 @@ const KycRequest = ({ user, setkycApproved, setkycDecline, setApprovedorDeclined
         type: 'error',
         message,
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -58,8 +64,15 @@ const KycRequest = ({ user, setkycApproved, setkycDecline, setApprovedorDeclined
 
   return (
     <>
-      <CenterModal open={viewDocument} setOpen={setViewDocument} title={currentDocName} width="543">
+      <CenterModal open={viewDocument} setOpen={setViewDocument} title="View Document" width="543">
         <DocumentViewerModal documentToPreview={documentToPreview} />
+      </CenterModal>
+      <CenterModal
+        title={<Image src={declineIcon} alt="declineIcon" />}
+        open={declineKycModal}
+        setOpen={setDeclineKycModal}
+        width="543">
+        <KYCDeclineModal declineKyc={declineKyc} isLoading={isLoading} />
       </CenterModal>
       <StyledKycRequest>
         <strong className="title">Request for KYC Level: {user?.kycRequestLevel || 'None'}:</strong>
@@ -69,7 +82,7 @@ const KycRequest = ({ user, setkycApproved, setkycDecline, setApprovedorDeclined
             <div className="product-info">
               <div className="col">
                 <span className="heading">Email:</span>
-                <span className="text">{kycInfo?.bankDetails?.email}</span>
+                <span className="text">{kycInfo?.bankDetails?.bankName}</span>
               </div>
               <div className="col">
                 <span className="heading">Account Holder Name:</span>
@@ -82,7 +95,13 @@ const KycRequest = ({ user, setkycApproved, setkycDecline, setApprovedorDeclined
             </div>
           </>
         )}
-        {/* <span className="wrapperTitle">Residence Proof Info:</span> */}
+        {user?.kycRequestLevel === 1 ? (
+          <span className="wrapperTitle">ID Proof Info:</span>
+        ) : user?.kycRequestLevel === 2 ? (
+          <span className="wrapperTitle">Residence Proof Info:</span>
+        ) : (
+          <span className="wrapperTitle">Personal Info:</span>
+        )}
         {kycInfo?.images &&
           kycInfo?.images?.length > 0 &&
           kycInfo?.images?.map((ele, index) => {
@@ -100,7 +119,6 @@ const KycRequest = ({ user, setkycApproved, setkycDecline, setApprovedorDeclined
                     <Image
                       onClick={() => {
                         setDocumentToPreview(ele);
-                        setCurrentDocName(getKycFileName(ele));
                         setViewDocument(true);
                       }}
                       src={view}
@@ -118,7 +136,7 @@ const KycRequest = ({ user, setkycApproved, setkycDecline, setApprovedorDeclined
           })}
 
         <div className="btnWrap">
-          <Button variant="danger" block onClick={declineKyc}>
+          <Button variant="danger" block onClick={() => setDeclineKycModal(true)}>
             Decline
           </Button>
           <Button block onClick={approveKyc}>
