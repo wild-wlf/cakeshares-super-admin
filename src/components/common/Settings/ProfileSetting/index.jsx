@@ -5,10 +5,9 @@ import userImage from '../../../../../public/assets/user-img.png';
 import Image from 'next/image';
 import PersonalInfo from '../PersonalInfo';
 import UpdatePassword from '../UpdatePassword';
-import AdminService from '@/services/adminService';
-import Toast from '@/components/molecules/Toast';
 import { AuthContext } from '@/context/authContext';
 import { useContextHook } from 'use-context-hook';
+import { RxCross2, RxHamburgerMenu } from 'react-icons/rx';
 
 const ProfileSetting = () => {
   const { user } = useContextHook(AuthContext, v => ({
@@ -19,19 +18,36 @@ const ProfileSetting = () => {
     setTab(index);
   };
 
+  const [toggle, setToggle] = useState(false);
+
   return (
-    <StyledProfileSetting>
+    <StyledProfileSetting toggle={toggle}>
+      <div className="hamburger">
+        {toggle ? (
+          <RxCross2 onClick={() => setToggle(false)} size={20} />
+        ) : (
+          <RxHamburgerMenu onClick={() => setToggle(true)} size={20} />
+        )}
+      </div>
       <div className="side-bar">
         <div className="img-holder">
           <Image src={user?.profilePicture || userImage} alt="userImage" width={120} height={120} />
         </div>
         <span className="name">{user?.fullName}</span>
         <span className="email">{user?.email}</span>
-        <div className={tab === 1 ? 'tab active' : 'tab'} onClick={() => handleTabs(1)}>
+        <div
+          className={tab === 1 ? 'tab active' : 'tab'}
+          onClick={() => {
+            handleTabs(1), setToggle(false);
+          }}>
           <span>Personal Info</span>
           <GrNext />
         </div>
-        <div className={tab === 2 ? 'tab active' : 'tab'} onClick={() => handleTabs(2)}>
+        <div
+          className={tab === 2 ? 'tab active' : 'tab'}
+          onClick={() => {
+            handleTabs(2), setToggle(false);
+          }}>
           <span>Change Password</span>
           <GrNext />
         </div>
