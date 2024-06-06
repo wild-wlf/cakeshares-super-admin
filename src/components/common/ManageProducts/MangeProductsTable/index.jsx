@@ -181,16 +181,16 @@ const MangeProductsTable = ({ setProductCount }) => {
         </Button>
       </li>
       {/* <ModalContainer
-          width={1100}
-          title="Logan’s Investments"
-          btnComponent={({ onClick }) => (
-            <Button variant="secondary" custom xsCustom onClick={onClick}>
-              <Image src={detailIcon} alt="detailIcon" />
-              View Detail
-            </Button>
-          )}
-          content={({ onClose }) => <InvestmentDetailModal onClose={onClose} />}
-        /> */}
+        width={1100}
+        title="Logan’s Investments"
+        btnComponent={({ onClick }) => (
+          <Button variant="secondary" custom xsCustom onClick={onClick}>
+            <Image src={detailIcon} alt="detailIcon" />
+            View Detail
+          </Button>
+        )}
+        content={({ onClose }) => <InvestmentDetailModal onClose={onClose} />}
+      /> */}
     </ActionBtnList>
   );
 

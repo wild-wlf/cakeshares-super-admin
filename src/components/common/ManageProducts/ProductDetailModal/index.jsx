@@ -107,10 +107,6 @@ const ProductDetailModal = ({ product }) => {
     <StyledProductDetailModal>
       <div className="head">
         <span className="heading">Product Info:</span>
-        <Button type="primary" width="300" rounded sm>
-          <Image src={bellIcon} alt="bellIcon" />
-          Product Advertised
-        </Button>
       </div>
       <div className="product-info">
         {infoData?.map((item, index) => (
