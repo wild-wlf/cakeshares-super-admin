@@ -15,9 +15,7 @@ const AdminTopBar = ({ title, tagLine, suffix }) => {
   };
 
   useEffect(() => {
-    const handleAdminNotification = event => {
-      const data = event.detail;
-      console.log('Admin Notification Received:', data);
+    const handleAdminNotification = () => {
       setfetchNotifications(_ => !_);
     };
 

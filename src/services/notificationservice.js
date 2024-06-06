@@ -31,7 +31,7 @@ const notificationService = {
     };
   },
 
-  async getAllNotifications({ page = 1, itemsPerPage = 10, recipientId = '665d98af163053a4daffd5da' }) {
+  async getAllNotifications({ page = 1, itemsPerPage = 10, recipientId = '' }) {
     let res = await Fetch.get(
       `${this._url}/notification?page=${page}&itemsPerPage=${itemsPerPage}&recipientId=${recipientId}`,
     );

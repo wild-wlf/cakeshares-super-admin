@@ -1,10 +1,12 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const NotificationsHolder = styled.div`
   width: 100%;
   background: var(--white);
   padding: 25px;
   border-radius: 0px;
+  max-height: 400px;
+  overflow-y: scroll;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   .holder {
     padding: 10px 0;
@@ -36,7 +38,7 @@ export const NotificationsHolder = styled.div`
         .date {
           position: relative;
           &::before {
-            content: "";
+            content: '';
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
