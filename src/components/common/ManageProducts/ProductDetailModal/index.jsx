@@ -22,7 +22,7 @@ const ProductDetailModal = ({ product }) => {
   const approveProduct = async (id, type) => {
     try {
       setIsLoading(true);
-      const obj = { isVerified: type === 'Approve' ? true : false };
+      const obj = { isVerified: type === 'Approve' ? true : false, verificationStatus: 'approved', declineReason: '' };
       const payload = new FormData();
       Object.keys(obj).forEach(key => payload.append(key, obj[key]));
 
