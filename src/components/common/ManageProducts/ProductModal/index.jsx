@@ -12,8 +12,10 @@ import Button from '@/components/atoms/Button';
 import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
 import categoryService from '@/services/categoryService';
+import { LoadScript, Autocomplete } from '@react-google-maps/api';
 
 const EditProductModal = ({ product, setCreateProductSuccessModal, setProductModal }) => {
+  console.log(product);
   const { user, fetch, refetch } = useContextHook(AuthContext, v => ({
     user: v.user,
     fetch: v.fetch,
@@ -24,10 +26,11 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
   const [media, setMedia] = useState([]);
   const [amenities, setAmenities] = useState(['']);
   const [images, setImages] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
 
   const { categories_data } = categoryService.GetAllCategories(
     {
-      getAll: true,
+      itemsPerPage: 10,
     },
     fetch,
   );
@@ -51,18 +54,10 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
     setAmenities([...amenities, '']);
   };
 
-  const handleFileChange = (e, index) => {
-    const file = e.target.file;
-    setImages(prev => {
-      const updatedImages = [...prev];
-      updatedImages[index] = file;
-      return updatedImages;
-    });
-  };
-
-  const onSubmit = async data => {
+  const onSubmit = async obj => {
     try {
       setIsLoading(true);
+      const { media0, media1, media2, ...data } = obj;
       const payload = {
         ...data,
         investmentType: data?.investmentType?.value,
@@ -95,6 +90,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
         formDataToSend.append('userId', user?._id);
         await productService.createProduct(formDataToSend);
       }
+
       setProductModal(false);
       if (product) {
         Toast({
@@ -114,12 +110,27 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
       setIsLoading(false);
     }
   };
+
+  const loadInvestmentTypeOptions = async searchText => {
+    try {
+      let options = [];
+      const response = await categoryService.getAllCategories({
+        searchText,
+      });
+      options = response?.items?.map(_ => ({ value: _?._id, label: _?.name }));
+      return options;
+    } catch (error) {
+      return [];
+    }
+  };
+
   useEffect(() => {
     if (product) {
       form.setFieldsValue({
         productName: product?.productName,
-        investmentType:
-          categoriesOptions && categoriesOptions?.find(({ value }) => product?.investmentType?._id === value),
+        investmentType: categoriesOptions
+          ? categoriesOptions?.find(({ value }) => product?.investmentType?._id === value)
+          : { label: product?.investmentType?.name, value: product?.investmentType?._id },
         address: product?.address,
         deadline: format(product?.deadline, 'yyyy-MM-dd'),
         kycLevel: kycOptions?.find(ele => ele?.value === product?.kycLevel),
@@ -146,6 +157,16 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
       });
     }
   }, [product, categoriesOptions]);
+
+  const libraries = ['places'];
+  const handlePlaceSelect = place => {
+    if (place.geometry && place.geometry.location) {
+      setSearchValue(place.name?.concat(` ${place.formatted_address}`));
+      form.setFieldsValue({
+        address: place.name?.concat(` ${place.formatted_address}`),
+      });
+    }
+  };
 
   return (
     <StyledCreateNewProduct>
@@ -174,7 +195,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
           <Form.Item
             label="Investment Type"
             name="investmentType"
-            options={categoriesOptions}
+            defaultOptions={categoriesOptions}
             sm
             rounded
             isSearchable
@@ -185,27 +206,47 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                 message: 'Please enter Investment Type',
               },
             ]}>
-            <Select />
+            <Select async loadOptions={loadInvestmentTypeOptions} />
           </Form.Item>
-          <Form.Item
-            type="text"
-            label="Address"
-            name="address"
-            sm
-            rounded
-            placeholder="Please enter address"
-            rules={[
-              {
-                required: true,
-                message: 'Please enter Address',
-              },
-              {
-                pattern: /^.{0,256}$/,
-                message: 'Please enter a valid Address',
-              },
-            ]}>
-            <Field label="Address" />
-          </Form.Item>
+          <div>
+            <LoadScript googleMapsApiKey={'AIzaSyB0gq-rFU2D-URzDgIQOkqa_fL6fBAz9qI'} libraries={libraries}>
+              <Autocomplete
+                className="map-list"
+                onLoad={autocomplete =>
+                  autocomplete.addListener('place_changed', () => {
+                    handlePlaceSelect(autocomplete.getPlace());
+                    // console.log(autocomplete.getPlace());
+                  })
+                }>
+                <Form.Item
+                  type="text"
+                  label="Address"
+                  name="address"
+                  sm
+                  rounded
+                  placeholder="Please enter address"
+                  value={searchValue}
+                  onChange={e => {
+                    form.setFieldsValue({
+                      address: e.target.value,
+                    });
+                    setSearchValue(e.target.value);
+                  }}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please enter Address',
+                    },
+                    {
+                      pattern: /^.{0,256}$/,
+                      message: 'Please enter a valid Address',
+                    },
+                  ]}>
+                  <Field />
+                </Form.Item>
+              </Autocomplete>
+            </LoadScript>
+          </div>
           <Form.Item
             type="date"
             label="Deadline"
@@ -284,16 +325,35 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
         <div className="upload-image">
           {Array.from({ length: 3 }).map((_, index) => {
             return (
-              <div key={index} className="upload">
-                <UploadFile
+              <div className="upload" key={index}>
+                <Form.Item
+                  type="img"
+                  sm
+                  rounded
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please Upload Media',
+                    },
+                  ]}
                   id={`media${index}`}
                   name={`media${index}`}
-                  bg
                   img={media[index]}
                   noMargin
+                  accept="image/jpeg, image/jpg, image/png, video/mp4"
                   disc="image should be up to 1mb only"
-                  onChange={e => handleFileChange(e, index)}
-                />
+                  onChange={e => {
+                    form.setFieldsValue({
+                      [`media${index}`]: e,
+                    });
+                    setImages(prev => {
+                      const updatedImages = [...prev];
+                      updatedImages[index] = e.target.file;
+                      return updatedImages;
+                    });
+                  }}>
+                  <Field />
+                </Form.Item>
               </div>
             );
           })}

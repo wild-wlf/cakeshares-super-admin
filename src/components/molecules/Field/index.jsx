@@ -13,6 +13,7 @@ import ChooseFile from '../../atoms/ChooseFile';
 import { Error, InputHolder } from './Field.styles';
 import DatePicker from '../DatePicker';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import UploadFile from '../UploadFile';
 
 const defaultProps = {
   type: 'text',
@@ -155,8 +156,8 @@ const Field = forwardRef(
                 </>
               ) : type === 'datepicker' ? (
                 <DatePicker {...inputProps} prefix={prefix} $invalid={invalid || error} />
-              ) : type === 'chooseFile' ? (
-                <ChooseFile {...inputProps} />
+              ) : type === 'img' ? (
+                <UploadFile {...inputProps} noMargin={noMargin} $invalid={invalid || error} />
               ) : (
                 <>
                   <Input
