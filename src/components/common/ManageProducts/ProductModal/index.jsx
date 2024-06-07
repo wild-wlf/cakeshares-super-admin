@@ -258,6 +258,10 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                 required: true,
                 message: 'Please enter Deadline',
               },
+              {
+                transform: value => new Date(value).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0),
+                message: 'Deadline Cannot be in the Past!',
+              },
             ]}>
             <Field />
           </Form.Item>
