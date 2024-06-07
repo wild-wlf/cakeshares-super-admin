@@ -1,29 +1,28 @@
-import styled, { css } from "styled-components";
-import FakeInput from "../FakeInput";
+import styled, { css } from 'styled-components';
+import FakeInput from '../FakeInput';
 
 export const styles = css`
-  border: 2px solid
-    ${({ $invalid }) => ($invalid ? "var(--danger)" : "var(--light)")};
+  border: 2px solid ${({ $invalid }) => ($invalid ? 'var(--danger)' : 'var(--light)')};
   background: var(--white);
   outline: none;
   height: 45px;
   padding: 12px 23px;
   width: 100%;
-  font-family: "Outfit", sans-serif;
+  font-family: 'Outfit', sans-serif;
   transition: border var(--animation-speed) ease-in-out;
   color: var(--secondary-text-color);
   font-size: 12px;
   font-weight: 500;
-  border-radius: ${({ $straight }) => ($straight ? "6px" : "60px")};
-  padding-left: ${({ $prefix }) => $prefix && "2.5rem"};
+  border-radius: ${({ $straight }) => ($straight ? '6px' : '60px')};
+  padding-left: ${({ $prefix }) => $prefix && '2.5rem'};
   padding-right: ${({ $suffix, $button }) => {
-    if ($suffix) return "2.5rem";
-    if ($button) return "3.6rem";
-    return "";
+    if ($suffix) return '2.5rem';
+    if ($button) return '3.6rem';
+    return '';
   }};
 
   ${({ type }) =>
-    type === "search" &&
+    type === 'search' &&
     css`
       transition: all var(--animation-speed) ease-in-out;
 
@@ -73,7 +72,7 @@ export const styles = css`
       background: var(--light);
       cursor: not-allowed;
       border-color: var(--gray-2);
-      color: var(--light-gray);
+      color: var(--secondary-text-color);
     `}
 
   
@@ -99,11 +98,11 @@ export const styles = css`
     opacity: 0.6;
   }
 
-  &[type="radio"] {
+  &[type='radio'] {
     + ${FakeInput} {
       border-radius: 100%;
       &:before {
-        content: "";
+        content: '';
         background: var(--white);
         border-radius: 100%;
         width: 10px;
@@ -125,7 +124,7 @@ export const styles = css`
     }
   }
 
-  &[type="checkbox"] {
+  &[type='checkbox'] {
     + ${FakeInput} {
       .icon-check {
         color: var(--white);
@@ -134,8 +133,8 @@ export const styles = css`
     }
   }
 
-  &[type="checkbox"],
-  &[type="radio"] {
+  &[type='checkbox'],
+  &[type='radio'] {
     display: none;
     &:checked {
       + ${FakeInput} {

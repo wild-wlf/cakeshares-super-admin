@@ -12,6 +12,7 @@ import ModalContainer from '@/components/molecules/ModalContainer';
 import declineIcon from '../../../../../public/assets/decline-icon.svg';
 import { format } from 'date-fns';
 import DeclineModal from '../../DeclineModal';
+import { formatNumber } from '@/helpers/common';
 
 const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded, handleConfirmActivate }) => {
   return (
@@ -100,7 +101,7 @@ const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded, handl
           <div className="content">
             <div>
               <span className="heading">Total Balance:</span>
-              <span className="text">$ {user?.wallet?.toLocaleString() || '0.00'}</span>
+              <span className="text">$ {formatNumber(user?.wallet) || '0.00'}</span>
             </div>
             <div>
               <span className="heading">Actions</span>
@@ -143,36 +144,18 @@ const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded, handl
         })}
       <span className="heading">Assets Categories Info:</span>
       <div className="product-info inheritance-info">
-        <div className="col" onClick={() => setPropertiesProductModal(true)}>
-          <figure className="img-holder">
-            <Image src={propertyIcon} alt="property-icon" />
-          </figure>
-          <span className="text">Properties</span>
-        </div>
-        <div className="col">
-          <figure className="img-holder">
-            <Image src={popularIcon} alt="Popular-icon" />
-          </figure>
-          <span className="text">Popular</span>
-        </div>
-        <div className="col">
-          <figure className="img-holder">
-            <Image src={ventureIcon} alt="Venture-icon" />
-          </figure>
-          <span className="text">Properties</span>
-        </div>
-        <div className="col">
-          <figure className="img-holder">
-            <Image src={bazarIcon} alt="Bazaar-icon" />
-          </figure>
-          <span className="text">Bazaar</span>
-        </div>
-        <div className="col">
-          <figure className="img-holder">
-            <Image src={vehicleIcon} alt="Vehicles-icon" />
-          </figure>
-          <span className="text">Vehicles</span>
-        </div>
+        {user?.uniqueBuyerCategories && user?.uniqueBuyerCategories.length > 0 ? (
+          user.uniqueBuyerCategories.map(ele => (
+            <div key={ele?._id} className="col" onClick={() => setPropertiesProductModal(true)}>
+              <figure className="img-holder">
+                <Image src={ele?.icon || popularIcon} alt="property-icon" />
+              </figure>
+              <span className="text">{ele?.name}</span>
+            </div>
+          ))
+        ) : (
+          <span>No Categories Available</span>
+        )}
       </div>
       {!user?.isVerified && (
         <div className="btn-holder">

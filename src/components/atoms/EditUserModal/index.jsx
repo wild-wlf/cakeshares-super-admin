@@ -49,7 +49,6 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
 
   const onSubmit = async data => {
     const { country, bankName, iban, swiftBicNumber, userId, ...restData } = data;
-
     const payload = {
       ...restData,
       country: country?.value,

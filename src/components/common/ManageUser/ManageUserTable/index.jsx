@@ -34,6 +34,7 @@ import EditUser from '../EditUser';
 import Toast from '@/components/molecules/Toast';
 import CompanySellerKycRequest from '../CompanySellerKycRequest';
 import Tooltip from '@/components/atoms/Tooltip';
+import { formatNumber } from '@/helpers/common';
 
 const ManageUserTable = ({ setUserCount }) => {
   const { fetch, refetch } = useContextHook(AuthContext, v => ({
@@ -123,78 +124,77 @@ const ManageUserTable = ({ setUserCount }) => {
             )}
           />
         </li>
-        {!user.isIndividualSeller
-          ? user?.isKycRequested && (
-              <li>
-                <ModalContainer
-                  lg
-                  width={800}
-                  title="KYB Info"
-                  btnComponent={({ onClick }) => (
-                    <button type="button" className="btn file" onClick={onClick}>
-                      <span className="circle" />
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 17 17" fill="none">
-                        <g clipPath="url(#clip0_1619_29943)">
-                          <path
-                            d="M12.5422 1.44448L8.31329 0.0344044C8.17483 -0.0117123 8.02515 -0.0117123 7.88669 0.0344044L3.65714 1.44448C2.9849 1.66794 2.40017 2.09754 1.986 2.67226C1.57184 3.24699 1.34929 3.9376 1.34999 4.646V8.09998C1.34999 13.205 7.55999 16.0245 7.82594 16.1419C7.91222 16.1803 8.00558 16.2001 8.09999 16.2001C8.1944 16.2001 8.28776 16.1803 8.37404 16.1419C8.63999 16.0245 14.85 13.205 14.85 8.09998V4.646C14.8506 3.93752 14.628 3.24684 14.2137 2.67211C13.7994 2.09738 13.2145 1.66782 12.5422 1.44448ZM8.09999 12.825C7.96649 12.825 7.83599 12.7854 7.72498 12.7112C7.61398 12.6371 7.52746 12.5316 7.47637 12.4083C7.42528 12.285 7.41192 12.1492 7.43796 12.0183C7.46401 11.8874 7.5283 11.7671 7.6227 11.6727C7.7171 11.5783 7.83737 11.514 7.96831 11.488C8.09924 11.4619 8.23496 11.4753 8.3583 11.5264C8.48164 11.5775 8.58706 11.664 8.66123 11.775C8.7354 11.886 8.77499 12.0165 8.77499 12.15C8.77499 12.329 8.70388 12.5007 8.57729 12.6273C8.4507 12.7539 8.27901 12.825 8.09999 12.825ZM8.77499 9.44998C8.77499 9.629 8.70388 9.80069 8.57729 9.92728C8.4507 10.0539 8.27901 10.125 8.09999 10.125C7.92097 10.125 7.74928 10.0539 7.6227 9.92728C7.49611 9.80069 7.42499 9.629 7.42499 9.44998V4.04998C7.42499 3.87096 7.49611 3.69927 7.6227 3.57268C7.74928 3.4461 7.92097 3.37498 8.09999 3.37498C8.27901 3.37498 8.4507 3.4461 8.57729 3.57268C8.70388 3.69927 8.77499 3.87096 8.77499 4.04998V9.44998Z"
-                            fill="#419400"
-                          />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_1619_29943">
-                            <rect width="16.2" height="16.2" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </button>
-                  )}
-                  content={({ onClose }) => (
-                    <CompanySellerKycRequest
-                      user={user}
-                      flexWrap
-                      setkycApproved={setkycApproved}
-                      setkycDecline={setkycDecline}
-                      setApprovedorDeclinedKycLevel={setApprovedorDeclinedKycLevel}
-                    />
-                  )}
+        {!user.isIndividualSeller ? (
+          // ? user?.isKycRequested && (
+          <li>
+            <ModalContainer
+              lg
+              width={800}
+              title="KYB Info"
+              btnComponent={({ onClick }) => (
+                <button disabled={!user?.isKycRequested} type="button" className="btn file" onClick={onClick}>
+                  {user?.isKycRequested && <span className="circle" />}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 17 17" fill="none">
+                    <g clipPath="url(#clip0_1619_29943)">
+                      <path
+                        d="M12.5422 1.44448L8.31329 0.0344044C8.17483 -0.0117123 8.02515 -0.0117123 7.88669 0.0344044L3.65714 1.44448C2.9849 1.66794 2.40017 2.09754 1.986 2.67226C1.57184 3.24699 1.34929 3.9376 1.34999 4.646V8.09998C1.34999 13.205 7.55999 16.0245 7.82594 16.1419C7.91222 16.1803 8.00558 16.2001 8.09999 16.2001C8.1944 16.2001 8.28776 16.1803 8.37404 16.1419C8.63999 16.0245 14.85 13.205 14.85 8.09998V4.646C14.8506 3.93752 14.628 3.24684 14.2137 2.67211C13.7994 2.09738 13.2145 1.66782 12.5422 1.44448ZM8.09999 12.825C7.96649 12.825 7.83599 12.7854 7.72498 12.7112C7.61398 12.6371 7.52746 12.5316 7.47637 12.4083C7.42528 12.285 7.41192 12.1492 7.43796 12.0183C7.46401 11.8874 7.5283 11.7671 7.6227 11.6727C7.7171 11.5783 7.83737 11.514 7.96831 11.488C8.09924 11.4619 8.23496 11.4753 8.3583 11.5264C8.48164 11.5775 8.58706 11.664 8.66123 11.775C8.7354 11.886 8.77499 12.0165 8.77499 12.15C8.77499 12.329 8.70388 12.5007 8.57729 12.6273C8.4507 12.7539 8.27901 12.825 8.09999 12.825ZM8.77499 9.44998C8.77499 9.629 8.70388 9.80069 8.57729 9.92728C8.4507 10.0539 8.27901 10.125 8.09999 10.125C7.92097 10.125 7.74928 10.0539 7.6227 9.92728C7.49611 9.80069 7.42499 9.629 7.42499 9.44998V4.04998C7.42499 3.87096 7.49611 3.69927 7.6227 3.57268C7.74928 3.4461 7.92097 3.37498 8.09999 3.37498C8.27901 3.37498 8.4507 3.4461 8.57729 3.57268C8.70388 3.69927 8.77499 3.87096 8.77499 4.04998V9.44998Z"
+                        fill={user?.isKycRequested ? '#419400' : '#CDCDCD'}
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_1619_29943">
+                        <rect width="16.2" height="16.2" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </button>
+              )}
+              content={({ onClose }) => (
+                <CompanySellerKycRequest
+                  user={user}
+                  flexWrap
+                  setkycApproved={setkycApproved}
+                  setkycDecline={setkycDecline}
+                  setApprovedorDeclinedKycLevel={setApprovedorDeclinedKycLevel}
                 />
-              </li>
-            )
-          : user?.isKycRequested && (
-              <li>
-                <ModalContainer
-                  lg
-                  width={673}
-                  title="KYC Info"
-                  btnComponent={({ onClick }) => (
-                    <button type="button" className="btn file" onClick={onClick}>
-                      <span className="circle" />
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 17 17" fill="none">
-                        <g clipPath="url(#clip0_1619_29943)">
-                          <path
-                            d="M12.5422 1.44448L8.31329 0.0344044C8.17483 -0.0117123 8.02515 -0.0117123 7.88669 0.0344044L3.65714 1.44448C2.9849 1.66794 2.40017 2.09754 1.986 2.67226C1.57184 3.24699 1.34929 3.9376 1.34999 4.646V8.09998C1.34999 13.205 7.55999 16.0245 7.82594 16.1419C7.91222 16.1803 8.00558 16.2001 8.09999 16.2001C8.1944 16.2001 8.28776 16.1803 8.37404 16.1419C8.63999 16.0245 14.85 13.205 14.85 8.09998V4.646C14.8506 3.93752 14.628 3.24684 14.2137 2.67211C13.7994 2.09738 13.2145 1.66782 12.5422 1.44448ZM8.09999 12.825C7.96649 12.825 7.83599 12.7854 7.72498 12.7112C7.61398 12.6371 7.52746 12.5316 7.47637 12.4083C7.42528 12.285 7.41192 12.1492 7.43796 12.0183C7.46401 11.8874 7.5283 11.7671 7.6227 11.6727C7.7171 11.5783 7.83737 11.514 7.96831 11.488C8.09924 11.4619 8.23496 11.4753 8.3583 11.5264C8.48164 11.5775 8.58706 11.664 8.66123 11.775C8.7354 11.886 8.77499 12.0165 8.77499 12.15C8.77499 12.329 8.70388 12.5007 8.57729 12.6273C8.4507 12.7539 8.27901 12.825 8.09999 12.825ZM8.77499 9.44998C8.77499 9.629 8.70388 9.80069 8.57729 9.92728C8.4507 10.0539 8.27901 10.125 8.09999 10.125C7.92097 10.125 7.74928 10.0539 7.6227 9.92728C7.49611 9.80069 7.42499 9.629 7.42499 9.44998V4.04998C7.42499 3.87096 7.49611 3.69927 7.6227 3.57268C7.74928 3.4461 7.92097 3.37498 8.09999 3.37498C8.27901 3.37498 8.4507 3.4461 8.57729 3.57268C8.70388 3.69927 8.77499 3.87096 8.77499 4.04998V9.44998Z"
-                            fill="#419400"
-                          />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_1619_29943">
-                            <rect width="16.2" height="16.2" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </button>
-                  )}
-                  content={({ onClose }) => (
-                    <SellerKycRequest
-                      user={user}
-                      setkycApproved={setkycApproved}
-                      setkycDecline={setkycDecline}
-                      setApprovedorDeclinedKycLevel={setApprovedorDeclinedKycLevel}
-                    />
-                  )}
+              )}
+            />
+          </li>
+        ) : (
+          <li>
+            <ModalContainer
+              lg
+              width={673}
+              title="KYC Info"
+              btnComponent={({ onClick }) => (
+                <button disabled={!user?.isKycRequested} type="button" className="btn file" onClick={onClick}>
+                  {user?.isKycRequested && <span className="circle" />}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 17 17" fill="none">
+                    <g clipPath="url(#clip0_1619_29943)">
+                      <path
+                        d="M12.5422 1.44448L8.31329 0.0344044C8.17483 -0.0117123 8.02515 -0.0117123 7.88669 0.0344044L3.65714 1.44448C2.9849 1.66794 2.40017 2.09754 1.986 2.67226C1.57184 3.24699 1.34929 3.9376 1.34999 4.646V8.09998C1.34999 13.205 7.55999 16.0245 7.82594 16.1419C7.91222 16.1803 8.00558 16.2001 8.09999 16.2001C8.1944 16.2001 8.28776 16.1803 8.37404 16.1419C8.63999 16.0245 14.85 13.205 14.85 8.09998V4.646C14.8506 3.93752 14.628 3.24684 14.2137 2.67211C13.7994 2.09738 13.2145 1.66782 12.5422 1.44448ZM8.09999 12.825C7.96649 12.825 7.83599 12.7854 7.72498 12.7112C7.61398 12.6371 7.52746 12.5316 7.47637 12.4083C7.42528 12.285 7.41192 12.1492 7.43796 12.0183C7.46401 11.8874 7.5283 11.7671 7.6227 11.6727C7.7171 11.5783 7.83737 11.514 7.96831 11.488C8.09924 11.4619 8.23496 11.4753 8.3583 11.5264C8.48164 11.5775 8.58706 11.664 8.66123 11.775C8.7354 11.886 8.77499 12.0165 8.77499 12.15C8.77499 12.329 8.70388 12.5007 8.57729 12.6273C8.4507 12.7539 8.27901 12.825 8.09999 12.825ZM8.77499 9.44998C8.77499 9.629 8.70388 9.80069 8.57729 9.92728C8.4507 10.0539 8.27901 10.125 8.09999 10.125C7.92097 10.125 7.74928 10.0539 7.6227 9.92728C7.49611 9.80069 7.42499 9.629 7.42499 9.44998V4.04998C7.42499 3.87096 7.49611 3.69927 7.6227 3.57268C7.74928 3.4461 7.92097 3.37498 8.09999 3.37498C8.27901 3.37498 8.4507 3.4461 8.57729 3.57268C8.70388 3.69927 8.77499 3.87096 8.77499 4.04998V9.44998Z"
+                        fill={user?.isKycRequested ? '#419400' : '#CDCDCD'}
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_1619_29943">
+                        <rect width="16.2" height="16.2" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </button>
+              )}
+              content={({ onClose }) => (
+                <SellerKycRequest
+                  user={user}
+                  setkycApproved={setkycApproved}
+                  setkycDecline={setkycDecline}
+                  setApprovedorDeclinedKycLevel={setApprovedorDeclinedKycLevel}
                 />
-              </li>
-            )}
+              )}
+            />
+          </li>
+        )}
         {user?.isVerified && (
           <>
             <li>
@@ -255,41 +255,39 @@ const ManageUserTable = ({ setUserCount }) => {
             )}
           />
         </li>
-        {user?.isKycRequested && (
-          <li>
-            <ModalContainer
-              lg
-              width={673}
-              title="KYC Info"
-              btnComponent={({ onClick }) => (
-                <button type="button" className="btn file" onClick={onClick}>
-                  <span className="circle" />
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 17 17" fill="none">
-                    <g clipPath="url(#clip0_1619_29943)">
-                      <path
-                        d="M12.5422 1.44448L8.31329 0.0344044C8.17483 -0.0117123 8.02515 -0.0117123 7.88669 0.0344044L3.65714 1.44448C2.9849 1.66794 2.40017 2.09754 1.986 2.67226C1.57184 3.24699 1.34929 3.9376 1.34999 4.646V8.09998C1.34999 13.205 7.55999 16.0245 7.82594 16.1419C7.91222 16.1803 8.00558 16.2001 8.09999 16.2001C8.1944 16.2001 8.28776 16.1803 8.37404 16.1419C8.63999 16.0245 14.85 13.205 14.85 8.09998V4.646C14.8506 3.93752 14.628 3.24684 14.2137 2.67211C13.7994 2.09738 13.2145 1.66782 12.5422 1.44448ZM8.09999 12.825C7.96649 12.825 7.83599 12.7854 7.72498 12.7112C7.61398 12.6371 7.52746 12.5316 7.47637 12.4083C7.42528 12.285 7.41192 12.1492 7.43796 12.0183C7.46401 11.8874 7.5283 11.7671 7.6227 11.6727C7.7171 11.5783 7.83737 11.514 7.96831 11.488C8.09924 11.4619 8.23496 11.4753 8.3583 11.5264C8.48164 11.5775 8.58706 11.664 8.66123 11.775C8.7354 11.886 8.77499 12.0165 8.77499 12.15C8.77499 12.329 8.70388 12.5007 8.57729 12.6273C8.4507 12.7539 8.27901 12.825 8.09999 12.825ZM8.77499 9.44998C8.77499 9.629 8.70388 9.80069 8.57729 9.92728C8.4507 10.0539 8.27901 10.125 8.09999 10.125C7.92097 10.125 7.74928 10.0539 7.6227 9.92728C7.49611 9.80069 7.42499 9.629 7.42499 9.44998V4.04998C7.42499 3.87096 7.49611 3.69927 7.6227 3.57268C7.74928 3.4461 7.92097 3.37498 8.09999 3.37498C8.27901 3.37498 8.4507 3.4461 8.57729 3.57268C8.70388 3.69927 8.77499 3.87096 8.77499 4.04998V9.44998Z"
-                        fill="#419400"
-                      />
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_1619_29943">
-                        <rect width="16.2" height="16.2" fill="white" />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                </button>
-              )}
-              content={({ onClose }) => (
-                <KycRequest
-                  user={user}
-                  setkycApproved={setkycApproved}
-                  setkycDecline={setkycDecline}
-                  setApprovedorDeclinedKycLevel={setApprovedorDeclinedKycLevel}
-                />
-              )}
-            />
-          </li>
-        )}
+        <li>
+          <ModalContainer
+            lg
+            width={673}
+            title="KYC Info"
+            btnComponent={({ onClick }) => (
+              <button disabled={!user?.isKycRequested} type="button" className="btn file" onClick={onClick}>
+                <span className="circle" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 17 17" fill="none">
+                  <g clipPath="url(#clip0_1619_29943)">
+                    <path
+                      d="M12.5422 1.44448L8.31329 0.0344044C8.17483 -0.0117123 8.02515 -0.0117123 7.88669 0.0344044L3.65714 1.44448C2.9849 1.66794 2.40017 2.09754 1.986 2.67226C1.57184 3.24699 1.34929 3.9376 1.34999 4.646V8.09998C1.34999 13.205 7.55999 16.0245 7.82594 16.1419C7.91222 16.1803 8.00558 16.2001 8.09999 16.2001C8.1944 16.2001 8.28776 16.1803 8.37404 16.1419C8.63999 16.0245 14.85 13.205 14.85 8.09998V4.646C14.8506 3.93752 14.628 3.24684 14.2137 2.67211C13.7994 2.09738 13.2145 1.66782 12.5422 1.44448ZM8.09999 12.825C7.96649 12.825 7.83599 12.7854 7.72498 12.7112C7.61398 12.6371 7.52746 12.5316 7.47637 12.4083C7.42528 12.285 7.41192 12.1492 7.43796 12.0183C7.46401 11.8874 7.5283 11.7671 7.6227 11.6727C7.7171 11.5783 7.83737 11.514 7.96831 11.488C8.09924 11.4619 8.23496 11.4753 8.3583 11.5264C8.48164 11.5775 8.58706 11.664 8.66123 11.775C8.7354 11.886 8.77499 12.0165 8.77499 12.15C8.77499 12.329 8.70388 12.5007 8.57729 12.6273C8.4507 12.7539 8.27901 12.825 8.09999 12.825ZM8.77499 9.44998C8.77499 9.629 8.70388 9.80069 8.57729 9.92728C8.4507 10.0539 8.27901 10.125 8.09999 10.125C7.92097 10.125 7.74928 10.0539 7.6227 9.92728C7.49611 9.80069 7.42499 9.629 7.42499 9.44998V4.04998C7.42499 3.87096 7.49611 3.69927 7.6227 3.57268C7.74928 3.4461 7.92097 3.37498 8.09999 3.37498C8.27901 3.37498 8.4507 3.4461 8.57729 3.57268C8.70388 3.69927 8.77499 3.87096 8.77499 4.04998V9.44998Z"
+                      fill={user?.isKycRequested ? '#419400' : 'grey'}
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_1619_29943">
+                      <rect width="16.2" height="16.2" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </button>
+            )}
+            content={({ onClose }) => (
+              <KycRequest
+                user={user}
+                setkycApproved={setkycApproved}
+                setkycDecline={setkycDecline}
+                setApprovedorDeclinedKycLevel={setApprovedorDeclinedKycLevel}
+              />
+            )}
+          />
+        </li>
         {user?.isVerified && (
           <>
             <li>
@@ -331,10 +329,10 @@ const ManageUserTable = ({ setUserCount }) => {
         {user.fullName || user.username || '------------'}
       </div>,
       user?.type || '------------',
-      user?.totalAssets || '------------',
-      user?.totalInvestmentAmount ?? '------------',
-      user?.wallet || '------------',
-      user?.kycLevel ?? '------------',
+      user?.totalAssets ?? 0 ?? '------------',
+      formatNumber(user?.totalInvestmentAmount) ?? 0 ?? '------------',
+      formatNumber(user?.wallet) ?? 0 ?? '------------',
+      user?.kycLevel === 3 ? 'Max Level' : `Level ${user?.kycLevel}` ?? '------------',
       user?.isVerified ? 'Approved' : 'Pending' ?? '------------',
       actionBuyerBtns(user),
     ]),
@@ -349,10 +347,11 @@ const ManageUserTable = ({ setUserCount }) => {
         {user.fullName || user.username || '------------'}
       </div>,
       user?.isIndividualSeller ? 'Individual Seller' : 'Compnay Seller',
-      user?.totalProducts ?? '------------',
-      user?.totalRevenue || '------------',
-      user?.wallet || '------------',
-      user?.kycLevel ?? '------------',
+      user?.totalProducts ?? 0 ?? '------------',
+      formatNumber(user?.totalRevenue) ?? 0 ?? '------------',
+      formatNumber(user?.wallet) ?? 0 ?? '------------',
+      user?.kycLevel === 3 ? 'Max Level' : `Level ${user?.kycLevel}` ?? '------------',
+
       actionSellerBtns(user),
     ]),
     totalCounts: user_data?.totalItems,
@@ -431,7 +430,7 @@ const ManageUserTable = ({ setUserCount }) => {
         setOpen={setkycDecline}
         title={<Image src={modalinfoIcon} alt="modalinfoIcon" />}
         width="543">
-        <SuccessfulModal title="KYC Level 2 Request Declined Successfully!" />
+        <SuccessfulModal title={`KYC Level ${approvedorDeclinedKycLevel} Request Declined Successfully!`} />
       </CenterModal>
       {/* Kyc decline Modal */}
 

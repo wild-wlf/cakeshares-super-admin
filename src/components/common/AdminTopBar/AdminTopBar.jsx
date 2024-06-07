@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, DataContainer } from './AdminTopBar.style';
 import Image from 'next/image';
 import Notifications from '../../molecules/Notifications';
@@ -7,11 +7,25 @@ import { HiOutlineMenuAlt1 } from 'react-icons/hi';
 
 const AdminTopBar = ({ title, tagLine, suffix }) => {
   const [notifications, setNotifications] = useState(false);
+  const [fetchNotifications, setfetchNotifications] = useState(false);
 
   const openSideNav = () => {
     document.body.classList.toggle('sideNav-active');
     document.body.style.overflow = 'hidden';
   };
+
+  useEffect(() => {
+    const handleAdminNotification = () => {
+      setfetchNotifications(_ => !_);
+    };
+
+    window.addEventListener('admin_notification', handleAdminNotification);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('admin_notification', handleAdminNotification);
+    };
+  }, []);
 
   return (
     <>
@@ -42,7 +56,7 @@ const AdminTopBar = ({ title, tagLine, suffix }) => {
             <Image src={bell} alt="bell" className="bell" />
             {/* <Image src={bellWhite} alt="bell" className="bell-white" /> */}
             <div className={notifications ? 'notificationWrapper-visible' : 'notificationWrapper'}>
-              <Notifications />
+              <Notifications fetchNotifications={fetchNotifications} />
             </div>
           </div>
         </div>

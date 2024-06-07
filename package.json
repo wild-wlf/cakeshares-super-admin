@@ -9,12 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-pdf-viewer/core": "^3.12.0",
+    "@react-pdf-viewer/default-layout": "^3.12.0",
     "babel-plugin-styled-components": "^2.1.4",
     "date-fns": "^3.6.0",
     "env-cmd": "^10.1.0",
     "highcharts": "^11.4.1",
     "highcharts-react-official": "^3.2.1",
     "next": "14.2.3",
+    "pdfjs-dist": "^3.4.120",
     "rc-util": "^5.39.3",
     "react": "^18",
     "react-datepicker": "^6.9.0",
@@ -27,7 +30,7 @@
     "react-select": "^5.8.0",
     "react-toastify": "^10.0.5",
     "react-tooltip": "^5.26.4",
-    "socket.io-client": "^4.7.5",
+    "socket.io-client": "^4.7.0",
     "styled-components": "^6.1.11",
     "use-context-hook": "^2.0.5",
     "uuid": "^9.0.1"

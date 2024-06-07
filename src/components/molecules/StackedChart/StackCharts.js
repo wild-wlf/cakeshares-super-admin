@@ -1,13 +1,25 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const StyledGraph = styled.div`
   width: 100%;
   background: var(--white);
   border-radius: 25px;
   border: 1px solid rgba(74, 85, 104, 0.1);
-  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1),
-    -10px 10px 20px rgba(0, 0, 0, 0.1);
-  padding: ${({ sm }) => (sm ? "20px" : "16px")};
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1), -10px 10px 20px rgba(0, 0, 0, 0.1);
+  padding: ${({ sm }) => (sm ? '20px' : '16px')};
+  .no-data {
+    min-height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 500;
+    margin-right: -16px;
+    @media (min-width: 576px) {
+      min-height: 250px;
+    }
+  }
 `;
 
 export const GraphHeader = styled.div`
@@ -34,8 +46,8 @@ export const GraphHeader = styled.div`
       }
     }
     strong {
-      font-size: ${({ sm }) => (sm ? "18px" : "22px")};
-      padding-bottom: ${({ sm }) => (sm ? "30px" : "0")};
+      font-size: ${({ sm }) => (sm ? '18px' : '22px')};
+      padding-bottom: ${({ sm }) => (sm ? '30px' : '0')};
       font-weight: 500;
     }
   }
@@ -84,7 +96,7 @@ export const ChartContainer = styled.div`
     width: 100%;
   }
   .highcharts-container {
-    height: ${({ sm }) => (sm ? "250px !important" : "242px !important")};
+    height: ${({ sm }) => (sm ? '250px !important' : '242px !important')};
   }
 
   @media (max-width: 1200px) {

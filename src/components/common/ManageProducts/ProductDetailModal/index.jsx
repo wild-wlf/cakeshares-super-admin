@@ -22,7 +22,7 @@ const ProductDetailModal = ({ product }) => {
   const approveProduct = async (id, type) => {
     try {
       setIsLoading(true);
-      const obj = { isVerified: type === 'Approve' ? true : false };
+      const obj = { isVerified: type === 'Approve' ? true : false, verificationStatus: 'approved', declineReason: '' };
       const payload = new FormData();
       Object.keys(obj).forEach(key => payload.append(key, obj[key]));
 
@@ -107,10 +107,6 @@ const ProductDetailModal = ({ product }) => {
     <StyledProductDetailModal>
       <div className="head">
         <span className="heading">Product Info:</span>
-        <Button type="primary" width="300" rounded sm>
-          <Image src={bellIcon} alt="bellIcon" />
-          Product Advertised
-        </Button>
       </div>
       <div className="product-info">
         {infoData?.map((item, index) => (

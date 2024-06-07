@@ -7,6 +7,7 @@ import walletService from '@/services/walletService';
 import Toast from '@/components/molecules/Toast';
 import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
+import { formatNumber } from '@/helpers/common';
 
 const AddMoney = ({ id, currentBalance, setMoneyAdded }) => {
   const { refetch } = useContextHook(AuthContext, v => ({
@@ -40,7 +41,7 @@ const AddMoney = ({ id, currentBalance, setMoneyAdded }) => {
       <strong className="title">Please enter amount to add money to wallet.</strong>
       <div className="balanceWrap">
         <strong className="title">Current Wallet Balance:</strong>
-        <strong className="title balance"> ${currentBalance?.toLocaleString() || 0}</strong>
+        <strong className="title balance"> ${formatNumber(currentBalance) || 0}</strong>
       </div>
       <div className="formWrap">
         <Form form={form} onSubmit={handelSubmit}>
