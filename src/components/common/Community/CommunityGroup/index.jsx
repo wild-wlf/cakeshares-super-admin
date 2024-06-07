@@ -3,7 +3,7 @@ import { StyledCommunityGroup } from './CommunityGroup.styles';
 import Image from 'next/image';
 import { FaStar } from 'react-icons/fa';
 
-const CommunityGroup = ({ groupActive, onClick, type, image1, image2, image3, title, text, time }) => {
+const CommunityGroup = ({ groupActive, onClick, type, image1, image2, image3, title, text, time, messageCounter }) => {
   const [star, setStar] = useState(false);
   function handleStarToggle() {
     setStar(!star);
@@ -29,11 +29,13 @@ const CommunityGroup = ({ groupActive, onClick, type, image1, image2, image3, ti
       <div className="time-holder">
         <span className="time">{time}</span>
         <div className="icon-holder">
-          <div className="icon message-counter">
-            <span>3</span>
-          </div>
+          {messageCounter && (
+            <div className="icon message-counter">
+              <span>{messageCounter}</span>
+            </div>
+          )}
           <div className={star ? 'icon active' : 'icon'} onClick={() => handleStarToggle(true)}>
-            <FaStar size={14} />
+            <FaStar size={12} />
           </div>
         </div>
       </div>

@@ -13,8 +13,8 @@ const index = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <AdminTopBar
-        title={'Community Chat'}
-        tagLine={'You have total 101 total chats in your community chat right now!'}
+        title={'Stakeholders Chat'}
+        tagLine={'You have total 101 total chats in your stakeholders chat right now!'}
       />
       <div className="chat-holder">
         <SideBar />

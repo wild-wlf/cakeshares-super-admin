@@ -1,17 +1,18 @@
 import styled, { css } from 'styled-components';
 
 export const StyledSideBar = styled.div`
+  width: 100%;
   max-width: 320px;
-  background: var(--gray-2);
+  background: rgba(64, 143, 140, 0.1);
   padding: 20px 22px;
   border-radius: 30px 0px 0px 0px;
   cursor: pointer;
-  /* .group-holder {
-    height: 500px;
+  .group-holder {
+    height: calc(100vh - 300px);
     overflow-y: auto;
-    margin: 0 -20px;
-    padding: 0 20px;
-  } */
+    margin: 0 -22px;
+    padding: 0 22px;
+  }
   .tabs-holder {
     max-width: 280px;
     background-color: var(--white);
@@ -35,5 +36,20 @@ export const StyledSideBar = styled.div`
         color: var(--white);
       }
     }
+  }
+  *::-webkit-scrollbar {
+    width: 5px !important;
+    height: 5px !important;
+  }
+
+  *::-webkit-scrollbar-track {
+    border-radius: 30px;
+    background: red !important;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: red !important;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.03);
+    border-radius: 30px;
   }
 `;

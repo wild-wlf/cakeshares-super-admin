@@ -172,6 +172,7 @@ export const Styling = css`
       height: 40px;
     }
   }
+
   .table-img-holder {
     display: flex;
     align-items: center;
@@ -193,6 +194,10 @@ export const Styling = css`
         object-fit: contain;
       }
     }
+  }
+  .chat-holder{
+    display: flex;
+    gap: 20px;
   }
   /************* custom scrollbar styles ************/
 

@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 export const StyledCommunityGroup = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   padding: 10px 22px;
   margin: 0 -22px;
 
@@ -58,7 +59,7 @@ export const StyledCommunityGroup = styled.div`
   }
 
   .community-name {
-    max-width: 119px;
+    max-width: 125px;
 
     .title,
     .text {
@@ -78,6 +79,8 @@ export const StyledCommunityGroup = styled.div`
   .time-holder {
     .time {
       display: block;
+      font-size: 14px;
+      line-height: 18px;
       margin-bottom: 8px;
     }
 
@@ -85,21 +88,24 @@ export const StyledCommunityGroup = styled.div`
       display: flex;
       justify-content: flex-end;
       gap: 8px;
+
       .icon {
         width: 20px;
         height: 20px;
-        background: var(--white);
+        background: var(--dark);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--gray-2);
+        color: ${({ $groupActive }) => ($groupActive ? 'var(--green)' : 'var(--gray-2)')};
         cursor: pointer;
         &.active {
           background-color: #ff9900;
         }
       }
+
       .message-counter {
+        background: var(--white);
         color: var(--primary);
         cursor: default;
       }
