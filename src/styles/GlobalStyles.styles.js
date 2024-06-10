@@ -198,6 +198,7 @@ export const Styling = css`
   .chat-holder{
     display: flex;
     gap: 20px;
+    position: relative;
   }
   /************* custom scrollbar styles ************/
 

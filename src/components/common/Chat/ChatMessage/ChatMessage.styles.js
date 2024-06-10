@@ -14,12 +14,16 @@ export const StyledChatMessage = styled.div`
   }
 
   .message {
-    padding: 10px 15px;
+    padding: 8px 10px;
     position: relative;
     font-size: 14px;
     line-height: 18px;
     font-weight: 300;
     margin-bottom: 8px;
+
+    @media (min-width: 576px) {
+      padding: 10px 15px;
+    }
 
     ${({ $type }) =>
       $type === 'send'

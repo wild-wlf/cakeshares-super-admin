@@ -5,7 +5,7 @@ export const ChatWrapper = styled.div`
   gap: 20px;
   width: 100%;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
   .chatWrapper {
     width: 100%;
     position: relative;
@@ -14,21 +14,36 @@ export const ChatWrapper = styled.div`
   .hamburger {
     cursor: pointer;
     position: absolute;
-    right: 20px;
-    top: 40px;
+    right: 0;
+    top: -40px;
 
-    @media screen and (min-width: 1199px) {
+    @media screen and (min-width: 1500px) {
       display: none;
       position: static;
+    }
+  }
+  .community-hamburger {
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 9;
+    @media screen and (min-width: 1200px) {
+      display: none;
     }
   }
 `;
 
 export const ChatBody = styled.div`
-  height: calc(100vh - 230px);
+  height: calc(100vh - 306px);
   overflow: auto;
   padding-right: 8px;
+
+  @media screen and (min-width: 1200px) {
+    height: calc(100vh - 230px);
+  }
+
   .messages-holder {
-    margin-bottom: 20px;
+    margin-bottom: 40px;
   }
 `;

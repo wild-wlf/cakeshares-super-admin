@@ -11,16 +11,19 @@ export const StyledChatMedia = styled.div`
   position: relative;
   color: var(--base-text-color);
   transition: 0.3s all ease-in-out;
-  @media screen and (max-width: 1198px) {
+  @media screen and (max-width: 1499px) {
     position: absolute;
     backdrop-filter: blur(5px);
     background: rgba(64, 143, 140, 1);
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-    top: 28px;
-    right: 60px;
+    top: 50px;
+    right: 0px;
+    bottom: -15px;
     color: var(--white);
     max-width: 340px;
     transform: translateX(200%);
+    border-radius: 30px;
+    height: auto;
     .chat-sidebar-active & {
       transform: translateX(0);
     }

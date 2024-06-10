@@ -7,6 +7,24 @@ export const StyledSideBar = styled.div`
   padding: 20px 22px;
   border-radius: 30px 0px 0px 0px;
   cursor: pointer;
+
+  @media (max-width: 1199px) {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    bottom: -15px;
+    background: var(--gray-2);
+    max-width: 340px;
+    transform: translateX(-200%);
+    border-radius: 30px;
+    height: auto;
+    z-index: 9;
+    transition: 0.4s;
+    .chat-community-sidebar-active & {
+      transform: translateX(0);
+    }
+  }
+
   .group-holder {
     height: calc(100vh - 300px);
     overflow-y: auto;

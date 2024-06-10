@@ -4,6 +4,7 @@ import ChatMessage from './ChatMessage';
 import ChatMedia from './ChatMedia';
 import { RiMenu3Fill } from 'react-icons/ri';
 import ChatFooter from './ChatFooter';
+import { HiOutlineMenuAlt2 } from 'react-icons/hi';
 
 const Chat = ({ userInfo, type }) => {
   console.log('userInfo', userInfo);
@@ -32,14 +33,15 @@ const Chat = ({ userInfo, type }) => {
       text: 'The Points of Using Lorem Ipsum The Points of Using Lorem Ipsum',
       time: 'Yesterday, 12:29 PM',
     },
-    {
-      text: 'The Points of Using Lorem Ipsum The Points of Using Lorem Ipsum',
-      time: 'Yesterday, 12:29 PM',
-    },
   ];
 
   return (
     <ChatWrapper>
+      <div
+        className="community-hamburger"
+        onClick={() => document.body.classList.toggle('chat-community-sidebar-active')}>
+        <HiOutlineMenuAlt2 size={30} />
+      </div>
       <div className="chatWrapper">
         <ChatBody>
           <div className="messages-holder">
@@ -67,7 +69,6 @@ const Chat = ({ userInfo, type }) => {
         </ChatBody>
         <ChatFooter />
       </div>
-      {/* <ChatMedia userInfo={userInfo} type={type} /> */}
       <div className="hamburger" onClick={() => document.body.classList.toggle('chat-sidebar-active')}>
         <RiMenu3Fill size={30} />
       </div>
