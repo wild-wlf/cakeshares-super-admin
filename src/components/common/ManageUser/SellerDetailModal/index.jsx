@@ -35,7 +35,7 @@ const SellerDetailModal = ({ user, setSellerPropertiesModal, setMoneyAdded, hand
       <div className="col-holder">
         <div className="col">
           <div className="head">
-            <span className="heading">KYC Info:</span>
+            <span className="heading">{user?.isIndividualSeller ? 'KYC' : 'KYB '} Info:</span>
             <div className="button">
               <span>Level {user?.kycLevel}</span>
             </div>
