@@ -12,7 +12,7 @@ import {
 } from './UploadFile.styles';
 import UploadImg from '../../../../public/assets/uploadFile.svg';
 import Image from 'next/image';
-// import Toast from "../Toast";
+import Toast from '../Toast';
 
 const UploadFile = ({
   bg,
@@ -33,18 +33,36 @@ const UploadFile = ({
 }) => {
   const { CSVReader } = useCSVReader();
   const [uploaded, setUploaded] = useState('');
+
   function handelChange(e) {
     const file = e.target.files[0];
+    const acceptableExtensions = accept.split(',').map(ext => ext.trim());
+    if (!acceptableExtensions?.includes(file?.type)) {
+      const extensions = acceptableExtensions
+        .map(ext => ext.split('/')[1].toUpperCase())
+        .join(', ')
+        .replace(/,(?=[^,]*$)/, ' and');
+
+      Toast({
+        type: 'error',
+        message: `File Must be in ${extensions} format!`,
+      });
+      return;
+    }
     if (file) {
       const fileLength = file.size / (1024 * 1024);
       if (fileLength <= fileSize) {
         setUploaded(e.target.files[0]);
         onChange({ target: { file } });
       } else {
-        alert('file size exceeded');
+        Toast({
+          type: 'error',
+          message: 'File Size Exceeded!',
+        });
       }
     }
   }
+
   const getFileExtension = () => {
     if (uploaded) {
       const fileNameParts = uploaded.name.split('.');
@@ -88,12 +106,28 @@ const UploadFile = ({
             </span>
           )}
           {uploaded && typeof uploaded === 'string' ? (
-            <Image src={uploaded} alt="img" width={250} height={300} />
+            uploaded.endsWith('.mp4') ? (
+              <video width={319} height={191} autoPlay>
+                <source src={uploaded} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            ) : (
+              <Image src={uploaded} alt="img" width={250} height={300} />
+            )
           ) : (
-            uploaded && <Image src={URL.createObjectURL(uploaded)} alt="img" width={250} height={300} />
+            uploaded &&
+            (uploaded.type.startsWith('video/') ? (
+              <video width={319} height={191} autoPlay>
+                <source src={URL.createObjectURL(uploaded)} type={uploaded.type} />
+                Your browser does not support the video tag.
+              </video>
+            ) : (
+              <Image src={URL.createObjectURL(uploaded)} alt="img" width={250} height={300} />
+            ))
           )}
         </label>
       )}
+
       {type === 'file' && (
         <label htmlFor={id} className="labelButton">
           <span className="upload-text">

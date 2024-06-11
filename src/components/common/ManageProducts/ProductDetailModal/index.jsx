@@ -131,11 +131,19 @@ const ProductDetailModal = ({ product }) => {
         <div className="product-images">
           {product?.media?.map((item, index) => (
             <div className="img-holder" key={index}>
-              <Image src={item} alt="productImg1" width={319} height={191} />
+              {item && item.endsWith('.mp4') ? (
+                <video width={319} height={191} autoPlay>
+                  <source src={item} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              ) : (
+                <Image src={item} alt="productImg1" width={319} height={191} />
+              )}
             </div>
           ))}
         </div>
       </div>
+
       <div className="amenities-holder">
         <span className="heading">Amenities:</span>
         <div className="amenities">
