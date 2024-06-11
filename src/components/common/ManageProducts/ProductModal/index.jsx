@@ -2,9 +2,9 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Field from '@/components/molecules/Field';
 import Select from '@/components/atoms/Select';
 import { IoAdd } from 'react-icons/io5';
-import UploadFile from '@/components/molecules/UploadFile';
 import Form, { useForm } from '@/components/molecules/Form';
 import { StyledCreateNewProduct } from '../CreateNewProduct/CreateNewProduct.styles';
+import { RxCrossCircled } from 'react-icons/rx';
 import { format } from 'date-fns';
 import Toast from '@/components/molecules/Toast';
 import productService from '@/services/productService';
@@ -13,6 +13,7 @@ import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
 import categoryService from '@/services/categoryService';
 import { LoadScript, Autocomplete } from '@react-google-maps/api';
+import Image from 'next/image';
 
 const EditProductModal = ({ product, setCreateProductSuccessModal, setProductModal }) => {
   console.log(product);
@@ -24,7 +25,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
   const [form] = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [media, setMedia] = useState([]);
-  const [amenities, setAmenities] = useState(['']);
+  const [amenities, setAmenities] = useState(['', '', '']);
   const [images, setImages] = useState([]);
   const [searchValue, setSearchValue] = useState('');
 
@@ -50,9 +51,9 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
     { label: 'Level 2', value: 2 },
   ];
 
-  const addAmenity = () => {
-    setAmenities([...amenities, '']);
-  };
+  const addAmenity = () => setAmenities([...amenities, '']);
+
+  const removeAmenity = index => setAmenities(prev => prev.filter((_, i) => i !== index));
 
   const onSubmit = async obj => {
     try {
@@ -345,7 +346,8 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                   img={media[index]}
                   noMargin
                   accept="image/jpeg, image/jpg, image/png, video/mp4"
-                  disc="image should be up to 1mb only"
+                  disc="File size must be less than 1MB in JPG, JPEG, PNG or MP4 format."
+                  uploadTitle="Upload Image/Video"
                   onChange={e => {
                     form.setFieldsValue({
                       [`media${index}`]: e,
@@ -385,6 +387,9 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                   rounded
                   value={amenity}
                   placeholder="Enter text"
+                  noMargin
+                  suffix={<RxCrossCircled />}
+                  onClickSuffix={() => removeAmenity(index)}
                   onChange={e => {
                     form.setFieldsValue({
                       [`amenity${index}`]: e.target.value,
@@ -402,10 +407,10 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                     },
                     {
                       pattern: /^.{0,40}$/,
-                      message: 'Please enter a valid Amentity',
+                      message: 'Maximum Character Length is 40',
                     },
                   ]}>
-                  <Field noMargin />
+                  <Field />
                 </Form.Item>
               ))}
           </div>

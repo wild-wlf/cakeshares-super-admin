@@ -126,10 +126,10 @@ const ProductDetailModal = ({ product }) => {
           </div>
         ))}
       </div>
-      <div className="product-media">
-        <span className="heading">Product Media:</span>
-        <div className="product-images">
-          {product?.media?.map((item, index) => (
+      {product?.media?.map((item, index) => (
+        <div className="product-media">
+          <span className="heading">Product Media:</span>
+          <div className="product-images">
             <div className="img-holder" key={index}>
               {item && item.endsWith('.mp4') ? (
                 <video width={319} height={191} autoPlay>
@@ -140,20 +140,21 @@ const ProductDetailModal = ({ product }) => {
                 <Image src={item} alt="productImg1" width={319} height={191} />
               )}
             </div>
-          ))}
+          </div>
         </div>
-      </div>
-
-      <div className="amenities-holder">
-        <span className="heading">Amenities:</span>
-        <div className="amenities">
-          {product?.amenities.map((item, index) => (
-            <div className="product-property" key={index}>
-              <span>{item}</span>
-            </div>
-          ))}
+      ))}
+      {product?.amenities && product?.amenities?.length > 0 && (
+        <div className="amenities-holder">
+          <span className="heading">Amenities:</span>
+          <div className="amenities">
+            {product?.amenities.map((item, index) => (
+              <div className="product-property" key={index}>
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
       <div className="product-info investment-info">
         {investmentData?.map((item, index) => (
           <div className="col" key={index}>
