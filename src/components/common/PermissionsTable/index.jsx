@@ -3,17 +3,17 @@ import { ActionBtnList } from '@/components/atoms/ActionBtns/ActionBtns.styles';
 import Table from '@/components/molecules/Table';
 import TableLayout from '@/components/atoms/TableLayout';
 import CenterModal from '@/components/molecules/Modal/CenterModal';
-import SuccessIcon from '../../../../public/assets/success-icon.png';
+import SuccessIcon from '../../../../public/assets/successIcon.png';
 import { MdModeEditOutline } from 'react-icons/md';
 import DeleteIcon from '../../../../public/assets/delete.svg';
 import TableStyle from '../../../../public/assets/table-style.jpg';
 import InfoIcon from '../../../../public/assets/infoIcon.png';
 import Image from 'next/image';
 import DeletePermissionModal from './DeletePermissionModal';
-import SuccessfulModal from '../UserDeleteModal/SuccessfulModal';
 import CreatePermissionModal from './CreatePermissionModal';
 import EditPermissionModal from './EditPermissionModal';
-import { TableContainer } from '@/components/common/PermissionsTable/PermissionsTable.style';
+import { TableContainer } from '@/components/atoms/PermissionsTable/PermissionsTable.style';
+import SuccessfulModal from '@/components/atoms/UserDeleteModal/SuccessfulModal';
 
 const PermissionTable = ({ title }) => {
   const [deleteModal, setDeleteModal] = useState(false);

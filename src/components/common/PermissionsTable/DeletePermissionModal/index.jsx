@@ -1,6 +1,6 @@
 import React from 'react';
 import { DeleteModalWrapper } from './DeletePermissionModal.style';
-import Button from '../../Button';
+import Button from '@/components/atoms/Button';
 
 const DeletePermissionModal = ({ closeDeleteModal, openSuccessfulModal }) => {
   return (
