@@ -12,8 +12,8 @@ import Image from 'next/image';
 import DeletePermissionModal from './DeletePermissionModal';
 import CreatePermissionModal from './CreatePermissionModal';
 import EditPermissionModal from './EditPermissionModal';
-import { TableContainer } from '@/components/atoms/PermissionsTable/PermissionsTable.style';
 import SuccessfulModal from '@/components/atoms/UserDeleteModal/SuccessfulModal';
+import { TableContainer } from '@/components/atoms/TableContainer/TableContainer.styles';
 
 const PermissionTable = ({ title }) => {
   const [deleteModal, setDeleteModal] = useState(false);

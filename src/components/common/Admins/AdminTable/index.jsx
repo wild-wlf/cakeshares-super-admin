@@ -8,8 +8,7 @@ import TableStyle from '../../../../../public/assets/table-style.jpg';
 import UserImg from '../../../../../public/assets/user-img.png';
 import PasswordImg from '../../../../../public/assets/table-password-icon.png';
 import Image from 'next/image';
-// import { TableContainer } from '../../Portfolio/PortfolioTable/PorfolioTable.style';
-import { ModalText } from '@/components/atoms/RolesTable/RolesTable.style';
+import { ModalText, TableContainer } from '@/components/atoms/RolesTable/RolesTable.style';
 import CenterModal from '@/components/molecules/Modal/CenterModal';
 import UpdatePasswordModal from '../UpdatePasswordModal';
 import CreateUserModal from '../CreateAdminModal';
@@ -17,7 +16,6 @@ import EditUserModal from '../EditAdminModal';
 import DeleteUserModal from '../DeleteAdminModal';
 import InfoIcon from '../../../../../public/assets/infoIcon.png';
 import successIcon from '../../../../../public/assets/successIcon.png';
-import { TableContainer } from '@/components/atoms/PermissionsTable/PermissionsTable.style';
 
 const AdminTable = () => {
   const [openPassword, setOpenPassword] = useState(false);

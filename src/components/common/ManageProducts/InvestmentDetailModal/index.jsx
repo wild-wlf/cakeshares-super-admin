@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import Table from '@/components/molecules/Table';
 import TableLayout from '@/components/atoms/TableLayout';
-import { TableContainer } from '@/components/atoms/PermissionsTable/PermissionsTable.style';
 import userService from '@/services/userService';
 import { ActionBtnList } from '@/components/atoms/ActionBtns/ActionBtns.styles';
 import Button from '@/components/atoms/Button';
@@ -123,7 +122,7 @@ const InvestmentDetailModal = () => {
       pageSize={searchQuery.itemsPerPage}>
       <Table width={800} rowsData={product_rows} loading={user_loading} columnNames={buyerColumns} noPadding />
     </TableLayout>
-    // </TableContainer>
+    //</TableContainer>
   );
 };
 

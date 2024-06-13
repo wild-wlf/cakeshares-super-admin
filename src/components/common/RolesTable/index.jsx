@@ -16,7 +16,7 @@ import successIcon from '../../../../public/assets/successIcon.png';
 import Switch from '@/components/molecules/Switch';
 import DataTabs from '@/components/molecules/DataTabs';
 import PermissionHead from '@/components/atoms/PremissionsHead';
-import { TableContainer } from '@/components/atoms/PermissionsTable/PermissionsTable.style';
+import { TableContainer } from '@/components/atoms/TableContainer/TableContainer.styles';
 
 const RolesTable = ({ title }) => {
   const data = [
