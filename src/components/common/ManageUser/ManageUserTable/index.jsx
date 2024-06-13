@@ -4,8 +4,6 @@ import Table from '@/components/molecules/Table';
 import TableLayout from '@/components/atoms/TableLayout';
 import { MdModeEditOutline } from 'react-icons/md';
 import Image from 'next/image';
-import { TableContainer } from '@/components/atoms/PermissionsTable/PermissionsTable.style';
-import Button from '@/components/atoms/Button';
 import CenterModal from '@/components/molecules/Modal/CenterModal';
 import DeleteModal from '@/components/atoms/UserDeleteModal/DeleteModal';
 import SuccessfulModal from '@/components/atoms/UserDeleteModal/SuccessfulModal';
@@ -24,17 +22,14 @@ import userAvatar from '../../../../../public/assets/user_avatar.png';
 import declineIcon from '../../../../../public/assets/decline-icon.svg';
 import UserDetailModal from '../UserDetailModal';
 import KycRequest from '../KycRequest';
-import AddMoney from '../AddMoney';
 import PropertiesProductsModal from '../PropertiesProductsModal';
-import DeclineModal from '../../DeclineModal';
 import SellerDetailModal from '../SellerDetailModal';
 import SellerKycRequest from '../SellerKycRequest';
 import SellerPropertiesModal from '../SellerPropertiesModal';
 import EditUser from '../EditUser';
 import Toast from '@/components/molecules/Toast';
-import CompanySellerKycRequest from '../CompanySellerKycRequest';
-import Tooltip from '@/components/atoms/Tooltip';
 import { formatNumber } from '@/helpers/common';
+import { TableContainer } from '@/components/atoms/TableContainer/TableContainer.styles';
 
 const ManageUserTable = ({ setUserCount }) => {
   const { fetch, refetch } = useContextHook(AuthContext, v => ({

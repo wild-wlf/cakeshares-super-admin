@@ -17,7 +17,4 @@ export const TableContainer = styled.div`
       display: none;
     }
   }
-  /* @media (max-width: 530px) {
-    padding: 50px 20px;
-  } */
 `;
