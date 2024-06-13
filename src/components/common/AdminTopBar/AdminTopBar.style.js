@@ -40,6 +40,20 @@ export const Container = styled.div`
     align-items: center;
     gap: 10px;
 
+    .message {
+      position: relative;
+
+      &::before {
+        position: absolute;
+        content: '';
+        top: -2px;
+        width: 10px;
+        height: 10px;
+        background: red;
+        border-radius: 10px;
+        right: 0;
+      }
+    }
     .notification {
       display: flex;
       padding: 8px 10px;
@@ -62,17 +76,20 @@ export const Container = styled.div`
       transform: translateY(0);
       opacity: 1;
       max-width: 432px;
+      width: 100%;
       position: absolute;
-      top: 25px;
-      right: 30px;
+      top: 60px;
+      right: 54px;
       transform: translateY(50px);
       transition: 0.4s;
     }
     .notificationWrapper {
       max-width: 432px;
+      width: 100%;
       position: absolute;
       top: 20px;
-      right: 0px;
+      right: 54px;
+
       padding-top: 64px;
       visibility: hidden;
       transform: translateY(50px);

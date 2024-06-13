@@ -4,14 +4,28 @@ import Image from 'next/image';
 import Notifications from '../../molecules/Notifications';
 import bell from '../../../../public/assets/bell.svg';
 import { HiOutlineMenuAlt1 } from 'react-icons/hi';
+import notificationService from '@/services/notificationservice';
 
 const AdminTopBar = ({ title, tagLine, suffix }) => {
   const [notifications, setNotifications] = useState(false);
   const [fetchNotifications, setfetchNotifications] = useState(false);
+  const [isBadge, setIsBadge] = useState(false);
 
   const openSideNav = () => {
     document.body.classList.toggle('sideNav-active');
     document.body.style.overflow = 'hidden';
+  };
+
+  const handleReadAllNotification = async () => {
+    try {
+      const response = await notificationService.readAllNotifications();
+
+      if (response.success) {
+        setfetchNotifications(_ => !_);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -49,14 +63,15 @@ const AdminTopBar = ({ title, tagLine, suffix }) => {
 
         <div className="barActions">
           <div
-            className="notification"
+            className={`notification ${isBadge && 'message'}`}
             onClick={() => {
               setNotifications(!notifications);
+              handleReadAllNotification();
             }}>
             <Image src={bell} alt="bell" className="bell" />
             {/* <Image src={bellWhite} alt="bell" className="bell-white" /> */}
             <div className={notifications ? 'notificationWrapper-visible' : 'notificationWrapper'}>
-              <Notifications fetchNotifications={fetchNotifications} />
+              <Notifications fetchNotifications={fetchNotifications} setIsBadge={setIsBadge} />
             </div>
           </div>
         </div>
