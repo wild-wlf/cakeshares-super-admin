@@ -7,10 +7,10 @@ import CenterModal from '@/components/molecules/Modal/CenterModal';
 import SuccessModal from '@/components/molecules/SuccessModal/SuccessModal';
 import successIcon from '../../../../../public/assets/success-icon.png';
 import Image from 'next/image';
-import AdminService from '@/services/adminService';
 import Toast from '@/components/molecules/Toast';
 import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
+import adminService from '@/services/adminService';
 
 const UpdatePassword = ({ user }) => {
   const { fetchUser, onLogout } = useContextHook(AuthContext, v => ({
@@ -31,7 +31,7 @@ const UpdatePassword = ({ user }) => {
       Object.keys(payload).forEach(key => {
         formDataToSend.append(key, payload[key]);
       });
-      await AdminService.UpdateAdmin(user._id, formDataToSend);
+      await adminService.updateAdmin(user._id, formDataToSend);
       setSuccessModal(true);
       fetchUser();
       setTimeout(() => {

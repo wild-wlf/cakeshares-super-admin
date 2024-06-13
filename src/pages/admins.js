@@ -10,7 +10,7 @@ const admins = () => {
         <title>CAKESHARES | ADMINS MANAGEMENT </title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <AdminTopBar title={'Admins Management'} tagLine={'You have total 46 admins right now!'} />
+      <AdminTopBar title={'Admins Management'} />
       <AdminTable />
     </div>
   );

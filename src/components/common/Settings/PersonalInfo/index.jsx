@@ -9,7 +9,7 @@ import Image from 'next/image';
 import CenterModal from '@/components/molecules/Modal/CenterModal';
 import SuccessModal from '@/components/molecules/SuccessModal/SuccessModal';
 import successIcon from '../../../../../public/assets/success-icon.png';
-import AdminService from '@/services/adminService';
+import adminService from '@/services/adminService';
 import Toast from '@/components/molecules/Toast';
 import { AuthContext } from '@/context/authContext';
 import { useContextHook } from 'use-context-hook';
@@ -38,7 +38,7 @@ const PersonalInfo = ({ user }) => {
       Object.keys(payload).forEach(key => {
         formDataToSend.append(key, payload[key]);
       });
-      await AdminService.UpdateAdmin(user._id, formDataToSend);
+      await adminService.updateAdmin(user._id, formDataToSend);
       setSuccessModal(true);
     } catch (error) {
       Toast({

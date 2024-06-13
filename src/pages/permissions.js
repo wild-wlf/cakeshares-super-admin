@@ -10,7 +10,7 @@ const permissions = () => {
         <title>CAKESHARES | PERMISSION MANAGEMENT</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <AdminTopBar title="Permissions Management" tagLine={'You have total 46 permissions right now!'} />
+      <AdminTopBar title="Permissions Management" />
       <PermissionTable />
     </div>
   );

@@ -14,56 +14,28 @@ import CreatePermissionModal from './CreatePermissionModal';
 import EditPermissionModal from './EditPermissionModal';
 import SuccessfulModal from '@/components/atoms/UserDeleteModal/SuccessfulModal';
 import { TableContainer } from '@/components/atoms/TableContainer/TableContainer.styles';
+import adminService from '@/services/adminService';
+import { format } from 'date-fns';
+import { getDateObject } from '@/helpers/common';
 
-const PermissionTable = ({ title }) => {
+const PermissionTable = () => {
+  const [searchQuery, setSearchQuery] = useState({
+    page: 1,
+    pageSize: 10,
+    searchText: '',
+    startDate: '',
+    endDate: '',
+    filterText: '',
+    filterPermission: '',
+  });
+
   const [deleteModal, setDeleteModal] = useState(false);
   const [permissionToUpdate, setPermissionToUpdate] = useState(null);
   const [createPermissionModal, setCreatePermissionModal] = useState(false);
   const [editPermissionModal, setEditPermissionModal] = useState(false);
   const [deleteSuccesfulModal, setDeleteSuccessfulModal] = useState(false);
 
-  const permissions = [
-    {
-      created_at: '27/04/2024',
-      can_do: 'permission.delete',
-      desc: 'can delete permission',
-    },
-    {
-      created_at: '27/04/2024',
-      can_do: 'permission.edit',
-      desc: 'can edit details of permission',
-    },
-    {
-      created_at: '27/04/2024',
-      can_do: 'permission.delete',
-      desc: 'can delete permission',
-    },
-    {
-      created_at: '27/04/2024',
-      can_do: 'permission.edit',
-      desc: 'can edit details of permission',
-    },
-    {
-      created_at: '27/04/2024',
-      can_do: 'permission.delete',
-      desc: 'can delete permission',
-    },
-    {
-      created_at: '27/04/2024',
-      can_do: 'permission.edit',
-      desc: 'can edit details of permission',
-    },
-    {
-      created_at: '27/04/2024',
-      can_do: 'permission.delete',
-      desc: 'can delete permission',
-    },
-    {
-      created_at: '27/04/2024',
-      can_do: 'permission.edit',
-      desc: 'can edit details of permission',
-    },
-  ];
+  const { permissions_data, permissions_loading } = adminService.GetPermissions(searchQuery);
 
   const handleEditModal = e => {
     setEditPermissionModal(true);
@@ -86,15 +58,19 @@ const PermissionTable = ({ title }) => {
     </>
   );
 
-  const { product_rows, totalItems } = useMemo(() => ({
-    product_rows: permissions?.map(permission => [
-      permission.created_at || '------------',
-      permission.can_do || '------------',
-      permission.desc || '------------',
-      actionBtns(permission),
-    ]),
-  }));
-  const columnNamess = [`Created at`, `Can Do`, `Description`, 'Actions'];
+  const { totalCount, permissions_rows } = useMemo(
+    () => ({
+      permissions_rows: permissions_data.permissions.map(_ => [
+        format(getDateObject(_.created_at), 'yyyy-MM-dd'),
+        _.can,
+        _.description,
+        actionBtns(_),
+      ]),
+      totalCount: permissions_data.totalItems,
+    }),
+    [permissions_data],
+  );
+  const columnNames = [`Created at`, `Can Do`, `Description`, 'Actions'];
   return (
     <>
       <CenterModal
@@ -151,12 +127,21 @@ const PermissionTable = ({ title }) => {
           openModal={() => {
             setCreatePermissionModal(true);
           }}
+          onChangeFilters={filters => {
+            setSearchQuery(_ => ({
+              ..._,
+              ...filters,
+            }));
+          }}
+          currentPage={searchQuery.page}
+          totalCount={totalCount}
+          pageSize={searchQuery.itemsPerPage}
           filterBlock={true}>
           <Table
             width={1024}
-            rowsData={product_rows}
-            // loading={admins_loading}
-            columnNames={columnNamess}
+            rowsData={permissions_rows}
+            loading={permissions_loading}
+            columnNames={columnNames}
             noPadding
           />
         </TableLayout>

@@ -8,7 +8,6 @@ import TableStyle from '../../../../../public/assets/table-style.jpg';
 import UserImg from '../../../../../public/assets/user-img.png';
 import PasswordImg from '../../../../../public/assets/table-password-icon.png';
 import Image from 'next/image';
-import { ModalText, TableContainer } from '@/components/atoms/RolesTable/RolesTable.style';
 import CenterModal from '@/components/molecules/Modal/CenterModal';
 import UpdatePasswordModal from '../UpdatePasswordModal';
 import CreateUserModal from '../CreateAdminModal';
@@ -16,79 +15,29 @@ import EditUserModal from '../EditAdminModal';
 import DeleteUserModal from '../DeleteAdminModal';
 import InfoIcon from '../../../../../public/assets/infoIcon.png';
 import successIcon from '../../../../../public/assets/successIcon.png';
+import { TableContainer } from '@/components/atoms/TableContainer/TableContainer.styles';
+import { ModalText } from '../../RolesTable/RolesTable.style';
+import adminService from '@/services/adminService';
+import { format } from 'date-fns';
+import { getDateObject } from '@/helpers/common';
 
 const AdminTable = () => {
+  const [searchQuery, setSearchQuery] = useState({
+    page: 1,
+    pageSize: 10,
+    searchText: '',
+    startDate: '',
+    endDate: '',
+    filterRoles: '',
+  });
+
   const [openPassword, setOpenPassword] = useState(false);
   const [openCreateUser, setOpenCreateUser] = useState(false);
   const [openEditUser, setOpenEditUser] = useState(false);
   const [openDeleteUser, setOpenDeleteUser] = useState(false);
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
 
-  const transactions = [
-    {
-      created_at: '27/04/2024',
-      userImage: UserImg,
-      username: 'Alex Mertiz',
-      email: 'stevek@gmail.com',
-      roles: 'BDM',
-    },
-    {
-      created_at: '27/04/2024',
-      userImage: UserImg,
-      username: 'Alex Mertiz',
-      email: 'stevek@gmail.com',
-      roles: 'BDM',
-    },
-    {
-      created_at: '27/04/2024',
-      userImage: UserImg,
-      username: 'Alex Mertiz',
-      email: 'stevek@gmail.com',
-      roles: 'BDM',
-    },
-    {
-      created_at: '27/04/2024',
-      userImage: UserImg,
-      username: 'Alex Mertiz',
-      email: 'stevek@gmail.com',
-      roles: 'BDM',
-    },
-    {
-      created_at: '27/04/2024',
-      userImage: UserImg,
-      username: 'Alex Mertiz',
-      email: 'stevek@gmail.com',
-      roles: 'BDM',
-    },
-    {
-      created_at: '27/04/2024',
-      userImage: UserImg,
-      username: 'Alex Mertiz',
-      email: 'stevek@gmail.com',
-      roles: 'BDM',
-    },
-    {
-      created_at: '27/04/2024',
-      userImage: UserImg,
-      username: 'Alex Mertiz',
-      email: 'stevek@gmail.com',
-      roles: 'BDM',
-    },
-    {
-      created_at: '27/04/2024',
-      userImage: UserImg,
-      username: 'Alex Mertiz',
-      email: 'stevek@gmail.com',
-      roles: 'BDM',
-    },
-    {
-      created_at: '27/04/2024',
-      userImage: UserImg,
-      username: 'Alex Mertiz',
-      email: 'stevek@gmail.com',
-      roles: 'BDM',
-    },
-  ];
+  const { admins_data, admins_loading } = adminService.GetAdmins(searchQuery, fetch);
 
   const actionBtns = _ => (
     <>
@@ -128,21 +77,19 @@ const AdminTable = () => {
     </>
   );
 
-  const { product_rows, totalItems } = useMemo(() => ({
-    product_rows: transactions?.map((user, ind) => [
-      user.created_at || '------------',
-      <div className="table-img-holder" key={ind}>
-        <div className="img-holder">
-          <Image src={user.userImage} alt="userImage" />
-        </div>
-        {user.username || '------------'}
-      </div>,
-      user.email || '------------',
-      user.roles || '------------',
-      actionBtns(user),
-    ]),
-  }));
-  const columnNamess = [`Created at`, `Username`, `Email`, 'Roles', 'Actions'];
+  const { totalCount, admins_rows } = useMemo(
+    () => ({
+      admins_rows: admins_data.admins.map(_ => [
+        format(getDateObject(_.created_at), 'yyyy-MM-dd'),
+        _.email ?? '------------',
+        _.roles?.length > 0 ? _.roles.map(__ => __.type).join(', ') : '------------',
+        actionBtns(_),
+      ]),
+      totalCount: admins_data.totalItems,
+    }),
+    [admins_data],
+  );
+  const columnNamess = [`Created at`, `Username`, `Email`, 'Actions'];
   return (
     <>
       <CenterModal open={openSuccessModal} setOpen={setOpenSuccessModal} headImage={successIcon} width="543">
@@ -183,8 +130,17 @@ const AdminTable = () => {
           placeholder="Search Admin"
           openModal={() => {
             setOpenCreateUser(true);
-          }}>
-          <Table width={1024} rowsData={product_rows} columnNames={columnNamess} noPadding />
+          }}
+          onChangeFilters={filters => {
+            setSearchQuery(_ => ({
+              ..._,
+              ...filters,
+            }));
+          }}
+          currentPage={searchQuery.page}
+          totalCount={totalCount}
+          pageSize={searchQuery.itemsPerPage}>
+          <Table width={1024} loading={admins_loading} rowsData={admins_rows} columnNames={columnNamess} noPadding />
         </TableLayout>
       </TableContainer>
     </>

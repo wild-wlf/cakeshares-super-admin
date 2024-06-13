@@ -17,8 +17,20 @@ import Switch from '@/components/molecules/Switch';
 import DataTabs from '@/components/molecules/DataTabs';
 import PermissionHead from '@/components/atoms/PremissionsHead';
 import { TableContainer } from '@/components/atoms/TableContainer/TableContainer.styles';
+import adminService from '@/services/adminService';
+import { getDateObject } from '@/helpers/common';
+import { format } from 'date-fns';
 
-const RolesTable = ({ title }) => {
+const RolesTable = () => {
+  const [searchQuery, setSearchQuery] = useState({
+    page: 1,
+    pageSize: 10,
+    searchText: '',
+    startDate: '',
+    endDate: '',
+    filterText: '',
+  });
+
   const data = [
     {
       label: 'Dashboard',
@@ -59,43 +71,12 @@ const RolesTable = ({ title }) => {
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
   const [openPermissionModal, setOpenPermissionModal] = useState(false);
 
+  const { roles_data, roles_loading } = adminService.GetRoles(searchQuery, fetch);
+
   const openPermission = () => {
     setOpenCreateRole(false);
     setOpenPermissionModal(true);
   };
-
-  const permissions = [
-    {
-      created_at: '27/04/2024',
-      can_do: 'permission.delete',
-      desc: 'can delete permission',
-    },
-    {
-      created_at: '27/04/2024',
-      can_do: 'permission.delete',
-      desc: 'can delete permission',
-    },
-    {
-      created_at: '27/04/2024',
-      can_do: 'permission.delete',
-      desc: 'can delete permission',
-    },
-    {
-      created_at: '27/04/2024',
-      can_do: 'permission.delete',
-      desc: 'can delete permission',
-    },
-    {
-      created_at: '27/04/2024',
-      can_do: 'permission.delete',
-      desc: 'can delete permission',
-    },
-    {
-      created_at: '27/04/2024',
-      can_do: 'permission.delete',
-      desc: 'can delete permission',
-    },
-  ];
 
   const openRoleModal = () => {
     setOpenCreateRole(true);
@@ -123,14 +104,18 @@ const RolesTable = ({ title }) => {
     </>
   );
 
-  const { product_rows, totalItems } = useMemo(() => ({
-    product_rows: permissions?.map(permission => [
-      permission.created_at || '------------',
-      permission.can_do || '------------',
-      permission.desc || '------------',
-      actionBtns(permission),
-    ]),
-  }));
+  const { totalCount, roles_rows } = useMemo(
+    () => ({
+      roles_rows: roles_data.roles.map(_ => [
+        format(getDateObject(_.created_at), 'yyyy-MM-dd'),
+        _.type,
+        _.description,
+        actionBtns(_),
+      ]),
+      totalCount: roles_data.totalItems,
+    }),
+    [roles_data],
+  );
   const columnNamess = [`Created at`, `Type`, `Description`, 'Actions'];
   return (
     <>
@@ -175,14 +160,17 @@ const RolesTable = ({ title }) => {
           btnType="blue"
           btnText="+ Create Role"
           btnWidth="162px"
-          openModal={openRoleModal}>
-          <Table
-            width={1024}
-            rowsData={product_rows}
-            // loading={admins_loading}
-            columnNames={columnNamess}
-            noPadding
-          />
+          openModal={openRoleModal}
+          onChangeFilters={filters => {
+            setSearchQuery(_ => ({
+              ..._,
+              ...filters,
+            }));
+          }}
+          currentPage={searchQuery.page}
+          totalCount={totalCount}
+          pageSize={searchQuery.itemsPerPage}>
+          <Table width={1024} rowsData={roles_rows} loading={roles_loading} columnNames={columnNamess} noPadding />
         </TableLayout>
       </TableContainer>
     </>
