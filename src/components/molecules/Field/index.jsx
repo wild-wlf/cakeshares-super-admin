@@ -39,6 +39,7 @@ const Field = forwardRef(
       labelIcon,
       disabled,
       datePicker,
+      onClickSuffix,
       clear,
       labelReverse,
       radioBorder,
@@ -172,7 +173,7 @@ const Field = forwardRef(
                   />
                   {/* input right icon */}
                   {suffix && (
-                    <InputIcon suffix={suffix} disabled={disabled} invalid={invalid || error}>
+                    <InputIcon suffix={suffix} onClick={onClickSuffix} disabled={disabled} invalid={invalid || error}>
                       {suffix}
                     </InputIcon>
                   )}

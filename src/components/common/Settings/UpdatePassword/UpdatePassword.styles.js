@@ -4,7 +4,7 @@ export const StyledUpdatePassword = styled.div`
   .heading {
     display: block;
     font-size: 24px;
-    line-height: 28px;
+    line-height: 24px;
     font-weight: 500;
     margin-bottom: 16px;
   }
@@ -20,8 +20,10 @@ export const StyledUpdatePassword = styled.div`
     }
   }
   .input-wrap {
-    display: flex;
-    gap: 20px;
     margin-bottom: 30px;
+    @media (min-width: 1200px) {
+      display: flex;
+      gap: 20px;
+    }
   }
 `;
