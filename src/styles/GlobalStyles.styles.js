@@ -200,6 +200,12 @@ export const Styling = css`
     gap: 20px;
     position: relative;
   }
+  .status-pending{
+    color: var( --danger-light) ;
+  }
+  .status-approved{
+    color: rgba(65, 148, 0, 1);
+  }
   /************* custom scrollbar styles ************/
 
   /* This will work on Firefox */
