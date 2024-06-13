@@ -60,14 +60,16 @@ export default function App({ Component, pageProps }) {
       <AuthContextProvider>
         <SocketContextProvider>
           <GlobalStyles />
-          {loading && <PreLoader />}
-          {pageProps.statusCode === 404 ? (
-            <Component {...pageProps} />
-          ) : (
-            <Layout>
+          <div id="wrapper">
+            {loading && <PreLoader />}
+            {pageProps.statusCode === 404 ? (
               <Component {...pageProps} />
-            </Layout>
-          )}
+            ) : (
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            )}
+          </div>
           <StyledToastContainer />
         </SocketContextProvider>
       </AuthContextProvider>

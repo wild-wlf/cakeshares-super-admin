@@ -64,7 +64,7 @@ const DeclineModal = ({ type, onClose, id, title = 'Decline Request!', btnText =
           rules={[{ required: true, message: 'Please Enter Decline Reason!' }]}>
           <Field />
         </Form.Item>
-        <Button rounded md btntype="danger" loader={isLoading} width="250" htmlType="submit">
+        <Button rounded md variant="danger" loader={isLoading} width="250" htmlType="submit">
           {btnText}
         </Button>
       </Form>
