@@ -3,7 +3,6 @@ import { ActionBtnList } from '@/components/atoms/ActionBtns/ActionBtns.styles';
 import Table from '@/components/molecules/Table';
 import TableLayout from '@/components/atoms/TableLayout';
 import Image from 'next/image';
-import { TableContainer } from '@/components/atoms/PermissionsTable/PermissionsTable.style';
 import Button from '@/components/atoms/Button';
 import productService from '@/services/productService';
 import { AuthContext } from '@/context/authContext';
@@ -25,6 +24,7 @@ import ProductDetailModal from '../ProductDetailModal';
 import { MdModeEditOutline } from 'react-icons/md';
 import DeclineModal from '../../DeclineModal';
 import DeleteModal from '@/components/atoms/UserDeleteModal/DeleteModal';
+import { TableContainer } from '@/components/atoms/TableContainer/TableContainer.styles';
 
 const MangeProductsTable = ({ setProductCount }) => {
   const { fetch } = useContextHook(AuthContext, v => ({
@@ -221,7 +221,11 @@ const MangeProductsTable = ({ setProductCount }) => {
           ? 'Individual Seller'
           : 'Company Seller',
         _?.investmentType?.name || '------------',
-        _?.isVerified ? 'Approved' : 'Pending' || '------------',
+        _?.isVerified ? (
+          <span className="status-approved">Approved</span>
+        ) : (
+          <span className="status-pending">Pending</span> ?? '------------'
+        ),
         _?.currentBackers ?? '------------',
         actionBtns(_),
       ]),

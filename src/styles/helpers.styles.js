@@ -154,6 +154,9 @@ export const MainWrapper = styled.div`
     padding-left: 260px;
   }
   @media screen and (min-width: 1200px) {
+    padding-left: 275px;
+  }
+  @media screen and (min-width: 1400px) {
     padding: 15px 15px 15px 300px;
   }
   .layer {
