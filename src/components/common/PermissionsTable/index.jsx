@@ -11,12 +11,13 @@ import InfoIcon from '../../../../public/assets/infoIcon.png';
 import Image from 'next/image';
 import DeletePermissionModal from './DeletePermissionModal';
 import CreatePermissionModal from './CreatePermissionModal';
-import EditPermissionModal from './EditPermissionModal';
 import SuccessfulModal from '@/components/atoms/UserDeleteModal/SuccessfulModal';
 import { TableContainer } from '@/components/atoms/TableContainer/TableContainer.styles';
 import adminService from '@/services/adminService';
 import { format } from 'date-fns';
 import { getDateObject } from '@/helpers/common';
+import { useContextHook } from 'use-context-hook';
+import { AuthContext } from '@/context/authContext';
 
 const PermissionTable = () => {
   const [searchQuery, setSearchQuery] = useState({
@@ -35,7 +36,9 @@ const PermissionTable = () => {
   const [editPermissionModal, setEditPermissionModal] = useState(false);
   const [deleteSuccesfulModal, setDeleteSuccessfulModal] = useState(false);
 
-  const { permissions_data, permissions_loading } = adminService.GetPermissions(searchQuery);
+  const { fetch } = useContextHook(AuthContext, ['fetch']);
+
+  const { permissions_data, permissions_loading } = adminService.GetPermissions(searchQuery, fetch);
 
   const handleEditModal = e => {
     setEditPermissionModal(true);
@@ -101,18 +104,18 @@ const PermissionTable = () => {
         title={'Create Permission'}
         width="669">
         <CreatePermissionModal
-          closeModal={() => {
+          onClose={() => {
             setCreatePermissionModal(false);
           }}
         />
       </CenterModal>
 
       <CenterModal open={editPermissionModal} setOpen={setEditPermissionModal} title={'Edit Permission'} width="669">
-        <EditPermissionModal
-          closeModal={() => {
+        <CreatePermissionModal
+          onClose={() => {
             setEditPermissionModal(false);
           }}
-          value={permissionToUpdate}
+          permission={permissionToUpdate}
         />
       </CenterModal>
 
