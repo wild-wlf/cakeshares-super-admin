@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ImageHolder, NotificationsHolder } from './Notifications.styles';
 import Investment from '../../../../public/assets/investment-icon.svg';
 import Property from '../../../../public/assets/property-icon.svg';
@@ -7,7 +7,7 @@ import Image from 'next/image';
 import notificationService from '@/services/notificationservice';
 import { format } from 'date-fns';
 
-const Notifications = ({ fetchNotifications }) => {
+const Notifications = ({ fetchNotifications, setIsBadge }) => {
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
     pageSize: 3,
@@ -17,6 +17,11 @@ const Notifications = ({ fetchNotifications }) => {
     searchQuery,
     fetchNotifications,
   );
+
+  useEffect(() => {
+    const showBadge = notification_data.length && notification_data?.find(_ => _.isRead === false);
+    setIsBadge(showBadge);
+  }, [notification_data]);
 
   const getImageAndBackground = type => {
     let data = { image: Message, background: 'rgba(78, 97, 153, 0.2)' };

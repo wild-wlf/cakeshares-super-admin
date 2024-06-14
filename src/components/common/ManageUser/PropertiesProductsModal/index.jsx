@@ -2,9 +2,9 @@ import React, { useMemo, useState } from 'react';
 import Table from '@/components/molecules/Table';
 import TableLayout from '@/components/atoms/TableLayout';
 import Image from 'next/image';
-import { TableContainer } from '@/components/atoms/PermissionsTable/PermissionsTable.style';
 import userService from '@/services/userService';
 import TableStyle from '../../../../../public/assets/table-style.jpg';
+import { TableContainer } from '@/components/atoms/TableContainer/TableContainer.styles';
 
 const PropertiesProductsModal = () => {
   const [searchQuery, setSearchQuery] = useState({

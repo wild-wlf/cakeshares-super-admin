@@ -1,6 +1,6 @@
 import { Fetch } from '../helpers/fetchWrapper';
 
-const adminService = {
+const authService = {
   _url: `${process.env.NEXT_PUBLIC_ADMIN_URL}`,
 
   async login({ email = '', password = '' }) {
@@ -34,4 +34,4 @@ const adminService = {
   },
 };
 
-export default adminService;
+export default authService;

@@ -5,6 +5,9 @@ import comunityChat from '../../public/assets/comunityChat.png';
 import settingIcon from '../../public/assets/settingIcon.png';
 import navlogoutIcon from '../../public/assets/navlogoutIcon.png';
 import mangeUser from '../../public/assets/mangeUser.svg';
+import Permissions from '../../public/assets/permissions.svg';
+import Roles from '../../public/assets/roles.svg';
+import Users from '../../public/assets/users.svg';
 
 export const indivisualSellerNav = [
   {
@@ -39,6 +42,26 @@ export const indivisualSellerNav = [
         navigation: '/stakeholder-chat',
         name: 'Stakeholder Chat',
         icon: stakeChat,
+      },
+    ],
+  },
+  {
+    name: 'C.R.M',
+    link: [
+      {
+        navigation: '/permissions',
+        name: 'Permissions',
+        icon: Permissions,
+      },
+      {
+        navigation: '/roles',
+        name: 'Roles',
+        icon: Roles,
+      },
+      {
+        navigation: '/admins',
+        name: 'Admins',
+        icon: Users,
       },
     ],
   },

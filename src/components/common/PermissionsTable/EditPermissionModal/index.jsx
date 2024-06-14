@@ -1,22 +1,22 @@
-import React from "react";
-import { CreatePermissionModalWrapper } from "./EditPermissionModal.style";
-import Form from "@/components/molecules/Form/Form";
-import Field from "@/components/molecules/Field";
-import Button from "../../Button";
-import { useForm } from "@/components/molecules/Form";
-import Select from "../../Select";
+import React from 'react';
+import { CreatePermissionModalWrapper } from './EditPermissionModal.style';
+import Form from '@/components/molecules/Form/Form';
+import Field from '@/components/molecules/Field';
+import { useForm } from '@/components/molecules/Form';
+import Select from '@/components/atoms/Select';
+import Button from '@/components/atoms/Button';
 
 const EditPermissionModal = ({ closeModal, value }) => {
   const [form] = useForm();
 
   const arr = [
     {
-      label: "Admin",
-      value: "admin",
+      label: 'Admin',
+      value: 'admin',
     },
     {
-      label: "Super_Admin",
-      value: "super_admin",
+      label: 'Super_Admin',
+      value: 'super_admin',
     },
   ];
 
@@ -32,10 +32,9 @@ const EditPermissionModal = ({ closeModal, value }) => {
             rules={[
               { required: true },
               {
-                message: "Maximum Character Length is 256",
+                message: 'Maximum Character Length is 256',
               },
-            ]}
-          >
+            ]}>
             <Field />
           </Form.Item>
           <Form.Item
@@ -46,10 +45,9 @@ const EditPermissionModal = ({ closeModal, value }) => {
             rules={[
               { required: true },
               {
-                message: "Maximum Character Length is 256",
+                message: 'Maximum Character Length is 256',
               },
-            ]}
-          >
+            ]}>
             <Field />
           </Form.Item>
         </div>
@@ -62,10 +60,9 @@ const EditPermissionModal = ({ closeModal, value }) => {
             rules={[
               { required: true },
               {
-                message: "Maximum Character Length is 256",
+                message: 'Maximum Character Length is 256',
               },
-            ]}
-          >
+            ]}>
             <Field />
           </Form.Item>
           <Form.Item
@@ -76,15 +73,14 @@ const EditPermissionModal = ({ closeModal, value }) => {
             rules={[
               { required: true },
               {
-                message: "Maximum Character Length is 256",
+                message: 'Maximum Character Length is 256',
               },
-            ]}
-          >
+            ]}>
             <Select options={arr} isMulti />
           </Form.Item>
         </div>
         <div>
-          <Button sm rounded btntype="green" width="170px" onClick={closeModal}>
+          <Button sm rounded width="170px" onClick={closeModal}>
             Save Changes
           </Button>
         </div>
