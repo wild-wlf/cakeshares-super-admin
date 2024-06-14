@@ -21,7 +21,7 @@ const UploadFile = ({
   title,
   uploadTitle = 'Upload Image',
   label = true,
-  fileSize = 2,
+  fileSize = 5,
   accept = '.png , .jpg',
   type = 'img',
   csv,

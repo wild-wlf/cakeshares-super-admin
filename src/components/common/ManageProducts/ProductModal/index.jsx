@@ -25,7 +25,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
   const [form] = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [media, setMedia] = useState([]);
-  const [amenities, setAmenities] = useState(['', '', '']);
+  const [amenities, setAmenities] = useState(['']);
   const [images, setImages] = useState([]);
   const [searchValue, setSearchValue] = useState('');
 
@@ -345,9 +345,15 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                   name={`media${index}`}
                   img={media[index]}
                   noMargin
-                  accept="image/jpeg, image/jpg, image/png, video/mp4"
-                  disc="File size must be less than 1MB in JPG, JPEG, PNG or MP4 format."
-                  uploadTitle="Upload Image/Video"
+                  uploadTitle={index === 0 ? 'Upload Image/Video' : 'Upload Image'}
+                  accept={
+                    index === 0 ? 'image/jpeg, image/jpg, image/png, video/mp4' : 'image/jpeg, image/jpg, image/png'
+                  }
+                  disc={
+                    index === 0
+                      ? 'File size must be less than 1MB in JPG, JPEG, PNG or MP4 format.'
+                      : 'File size must be less than 1MB in JPG, JPEG, PNG '
+                  }
                   onChange={e => {
                     form.setFieldsValue({
                       [`media${index}`]: e,
