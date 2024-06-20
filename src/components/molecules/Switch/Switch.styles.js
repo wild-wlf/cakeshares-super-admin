@@ -19,7 +19,7 @@ export const ToggleSwitchStyle = styled.div`
     transition: background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     vertical-align: middle;
     cursor: pointer;
-    margin-bottom: 0;
+    margin: 0;
   }
   .switch::before {
     content: '';
