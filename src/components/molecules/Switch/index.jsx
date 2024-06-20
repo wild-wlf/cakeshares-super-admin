@@ -1,12 +1,12 @@
-import React from "react";
-import { ToggleSwitchStyle } from "./Switch.styles";
+import React from 'react';
+import { ToggleSwitchStyle } from './Switch.styles';
 
 const Switch = ({ value, label, ...props }) => {
   return (
     <>
       <ToggleSwitchStyle>
         {label && (
-          <label className="title" htmlFor={"label"}>
+          <label className="title" htmlFor={'label'}>
             {label}
           </label>
         )}
@@ -19,9 +19,9 @@ const Switch = ({ value, label, ...props }) => {
               target: { value: checked },
             });
           }}
-          id={"label"}
+          id={'label'}
         />
-        <label className="switch" htmlFor={"label"}></label>
+        <label className="switch" htmlFor={'label'}></label>
       </ToggleSwitchStyle>
     </>
   );

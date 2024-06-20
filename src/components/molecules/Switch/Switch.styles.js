@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 export const ToggleSwitchStyle = styled.div`
   display: flex;
   align-items: center;
@@ -19,9 +19,10 @@ export const ToggleSwitchStyle = styled.div`
     transition: background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     vertical-align: middle;
     cursor: pointer;
+    margin-bottom: 0;
   }
   .switch::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -31,13 +32,11 @@ export const ToggleSwitchStyle = styled.div`
     background: var(--white);
     border-radius: 50%;
     box-shadow: 0px 24px 52px -14px rgba(29, 41, 57, 0.16);
-    transition: left 0.28s cubic-bezier(0.4, 0, 0.2, 1),
-      background 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+    transition: left 0.28s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1),
       box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .switch:active::before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28),
-      0 0 0 20px rgba(128, 128, 128, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28), 0 0 0 20px rgba(128, 128, 128, 0.1);
   }
   input:checked + .switch {
     background: var(--green);

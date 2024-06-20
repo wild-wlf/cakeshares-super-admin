@@ -80,6 +80,8 @@ export const Styling = css`
     font-size: 16px !important;
   }
 
+
+
   textarea {
     font-family: var(--base-font-sans-serif);
     resize: vertical;
