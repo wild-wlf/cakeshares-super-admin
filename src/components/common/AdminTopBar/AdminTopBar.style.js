@@ -66,12 +66,12 @@ export const Container = styled.div`
       font-weight: 400;
       line-height: 17px;
       cursor: pointer;
-      z-index: 1;
+      z-index: 2;
       .bell-white {
         display: none;
       }
     }
-    .notificationWrapper-visible {
+    /* .notificationWrapper-visible {
       visibility: visible;
       transform: translateY(0);
       opacity: 1;
@@ -95,7 +95,7 @@ export const Container = styled.div`
       transform: translateY(50px);
       opacity: 0;
       transition: 0.4s;
-    }
+    } */
     .textField {
       display: flex;
       width: 100%;
@@ -184,6 +184,35 @@ export const Container = styled.div`
         display: none;
       }
     }
+  }
+  .notificationWrapper-visible {
+    visibility: visible;
+    opacity: 1;
+    max-width: 432px;
+    width: 100%;
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    transform: translateY(60px);
+    transition: 0.4s;
+    z-index: 2;
+    max-height: 400px;
+    overflow: auto;
+  }
+  .notificationWrapper {
+    max-width: 432px;
+    width: 100%;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding-top: 64px;
+    visibility: hidden;
+    transform: translateY(50px);
+    opacity: 0;
+    transition: 0.4s;
+    z-index: 2;
+    max-height: 400px;
+    overflow: auto;
   }
 `;
 

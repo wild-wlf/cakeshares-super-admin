@@ -65,7 +65,7 @@ const SellerDetailModal = ({ user, setSellerPropertiesModal, setMoneyAdded, hand
                 width={600}
                 title="Add Money to Wallet"
                 btnComponent={({ onClick }) => (
-                  <Button variant="success" $custom onClick={onClick}>
+                  <Button disable={!user?.isVerified} variant="success" $custom onClick={onClick}>
                     Add Balance
                   </Button>
                 )}

@@ -34,17 +34,29 @@ const EditProductModal = ({ product, createProductData, setEditProduct }) => {
       kycLevel: kycOptions.find(ele => ele.value === product.kycLevel.toString()),
       productDescription: product.description,
       whyInvest: product.investmentReason,
-      media1: product.investmentReason,
-      amentity1: createProductData.amentity1,
-      amentity1: createProductData.amentity2,
-      amentity3: createProductData.amentity3,
+      // media1: product.investmentReason,
+      // amentity1: createProductData.amentity1,
+      // amentity1: createProductData.amentity2,
+      // amentity3: createProductData.amentity3,
       minBackers: product.minimumBackers,
       maxBackers: product.maximumBackers,
       assetValue: product.assetValue,
       minInvestment: product.minimumInvestment,
     });
     setMedia(product?.media);
+    product?.media.map((field, index) => {
+      form.setFieldsValue({
+        [`media${index}`]: field,
+      });
+      return field;
+    });
     setAmenities(product?.amenities);
+    product?.amenities.map((field, index) => {
+      form.setFieldsValue({
+        [`amenity${index}`]: field,
+      });
+      return field;
+    });
   }, [product]);
 
   return (
@@ -187,7 +199,7 @@ const EditProductModal = ({ product, createProductData, setEditProduct }) => {
         </div>
         <span className="heading">Upload Media</span>
         <div className="upload-image">
-          <div className="upload">
+          {/* <div className="upload">
             <Form.Item
               type="file"
               name="media1"
@@ -229,8 +241,50 @@ const EditProductModal = ({ product, createProductData, setEditProduct }) => {
                 onChange={e => console.log(e)}
               />
             </Form.Item>
-          </div>
-          <div className="upload">
+          </div> */}
+          {Array.from({ length: 3 }).map((_, index) => {
+            return (
+              <div className="upload" key={index}>
+                <Form.Item
+                  type="img"
+                  sm
+                  rounded
+                  placeholder="Enter Text"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please Upload Product Media!',
+                    },
+                  ]}
+                  id={`media${index}`}
+                  name={`media${index}`}
+                  img={media[index]}
+                  noMargin
+                  uploadTitle={index === 0 ? 'Upload Image/Video' : 'Upload Image'}
+                  accept={
+                    index === 0 ? 'image/jpeg, image/jpg, image/png, video/mp4' : 'image/jpeg, image/jpg, image/png'
+                  }
+                  disc={
+                    index === 0
+                      ? 'File size must be less than 1MB in JPG, JPEG, PNG or MP4 format.'
+                      : 'File size must be less than 1MB in JPG, JPEG, PNG '
+                  }
+                  onChange={e => {
+                    form.setFieldsValue({
+                      [`media${index}`]: e,
+                    });
+                    setImages(prev => {
+                      const updatedImages = [...prev];
+                      updatedImages[index] = e.target.file;
+                      return updatedImages;
+                    });
+                  }}>
+                  <Field />
+                </Form.Item>
+              </div>
+            );
+          })}
+          {/* <div className="upload">
             <Form.Item
               type="file"
               name="media3"
@@ -250,7 +304,7 @@ const EditProductModal = ({ product, createProductData, setEditProduct }) => {
                 onChange={e => console.log(e)}
               />
             </Form.Item>
-          </div>
+          </div> */}
         </div>
         <div className="add-amenities-holder">
           <span className="heading">Amenities</span>
