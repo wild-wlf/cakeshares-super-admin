@@ -27,15 +27,7 @@ const ChatFooter = () => {
             )}
             content={({ onClose }) => <CreatePollModal />}
           />
-          <ModalContainer
-            width={600}
-            title="Create Poll"
-            btnComponent={({ onClick }) => (
-              <Image src={LinkIcon} alt="LinkIcon" width={14} height={14} onClick={onClick} />
-            )}
-            content={({ onClose }) => <PollDetailsModal />}
-          />
-          {/* <Image src={LinkIcon} alt="LinkIcon" width={14} height={14} /> */}
+          <Image src={LinkIcon} alt="LinkIcon" width={14} height={14} />
           <Image src={GalleryIcon} alt="GalleryIcon" width={14} height={14} />
         </div>
       </div>
