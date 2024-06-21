@@ -6,8 +6,9 @@ import LinkIcon from '../../../../../public/assets/link-icon.svg';
 import MicIcon from '../../../../../public/assets/mic-icon.svg';
 import PollIcon from '../../../../../public/assets/poll-icon.svg';
 import GalleryIcon from '../../../../../public/assets/gallery-icon.svg';
-import CreatePollModal from '../CreatePollModal';
 import ModalContainer from '@/components/molecules/ModalContainer';
+import CreatePollModal from '../../Community/CreatePollModal';
+import PollDetailsModal from '../../Community/PollDetailsModal';
 
 const ChatFooter = () => {
   return (
@@ -26,8 +27,15 @@ const ChatFooter = () => {
             )}
             content={({ onClose }) => <CreatePollModal />}
           />
-
-          <Image src={LinkIcon} alt="LinkIcon" width={14} height={14} />
+          <ModalContainer
+            width={600}
+            title="Create Poll"
+            btnComponent={({ onClick }) => (
+              <Image src={LinkIcon} alt="LinkIcon" width={14} height={14} onClick={onClick} />
+            )}
+            content={({ onClose }) => <PollDetailsModal />}
+          />
+          {/* <Image src={LinkIcon} alt="LinkIcon" width={14} height={14} /> */}
           <Image src={GalleryIcon} alt="GalleryIcon" width={14} height={14} />
         </div>
       </div>

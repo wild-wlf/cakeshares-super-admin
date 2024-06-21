@@ -10,9 +10,8 @@ const Switch = ({ value, label, ...props }) => {
             {label}
           </label>
         )}
-
         <input
-          type="check box"
+          type="checkbox"
           checked={value}
           onChange={({ target: { checked } }) => {
             props.onChange({

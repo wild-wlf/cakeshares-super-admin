@@ -6,6 +6,7 @@ export const ToggleSwitchStyle = styled.div`
     display: none;
   }
   .title {
+    user-select: none;
     margin-right: 8px;
     cursor: pointer;
   }
