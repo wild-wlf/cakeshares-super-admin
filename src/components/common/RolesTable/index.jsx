@@ -65,6 +65,7 @@ const RolesTable = () => {
       content: 'Roles',
     },
   ];
+
   const [deleteModal, setDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openCreateRole, setOpenCreateRole] = useState(false);
@@ -142,7 +143,7 @@ const RolesTable = () => {
         />
       </CenterModal>
       <CenterModal open={openCreateRole} setOpen={setOpenCreateRole} title={'Create Role'} width="666">
-        <CreateRolesModal openPermission={openPermission} />
+        <CreateRolesModal openPermission={openPermission} onClose={() => setOpenCreateRole(false)} />
       </CenterModal>
       <CenterModal
         open={openPermissionModal}

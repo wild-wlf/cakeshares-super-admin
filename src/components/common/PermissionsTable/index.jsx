@@ -34,7 +34,7 @@ const PermissionTable = () => {
   const [permissionToUpdate, setPermissionToUpdate] = useState(null);
   const [createPermissionModal, setCreatePermissionModal] = useState(false);
   const [editPermissionModal, setEditPermissionModal] = useState(false);
-  const [deleteSuccesfulModal, setDeleteSuccessfulModal] = useState(false);
+  const [deleteSuccesfullModal, setDeleteSuccessfullModal] = useState(false);
 
   const { fetch } = useContextHook(AuthContext, ['fetch']);
 
@@ -44,6 +44,12 @@ const PermissionTable = () => {
     setEditPermissionModal(true);
     setPermissionToUpdate(e);
   };
+
+  const handleDelete = e => {
+    setDeleteModal(true);
+    setPermissionToUpdate(e);
+  };
+
   const actionBtns = _ => (
     <>
       <ActionBtnList>
@@ -53,7 +59,7 @@ const PermissionTable = () => {
           </button>
         </li>
         <li>
-          <button type="button" className="btn delete" onClick={() => setDeleteModal(true)}>
+          <button type="button" className="btn delete" onClick={() => handleDelete(_)}>
             <Image src={DeleteIcon} alt="delete" />
           </button>
         </li>
@@ -82,17 +88,19 @@ const PermissionTable = () => {
         title={<Image src={InfoIcon} alt="InfoIcon" />}
         width="543">
         <DeletePermissionModal
+          permission={permissionToUpdate}
           closeDeleteModal={() => {
             setDeleteModal(false);
           }}
           openSuccessfulModal={() => {
-            setDeleteModal(false), setDeleteSuccessfulModal(true);
+            setDeleteModal(false);
+            setDeleteSuccessfullModal(true);
           }}
         />
       </CenterModal>
       <CenterModal
-        open={deleteSuccesfulModal}
-        setOpen={setDeleteSuccessfulModal}
+        open={deleteSuccesfullModal}
+        setOpen={setDeleteSuccessfullModal}
         title={<Image src={SuccessIcon} alt="SuccessIcon" />}
         width="543">
         <SuccessfulModal title={'Permission Deleted Successfully!'} />
