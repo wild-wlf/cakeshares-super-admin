@@ -14,6 +14,7 @@ import { Error, InputHolder } from './Field.styles';
 import DatePicker from '../DatePicker';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import UploadFile from '../UploadFile';
+import { CiSquareCheck } from 'react-icons/ci';
 
 const defaultProps = {
   type: 'text',
@@ -85,7 +86,7 @@ const Field = forwardRef(
               onChange={({ target: { name, checked } }) => inputProps?.onChange?.({ target: { name, value: checked } })}
             />
             <FakeInput $radioBorder={radioBorder} $labelReverse={labelReverse}>
-              {type === 'checkbox' && <i className="icon-check material-icons-outlined">check</i>}
+              {type === 'checkbox' && <CiSquareCheck className="icon" />}
             </FakeInput>
             <FakeLabel $labelColor={labelColor} required={rules?.filter(({ required }) => required).length}>
               {label}

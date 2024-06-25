@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 import {
   StyledTabs,
@@ -10,24 +10,17 @@ import {
   StyledTabPanels,
   StyledTabPanel,
   ButtonContainer,
-} from "./DataTabs.styles";
-import Switch from "../Switch";
-import Field from "../Field";
-import { CiSearch } from "react-icons/ci";
-import Button from "@/components/atoms/Button";
+} from './DataTabs.styles';
+import Switch from '../Switch';
+import Field from '../Field';
+import { CiSearch } from 'react-icons/ci';
+import Button from '@/components/atoms/Button';
 
-function DataTabs({
-  data,
-  verticalTabs,
-  uploadBtn,
-  title,
-  noBorder,
-  noOverflow,
-}) {
+function DataTabs({ data, verticalTabs, uploadBtn, title, noBorder, noOverflow }) {
   const [activeTab, setActiveTab] = useState(0);
   return (
     <>
-      <Head>
+      {/* <Head>
         <div className="Search">
           <Field
             type="search"
@@ -42,7 +35,7 @@ function DataTabs({
           onChange={(e) => console.log(e)}
           label="Select All Group Permissions"
         />
-      </Head>
+      </Head> */}
       <StyledTabs verticalTabs={verticalTabs}>
         <Wrap uploadBtn verticalTabs={verticalTabs}>
           <StyledTabList verticalTabs={verticalTabs}>
@@ -52,12 +45,8 @@ function DataTabs({
                 key={tab.label}
                 onClick={() => {
                   setActiveTab(index);
-                }}
-              >
-                <StyledTab
-                  active={activeTab === index}
-                  verticalTabs={verticalTabs}
-                >
+                }}>
+                <StyledTab active={activeTab === index} verticalTabs={verticalTabs}>
                   {tab.label}
                 </StyledTab>
               </TabBtn>
@@ -65,11 +54,7 @@ function DataTabs({
           </StyledTabList>
           {uploadBtn ?? uploadBtn}
         </Wrap>
-        <StyledTabPanels
-          verticalTabs={verticalTabs}
-          $noBorder={noBorder}
-          $noOverflow={noOverflow}
-        >
+        <StyledTabPanels verticalTabs={verticalTabs} $noBorder={noBorder} $noOverflow={noOverflow}>
           {data?.map((tab, index) => (
             <StyledTabPanel key={tab.label} active={activeTab === index}>
               {activeTab === index && tab?.content}
@@ -77,11 +62,11 @@ function DataTabs({
           ))}
         </StyledTabPanels>
       </StyledTabs>
-      <ButtonContainer>
-        <Button rounded width={"170px"} height={"40px"} sm btntype={"primary"}>
+      {/* <ButtonContainer>
+        <Button rounded width={'170px'} height={'40px'} sm btntype={'primary'}>
           Save Changes
         </Button>
-      </ButtonContainer>
+      </ButtonContainer> */}
     </>
   );
 }
