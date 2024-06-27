@@ -9,7 +9,7 @@ import Toast from '@/components/molecules/Toast';
 import adminService from '@/services/adminService';
 import CenterModal from '@/components/molecules/Modal/CenterModal';
 import PermissionSelector from '@/components/molecules/PermissionSelector';
-import { BTN } from './createRoleModal.style';
+import { BTN } from '../CreateRolesModal/CreateRoleModal.style';
 
 const CreateRolesModal = ({ role, onClose }) => {
   const [form] = useForm();
