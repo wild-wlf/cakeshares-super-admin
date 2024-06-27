@@ -7,7 +7,7 @@ import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
 import CenterModal from '@/components/molecules/Modal/CenterModal';
 import PermissionSelector from '@/components/molecules/PermissionSelector';
-import { BTN } from '../CreateRolesModal/createRoleModal.style';
+import { BTN } from '../CreateRolesModal/CreateRoleModal.style';
 import Toast from '@/components/molecules/Toast';
 import adminService from '@/services/adminService';
 
