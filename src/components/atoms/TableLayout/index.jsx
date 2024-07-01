@@ -73,13 +73,17 @@ function TableLayout({
           />
           {children}
           <div className="pagination">
-            <Pagination
-              currentPage={currentPage}
-              totalCount={totalCount}
-              pageSize={pageSize}
-              // onPageChange={_ => onChangeFilters({ page: _ })}
-              onPageChange={_ => onChangeFilters({ filter: filterState.filter, page: _ })}
-            />
+            {totalCount > 1 ? (
+              <Pagination
+                currentPage={currentPage}
+                totalCount={totalCount}
+                pageSize={pageSize}
+                // onPageChange={_ => onChangeFilters({ page: _ })}
+                onPageChange={_ => onChangeFilters({ filter: filterState.filter, page: _ })}
+              />
+            ) : (
+              ''
+            )}
           </div>
         </div>
       </StyledTableLayout>
