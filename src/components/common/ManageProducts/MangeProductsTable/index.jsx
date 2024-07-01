@@ -136,7 +136,13 @@ const MangeProductsTable = ({ setProductCount }) => {
                   width={500}
                   title={<Image src={declineIcon} alt="declineIcon" />}
                   btnComponent={({ onClick }) => (
-                    <Button type="button" variant="danger" custom xsCustom onClick={onClick}>
+                    <Button
+                      type="button"
+                      variant="danger"
+                      custom
+                      xsCustom
+                      onClick={onClick}
+                      disable={product.isAdvertised}>
                       <Image src={DeleteIcon} alt="DeleteIcon" />
                       Delete Product
                     </Button>
