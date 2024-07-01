@@ -5,8 +5,6 @@ export const NotificationsHolder = styled.div`
   width: 100%;
   background: var(--white);
   padding: 25px;
-  border-radius: 0px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   position: relative;
   z-index: 2;
   .holder {
