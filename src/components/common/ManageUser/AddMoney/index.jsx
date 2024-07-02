@@ -58,7 +58,7 @@ const AddMoney = ({ id, currentBalance, setMoneyAdded }) => {
                 message: 'Amount is Required',
               },
               {
-                pattern: /^[1-9]d*$/,
+                pattern: /^(0*[1-9]\d{0,5}|1000000)$/,
                 message: 'Please enter a valid Amount',
               },
             ]}>
