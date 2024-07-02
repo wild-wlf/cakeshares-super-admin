@@ -57,6 +57,10 @@ const AddMoney = ({ id, currentBalance, setMoneyAdded }) => {
                 required: true,
                 message: 'Amount is Required',
               },
+              {
+                pattern: /^[1-9]d*$/,
+                message: 'Please enter a valid Amount',
+              },
             ]}>
             <Field />
           </Form.Item>
