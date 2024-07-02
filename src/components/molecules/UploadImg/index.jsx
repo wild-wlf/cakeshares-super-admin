@@ -6,7 +6,6 @@ import ProfilePic from '../../../../public/assets/profilepic.svg';
 import Toast from '../Toast';
 
 const UploadImg = ({ id = 'upload', img, onChange, fileSize = 2, accept = 'image/jpeg, image/jpg, image/png' }) => {
-  console.log(img);
   const [uploaded, setUploaded] = useState('');
 
   function handelChange(e) {

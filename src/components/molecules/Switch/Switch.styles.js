@@ -1,52 +1,80 @@
-import styled from 'styled-components';
-export const ToggleSwitchStyle = styled.div`
+import styled, { css } from 'styled-components';
+import { StyledFormGroup } from '../../../styles/helpers.styles';
+import Label from '../../atoms/Label';
+
+export const SwitchHolder = styled(StyledFormGroup)`
   display: flex;
-  align-items: center;
-  input {
-    display: none;
-  }
-  .title {
-    user-select: none;
-    margin-right: 8px;
+  ${({ noMargin }) =>
+    noMargin &&
+    css`
+      margin: 0;
+    `}
+`;
+
+export const SwitchLabel = styled(Label)`
+  display: flex;
+  flex-direction: row-reverse;
+  margin: 0;
+  span {
+    transition: background var(--animation-speed) linear;
     cursor: pointer;
-  }
-  .switch {
-    display: inline-block;
+    width: 46px;
+    height: 26px;
+    background: #e5e5e5;
+    display: block;
+    border-radius: 76px;
     position: relative;
-    width: 44px;
-    height: 22px;
-    border-radius: 20px;
-    background: #c2c9d1;
-    transition: background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-    vertical-align: middle;
-    cursor: pointer;
-    margin: 0;
+    text-indent: -9999px;
+    margin-right: 0;
+    flex-shrink: 0;
+    &:before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 8px;
+      transform: translateY(-50%);
+      text-align: right;
+      font-size: 10px;
+      font-weight: bold;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 18px;
+      height: 18px;
+      background: var(--white);
+      border-radius: 100%;
+      transition: 0.3s;
+    }
+    &:active:after {
+      width: 25px;
+    }
   }
-  .switch::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 2px;
-    width: 18px;
-    height: 18px;
-    background: var(--white);
-    border-radius: 50%;
-    box-shadow: 0px 24px 52px -14px rgba(29, 41, 57, 0.16);
-    transition: left 0.28s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1),
-      box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+`;
+
+export const StyledSwitch = styled.input`
+  height: 0;
+  width: 0;
+  visibility: hidden;
+  &:checked + label {
+    span {
+      background: var(--primary);
+      &:after {
+        left: calc(100% - 5px);
+        transform: translateX(-100%);
+      }
+      &:before {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
   }
-  .switch:active::before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28), 0 0 0 20px rgba(128, 128, 128, 0.1);
-  }
-  input:checked + .switch {
-    background: var(--green);
-  }
-  input:checked + .switch::before {
-    left: 24px;
-    background: #fff;
-  }
-  input:checked + .switch:active::before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28), 0 0 0 20px rgba(0, 150, 136, 0.2);
-  }
+`;
+
+export const LabelHolder = styled.strong`
+  padding-top: 3px;
+  padding-right: 10px;
+  font-weight: 500;
 `;

@@ -140,8 +140,8 @@ const adminService = {
     throw new Error(message ?? 'Something went wrong');
   },
 
-  async addAdmin(values) {
-    let res = await Fetch.post(`${this._url}/add-admin`, values);
+  async addAdmin(payload) {
+    let res = await Fetch.upload(`${this._url}/add-admin`, 'POST', payload);
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
       return res;
@@ -151,7 +151,16 @@ const adminService = {
   },
 
   async updateAdmin(id, values) {
-    let res = await Fetch.patch(`${this._url}/update-admin/${id}`, values);
+    let res = await Fetch.upload(`${this._url}/update-admin/${id}`, 'PUT', values);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    }
+    const { message } = await res.json();
+    throw new Error(message ?? 'Something went wrong');
+  },
+  async updateAdminPassword(id, values) {
+    let res = await Fetch.put(`${this._url}/update-admin-password/${id}`, values);
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
       return res;

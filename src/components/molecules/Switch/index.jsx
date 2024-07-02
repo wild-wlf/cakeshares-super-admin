@@ -1,29 +1,32 @@
 import React from 'react';
-import { ToggleSwitchStyle } from './Switch.styles';
 
-const Switch = ({ value, label, ...props }) => {
+import { StyledSwitch, SwitchLabel, SwitchHolder, LabelHolder } from './Switch.styles';
+
+function Switch({ label, name, value, noMargin, ...props }) {
+  const switchProps = {
+    id: name,
+    name,
+    ...props,
+  };
   return (
-    <>
-      <ToggleSwitchStyle>
-        {label && (
-          <label className="title" htmlFor={'label'}>
-            {label}
-          </label>
-        )}
-        <input
-          type="checkbox"
-          checked={value}
-          onChange={({ target: { checked } }) => {
-            props.onChange({
-              target: { value: checked },
-            });
-          }}
-          id={'label'}
-        />
-        <label className="switch" htmlFor={'label'}></label>
-      </ToggleSwitchStyle>
-    </>
+    <SwitchHolder noMargin={noMargin}>
+      <StyledSwitch
+        type="checkbox"
+        {...switchProps}
+        checked={value}
+        value={value}
+        onChange={({ target: { checked } }) => {
+          props.onChange({
+            target: { name, value: checked },
+          });
+        }}
+      />
+      <SwitchLabel htmlFor={switchProps.id}>
+        {label && <LabelHolder>{label}</LabelHolder>}
+        <span id={label ? label.split(' ').join('_').toLowerCase() : 'switch'} />
+      </SwitchLabel>
+    </SwitchHolder>
   );
-};
+}
 
 export default Switch;
