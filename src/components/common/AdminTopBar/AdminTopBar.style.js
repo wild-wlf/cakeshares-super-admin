@@ -198,6 +198,8 @@ export const Container = styled.div`
     z-index: 2;
     max-height: 400px;
     overflow: auto;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 20px;
   }
   .notificationWrapper {
     max-width: 432px;

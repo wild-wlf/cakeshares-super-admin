@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Button from '@/components/atoms/Button';
 import propertyIcon from '../../../../../public/assets/property-icon-1.svg';
@@ -14,7 +14,6 @@ import DeclineModal from '../../DeclineModal';
 import { formatNumber } from '@/helpers/common';
 
 const SellerDetailModal = ({ user, setSellerPropertiesModal, setMoneyAdded, handleConfirmActivate }) => {
-  console.log(user);
   return (
     <StyledUserDetailModal>
       <span className="heading">Personal Info:</span>

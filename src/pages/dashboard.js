@@ -19,6 +19,7 @@ const dashboard = () => {
       setCardsData(data?.cardsData);
     });
   }, []);
+
   return (
     <>
       <Head>
