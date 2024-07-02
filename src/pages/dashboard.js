@@ -20,19 +20,6 @@ const dashboard = () => {
     });
   }, []);
 
-  const JonasData = ['Jonas', 'Teacher', 1991];
-  const type = [];
-  const age = [];
-
-  for (let i = 0; i < JonasData.length; i++) {
-    if (typeof JonasData[i] !== 'string') continue;
-    console.log(JonasData[i]);
-    type.push(typeof JonasData[i]);
-    age.push(2024 - JonasData[2]);
-  }
-  console.log(type);
-  console.log(age);
-
   return (
     <>
       <Head>
