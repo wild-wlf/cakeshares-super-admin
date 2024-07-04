@@ -66,7 +66,16 @@ const SideBar = ({ data }) => {
 
         <UserDet>
           <div className="img-holder">
-            <Image src={user?.profilePicture || avatar_icon} height={40} width={40} alt="user-profile" />
+            <Image
+              src={
+                user?.profilePicture != 'undefined' && user?.profilePicture != undefined
+                  ? user?.profilePicture
+                  : avatar_icon
+              }
+              height={40}
+              width={40}
+              alt="user-profile"
+            />
           </div>
           <div className="detailContainer">
             <span className="userName">{user?.fullName}</span>

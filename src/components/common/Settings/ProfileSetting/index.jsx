@@ -31,7 +31,16 @@ const ProfileSetting = () => {
       </div>
       <div className="side-bar">
         <div className="img-holder">
-          <Image src={user?.profilePicture || userImage} alt="userImage" width={120} height={120} />
+          <Image
+            src={
+              user?.profilePicture != 'undefined' && user?.profilePicture != undefined
+                ? user?.profilePicture
+                : userImage
+            }
+            alt="userImage"
+            width={120}
+            height={120}
+          />
         </div>
         <span className="name">{user?.fullName}</span>
         <span className="email">{user?.email}</span>

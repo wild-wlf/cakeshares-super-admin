@@ -14,12 +14,12 @@ import { useContextHook } from 'use-context-hook';
 import ModalContainer from '@/components/molecules/ModalContainer';
 import successIcon from '../../../../../public/assets/successIcon.png';
 import detailIcon from '../../../../../public/assets/table-detail-icon.svg';
+import dollaricon from '../../../../../public/assets/dollaricon.svg';
 import modalinfoIcon from '../../../../../public/assets/infoIcon.png';
 import DeleteIcon from '../../../../../public/assets/table-delete-icon.svg';
 import TableStyle from '../../../../../public/assets/table-style.jpg';
 import CalenderIcon from '../../../../../public/assets/calander.svg';
 import userAvatar from '../../../../../public/assets/user_avatar.png';
-import declineIcon from '../../../../../public/assets/decline-icon.svg';
 import UserDetailModal from '../UserDetailModal';
 import KycRequest from '../KycRequest';
 import PropertiesProductsModal from '../PropertiesProductsModal';
@@ -30,11 +30,13 @@ import EditUser from '../EditUser';
 import Toast from '@/components/molecules/Toast';
 import { formatNumber } from '@/helpers/common';
 import { TableContainer } from '@/components/atoms/TableContainer/TableContainer.styles';
+import WalletMoneyApprove from '@/components/atoms/UserDeleteModal/WalletMoneyApprove';
 
 const ManageUserTable = ({ setUserCount }) => {
-  const { fetch, refetch } = useContextHook(AuthContext, v => ({
+  const { fetch, refetch, hasPermission } = useContextHook(AuthContext, v => ({
     fetch: v.fetch,
     refetch: v.refetch,
+    hasPermission: v.hasPermission,
   }));
 
   const [userData, setUserData] = useState({});
@@ -46,6 +48,7 @@ const ManageUserTable = ({ setUserCount }) => {
   const [successUpdatedModal, setSuccessUpdatedModal] = useState(false);
   const [kycApproved, setkycApproved] = useState(false);
   const [moneyAdded, setMoneyAdded] = useState(false);
+  const [moneyAddedMessage, setMoneyAddedMessage] = useState('');
   const [kycDecline, setkycDecline] = useState(false);
   const [propertiesProductModal, setPropertiesProductModal] = useState(false);
   const [sellerPropertiesModal, setSellerPropertiesModal] = useState(false);
@@ -112,11 +115,35 @@ const ManageUserTable = ({ setUserCount }) => {
                 user={user}
                 setSellerPropertiesModal={setSellerPropertiesModal}
                 setMoneyAdded={setMoneyAdded}
+                setMoneyAddedMessage={setMoneyAddedMessage}
                 handleConfirmActivate={handleConfirmActivate}
               />
             )}
           />
         </li>
+        {hasPermission('admin.approve_wallet') && user?.requestPaymentWallet[0]?.status === 'pending' && (
+          <li>
+            <ModalContainer
+              width={600}
+              title="Wallet Money Approval!"
+              btnComponent={({ onClick }) => (
+                <>
+                  <button type="button" className="btn file" onClick={onClick}>
+                    <Image src={dollaricon} alt="detailIcon" height={18} width={18} />
+                  </button>
+                </>
+              )}
+              content={({ onClose }) => (
+                <WalletMoneyApprove
+                  user={user}
+                  onClose={onClose}
+                  title="Approve Money"
+                  text={`Are you sure you want to approve $${user?.requestPaymentWallet[0].amount || 0} of this user?`}
+                />
+              )}
+            />
+          </li>
+        )}
         {user?.isVerified && (
           <>
             <li>
@@ -205,11 +232,35 @@ const ManageUserTable = ({ setUserCount }) => {
                 user={user}
                 setPropertiesProductModal={setPropertiesProductModal}
                 setMoneyAdded={setMoneyAdded}
+                setMoneyAddedMessage={setMoneyAddedMessage}
                 handleConfirmActivate={handleConfirmActivate}
               />
             )}
           />
         </li>
+        {hasPermission('admin.approve_wallet') && user?.requestPaymentWallet[0]?.status === 'pending' && (
+          <li>
+            <ModalContainer
+              width={600}
+              title="Wallet Money Approval!"
+              btnComponent={({ onClick }) => (
+                <>
+                  <button type="button" className="btn file" onClick={onClick}>
+                    <Image src={dollaricon} alt="detailIcon" height={18} width={18} />
+                  </button>
+                </>
+              )}
+              content={({ onClose }) => (
+                <WalletMoneyApprove
+                  user={user}
+                  onClose={onClose}
+                  title="Approve Money"
+                  text={`Are you sure you want to approve $${user?.requestPaymentWallet[0].amount || 0} of this user?`}
+                />
+              )}
+            />
+          </li>
+        )}
         {user?.isVerified && (
           <>
             <li>
@@ -342,18 +393,16 @@ const ManageUserTable = ({ setUserCount }) => {
 
   return (
     <>
-      {/* <CenterModal width="600" title="Add Money to Wallet">
-        <AddMoney setMoneyAdded={setMoneyAdded} />
-      </CenterModal> */}
       {/* money added Successfully Modal */}
       <CenterModal
         open={moneyAdded}
         setOpen={setMoneyAdded}
         title={<Image src={successIcon} alt="InfoIcon" />}
         width="543">
-        <SuccessfulModal title="Money Added Successfully!" />
+        <SuccessfulModal title={moneyAddedMessage} />
       </CenterModal>
-      {/* money added Successfully Modal */}
+      {/* end money added Successfully Modal */}
+
       <CenterModal
         open={userActive}
         setOpen={setUserActive}

@@ -12,6 +12,15 @@ const walletService = {
     const { message } = await res.json();
     throw new Error(message ?? 'Something went wrong');
   },
+  async approveReject(payload) {
+    let res = await Fetch.post(`${this._url}/approve-balance`, payload);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    }
+    const { message } = await res.json();
+    throw new Error(message ?? 'Something went wrong');
+  },
 };
 
 export default walletService;

@@ -76,7 +76,10 @@ const PersonalInfo = ({ user }) => {
       </CenterModal>
       <StyledPersonalInfo>
         <div className="img-holder">
-          <UploadImg img={user?.profilePicture} onChange={e => setProfilePicture(e)} />
+          <UploadImg
+            img={user?.profilePicture != 'undefined' && user?.profilePicture}
+            onChange={e => setProfilePicture(e)}
+          />
         </div>
         <div className="form">
           <Form form={form} onSubmit={onSubmit}>

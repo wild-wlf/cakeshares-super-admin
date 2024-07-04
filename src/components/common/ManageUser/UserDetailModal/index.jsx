@@ -2,11 +2,7 @@ import React from 'react';
 import { StyledUserDetailModal } from './UserDetailModal.styles';
 import Image from 'next/image';
 import Button from '@/components/atoms/Button';
-import propertyIcon from '../../../../../public/assets/property-icon-1.svg';
 import popularIcon from '../../../../../public/assets/popular-icon.svg';
-import ventureIcon from '../../../../../public/assets/venture-icon.svg';
-import bazarIcon from '../../../../../public/assets/bazar-icon.svg';
-import vehicleIcon from '../../../../../public/assets/vehicle-icon.svg';
 import AddMoney from '../AddMoney';
 import ModalContainer from '@/components/molecules/ModalContainer';
 import declineIcon from '../../../../../public/assets/decline-icon.svg';
@@ -14,7 +10,13 @@ import { format } from 'date-fns';
 import DeclineModal from '../../DeclineModal';
 import { formatNumber } from '@/helpers/common';
 
-const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded, handleConfirmActivate }) => {
+const UserDetailModal = ({
+  user,
+  setPropertiesProductModal,
+  setMoneyAdded,
+  handleConfirmActivate,
+  setMoneyAddedMessage,
+}) => {
   return (
     <StyledUserDetailModal>
       <span className="heading">Personal Info:</span>
@@ -113,8 +115,13 @@ const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded, handl
                     Add Balance
                   </Button>
                 )}
-                content={({ onClose }) => (
-                  <AddMoney id={user?._id} currentBalance={user?.wallet} setMoneyAdded={setMoneyAdded} />
+                content={() => (
+                  <AddMoney
+                    id={user?._id}
+                    currentBalance={user?.wallet}
+                    setMoneyAdded={setMoneyAdded}
+                    setMoneyAddedMessage={setMoneyAddedMessage}
+                  />
                 )}
               />
             </div>
@@ -148,7 +155,7 @@ const UserDetailModal = ({ user, setPropertiesProductModal, setMoneyAdded, handl
           user.uniqueBuyerCategories.map(ele => (
             <div key={ele?._id} className="col" onClick={() => setPropertiesProductModal(true)}>
               <figure className="img-holder">
-                <Image src={ele?.icon || popularIcon} alt="property-icon" />
+                <Image src={ele?.icon || popularIcon} alt="property-icon" width={30} height={30} />
               </figure>
               <span className="text">{ele?.name}</span>
             </div>

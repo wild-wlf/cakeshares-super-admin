@@ -9,7 +9,7 @@ import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
 import { formatNumber } from '@/helpers/common';
 
-const AddMoney = ({ id, currentBalance, setMoneyAdded }) => {
+const AddMoney = ({ id, currentBalance, setMoneyAdded, setMoneyAddedMessage }) => {
   const { refetch } = useContextHook(AuthContext, v => ({
     refetch: v.refetch,
   }));
@@ -23,7 +23,8 @@ const AddMoney = ({ id, currentBalance, setMoneyAdded }) => {
         userId: id,
         balanceAmount: data?.balanceAmount,
       };
-      await walletService.addBalance(payload);
+      const resp = await walletService.addBalance(payload);
+      setMoneyAddedMessage(resp.message);
       setMoneyAdded(true);
       refetch();
     } catch ({ message }) {
@@ -34,7 +35,6 @@ const AddMoney = ({ id, currentBalance, setMoneyAdded }) => {
     } finally {
       setIsLoading(false);
     }
-    // console.log(e);
   }
   return (
     <StyledAddMoney>
