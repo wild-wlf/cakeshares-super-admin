@@ -44,10 +44,10 @@ const WalletMoneyApprove = ({ user, title, text, onClose }) => {
         <span>{text}</span>
       </div>
       <div className="btn-wrapper">
-        <Button outline onClick={() => handleClick('reject')} block loader={isLoading}>
+        <Button outline onClick={() => handleClick('rejected')} block loader={isLoading}>
           No
         </Button>
-        <Button variant="success" onClick={() => handleClick('approve')} block loader={isLoading}>
+        <Button variant="success" onClick={() => handleClick('approved')} block loader={isLoading}>
           Yes
         </Button>
       </div>
