@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const StyledCreatePollModal = styled.div`
+  padding-top: 20px;
   .options-holder {
     max-height: 260px;
     overflow: auto;

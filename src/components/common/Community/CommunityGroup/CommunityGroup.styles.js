@@ -6,6 +6,7 @@ export const StyledCommunityGroup = styled.div`
   gap: 10px;
   padding: 10px 22px;
   margin: 0 -22px;
+  cursor: pointer;
 
   ${({ $groupActive }) =>
     $groupActive &&
@@ -24,21 +25,24 @@ export const StyledCommunityGroup = styled.div`
       width: 30px;
       height: 30px;
       border-radius: 50%;
-      overflow: hidden;
-      ${({ $type }) =>
-        $type === 'private' &&
-        css`
-          width: 100%;
-          height: 100%;
-          &.img2,
-          &.img3 {
-            display: none;
-          }
-        `}
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 3px;
+        right: 0;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: ${({ $isOnline }) => ($isOnline ? 'var(--green)' : 'var(--gray-2)')};
+        display: none;
+      }
+
       img {
         display: block;
         width: 100%;
         height: auto;
+        border-radius: 50%;
         object-fit: cover;
       }
     }
@@ -62,7 +66,8 @@ export const StyledCommunityGroup = styled.div`
     max-width: 125px;
 
     .title,
-    .text {
+    .text,
+    .community-title {
       display: block;
       font-weight: 500;
       white-space: nowrap;
