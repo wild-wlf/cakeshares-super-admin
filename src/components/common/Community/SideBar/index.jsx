@@ -1,129 +1,99 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { StyledSideBar } from './SideBar.styles';
 import CommunityGroup from '../CommunityGroup';
-import userImg01 from '../../../../../public/assets/user-image-01.png';
-import userImg02 from '../../../../../public/assets/user-image-02.png';
-import userImg03 from '../../../../../public/assets/user-image-03.png';
+import profileplaceHolder from '../../../../../public/assets/user-img.png';
+import notificationService from '@/services/notificationservice';
+import { useContextHook } from 'use-context-hook';
+import { AuthContext } from '@/context/authContext';
+import { updateCurrentComConversations } from '@/helpers/comMsgHandlers';
+import { FaPollH } from 'react-icons/fa';
 
-const SideBar = () => {
-  const [tab, setTab] = useState(1);
-  const [groupActive, setGroupActive] = useState(null);
-  function handleGroupActive(index) {
-    setGroupActive(index);
-  }
-  function handleTabs(index) {
-    setTab(index);
-  }
-  const groupData = [
+const SideBar = ({ type, handleChoseComDetails, chosenComDetails, conversations, setConversations }) => {
+  const { user, fetch } = useContextHook(AuthContext, v => ({
+    user: v.user,
+    fetch: v.fetch,
+  }));
+
+  const { conversations_loading, conversations_data } = notificationService.GetAllConversations(
     {
-      image1: userImg01,
-      image2: userImg02,
-      image3: userImg03,
-      title: 'Egypt Gov. Pro pro',
-      text: 'You, Logan & 33 33',
-      time: '20 min ago',
-      messageCounter: 3,
-      type: 'private',
+      page: 1,
+      itemsPerPage: 10,
+      type: type === 'community' ? 'COM_CHAT' : 'STAKE_CHAT',
     },
-    {
-      image1: userImg01,
-      image2: userImg02,
-      image3: userImg03,
-      title: 'Egypt Gov. Pro pro',
-      text: 'You, Logan & 33 33',
-      time: '20 min ago',
-      messageCounter: 2,
-    },
-    {
-      image1: userImg01,
-      image2: userImg02,
-      image3: userImg03,
-      title: 'Egypt Gov. Pro pro',
-      text: 'You, Logan & 33 33',
-      time: '20 min ago',
-    },
-    {
-      image1: userImg01,
-      image2: userImg02,
-      image3: userImg03,
-      title: 'Egypt Gov. Pro pro',
-      text: 'You, Logan & 33 33',
-      time: '20 min ago',
-      type: 'private',
-      messageCounter: 9,
-    },
-    {
-      image1: userImg01,
-      image2: userImg02,
-      image3: userImg03,
-      title: 'Egypt Gov. Pro pro',
-      text: 'You, Logan & 33 33',
-      time: '20 min ago',
-    },
-    {
-      image1: userImg01,
-      image2: userImg02,
-      image3: userImg03,
-      title: 'Egypt Gov. Pro pro',
-      text: 'You, Logan & 33 33',
-      time: '20 min ago',
-      type: 'private',
-      messageCounter: 7,
-    },
-    {
-      image1: userImg01,
-      image2: userImg02,
-      image3: userImg03,
-      title: 'Egypt Gov. Pro pro',
-      text: 'You, Logan & 33 33',
-      time: '20 min ago',
-    },
-    {
-      image1: userImg01,
-      image2: userImg02,
-      image3: userImg03,
-      title: 'Egypt Gov. Pro pro',
-      text: 'You, Logan & 33 33',
-      time: '20 min ago',
-      type: 'private',
-      messageCounter: 4,
-    },
-    {
-      image1: userImg01,
-      image2: userImg02,
-      image3: userImg03,
-      title: 'Egypt Gov. Pro pro',
-      text: 'You, Logan & 33 33',
-      time: '20 min ago',
-    },
-  ];
+    fetch,
+  );
+
+  useEffect(() => {
+    if (conversations_data?.conversations?.length > 0) {
+      setConversations(conversations_data?.conversations);
+    }
+  }, [conversations_data]);
+
+  useEffect(() => {
+    window.addEventListener('com_message_history', event => {
+      updateCurrentComConversations({
+        ...event.detail,
+        type: type === 'community' ? 'COM_CHAT_MESSAGE' : 'STAKE_CHAT_MESSAGE',
+        setConversations,
+      });
+    });
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('com_message_history', () => {});
+    };
+  }, [type]);
+
+  const renderParticipants = participants => {
+    const channelParticipants = participants.filter(_ => _?._id !== user?._id);
+    return channelParticipants.map((item, index) => (
+      <>
+        <span>{item?.fullName || item?.username}</span>
+        {channelParticipants.length - 1 !== index && <span>,&nbsp;</span>}
+      </>
+    ));
+  };
 
   return (
     <StyledSideBar>
-      <div className="tabs-holder">
-        <div className={tab === 1 ? 'tab active' : 'tab'} onClick={() => handleTabs(1)}>
-          <span>All Conversations</span>
-        </div>
-        <div className={tab === 2 ? 'tab active' : 'tab'} onClick={() => handleTabs(2)}>
-          <span>Starred</span>
-        </div>
-      </div>
       <div className="group-holder">
-        {groupData?.map((item, index) => (
-          <CommunityGroup
-            key={index}
-            type={item?.type}
-            image1={item?.image1}
-            image2={item?.image2}
-            image3={item?.image3}
-            title={item?.title}
-            text={item?.text}
-            time={item?.time}
-            messageCounter={item?.messageCounter}
-            groupActive={groupActive === index}
-            onClick={() => handleGroupActive(index)}
-          />
-        ))}
+        {conversations_loading
+          ? 'Loading...'
+          : conversations?.map((item, index) => (
+              <CommunityGroup
+                key={index}
+                isOnline={false}
+                image1={user?.profilePicture || profileplaceHolder}
+                image2={item?.participants[0]?.profilePicture || profileplaceHolder}
+                image3={
+                  item?.participants[1]?._id === user?._id
+                    ? item?.participants[2]
+                      ? item?.participants[2]?.profilePicture || profileplaceHolder
+                      : null
+                    : item?.participants[1]?.profilePicture || profileplaceHolder
+                }
+                title={renderParticipants(item?.participants)}
+                text={
+                  item?.lastMessage?.content ? (
+                    item?.lastMessage?.content
+                  ) : item?.lastMessage?.isPool ? (
+                    <>
+                      <FaPollH /> Poll
+                    </>
+                  ) : null
+                }
+                time={item?.updated_at}
+                messageCounter={chosenComDetails ? 0 : item?.unreadCount ?? 0}
+                groupActive={chosenComDetails?.conversationId === item?._id}
+                onClick={() => {
+                  handleChoseComDetails({
+                    conversationId: item?._id,
+                    author: user._id,
+                    receivers: item?.participants,
+                  });
+                }}
+              />
+            ))}
       </div>
     </StyledSideBar>
   );
