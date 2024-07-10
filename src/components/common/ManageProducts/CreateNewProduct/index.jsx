@@ -34,11 +34,11 @@ const CreateNewProduct = ({ handleCreateProduct, setCreateProductData }) => {
                 message: 'Please enter Product Name',
               },
               {
-                pattern: /^.{0,40}$/,
-                message: 'Please enter a valid Product Name',
+                pattern: /^.{3,40}$/,
+                message: 'Minimum character length of product name is 3',
               },
             ]}>
-            <Field />
+            <Field   maxLength={40}/>
           </Form.Item>
           <Form.Item
             type="text"
@@ -91,6 +91,10 @@ const CreateNewProduct = ({ handleCreateProduct, setCreateProductData }) => {
                 required: true,
                 message: 'Please enter Deadline',
               },
+              {
+                transform: value => new Date(value).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0),
+                message: 'Deadline Cannot be in the Past!',
+              },
             ]}>
             <Field />
           </Form.Item>
@@ -118,7 +122,7 @@ const CreateNewProduct = ({ handleCreateProduct, setCreateProductData }) => {
         </div>
         <div className="product-description">
           <div className="description-holder">
-            <Form.Item
+          <Form.Item
               type="textarea"
               label="Product Description"
               name="productDescription"
@@ -131,11 +135,11 @@ const CreateNewProduct = ({ handleCreateProduct, setCreateProductData }) => {
                   message: 'Please enter Product Description',
                 },
                 {
-                  pattern: /^.{0,256}$/,
-                  message: 'Product Description must be between 0 to 256',
+                  pattern: /^.{10,1000}$/,
+                  message: 'Minimum character length of product description is 10',
                 },
               ]}>
-              <Field />
+              <Field maxLength={1000} />
             </Form.Item>
           </div>
           <div className="description-holder">
@@ -152,11 +156,11 @@ const CreateNewProduct = ({ handleCreateProduct, setCreateProductData }) => {
                   message: 'Please enter Description',
                 },
                 {
-                  pattern: /^.{0,256}$/,
-                  message: 'Description must be between 0 to 256',
+                  pattern: /^.{10,1000}$/,
+                  message: 'Minimum character length of description is 10',
                 },
               ]}>
-              <Field />
+              <Field maxLength={1000} />
             </Form.Item>
           </div>
         </div>
@@ -301,11 +305,11 @@ const CreateNewProduct = ({ handleCreateProduct, setCreateProductData }) => {
                 message: 'Please enter Minimum Backers Limit',
               },
               {
-                pattern: /^.{0,2}$/,
-                message: 'Please enter a valid Backers Limit',
+                pattern: /^[1-9][0-9]{0,3}$/,
+                message: 'Please enter a valid limit between 1 and 9999',
               },
             ]}>
-            <Field />
+            <Field  maxLength={4}/>
           </Form.Item>
           <Form.Item
             type="number"
@@ -320,11 +324,15 @@ const CreateNewProduct = ({ handleCreateProduct, setCreateProductData }) => {
                 message: 'Please enter Maximum Backers Limit',
               },
               {
-                pattern: /^.{0,2}$/,
-                message: 'Please enter a valid Backers Limit',
+                pattern: /^[1-9][0-9]{0,3}$/,
+                message: 'Please enter a valid limit between 1 and 9999',
+              },
+              {
+                transform: value => value < +form.getFieldValue('minBackers'),
+                message: 'Maximun backers cannot be less than minimum backers!',
               },
             ]}>
-            <Field />
+            <Field maxLength={4}  />
           </Form.Item>
           <Form.Item
             type="number"
@@ -339,8 +347,12 @@ const CreateNewProduct = ({ handleCreateProduct, setCreateProductData }) => {
                 message: 'Please enter Total Asset Value',
               },
               {
-                pattern: /^.{0,8}$/,
-                message: 'Please enter a valid Backers Limit',
+                pattern: /^[1-9]\d*$/,
+                message: 'Asset value must be whole number (greater than zero)',
+              },
+              {
+                pattern: /^[1-9][0-9]{0,8}$/,
+                message: 'Please enter a valid number with up to 9 digits',
               },
             ]}>
             <Field />
@@ -358,8 +370,16 @@ const CreateNewProduct = ({ handleCreateProduct, setCreateProductData }) => {
                 message: 'Please enter Minimum Investment Value',
               },
               {
-                pattern: /^.{0,8}$/,
-                message: 'Please enter a valid Minimum Investment',
+                pattern: /^[1-9]\d*$/,
+                message: 'Minimum investment must be whole number (greater than zero)',
+              },
+              {
+                pattern: /^[1-9][0-9]{0,8}$/,
+                message: 'Please enter a valid number with up to 9 digits',
+              },
+              {
+                transform: value => value > +form.getFieldValue('assetValue'),
+                message: 'Minimum investment cannot be greater than asset value!',
               },
             ]}>
             <Field />

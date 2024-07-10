@@ -15,6 +15,7 @@ import DocumentViewerModal from '@/components/molecules/DocumentViewerModal';
 import Link from 'next/link';
 import KYCDeclineModal from '../../KYCDeclineModal';
 import declineIcon from '../../../../../public/assets/decline-icon.svg';
+import { downloadImage } from '@/helpers/common';
 
 const SellerKycRequest = ({ user, setkycApproved, setkycDecline, setApprovedorDeclinedKycLevel }) => {
   const { refetch } = useContextHook(AuthContext, v => ({
@@ -62,6 +63,8 @@ const SellerKycRequest = ({ user, setkycApproved, setkycDecline, setApprovedorDe
       setKycInfo(data?.finalKycData);
     });
   }, []);
+
+ 
 
   return (
     <>
@@ -118,10 +121,10 @@ const SellerKycRequest = ({ user, setkycApproved, setkycDecline, setApprovedorDe
                         alt="view"
                       />
                     </div>
-                    <div className="download">
-                      <Link href={ele?.url} download={fileName}>
+                    <div className="download" onClick={() => downloadImage(ele?.url, fileName)}>
+                      {/* <Link href={'#'} download={fileName}   > */}
                         <Image src={downloadIcon} alt="downloadIcon" />
-                      </Link>
+                      {/* </Link> */}
                     </div>
                   </div>
                 </div>

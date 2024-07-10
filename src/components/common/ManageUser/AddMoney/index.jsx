@@ -46,7 +46,7 @@ const AddMoney = ({ id, currentBalance, setMoneyAdded, setMoneyAddedMessage }) =
       <div className="formWrap">
         <Form form={form} onSubmit={handelSubmit}>
           <Form.Item
-            type="text"
+            type="number"
             label="Enter Amount"
             name="balanceAmount"
             sm
@@ -58,9 +58,9 @@ const AddMoney = ({ id, currentBalance, setMoneyAdded, setMoneyAddedMessage }) =
                 message: 'Amount is Required',
               },
               {
-                pattern: /^(0*[1-9]\d{0,5}|1000000)$/,
-                message: 'Please enter a valid Amount',
-              },
+                pattern: /^(?!0+(\.0+)?$)(0|[1-9]\d{0,6})(\.\d{1,2})?$/,
+                message: 'Please enter a valid limit between 0.01 and 9999999, with up to 2 decimal places',
+              }
             ]}>
             <Field />
           </Form.Item>

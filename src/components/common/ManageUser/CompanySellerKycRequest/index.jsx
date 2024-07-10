@@ -15,6 +15,7 @@ import { getKycFileName } from '@/helpers/common';
 import Link from 'next/link';
 import KYCDeclineModal from '../../KYCDeclineModal';
 import declineIcon from '../../../../../public/assets/decline-icon.svg';
+import { downloadImage } from '@/helpers/common';
 
 const CompanySellerKycRequest = ({ user, setkycApproved, setkycDecline, setApprovedorDeclinedKycLevel }) => {
   const { refetch } = useContextHook(AuthContext, v => ({
@@ -118,10 +119,10 @@ const CompanySellerKycRequest = ({ user, setkycApproved, setkycDecline, setAppro
                         alt="view"
                       />
                     </div>
-                    <div className="download">
-                      <Link href={ele?.url} download={fileName}>
+                    <div className="download" onClick={() => downloadImage(ele?.url, fileName)}>
+                      {/* <Link href={ele?.url} download={fileName}> */}
                         <Image src={downloadIcon} alt="downloadIcon" />
-                      </Link>
+                      {/* </Link> */}
                     </div>
                   </div>
                 </div>

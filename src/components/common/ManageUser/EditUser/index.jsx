@@ -113,6 +113,7 @@ const EditUserModal = ({ user, setSuccessUpdatedModal, onClose }) => {
               <Form.Item
                 type="text"
                 label="Email Address"
+                disabled={user?.email}
                 name="email"
                 sm
                 rounded
