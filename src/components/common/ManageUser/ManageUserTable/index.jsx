@@ -335,10 +335,11 @@ const ManageUserTable = ({ setUserCount }) => {
         {user.fullName || user.username || '------------'}
       </div>,
       user?.type || '------------',
+
       user?.totalAssets ?? 0 ?? '------------',
-      formatNumber(user?.totalInvestmentAmount) ?? 0 ?? '------------',
-      formatNumber(user?.wallet) ?? 0 ?? '------------',
-      user?.kycLevel === 3 ? 'Max Level' : `Level ${user?.kycLevel}` ?? '------------',
+      `$${formatNumber(user?.totalInvestmentAmount)}` ?? 0 ?? '----------',
+      `$${formatNumber(user?.wallet)}` ?? 0 ?? '----------',
+      `Level ${user?.kycLevel}` ?? '------------',
       user?.isVerified ? (
         <span className="status-approved">Approved</span>
       ) : (
@@ -358,8 +359,8 @@ const ManageUserTable = ({ setUserCount }) => {
       </div>,
       user?.isIndividualSeller ? 'Individual Seller' : 'Company Seller',
       user?.totalProducts ?? 0 ?? '------------',
-      `$ ${formatNumber(user?.totalRevenue)}.00` ?? 0 ?? '------------',
-      `$ ${formatNumber(user?.wallet)}.00` ?? 0 ?? '------------',
+      `$${formatNumber(user?.totalRevenue)}` ?? 0 ?? '------------',
+      `$${formatNumber(user?.wallet)}` ?? 0 ?? '------------',
       user?.kycLevel === 3 ? 'Level 3' : `Level ${user?.kycLevel}` ?? '------------',
       user?.isVerified ? (
         <span className="status-approved">Approved</span>

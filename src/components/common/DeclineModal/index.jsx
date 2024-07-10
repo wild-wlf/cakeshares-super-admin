@@ -61,7 +61,13 @@ const DeclineModal = ({ type, onClose, id, title = 'Decline Request!', btnText =
           name="declineReason"
           type="textarea"
           placeholder="Write Reason..."
-          rules={[{ required: true, message: 'Please Enter Decline Reason!' }]}>
+          rules={[{ required: true, message: 'Please Enter Decline Reason!' },
+            {
+              pattern: /^.{10,256}$/,
+              message: 'Product description must be between 10 and 256 characters.',
+            },
+
+          ]}>
           <Field />
         </Form.Item>
         <Button rounded md variant="danger" loader={isLoading} width="250" htmlType="submit">

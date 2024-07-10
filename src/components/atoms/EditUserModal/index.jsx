@@ -98,7 +98,7 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
         username: user?.username,
         email: user?.email,
         country: country || { value: '', label: '' },
-        dob: format(user?.dob, 'yyyy-MM-dd'),
+       // dob: format(user?.dob, 'yyyy-MM-dd'),
         bankName: user?.bank?.bankName,
         iban: user?.bank?.iban,
         swiftBicNumber: user?.bank?.swiftBicNumber,
@@ -165,6 +165,7 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
               <Form.Item
                 type="text"
                 label="Email Address"
+                disabled={user?.email}
                 name="email"
                 sm
                 rounded

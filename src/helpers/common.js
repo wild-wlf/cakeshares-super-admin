@@ -37,8 +37,32 @@ export const clearCookie = name => {
   return true;
 };
 
+
+export const downloadImage = async (url, fileName) => {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const blob = await response.blob();
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } catch (error) {
+    console.error('Failed to download image:', error);
+  }
+};
+
+
 export const formatNumber = number => {
-  return new Intl.NumberFormat().format(number);
+  return new Intl.NumberFormat('en-US', {
+    style: 'decimal',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(number);
 };
 
 export const convertPdfBase64 = file =>

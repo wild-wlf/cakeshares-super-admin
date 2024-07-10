@@ -25,6 +25,7 @@ import { MdModeEditOutline } from 'react-icons/md';
 import DeclineModal from '../../DeclineModal';
 import DeleteModal from '@/components/atoms/UserDeleteModal/DeleteModal';
 import { TableContainer } from '@/components/atoms/TableContainer/TableContainer.styles';
+import { formatNumber } from '@/helpers/common';
 
 const MangeProductsTable = ({ setProductCount }) => {
   const { fetch } = useContextHook(AuthContext, v => ({
@@ -207,10 +208,11 @@ const MangeProductsTable = ({ setProductCount }) => {
         _?.userId?.fullName || '------------',
         _?.product?.productName || '------------',
         _?.product?.investmentType?.name || '------------',
-        _?.investmentAmount ?? '------------',
+        `$${formatNumber(_?.investmentAmount)}` ?? 0 ?? '----------',
         actionBtnss(_),
       ]),
       investment_totalCount: investments_data?.totalItems,
+    
     };
   }, [investments_data]);
 
@@ -236,6 +238,7 @@ const MangeProductsTable = ({ setProductCount }) => {
         actionBtns(_),
       ]),
       product_totalCount: products_data?.totalItems,
+      
     };
   }, [products_data]);
 
@@ -316,6 +319,7 @@ const MangeProductsTable = ({ setProductCount }) => {
           }}
           currentPage={searchQuery.page}
           totalCount={investment_totalCount || product_totalCount}
+        
           // totalCounts={totalItems}
           pageSize={searchQuery.itemsPerPage}
           tab={tab}

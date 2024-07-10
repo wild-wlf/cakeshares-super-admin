@@ -29,7 +29,13 @@ const KYCDeclineModal = ({ declineKyc, isLoading }) => {
           name="declineReason"
           type="textarea"
           placeholder="Write Reason..."
-          rules={[{ required: true, message: 'Please Enter Decline Reason!' }]}>
+          rules={[
+            { required: true, message: 'Please Enter Decline Reason!' },
+            {
+              pattern: /^.{10,256}$/,
+              message: 'Product description must be between 10 and 256 characters.',
+            },
+          ]}>
           <Field />
         </Form.Item>
         <Button rounded loader={isLoading} md btntype="primary" width="250" htmlType="submit">
