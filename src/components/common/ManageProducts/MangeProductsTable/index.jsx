@@ -37,6 +37,8 @@ const MangeProductsTable = ({ setProductCount }) => {
   const [createProductSuccessModal, setCreateProductSuccessModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [productDetailModal, setProductDetailModal] = useState(false);
+  const [investmentData, setinvestmentData] = useState();
   const [productModal, setProductModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
@@ -65,7 +67,6 @@ const MangeProductsTable = ({ setProductCount }) => {
     products_data = result.products_data;
     products_loading = result.products_loading;
   }
-
   useEffect(() => {
     setProductCount(products_data?.allProductsinDb || investments_data?.allProductsinDb);
   }, [products_data?.allProductsinDb, investments_data?.allProductsinDb]);
@@ -179,10 +180,17 @@ const MangeProductsTable = ({ setProductCount }) => {
     }
   };
 
-  const actionBtnss = () => (
+  const actionBtnss = _ => (
     <ActionBtnList>
       <li>
-        <Button variant="secondary" custom xsCustom>
+        <Button
+          variant="secondary"
+          custom
+          xsCustom
+          onClick={() => {
+            setProductDetailModal(true);
+            setinvestmentData(_);
+          }}>
           <Image src={detailIcon} alt="detailIcon" />
           View Product
         </Button>
@@ -257,6 +265,13 @@ const MangeProductsTable = ({ setProductCount }) => {
 
   return (
     <>
+      <CenterModal
+        open={productDetailModal}
+        setOpen={setProductDetailModal}
+        title={`${investmentData?.product?.productName}`}
+        width="1030">
+        <ProductDetailModal product={investmentData?.product} />
+      </CenterModal>
       <CenterModal
         open={successModal}
         setOpen={setSuccessModal}
