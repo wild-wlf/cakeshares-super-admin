@@ -169,7 +169,7 @@ const ProductDetailModal = ({ product }) => {
           </div>
         ))}
       </div>
-      {product.isVerified === false && (
+      {product?.isVerified === false && (
         <div className="btn-holder">
           <Button
             variant="success"
