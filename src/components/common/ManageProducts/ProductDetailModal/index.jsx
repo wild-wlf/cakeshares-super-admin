@@ -19,6 +19,8 @@ const ProductDetailModal = ({ product }) => {
   }));
   const [isLoading, setIsLoading] = useState(false);
 
+
+
   const approveProduct = async (id, type) => {
     try {
       setIsLoading(true);
@@ -59,7 +61,11 @@ const ProductDetailModal = ({ product }) => {
       text: `(${formatDateWithSuffix(product?.deadline)} / ${daysLeft(product?.deadline)} left) `,
     },
     {
-      heading: 'KYC Level:',
+      heading: 'KYC Level:    ',
+      text: `Level ${product?.kycLevel}`,
+    },
+    {
+      heading: `${product?.userId?.sellerType  === 'Company' ? 'KYB Level': 'KYC Level'}`,
       text: `Level ${product?.kycLevel}`,
     },
   ];
@@ -86,12 +92,12 @@ const ProductDetailModal = ({ product }) => {
     },
     {
       heading: 'Min Investment:',
-      text: `$${product?.minimumInvestment?.toLocaleString('en-US')}`,
+      text: `$${Number(product?.minimumInvestment)?.toFixed(2).toLocaleString('en-US')}`,
     },
     {
       heading: 'Total Asset Value',
-      text: `$${product?.assetValue?.toLocaleString('en-US')}`,
-    },
+      text: `$${Number(product?.assetValue)?.toFixed(2).toLocaleString('en-US')}`,
+    }
   ];
   const productDescription = [
     {
@@ -163,7 +169,7 @@ const ProductDetailModal = ({ product }) => {
           </div>
         ))}
       </div>
-      {product.isVerified === false && (
+      {product?.isVerified === false && (
         <div className="btn-holder">
           <Button
             variant="success"

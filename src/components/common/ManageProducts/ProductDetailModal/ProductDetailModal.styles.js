@@ -119,6 +119,9 @@ export const StyledProductDetailModal = styled.div`
         padding: 15px;
         border: 1px solid var(--gray-4);
         border-radius: 20px;
+        p {
+          word-break: break-all;
+        }
         @media (max-width: 991px) {
           font-size: 14px;
           line-height: 18px;

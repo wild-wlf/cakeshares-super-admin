@@ -224,7 +224,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                 message: 'Minimum character length of product name is 3',
               },
             ]}>
-            <Field />
+            <Field  maxLength={40}/>
           </Form.Item>
           <Form.Item
             label="Investment Type"
@@ -333,7 +333,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                   message: 'Minimum character length of product description is 10',
                 },
               ]}>
-              <Field />
+              <Field maxLength={1000} />
             </Form.Item>
           </div>
           <div className="description-holder">
@@ -354,7 +354,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                   message: 'Minimum character length of Investment Reason is 10',
                 },
               ]}>
-              <Field />
+              <Field maxLength={1000} />
             </Form.Item>
           </div>
         </div>
@@ -474,10 +474,10 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
               },
               {
                 pattern: /^[1-9][0-9]{0,3}$/,
-                message: 'Please enter a valid limit between 1 and 1000',
+                message: 'Please enter a valid limit between 1 and 9999',
               },
             ]}>
-            <Field />
+            <Field maxLength={4} />
           </Form.Item>
           <Form.Item
             type="number"
@@ -493,10 +493,10 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
               },
               {
                 pattern: /^[1-9][0-9]{0,3}$/,
-                message: 'Please enter a valid limit between 1 and 1000',
+                message: 'Please enter a valid limit between 1 and 9999',
               },
               {
-                transform: value => value < +form.getFieldValue('minimumBackers'),
+                transform: value => value < +form.getFieldValue('minBackers'),
                 message: 'Maximun backers cannot be less than minimum backers!',
               },
             ]}>
@@ -515,12 +515,12 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                 message: 'Please enter Total Asset Value',
               },
               {
-                pattern: /^[1-9][0-9]{0,3}$/,
-                message: 'Please enter a valid value up to 4 digits',
-              },
-              {
                 pattern: /^[1-9]\d*$/,
                 message: 'Asset value must be whole number (greater than zero)',
+              },
+              {
+                pattern: /^[1-9][0-9]{0,8}$/,
+                message: 'Please enter a valid number with up to 9 digits',
               },
             ]}>
             <Field />
@@ -538,12 +538,12 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                 message: 'Please enter Minimum Investment Value',
               },
               {
-                pattern: /^[1-9][0-9]{0,3}$/,
-                message: 'Please enter a valid value up to 4 digits',
-              },
-              {
                 pattern: /^[1-9]\d*$/,
                 message: 'Minimum investment must be whole number (greater than zero)',
+              },
+              {
+                pattern: /^[1-9][0-9]{0,8}$/,
+                message: 'Please enter a valid number with up to 9 digits',
               },
               {
                 transform: value => value > +form.getFieldValue('assetValue'),

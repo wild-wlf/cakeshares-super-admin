@@ -68,6 +68,10 @@ const CreateRolesModal = ({ role, onClose }) => {
                   required: true,
                   message: 'Type is Required',
                 },
+                {
+                  pattern: /^.{2,20}$/,
+                  message: 'Type should be between 2 and 20 characters.',
+                },
               ]}>
               <Field />
             </Form.Item>
@@ -84,6 +88,10 @@ const CreateRolesModal = ({ role, onClose }) => {
                 {
                   required: true,
                   message: 'Description is Required',
+                },
+                {
+                  pattern: /^.{5,50}$/,
+                  message: 'Description should be between 2 and 20 characters.',
                 },
               ]}>
               <Field />

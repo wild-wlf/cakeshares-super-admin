@@ -2,7 +2,10 @@ import { clearCookie, getCookie } from './common';
 
 let trigger = false;
 function handleResponse(response) {
+
   if (response.status === 401 && !trigger && getCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE)) {
+    console.log(response)
+    console.log(getCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE))
     trigger = true;
     clearCookie(process.env.NEXT_PUBLIC_TOKEN_COOKIE);
     clearCookie(process.env.NEXT_PUBLIC_ALLOWED_PAGES_COOKIE);
