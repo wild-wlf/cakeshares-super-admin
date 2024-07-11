@@ -14,9 +14,9 @@ import { AuthContext } from '@/context/authContext';
 import categoryService from '@/services/categoryService';
 import { LoadScript, Autocomplete } from '@react-google-maps/api';
 import Image from 'next/image';
+import { validateAmenity } from '@/helpers/common';
 
 const EditProductModal = ({ product, setCreateProductSuccessModal, setProductModal }) => {
-  console.log(product);
   const { user, fetch, refetch } = useContextHook(AuthContext, v => ({
     user: v.user,
     fetch: v.fetch,
@@ -28,6 +28,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
   const [amenities, setAmenities] = useState(['']);
   const [images, setImages] = useState([]);
   const [searchValue, setSearchValue] = useState('');
+  const [addressDetails, setAddressDetails] = useState('');
 
   const { categories_data } = categoryService.GetAllCategories(
     {
@@ -65,6 +66,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
         kycLevel: data?.kycLevel.value,
         amenities,
         media,
+        addressDetails,
         ...(images?.length > 0 && { images }),
       };
 
@@ -77,6 +79,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
           });
         } else if (
           key === 'media' ||
+          key === 'addressDetails' ||
           (key === 'amenities' && (Array.isArray(payload[key]) || typeof payload[key] === 'object'))
         ) {
           formDataToSend.append(key, JSON.stringify(payload[key]));
@@ -116,6 +119,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
     try {
       let options = [];
       const response = await categoryService.getAllCategories({
+        getAll: true,
         searchText,
       });
       options = response?.items?.map(_ => ({ value: _?._id, label: _?.name }));
@@ -157,11 +161,41 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
         return field;
       });
     }
+    setSearchValue(product?.address);
   }, [product, categoriesOptions]);
 
   const libraries = ['places'];
   const handlePlaceSelect = place => {
     if (place.geometry && place.geometry.location) {
+      const address = {
+        street_address: place.name || '',
+        city: '',
+        state: '',
+        postal_code: '',
+        country: '',
+        latlng: {
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng(),
+        },
+      };
+
+      place.address_components.forEach(component => {
+        const types = component.types;
+        if (types.includes('locality')) {
+          address.city = component.long_name;
+        }
+        if (types.includes('administrative_area_level_1')) {
+          address.state = component.short_name;
+        }
+        if (types.includes('postal_code')) {
+          address.postal_code = component.long_name;
+        }
+        if (types.includes('country')) {
+          address.country = component.short_name;
+        }
+      });
+      setAddressDetails(address);
+
       setSearchValue(place.name?.concat(` ${place.formatted_address}`));
       form.setFieldsValue({
         address: place.name?.concat(` ${place.formatted_address}`),
@@ -191,7 +225,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                 message: 'Minimum character length of product name is 3',
               },
             ]}>
-            <Field  maxLength={40}/>
+            <Field maxLength={40} />
           </Form.Item>
           <Form.Item
             label="Investment Type"
@@ -216,7 +250,6 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                 onLoad={autocomplete =>
                   autocomplete.addListener('place_changed', () => {
                     handlePlaceSelect(autocomplete.getPlace());
-                    // console.log(autocomplete.getPlace());
                   })
                 }>
                 <Form.Item
@@ -319,7 +352,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                 },
                 {
                   pattern: /^.{10,1000}$/,
-                  message: 'Minimum character length of product description is 10',
+                  message: 'Minimum character length of Investment Reason is 10',
                 },
               ]}>
               <Field maxLength={1000} />
@@ -412,8 +445,13 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                       message: 'Please enter Amentity',
                     },
                     {
-                      pattern: /^.{0,40}$/,
-                      message: 'Maximum Character Length is 40',
+                      pattern: /^.{3,20}$/,
+                      message: 'Please enter a valid amenity',
+                    },
+                    {
+                      transform: value =>
+                        amenities.length !== product?.amenities.length && validateAmenity(value, amenities) === true,
+                      message: 'Amenity already added!',
                     },
                   ]}>
                   <Field />
