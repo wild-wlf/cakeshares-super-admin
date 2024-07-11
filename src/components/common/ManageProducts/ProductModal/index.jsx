@@ -119,6 +119,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
     try {
       let options = [];
       const response = await categoryService.getAllCategories({
+        getAll: true,
         searchText,
       });
       options = response?.items?.map(_ => ({ value: _?._id, label: _?.name }));
@@ -224,7 +225,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                 message: 'Minimum character length of product name is 3',
               },
             ]}>
-            <Field  maxLength={40}/>
+            <Field maxLength={40} />
           </Form.Item>
           <Form.Item
             label="Investment Type"
