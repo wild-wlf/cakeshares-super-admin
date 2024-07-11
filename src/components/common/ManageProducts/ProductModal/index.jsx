@@ -14,9 +14,9 @@ import { AuthContext } from '@/context/authContext';
 import categoryService from '@/services/categoryService';
 import { LoadScript, Autocomplete } from '@react-google-maps/api';
 import Image from 'next/image';
+import { validateAmenity } from '@/helpers/common';
 
 const EditProductModal = ({ product, setCreateProductSuccessModal, setProductModal }) => {
-  console.log(product);
   const { user, fetch, refetch } = useContextHook(AuthContext, v => ({
     user: v.user,
     fetch: v.fetch,
@@ -28,6 +28,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
   const [amenities, setAmenities] = useState(['']);
   const [images, setImages] = useState([]);
   const [searchValue, setSearchValue] = useState('');
+  const [addressDetails, setAddressDetails] = useState('');
 
   const { categories_data } = categoryService.GetAllCategories(
     {
@@ -65,6 +66,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
         kycLevel: data?.kycLevel.value,
         amenities,
         media,
+        addressDetails,
         ...(images?.length > 0 && { images }),
       };
 
@@ -77,6 +79,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
           });
         } else if (
           key === 'media' ||
+          key === 'addressDetails' ||
           (key === 'amenities' && (Array.isArray(payload[key]) || typeof payload[key] === 'object'))
         ) {
           formDataToSend.append(key, JSON.stringify(payload[key]));
@@ -157,11 +160,41 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
         return field;
       });
     }
+    setSearchValue(product?.address);
   }, [product, categoriesOptions]);
 
   const libraries = ['places'];
   const handlePlaceSelect = place => {
     if (place.geometry && place.geometry.location) {
+      const address = {
+        street_address: place.name || '',
+        city: '',
+        state: '',
+        postal_code: '',
+        country: '',
+        latlng: {
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng(),
+        },
+      };
+
+      place.address_components.forEach(component => {
+        const types = component.types;
+        if (types.includes('locality')) {
+          address.city = component.long_name;
+        }
+        if (types.includes('administrative_area_level_1')) {
+          address.state = component.short_name;
+        }
+        if (types.includes('postal_code')) {
+          address.postal_code = component.long_name;
+        }
+        if (types.includes('country')) {
+          address.country = component.short_name;
+        }
+      });
+      setAddressDetails(address);
+
       setSearchValue(place.name?.concat(` ${place.formatted_address}`));
       form.setFieldsValue({
         address: place.name?.concat(` ${place.formatted_address}`),
@@ -187,8 +220,8 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                 message: 'Please enter Product Name',
               },
               {
-                pattern: /^.{0,40}$/,
-                message: 'Please enter a valid Product Name',
+                pattern: /^.{3,40}$/,
+                message: 'Minimum character length of product name is 3',
               },
             ]}>
             <Field />
@@ -216,7 +249,6 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                 onLoad={autocomplete =>
                   autocomplete.addListener('place_changed', () => {
                     handlePlaceSelect(autocomplete.getPlace());
-                    // console.log(autocomplete.getPlace());
                   })
                 }>
                 <Form.Item
@@ -297,8 +329,8 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                   message: 'Please enter Product Description',
                 },
                 {
-                  pattern: /^.{0,256}$/,
-                  message: 'Product Description must be between 0 to 256',
+                  pattern: /^.{10,1000}$/,
+                  message: 'Minimum character length of product description is 10',
                 },
               ]}>
               <Field />
@@ -318,8 +350,8 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                   message: 'Please enter Description',
                 },
                 {
-                  pattern: /^.{0,256}$/,
-                  message: 'Description must be between 0 to 256',
+                  pattern: /^.{10,1000}$/,
+                  message: 'Minimum character length of Investment Reason is 10',
                 },
               ]}>
               <Field />
@@ -412,8 +444,13 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                       message: 'Please enter Amentity',
                     },
                     {
-                      pattern: /^.{0,40}$/,
-                      message: 'Maximum Character Length is 40',
+                      pattern: /^.{3,20}$/,
+                      message: 'Please enter a valid amenity',
+                    },
+                    {
+                      transform: value =>
+                        amenities.length !== product?.amenities.length && validateAmenity(value, amenities) === true,
+                      message: 'Amenity already added!',
                     },
                   ]}>
                   <Field />
@@ -436,8 +473,8 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                 message: 'Please enter Minimum Backers Limit',
               },
               {
-                pattern: /^.{0,2}$/,
-                message: 'Please enter a valid Backers Limit',
+                pattern: /^[1-9][0-9]{0,3}$/,
+                message: 'Please enter a valid limit between 1 and 1000',
               },
             ]}>
             <Field />
@@ -455,11 +492,15 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                 message: 'Please enter Maximum Backers Limit',
               },
               {
-                pattern: /^.{0,2}$/,
-                message: 'Please enter a valid Backers Limit',
+                pattern: /^[1-9][0-9]{0,3}$/,
+                message: 'Please enter a valid limit between 1 and 1000',
+              },
+              {
+                transform: value => value < +form.getFieldValue('minimumBackers'),
+                message: 'Maximun backers cannot be less than minimum backers!',
               },
             ]}>
-            <Field />
+            <Field maxLength={4} />
           </Form.Item>
           <Form.Item
             type="number"
@@ -474,8 +515,12 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                 message: 'Please enter Total Asset Value',
               },
               {
-                pattern: /^.{0,8}$/,
-                message: 'Please enter a valid Backers Limit',
+                pattern: /^[1-9][0-9]{0,3}$/,
+                message: 'Please enter a valid value up to 4 digits',
+              },
+              {
+                pattern: /^[1-9]\d*$/,
+                message: 'Asset value must be whole number (greater than zero)',
               },
             ]}>
             <Field />
@@ -493,8 +538,16 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                 message: 'Please enter Minimum Investment Value',
               },
               {
-                pattern: /^.{0,8}$/,
-                message: 'Please enter a valid Minimum Investment',
+                pattern: /^[1-9][0-9]{0,3}$/,
+                message: 'Please enter a valid value up to 4 digits',
+              },
+              {
+                pattern: /^[1-9]\d*$/,
+                message: 'Minimum investment must be whole number (greater than zero)',
+              },
+              {
+                transform: value => value > +form.getFieldValue('assetValue'),
+                message: 'Minimum investment cannot be greater than asset value!',
               },
             ]}>
             <Field />

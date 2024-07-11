@@ -41,6 +41,15 @@ export const formatNumber = number => {
   return new Intl.NumberFormat().format(number);
 };
 
+export const validateAmenity = (e, arr) => {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === e) {
+      return true;
+    }
+  }
+  return false;
+};
+
 export const convertPdfBase64 = file =>
   new Promise(resolve => {
     const reader = new FileReader();
