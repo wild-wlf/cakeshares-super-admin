@@ -19,8 +19,6 @@ const ProductDetailModal = ({ product }) => {
   }));
   const [isLoading, setIsLoading] = useState(false);
 
-
-
   const approveProduct = async (id, type) => {
     try {
       setIsLoading(true);
@@ -61,11 +59,7 @@ const ProductDetailModal = ({ product }) => {
       text: `(${formatDateWithSuffix(product?.deadline)} / ${daysLeft(product?.deadline)} left) `,
     },
     {
-      heading: 'KYC Level:    ',
-      text: `Level ${product?.kycLevel}`,
-    },
-    {
-      heading: `${product?.userId?.sellerType  === 'Company' ? 'KYB Level': 'KYC Level'}`,
+      heading: `${product?.userId?.sellerType === 'Company' ? 'KYB Level' : 'KYC Level'}`,
       text: `Level ${product?.kycLevel}`,
     },
   ];
@@ -97,7 +91,7 @@ const ProductDetailModal = ({ product }) => {
     {
       heading: 'Total Asset Value',
       text: `$${Number(product?.assetValue)?.toFixed(2).toLocaleString('en-US')}`,
-    }
+    },
   ];
   const productDescription = [
     {
@@ -132,23 +126,25 @@ const ProductDetailModal = ({ product }) => {
           </div>
         ))}
       </div>
-      {product?.media?.map((item, index) => (
+      {product?.media && product?.media?.length > 0 && (
         <div className="product-media">
           <span className="heading">Product Media:</span>
           <div className="product-images">
-            <div className="img-holder" key={index}>
-              {item && item.endsWith('.mp4') ? (
-                <video width={319} height={191} autoPlay>
-                  <source src={item} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              ) : (
-                <Image src={item} alt="productImg1" width={319} height={191} />
-              )}
-            </div>
+            {product?.media?.map((item, index) => (
+              <div className="img-holder" key={index}>
+                {item && item.endsWith('.mp4') ? (
+                  <video width={319} height={191} autoPlay>
+                    <source src={item} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  <Image src={item} alt="productImg1" width={319} height={191} />
+                )}
+              </div>
+            ))}
           </div>
         </div>
-      ))}
+      )}
       {product?.amenities && product?.amenities?.length > 0 && (
         <div className="amenities-holder">
           <span className="heading">Amenities:</span>
