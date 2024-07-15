@@ -49,7 +49,7 @@ const UpdatePassword = ({ user }) => {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user.new_password) {
       form.setFieldsValue({
         new_password: user.new_password,
       });
@@ -80,9 +80,15 @@ const UpdatePassword = ({ user }) => {
               rounded
               placeholder="Enter Text..."
               rules={[
+                { password: true },
                 {
                   required: true,
                   message: 'Password is Required',
+                },
+                {
+                  pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,64}$/,
+                  message:
+                    'Password must be 8 to 64 char long with 1 special character, 1 number, and 1 capital and small alphabet',
                 },
               ]}>
               <Field />
