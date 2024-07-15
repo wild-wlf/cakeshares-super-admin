@@ -91,7 +91,7 @@ const CreateRolesModal = ({ role, onClose }) => {
                 },
                 {
                   pattern: /^.{5,50}$/,
-                  message: 'Description should be between 2 and 20 characters.',
+                  message: 'Description should be between 5 and 50 characters.',
                 },
               ]}>
               <Field />
