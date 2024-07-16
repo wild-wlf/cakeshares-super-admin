@@ -46,6 +46,38 @@ const categoryService = {
     const { message } = await res.json();
     throw new Error(message ?? 'Something Went Wrong');
   },
+
+  async createCategory(payload, isFile) {
+    const url = `${this._url}`;
+    let res;
+    if (isFile) {
+      res = await Fetch.upload(`${url}/create-category`, 'POST', payload);
+    } else {
+      res = await Fetch.post(`${url}/create-category`, payload);
+    }
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    }
+    const { message } = await res.json();
+    throw new Error(message ?? 'Something Went Wrong');
+  },
+
+  async updateCategory(id, payload, isFile) {
+    const url = `${this._url}`;
+    let res;
+    if (isFile) {
+      res = await Fetch.upload(`${url}/update-category/${id}`, 'PUT', payload);
+    } else {
+      res = await Fetch.put(`${url}/update-category/${id}`, payload);
+    }
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    }
+    const { message } = await res.json();
+    throw new Error(message ?? 'Something Went Wrong');
+  },
 };
 
 export default categoryService;
