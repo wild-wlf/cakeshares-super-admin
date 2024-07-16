@@ -28,6 +28,11 @@ export const indivisualSellerNav = [
         name: 'Manage Products',
         icon: Portfolio,
       },
+      {
+        navigation: '/manage-categories',
+        name: 'Manage Categories',
+        icon: Portfolio,
+      },
     ],
   },
   {
