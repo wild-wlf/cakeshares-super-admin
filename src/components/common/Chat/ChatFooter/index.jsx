@@ -15,7 +15,7 @@ import { useContextHook } from 'use-context-hook';
 import { sendComMsg } from '@/helpers/socketConnection';
 import CenterModal from '@/components/molecules/Modal/CenterModal';
 
-const ChatFooter = ({ chosenComDetails, type }) => {
+const ChatFooter = ({ chosenComDetails, type,receivers,channelName }) => {
   const [form] = useForm();
   const { user } = useContextHook(AuthContext, v => ({
     user: v.user,
@@ -29,6 +29,8 @@ const ChatFooter = ({ chosenComDetails, type }) => {
       conversationId: chosenComDetails?.conversationId,
       type,
       user_type: 'admin',
+      channelName: channelName,
+      receivers
     });
     form.setFieldsValue({ message: '' });
     form.setFieldsError({ message: { message: '' } });
