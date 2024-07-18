@@ -13,7 +13,7 @@ import Toast from '@/components/molecules/Toast';
 const EditAdminModal = ({ admin, onClose }) => {
   console.log(admin);
   const [form] = useForm();
-  const [profilePicture, setProfilePicture] = useState();
+  const [profilePicture, setProfilePicture] = useState('');
   const [loading, setLoading] = useState(false);
 
   const { refetch } = useContextHook(AuthContext, v => ({
