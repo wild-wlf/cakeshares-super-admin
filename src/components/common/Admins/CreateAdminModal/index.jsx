@@ -12,7 +12,7 @@ import { AuthContext } from '@/context/authContext';
 
 const CreateAdminModal = ({ onClose }) => {
   const [form] = useForm();
-  const [profilePicture, setProfilePicture] = useState();
+  const [profilePicture, setProfilePicture] = useState('');
   const [loading, setLoading] = useState(false);
 
   const { refetch } = useContextHook(AuthContext, v => ({
