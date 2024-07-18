@@ -49,6 +49,31 @@ export const connectionWithSocketServer = token => {
 
 export const socketServer = () => socket;
 
+
+export const startChat = data => {
+  if (socket && data) {
+    socket.emit('startChat', data);
+  }
+};
+
+export const endChat = data => {
+  if (socket && data) {
+    socket.emit('endChat', data);
+  }
+};
+
+export const joinGroupChat = data => {
+  if (socket && data) {
+    socket.emit('joinGroupChat', data);
+  }
+};
+
+export const leaveGroupChat = data => {
+  if (socket && data) {
+    socket.emit('leaveGroupChat', data);
+  }
+};
+
 export const setSeenMessage = data => {
   if (data && socket) {
     socket?.emit('get-seen-message', data);

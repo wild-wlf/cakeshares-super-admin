@@ -11,9 +11,12 @@ import { useContextHook } from 'use-context-hook';
 import notificationService from '@/services/notificationservice';
 import Loader from '@/components/molecules/Loader';
 import { updateChatIfActive } from '@/helpers/comMsgHandlers';
+import { joinGroupChat, leaveGroupChat } from '@/helpers/socketConnection';
 
 const Chat = ({ chosenComDetails, type }) => {
   const [chatMessages, setChatMessages] = useState([]);
+  const [receivers, setreceivers] = useState([]);
+  const [channelName, setChannelName] = useState(null);
   const { user, fetch } = useContextHook(AuthContext, v => ({
     user: v.user,
     fetch: v.fetch,
@@ -35,13 +38,17 @@ const Chat = ({ chosenComDetails, type }) => {
   );
 
   useEffect(() => {
-    setSearchQuery(prev => ({ ...prev, ['conversationId']: chosenComDetails?.conversationId }));
+    setSearchQuery(prev => ({ ...prev, ['conversationId']: chosenComDetails?.conversationI, page: 1 }));
+    setChatMessages([]);
+    setChatLoading(true);
   }, [chosenComDetails?.conversationId]);
 
   useEffect(() => {
     if (messages_data?.messages?.length > 0) {
       setChatMessages(prev => [...messages_data?.messages, ...prev]);
+      setreceivers(messages_data?.messages[messages_data?.messages.length - 1]?.receivers);
       setMoreMsgLoading(false);
+      setChannelName(messages_data?.messages[0]?.conversationId?.channelName);
     }
   }, [messages_data]);
 
@@ -70,6 +77,7 @@ const Chat = ({ chosenComDetails, type }) => {
       });
       handleScrollToBottom();
     });
+    setreceivers(event?.detail?.participants);
 
     // Clean up the event listener on component unmount
     return () => {
@@ -83,6 +91,23 @@ const Chat = ({ chosenComDetails, type }) => {
       setMoreMsgLoading(true);
     }
   };
+
+  useEffect(() => {
+    const handleEndChat = () => {
+      leaveGroupChat({ userId: user?._id, groupId: channelName });
+    };
+
+    joinGroupChat({ userId: user?._id, groupId: channelName });
+
+    window.addEventListener('beforeunload', handleEndChat);
+    window.addEventListener('unload', handleEndChat);
+
+    return () => {
+      handleEndChat();
+      window.removeEventListener('beforeunload', handleEndChat);
+      window.removeEventListener('unload', handleEndChat);
+    };
+  }, [channelName]);
 
   return (
     <ChatWrapper>
@@ -106,36 +131,47 @@ const Chat = ({ chosenComDetails, type }) => {
               <Loader />
             </div>
           ) : (
-            chatMessages?.map((item, index) =>
-              item?.isPool ? (
-                <Pole
-                  type={item?.author?._id === user?._id ? 'seen' : 'send'}
-                  time={item?.created_at}
-                  key={index}
-                  question={item?.pool?.question}
-                  options={item?.pool?.options}
-                  allow_multiple={item?.pool?.allow_multiple}
-                  receivers={item?.receivers}
-                  showImage={item?.author?.profilePicture}
-                  readBy={item?.readBy?.length >= item?.receivers?.length}
-                  messageId={item?._id}
-                />
-              ) : (
-                <ChatMessage
-                  key={index}
-                  type={item?.author?._id === user?._id ? 'seen' : 'send'}
-                  message={item.content}
-                  time={item?.created_at}
-                  readBy={item?.readBy?.length >= item?.receivers?.length}
-                  messageId={item?._id}
-                  receivers={item?.receivers}
-                  showImage={item?.author?.profilePicture}
-                />
-              ),
-            )
+            chatMessages
+              ?.filter(
+                item =>
+                  item.conversationId._id === chosenComDetails?.conversationId ||
+                  item.conversationId === chosenComDetails?.conversationId,
+              )
+              ?.map((item, index) =>
+                item?.isPool ? (
+                  <Pole
+                    type={item?.author?._id === user?._id ? 'seen' : 'send'}
+                    time={item?.created_at}
+                    key={index}
+                    question={item?.pool?.question}
+                    options={item?.pool?.options}
+                    allow_multiple={item?.pool?.allow_multiple}
+                    receivers={item?.receivers}
+                    showImage={item?.author?.profilePicture}
+                    readBy={item?.readBy?.length >= item?.receivers?.length}
+                    messageId={item?._id}
+                  />
+                ) : (
+                  <ChatMessage
+                    key={index}
+                    type={item?.author?._id === user?._id ? 'seen' : 'send'}
+                    message={item.content}
+                    time={item?.created_at}
+                    readBy={item?.readBy?.length >= item?.receivers?.length}
+                    messageId={item?._id}
+                    receivers={item?.receivers}
+                    showImage={item?.author?.profilePicture}
+                  />
+                ),
+              )
           )}
         </ChatBody>
-        <ChatFooter chosenComDetails={chosenComDetails} type={type} />
+        <ChatFooter
+          chosenComDetails={chosenComDetails}
+          type={type}
+          receivers={receivers?.map(receiver => receiver?._id?.toString()) || receivers}
+          channelName={channelName}
+        />
       </div>
       <div className="hamburger" onClick={() => document.body.classList.toggle('chat-sidebar-active')}>
         <RiMenu3Fill size={30} />
