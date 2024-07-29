@@ -33,7 +33,7 @@ export const AuthContextProvider = props => {
     '/manage-user',
     '/manage-products',
     '/community-chat',
-    '/stakeholder-chat',
+    '/shareholder-chat',
     '/settings',
   ];
 
