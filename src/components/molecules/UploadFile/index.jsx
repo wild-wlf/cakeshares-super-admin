@@ -29,6 +29,7 @@ const UploadFile = ({
   img = '',
   id = 'upload',
   noMargin,
+  isDoc,
   ...props
 }) => {
   const { CSVReader } = useCSVReader();
@@ -97,7 +98,7 @@ const UploadFile = ({
   return (
     <StyledUploadFile $bg={bg} $noMargin={noMargin}>
       {label && <span className="label-text">{title}</span>}
-      {type === 'img' && (
+      {type === 'img' && !isDoc && (
         <label htmlFor={id} className="labelButton">
           {!uploaded && (
             <span className="upload-text">
@@ -129,20 +130,21 @@ const UploadFile = ({
         </label>
       )}
 
-      {type === 'file' && (
-        <label htmlFor={id} className="labelButton">
-          <span className="upload-text">
-            <Image className="icon-img" src={UploadImg} alt="icon" />
-            <span className="text-lg">{uploadTitle}</span>
-            <span className="text">{disc}</span>
-            {uploaded && (
-              <span className="uploaded-file-name">
-                {getFileName()}.{getFileExtension()}
-              </span>
-            )}
-          </span>
-        </label>
-      )}
+      {type === 'file' ||
+        (isDoc && (
+          <label htmlFor={id} className="labelButton">
+            <span className="upload-text">
+              <Image className="icon-img" src={UploadImg} alt="icon" />
+              <span className="text-lg">{uploadTitle}</span>
+              <span className="text">{disc}</span>
+              {uploaded && (
+                <span className="uploaded-file-name">
+                  {getFileName()}.{getFileExtension()}
+                </span>
+              )}
+            </span>
+          </label>
+        ))}
       <input type="file" id={id} accept={accept} onChange={e => handelChange(e)} />
       {type === 'csv' && (
         <CSVReader

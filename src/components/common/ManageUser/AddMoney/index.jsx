@@ -22,8 +22,15 @@ const AddMoney = ({ id, currentBalance, setMoneyAdded, setMoneyAddedMessage }) =
       const payload = {
         userId: id,
         balanceAmount: data?.balanceAmount,
+        paymentProofDocument: data?.paymentProofDocument,
       };
-      const resp = await walletService.addBalance(payload);
+
+      const formDataToSend = new FormData();
+      Object.keys(payload).forEach(key => {
+        formDataToSend.append(key, payload[key]);
+      });
+
+      const resp = await walletService.addBalance(formDataToSend);
       setMoneyAddedMessage(resp.message);
       setMoneyAdded(true);
       refetch();
@@ -45,25 +52,42 @@ const AddMoney = ({ id, currentBalance, setMoneyAdded, setMoneyAddedMessage }) =
       </div>
       <div className="formWrap">
         <Form form={form} onSubmit={handelSubmit}>
-          <Form.Item
-            type="number"
-            label="Enter Amount"
-            name="balanceAmount"
-            sm
-            rounded
-            placeholder="$25,000"
-            rules={[
-              {
-                required: true,
-                message: 'Amount is Required',
-              },
-              {
-                pattern: /^(?!0+(\.0+)?$)(0|[1-9]\d{0,6})(\.\d{1,2})?$/,
-                message: 'Please enter a valid limit between 0.01 and 9999999, with up to 2 decimal places',
-              }
-            ]}>
-            <Field />
-          </Form.Item>
+          <div className="combineFields">
+            <Form.Item
+              type="number"
+              label="Enter Amount"
+              name="balanceAmount"
+              sm
+              rounded
+              placeholder="$25,000"
+              rules={[
+                {
+                  required: true,
+                  message: 'Amount is Required',
+                },
+                {
+                  pattern: /^(?!0+(\.0+)?$)(0|[1-9]\d{0,6})(\.\d{1,2})?$/,
+                  message: 'Please enter a valid limit between 0.01 and 9999999, with up to 2 decimal places',
+                },
+              ]}>
+              <Field />
+            </Form.Item>
+            <Form.Item
+              name="paymentProofDocument"
+              rules={[{ required: true, message: 'Please Upload Payment Proof Document!' }]}>
+              <Field
+                label="Payment Proof Document"
+                rounded
+                disc="File size must be less than or equal to 1MB in JPEG, JPG, PNG or PDF format."
+                type="img"
+                isDoc
+                noMargin
+                fileSize="1"
+                accept="image/jpeg, image/jpg, image/png, application/pdf"
+                uploadTitle="You can upload upto 1MB, Image (JPEG, JPG, PNG or PDF)"
+              />
+            </Form.Item>
+          </div>
 
           <Button rounded md btntype="primary" loader={isLoading} width="170" htmlType="submit">
             Add Money

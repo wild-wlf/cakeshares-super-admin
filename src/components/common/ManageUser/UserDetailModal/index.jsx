@@ -111,7 +111,11 @@ const UserDetailModal = ({
                 width={600}
                 title="Add Money to Wallet"
                 btnComponent={({ onClick }) => (
-                  <Button disable={!user?.isVerified} variant="success" $custom onClick={onClick}>
+                  <Button
+                    disable={!user?.isVerified || user?.requestPaymentWallet?.length > 0}
+                    variant="success"
+                    $custom
+                    onClick={onClick}>
                     Add Balance
                   </Button>
                 )}

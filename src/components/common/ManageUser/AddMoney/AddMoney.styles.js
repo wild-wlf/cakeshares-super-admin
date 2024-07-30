@@ -16,4 +16,9 @@ export const StyledAddMoney = styled.div`
   .balanceWrap {
     display: flex;
   }
+  .formWrap {
+    .combineFields {
+      margin-bottom: 13px;
+    }
+  }
 `;
