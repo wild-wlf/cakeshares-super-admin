@@ -139,6 +139,7 @@ const ManageUserTable = ({ setUserCount }) => {
                   onClose={onClose}
                   title="Approve Money"
                   text={`Are you sure you want to approve $${user?.requestPaymentWallet[0].amount || 0} of this user?`}
+                  docUrl={user?.requestPaymentWallet[0].paymentProofDocument}
                 />
               )}
             />
@@ -256,6 +257,7 @@ const ManageUserTable = ({ setUserCount }) => {
                   onClose={onClose}
                   title="Approve Money"
                   text={`Are you sure you want to approve $${user?.requestPaymentWallet[0].amount || 0} of this user?`}
+                  docUrl={user?.requestPaymentWallet[0].paymentProofDocument}
                 />
               )}
             />

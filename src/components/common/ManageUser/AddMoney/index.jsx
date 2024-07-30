@@ -22,8 +22,15 @@ const AddMoney = ({ id, currentBalance, setMoneyAdded, setMoneyAddedMessage }) =
       const payload = {
         userId: id,
         balanceAmount: data?.balanceAmount,
+        paymentProofDocument: data?.paymentProofDocument,
       };
-      const resp = await walletService.addBalance(payload);
+
+      const formDataToSend = new FormData();
+      Object.keys(payload).forEach(key => {
+        formDataToSend.append(key, payload[key]);
+      });
+
+      const resp = await walletService.addBalance(formDataToSend);
       setMoneyAddedMessage(resp.message);
       setMoneyAdded(true);
       refetch();
@@ -71,12 +78,13 @@ const AddMoney = ({ id, currentBalance, setMoneyAdded, setMoneyAddedMessage }) =
               <Field
                 label="Payment Proof Document"
                 rounded
-                disc="File size must be less than or equal to 1MB in JPEG, JPG or PNG format."
+                disc="File size must be less than or equal to 1MB in JPEG, JPG, PNG or PDF format."
                 type="img"
+                isDoc
                 noMargin
                 fileSize="1"
-                accept="image/jpeg, image/jpg, image/png"
-                uploadTitle="You can upload upto 1MB, Image (JPEG, JPG or PNG)"
+                accept="image/jpeg, image/jpg, image/png, application/pdf"
+                uploadTitle="You can upload upto 1MB, Image (JPEG, JPG, PNG or PDF)"
               />
             </Form.Item>
           </div>
