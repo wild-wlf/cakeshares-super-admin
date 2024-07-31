@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { ActionBtnList } from '@/components/atoms/ActionBtns/ActionBtns.styles';
 import Table from '@/components/molecules/Table';
 import TableLayout from '@/components/atoms/TableLayout';
@@ -20,7 +20,7 @@ import { format } from 'date-fns';
 import { AuthContext } from '@/context/authContext';
 import { useContextHook } from 'use-context-hook';
 
-const RolesTable = () => {
+const RolesTable = ({ setRoleCount }) => {
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
     pageSize: 10,
@@ -84,6 +84,11 @@ const RolesTable = () => {
     }),
     [roles_data],
   );
+
+  useEffect(() => {
+    setRoleCount(roles_data?.allRolesInDb);
+  }, [roles_data?.allRolesInDb]);
+
   const columnNamess = [`Created at`, `Type`, `Description`, 'Actions'];
   return (
     <>

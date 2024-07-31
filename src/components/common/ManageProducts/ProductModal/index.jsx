@@ -29,21 +29,21 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
   const [images, setImages] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [addressDetails, setAddressDetails] = useState('');
+  const [formattedAddress, setFormattedAddress] = useState();
 
   const { categories_data } = categoryService.GetAllCategories(
     {
       itemsPerPage: 10,
+      getAll: true,
     },
     fetch,
   );
 
   const categoriesOptions = useMemo(() => {
-    return categories_data?.items
-      ?.filter(item => item?.status !== 'Inactive')
-      ?.map(ele => ({
-        value: ele?._id,
-        label: ele?.name,
-      }));
+    return categories_data?.items?.map(ele => ({
+      value: ele?._id,
+      label: ele?.name,
+    }));
   }, [categories_data?.items]);
 
   const kycOptions = [
@@ -200,6 +200,11 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
       form.setFieldsValue({
         address: place.name?.concat(` ${place.formatted_address}`),
       });
+      setFormattedAddress({
+        address: place.name?.concat(` ${place.formatted_address}`),
+      });
+      form.setFieldRules('address', [{ pattern: /.*/ }]);
+      form.removeFieldError('address');
     }
   };
 
@@ -261,15 +266,24 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                   placeholder="Please enter address"
                   value={searchValue}
                   onChange={e => {
-                    form.setFieldsValue({
-                      address: e.target.value,
-                    });
+                    if (
+                      (e.target.value && formattedAddress && e.target.value !== formattedAddress?.address) ||
+                      e.target.value === ''
+                    ) {
+                      form.setFieldRules('address', [{ pattern: /(?!)/, message: 'Please enter a valid Address' }]);
+                      form.setFieldsError({
+                        address: { message: 'Please enter a valid Address' },
+                      });
+                    } else if (formattedAddress && formattedAddress?.address === e.target.value) {
+                      form.setFieldRules('address', [{ pattern: /.*/ }]);
+                      form.removeFieldError('address');
+                    }
                     setSearchValue(e.target.value);
                   }}
                   rules={[
                     {
                       required: true,
-                      message: 'Please enter Address',
+                      message: 'Please select Address',
                     },
                     {
                       pattern: /^.{0,256}$/,
@@ -477,6 +491,11 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                 pattern: /^[1-9][0-9]{0,3}$/,
                 message: 'Please enter a valid limit between 1 and 9999',
               },
+              {
+                transform: value => {
+                  if (value < +form.getFieldValue('maximumBackers')) form.removeFieldError('maximumBackers');
+                },
+              },
             ]}>
             <Field maxLength={4} />
           </Form.Item>
@@ -497,7 +516,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                 message: 'Please enter a valid limit between 1 and 9999',
               },
               {
-                transform: value => value < +form.getFieldValue('minBackers'),
+                transform: value => value < +form.getFieldValue('minimumBackers'),
                 message: 'Maximun backers cannot be less than minimum backers!',
               },
             ]}>
@@ -522,6 +541,11 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
               {
                 pattern: /^[1-9][0-9]{0,8}$/,
                 message: 'Please enter a valid number with up to 9 digits',
+              },
+              {
+                transform: value => {
+                  if (value > +form.getFieldValue('minimumInvestment')) form.removeFieldError('minimumInvestment');
+                },
               },
             ]}>
             <Field />

@@ -124,6 +124,7 @@ const adminService = {
       return {
         admins: res.items,
         totalItems: res.totalItems,
+        allAdminsInDb: res.allAdminsInDb,
       };
     }
     const { message } = await res.json();
@@ -186,6 +187,7 @@ const adminService = {
       return {
         roles: res.items,
         totalItems: res.totalItems,
+        allRolesInDb: res.allRolesInDb,
       };
     }
     const { message } = await res.json();
@@ -210,6 +212,7 @@ const adminService = {
       return {
         permissions: res.items,
         totalItems: res.totalItems,
+        allPermissionsInDb: res.allPermissionsInDb,
       };
     }
     const { message } = await res.json();

@@ -37,7 +37,7 @@ const Chat = ({ chosenComDetails, type }) => {
   );
 
   useEffect(() => {
-    setSearchQuery(prev => ({ ...prev, ['conversationId']: chosenComDetails?.conversationI, page: 1 }));
+    setSearchQuery(prev => ({ ...prev, ['conversationId']: chosenComDetails?.conversationId, page: 1 }));
     setChatMessages([]);
     setChatLoading(true);
   }, [chosenComDetails?.conversationId]);
@@ -75,7 +75,6 @@ const Chat = ({ chosenComDetails, type }) => {
       });
       handleScrollToBottom();
     });
-
 
     // Clean up the event listener on component unmount
     return () => {
@@ -164,11 +163,7 @@ const Chat = ({ chosenComDetails, type }) => {
               )
           )}
         </ChatBody>
-        <ChatFooter
-          chosenComDetails={chosenComDetails}
-          type={type}
-          channelName={channelName}
-        />
+        <ChatFooter chosenComDetails={chosenComDetails} type={type} channelName={channelName} />
       </div>
       <div className="hamburger" onClick={() => document.body.classList.toggle('chat-sidebar-active')}>
         <RiMenu3Fill size={30} />

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ActionBtnList } from '@/components/atoms/ActionBtns/ActionBtns.styles';
 import Table from '@/components/molecules/Table';
 import TableLayout from '@/components/atoms/TableLayout';
@@ -21,8 +21,10 @@ import { format } from 'date-fns';
 import { getDateObject } from '@/helpers/common';
 import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
+import TableImage from '@/components/atoms/TableImage';
+import avatar from '../../../../../public/assets/user_avatar.png';
 
-const AdminTable = () => {
+const AdminTable = ({ setAdminCount }) => {
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
     pageSize: 10,
@@ -86,6 +88,11 @@ const AdminTable = () => {
     () => ({
       admins_rows: admins_data.admins.map(_ => [
         format(getDateObject(_.created_at), 'yyyy-MM-dd'),
+        <div className="adminName" key={_?._id}>
+          <TableImage rounded src={_?.profilePicture || avatar} alt="imgdescription" />
+          {_?.fullName || '------------'}
+        </div>,
+        // _.fullName ?? '------------',
         _.email ?? '------------',
         _.roles?.length > 0 ? _.roles.map(__ => __.type).join(', ') : '------------',
         actionBtns(_),
@@ -94,7 +101,12 @@ const AdminTable = () => {
     }),
     [admins_data],
   );
-  const columnNamess = [`Created at`, `Email`, 'Roles', 'Actions'];
+
+  useEffect(() => {
+    setAdminCount(admins_data?.allAdminsInDb);
+  }, [admins_data?.allAdminsInDb]);
+
+  const columnNamess = [`Created at`, `Full Name`, `Email`, 'Roles', 'Actions'];
   return (
     <>
       <CenterModal open={openSuccessModal} setOpen={setOpenSuccessModal} headImage={successIcon} width="543">

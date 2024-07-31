@@ -62,6 +62,20 @@ export const Styling = css`
     overflow: hidden !important;
   }
 
+  .adminName {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    img {
+      display: block;
+      flex-shrink: 0;
+      border-radius: 50px;
+      object-fit: cover;
+      height: 40px;
+    }
+  }
+
   img {
     max-width: 100%;
     height: auto;

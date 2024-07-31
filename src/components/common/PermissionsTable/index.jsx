@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ActionBtnList } from '@/components/atoms/ActionBtns/ActionBtns.styles';
 import Table from '@/components/molecules/Table';
 import TableLayout from '@/components/atoms/TableLayout';
@@ -19,7 +19,7 @@ import { getDateObject } from '@/helpers/common';
 import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
 
-const PermissionTable = () => {
+const PermissionTable = ({ setPermissionCount }) => {
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
     pageSize: 10,
@@ -79,6 +79,11 @@ const PermissionTable = () => {
     }),
     [permissions_data],
   );
+
+  useEffect(() => {
+    setPermissionCount(permissions_data?.allPermissionsInDb);
+  }, [permissions_data?.allPermissionsInDb]);
+
   const columnNames = [`Created at`, `Can Do`, `Description`, 'Actions'];
   return (
     <>
