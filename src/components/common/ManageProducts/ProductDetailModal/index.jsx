@@ -165,7 +165,7 @@ const ProductDetailModal = ({ product }) => {
           </div>
         ))}
       </div>
-      {product?.isVerified === false && (
+      {product?.verificationStatus === 'pending' && (
         <div className="btn-holder">
           <Button
             variant="success"

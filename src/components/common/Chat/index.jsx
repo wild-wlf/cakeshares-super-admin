@@ -147,6 +147,7 @@ const Chat = ({ chosenComDetails, type }) => {
                     showImage={item?.author?.profilePicture}
                     readBy={item?.readBy?.length >= item?.receivers?.length}
                     messageId={item?._id}
+                    author={item?.author}
                   />
                 ) : (
                   <ChatMessage
