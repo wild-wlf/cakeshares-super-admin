@@ -25,6 +25,12 @@ export const connectionWithSocketServer = token => {
     window.dispatchEvent(new CustomEvent('seen_message_response', { detail: { ...data } }));
   });
 
+  socket.on('added-group-reaction', data => {
+    if (socket && data) {
+      window.dispatchEvent(new CustomEvent('added-group-reaction', { detail: { ...data } }));
+    }
+  });
+
   socket.on('com-message-history', data => {
     window.dispatchEvent(new CustomEvent('com_message_history', { detail: { ...data } }));
   });
@@ -49,7 +55,6 @@ export const connectionWithSocketServer = token => {
 
 export const socketServer = () => socket;
 
-
 export const startChat = data => {
   if (socket && data) {
     socket.emit('startChat', data);
@@ -71,6 +76,12 @@ export const joinGroupChat = data => {
 export const leaveGroupChat = data => {
   if (socket && data) {
     socket.emit('leaveGroupChat', data);
+  }
+};
+
+export const sendGroupReaction = data => {
+  if (socket && data) {
+    socket.emit('group-reaction', data);
   }
 };
 
