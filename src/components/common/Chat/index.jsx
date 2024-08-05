@@ -37,7 +37,7 @@ const Chat = ({ chosenComDetails, type }) => {
   );
 
   useEffect(() => {
-    setSearchQuery(prev => ({ ...prev, ['conversationId']: chosenComDetails?.conversationI, page: 1 }));
+    setSearchQuery(prev => ({ ...prev, ['conversationId']: chosenComDetails?.conversationId, page: 1 }));
     setChatMessages([]);
     setChatLoading(true);
   }, [chosenComDetails?.conversationId]);
@@ -147,6 +147,7 @@ const Chat = ({ chosenComDetails, type }) => {
                     showImage={item?.author?.profilePicture}
                     readBy={item?.readBy?.length >= item?.receivers?.length}
                     messageId={item?._id}
+                    author={item?.author}
                   />
                 ) : (
                   <ChatMessage

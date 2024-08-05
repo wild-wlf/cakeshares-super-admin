@@ -13,7 +13,7 @@ const index = () => {
       </Head>
       <AdminTopBar
         title="Manage Products"
-        tagLine={`You have total ${productCount || 0} total products in your manage products right now!`}
+        tagLine={`You have total ${productCount || 0} products in your manage products right now!`}
       />
       <MangeProductsTable setProductCount={setProductCount} />
     </div>

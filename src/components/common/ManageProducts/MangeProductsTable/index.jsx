@@ -237,11 +237,11 @@ const MangeProductsTable = ({ setProductCount }) => {
           ? 'Individual Seller'
           : 'Company Seller',
         _?.investmentType?.name || '------------',
-        _?.isVerified ? (
+        _?.verificationStatus === 'approved' ? (
           <span className="status-approved">Approved</span>
-        ) : (
+        ) : _?.verificationStatus === 'pending' ? (
           <span className="status-pending">Pending</span> ?? '------------'
-        ),
+        ) : <span className="status-rejected">Rejected</span> ?? '------------',
         _?.currentBackers ?? '------------',
         actionBtns(_),
       ]),
