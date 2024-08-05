@@ -76,7 +76,6 @@ const Chat = ({ chosenComDetails, type }) => {
       handleScrollToBottom();
     });
 
-
     // Clean up the event listener on component unmount
     return () => {
       window.removeEventListener('com_message_history', () => {});
@@ -159,16 +158,17 @@ const Chat = ({ chosenComDetails, type }) => {
                     messageId={item?._id}
                     receivers={item?.receivers}
                     showImage={item?.author?.profilePicture}
+                    senderId={user?._id}
+                    channelName={channelName}
+                    chatType={type === 'stake' ? 'stakeholder' : 'community'}
+                    showReaction={item?.author?._id !== user?._id ? true : false}
+                    defaultGroupReactions={item.reactions}
                   />
                 ),
               )
           )}
         </ChatBody>
-        <ChatFooter
-          chosenComDetails={chosenComDetails}
-          type={type}
-          channelName={channelName}
-        />
+        <ChatFooter chosenComDetails={chosenComDetails} type={type} channelName={channelName} />
       </div>
       <div className="hamburger" onClick={() => document.body.classList.toggle('chat-sidebar-active')}>
         <RiMenu3Fill size={30} />
