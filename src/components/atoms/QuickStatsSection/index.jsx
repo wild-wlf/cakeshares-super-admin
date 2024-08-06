@@ -5,7 +5,7 @@ import { MdSupervisorAccount } from 'react-icons/md';
 import InvestmentIcon from '../../../../public/assets/investment-icon.svg';
 import Image from 'next/image';
 import StackCharts from '@/components/molecules/StackedChart';
-import { formatNumber } from '@/helpers/common';
+import { convertToCurrencyFormat, formatNumber } from '@/helpers/common';
 
 const QuickStatsSection = ({ cardsData }) => {
   const userData = [
@@ -28,7 +28,7 @@ const QuickStatsSection = ({ cardsData }) => {
             {/* <BsThreeDots size={20} /> */}
           </div>
           <div className="value-wrapper">
-            <strong>{formatNumber(cardsData?.userCount) || 0}</strong>
+            <strong>{cardsData?.userCount || 0}</strong>
             <div>
               <span className="green-text">0%</span>
               <span className="desc">From the last week</span>
@@ -44,7 +44,7 @@ const QuickStatsSection = ({ cardsData }) => {
             {/* <BsThreeDots size={20} /> */}
           </div>
           <div className="value-wrapper">
-            <strong>{formatNumber(cardsData?.investmentCount) || 0}</strong>
+            <strong>{convertToCurrencyFormat(cardsData?.investmentCount)}</strong>
             <div>
               <span className="green-text">0%</span>
               <span className="desc">From the last week</span>

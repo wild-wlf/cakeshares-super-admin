@@ -160,10 +160,12 @@ const Chat = ({ chosenComDetails, type }) => {
                     receivers={item?.receivers}
                     showImage={item?.author?.profilePicture}
                     senderId={user?._id}
-                    channelName={channelName}
                     chatType={type === 'stake' ? 'stakeholder' : 'community'}
                     showReaction={item?.author?._id !== user?._id ? true : false}
-                    defaultGroupReactions={item?.reactions}
+                    defaultGroupReactions={item.reactions}
+                    channelName={channelName}
+                    group
+                    item={item}
                   />
                 ),
               )

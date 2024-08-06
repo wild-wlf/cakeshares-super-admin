@@ -1,14 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { StyledChatMessage, MessageContainer, ReactionContainer, GroupReaction } from './ChatMessage.styles';
+import {
+  StyledChatMessage,
+  ReactionContainer,
+  MessageContainer,
+  AddedReaction,
+  GroupReaction,
+} from './ChatMessage.styles';
 import Pic from '../../../../../public/assets/user-img.png';
 import { LiaCheckDoubleSolid, LiaCheckSolid } from 'react-icons/lia';
 import Image from 'next/image';
 import { format } from 'date-fns';
 import RenderTextMessage from './renderTextMessage';
-import { sendGroupReaction } from '@/helpers/socketConnection';
-import reactionIcon from '../../../../../public/assets/reaction.png';
-import ReactionTooltip from '@/components/atoms/ReactionTooltip';
+import reactionIcon from '@/_assets/reaction.png';
 import MessageReaction from '@/components/atoms/MessageReactions/index';
+import ReactionTooltip from '@/components/atoms/ReactionTooltip';
+import MenuButton, { MenuItem } from '../../../molecules/Menu/index';
+import { sendGroupReaction } from '@/helpers/socketConnection';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { MdOutlineReport } from 'react-icons/md';
+import ReportModal from '@/components/molecules/ReportModal';
+import ModalContainer from '../../../molecules/ModalContainer';
+import declineIcon from '../../../../_assets/decline-icon.svg';
 
 const ChatMessage = ({
   showImage,
@@ -18,27 +30,19 @@ const ChatMessage = ({
   readBy,
   messageId,
   receivers,
-  senderId,
-  chatType,
   showReaction,
+  group,
+  chatType,
+  senderId,
   defaultGroupReactions,
   channelName,
+  item,
 }) => {
   const [isMessageRead, setIsMessageRead] = useState(readBy);
   const [reaction, setReactions] = useState('');
-  const [active, setActive] = useState(false);
+  const [receivedReaction, setReceivedReaction] = useState('');
   const [receivedGroupReaction, setReceivedGroupReaction] = useState([]);
-
-  useEffect(() => {
-    if ((chatType === 'community' || chatType == 'stakeholder') && reaction) {
-      sendGroupReaction({
-        reaction,
-        messageId,
-        senderId,
-        channelName,
-      });
-    }
-  }, [reaction, chatType, messageId, senderId]);
+  const [active, setActive] = useState(false);
 
   useEffect(() => {
     window.addEventListener('seen_message_response', event => {
@@ -67,6 +71,44 @@ const ChatMessage = ({
     };
   }, [messageId, receivers?.length]);
 
+  useEffect(() => {
+    if ((chatType === 'community' || chatType == 'stakeholder') && reaction) {
+      sendGroupReaction({
+        reaction,
+        messageId,
+        senderId,
+        channelName,
+      });
+    }
+  }, [reaction, chatType, messageId, senderId, channelName]);
+
+  useEffect(() => {
+    const handleReaction = event => {
+      const currentMessage = event.detail;
+
+      if (messageId === currentMessage?.messageId && currentMessage?.reaction) {
+        setReceivedReaction(currentMessage?.reaction);
+      }
+    };
+
+    const handelGroupReaction = event => {
+      const currentMessage = event.detail;
+
+      if (messageId === currentMessage?.messageId && currentMessage?.reactions) {
+        setReceivedGroupReaction(currentMessage?.reactions);
+      }
+    };
+
+    window.addEventListener('reaction-added', handleReaction);
+    window.addEventListener('added-group-reaction', handelGroupReaction);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('reaction-added', handleReaction);
+      window.removeEventListener('added-group-reaction', handelGroupReaction);
+    };
+  }, [messageId, receivers]);
+
   return (
     <StyledChatMessage $type={type}>
       {type === 'send' && (
@@ -87,6 +129,28 @@ const ChatMessage = ({
                 alignRight={true}>
                 <Image src={reactionIcon} alt="add reaction" height={22} width={22} />
               </ReactionTooltip>
+
+              <ModalContainer
+                md
+                width={700}
+                title={<Image src={declineIcon} alt="declineIcon" />}
+                btnComponent={({ onClick }) => (
+                  <MenuButton
+                    icon={
+                      <span>
+                        <BsThreeDotsVertical />
+                      </span>
+                    }>
+                    <MenuItem onClick={onClick} icon={<MdOutlineReport size={20} />}>
+                      {' '}
+                      Report
+                    </MenuItem>
+                  </MenuButton>
+                )}
+                content={({ onClose }) => (
+                  <ReportModal onClose={onClose} item={item} title="Report this Message!" btnText="Report" />
+                )}
+              />
             </ReactionContainer>
           )}
           <div className="message">
@@ -94,8 +158,9 @@ const ChatMessage = ({
               <RenderTextMessage text={message} />
             </p>
           </div>
+
           {(chatType === 'community' || chatType === 'stakeholder') &&
-            (defaultGroupReactions?.length > 0 || receivedGroupReaction?.length > 0) && (
+            (defaultGroupReactions.length > 0 || receivedGroupReaction.length > 0) && (
               <GroupReaction type={'count'}>
                 <span>
                   {receivedGroupReaction.length > 0

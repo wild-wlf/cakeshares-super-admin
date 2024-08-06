@@ -21,15 +21,25 @@ export const connectionWithSocketServer = token => {
     window.dispatchEvent(new CustomEvent('online_users', { detail: [...onlineUsers] }));
   });
 
-  socket.on('seen-message-response', data => {
-    window.dispatchEvent(new CustomEvent('seen_message_response', { detail: { ...data } }));
+
+  socket.on('reaction-added', async data => {
+    if (socket && data) {
+      window.dispatchEvent(new CustomEvent('reaction-added', { detail: { ...data } }));
+    }
   });
 
-  socket.on('added-group-reaction', data => {
+  socket.on('added-group-reaction', async data => {
     if (socket && data) {
       window.dispatchEvent(new CustomEvent('added-group-reaction', { detail: { ...data } }));
     }
   });
+
+
+  socket.on('seen-message-response', data => {
+    window.dispatchEvent(new CustomEvent('seen_message_response', { detail: { ...data } }));
+  });
+
+
 
   socket.on('com-message-history', data => {
     window.dispatchEvent(new CustomEvent('com_message_history', { detail: { ...data } }));
@@ -79,15 +89,16 @@ export const leaveGroupChat = data => {
   }
 };
 
-export const sendGroupReaction = data => {
-  if (socket && data) {
-    socket.emit('group-reaction', data);
-  }
-};
 
 export const setSeenMessage = data => {
   if (data && socket) {
     socket?.emit('get-seen-message', data);
+  }
+};
+
+export const sendGroupReaction = data => {
+  if (socket && data) {
+    socket.emit('group-reaction', data);
   }
 };
 

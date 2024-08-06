@@ -72,15 +72,15 @@ function PopularListingChart({
           <div className="legendWrapper">
             <div>
               <GoDotFill color="#408F8C" />
-              <span>House Bonds</span>
+              <span>--------</span>
             </div>
             <div>
               <GoDotFill color="#4E6199" />
-              <span>Banking Products</span>
+              <span>--------</span>
             </div>
             <div>
               <GoDotFill color="#419400" />
-              <span>Ventures</span>
+              <span>--------</span>
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@ import MangeProductsTable from '@/components/common/ManageProducts/MangeProducts
 import Head from 'next/head';
 
 const index = () => {
-  const [productCount, setProductCount] = useState();
+  const [tagline, setTagline] = useState();
   return (
     <div>
       <Head>
@@ -13,9 +13,9 @@ const index = () => {
       </Head>
       <AdminTopBar
         title="Manage Products"
-        tagLine={`You have total ${productCount || 0} products in your manage products right now!`}
+        tagLine={tagline}
       />
-      <MangeProductsTable setProductCount={setProductCount} />
+      <MangeProductsTable setTagline={setTagline} />
     </div>
   );
 };
