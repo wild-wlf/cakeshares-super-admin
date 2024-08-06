@@ -27,7 +27,7 @@ import DeleteModal from '@/components/atoms/UserDeleteModal/DeleteModal';
 import { TableContainer } from '@/components/atoms/TableContainer/TableContainer.styles';
 import { formatNumber } from '@/helpers/common';
 
-const MangeProductsTable = ({ setProductCount }) => {
+const MangeProductsTable = ({ setTagline }) => {
   const { fetch } = useContextHook(AuthContext, v => ({
     fetch: v.fetch,
   }));
@@ -68,8 +68,18 @@ const MangeProductsTable = ({ setProductCount }) => {
     products_loading = result.products_loading;
   }
   useEffect(() => {
-    setProductCount(products_data?.allProductsinDb || investments_data?.allProductsinDb);
-  }, [products_data?.allProductsinDb, investments_data?.allProductsinDb]);
+    let message;
+
+    if (products_data?.allProductsInDb !== undefined) {
+      message = `You have total ${products_data?.allProductsInDb || 0} products in your manage products right now!`;
+    } else {
+      message = `You have total ${
+        investments_data?.totalItems || 0
+      } investments in your manage products right now!`;
+    }
+
+    setTagline(message);
+  }, [products_data?.allProductsInDb, investments_data?.totalItems]);
 
   const actionBtns = product => {
     if (!product.isVerified) {
@@ -220,7 +230,6 @@ const MangeProductsTable = ({ setProductCount }) => {
         actionBtnss(_),
       ]),
       investment_totalCount: investments_data?.totalItems,
-    
     };
   }, [investments_data]);
 
@@ -246,7 +255,6 @@ const MangeProductsTable = ({ setProductCount }) => {
         actionBtns(_),
       ]),
       product_totalCount: products_data?.totalItems,
-      
     };
   }, [products_data]);
 
@@ -334,7 +342,6 @@ const MangeProductsTable = ({ setProductCount }) => {
           }}
           currentPage={searchQuery.page}
           totalCount={investment_totalCount || product_totalCount}
-        
           // totalCounts={totalItems}
           pageSize={searchQuery.itemsPerPage}
           tab={tab}
