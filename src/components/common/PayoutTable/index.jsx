@@ -32,7 +32,7 @@ const PayoutTable = ({ setPayoutCount }) => {
   const [payoutInfo, setPayoutInfo] = useState();
   const [viewPayoutInfo, setViewPayoutInfo] = useState(false);
 
-  const { fetch } = useContextHook(AuthContext, ['fetch']);
+  const { fetch, hasPermission } = useContextHook(AuthContext, ['fetch', 'hasPermission']);
 
   const { payout_data, payout_loading } = paymentService.GetAllPayouts(searchQuery, fetch);
 
@@ -49,7 +49,7 @@ const PayoutTable = ({ setPayoutCount }) => {
   const actionBtns = _ => (
     <>
       <ActionBtnList>
-        {_?.status === 'pending' && (
+        {_?.status === 'pending' && hasPermission('manage-payouts.approve') && (
           <li>
             <button
               type="button"
