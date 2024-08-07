@@ -46,8 +46,8 @@ const paymentService = {
     throw new Error(message ?? 'Something Went Wrong');
   },
 
-  async updateUser(userId, payload) {
-    let res = await Fetch.upload(`${this._url}/update-user/${userId}`, 'PUT', payload);
+  async handlePayoutRequest(payoutId, payload) {
+    let res = await Fetch.patch(`${this._url}/handle-payout-request/${payoutId}`, payload);
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
       return res;
