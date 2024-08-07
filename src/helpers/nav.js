@@ -34,8 +34,13 @@ export const indivisualSellerNav = [
         icon: Portfolio,
       },
       {
+<<<<<<< Updated upstream
         navigation: '/manage-payouts',
         name: 'Manage Payouts',
+=======
+        navigation: '/manage-reports',
+        name: 'Manage Reports',
+>>>>>>> Stashed changes
         icon: Portfolio,
       },
     ],

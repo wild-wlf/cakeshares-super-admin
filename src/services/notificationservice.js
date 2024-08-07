@@ -135,6 +135,44 @@ const notificationService = {
     const { message } = await res.json();
     throw new Error(message ?? 'Something went wrong');
   },
+
+
+
+  GetAllReports(searchQuery, fetch) {
+    const [reports, setReports] = useState({
+      reports: [],
+      totalItems: 0,
+    });
+    const { cancellablePromise } = useCancellablePromise();
+    const [reportStatus, setReportStatus] = useState(STATUS.LOADING);
+    useEffect(() => {
+      setReportStatus(STATUS.LOADING);
+      cancellablePromise(this.getAllReports(searchQuery))
+        .then(res => {
+          setReports(() => res);
+          setReportStatus(STATUS.SUCCESS);
+        })
+        .catch(() => setReportStatus(STATUS.ERROR));
+    }, [searchQuery?.itemsPerPage ? JSON.stringify(searchQuery) : searchQuery, fetch]);
+    return {
+      reports_loading: reportStatus === STATUS.LOADING,
+      reports_error: reportStatus === STATUS.ERROR,
+      reports_data: reports,
+    };
+  },
+
+  async getAllReports({ page = 1, itemsPerPage = 10, getAll = false, searchText = '' }) {
+    let res = await Fetch.get(
+      `${this._url}/get-all-report-messages?page=${page}&itemsPerPage=${itemsPerPage}&getAll=${getAll}&searchText=${searchText}`,
+    );
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    }
+    const { message } = await res.json();
+    throw new Error(message ?? 'Something Went Wrong');
+  },
+
 };
 
 export default notificationService;
