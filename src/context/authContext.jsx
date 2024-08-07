@@ -34,6 +34,11 @@ export const AuthContextProvider = props => {
     '/manage-products',
     '/community-chat',
     '/shareholder-chat',
+    '/manage-categories',
+    '/manage-payouts',
+    '/permissions',
+    '/roles',
+    '/admins',
     '/settings',
   ];
 
