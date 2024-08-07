@@ -38,6 +38,11 @@ export const indivisualSellerNav = [
         name: 'Manage Payouts',
         icon: Portfolio,
       },
+      {
+        navigation: '/manage-reports',
+        name: 'Manage Reports',
+        icon: Portfolio,
+      },
     ],
   },
   {

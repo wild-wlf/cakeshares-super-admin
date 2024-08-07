@@ -67,8 +67,8 @@ const PermissionTable = ({ setCategoryCount }) => {
   const columnNames = [`Created at`, `Category`, 'Actions'];
 
   useEffect(() => {
-    setCategoryCount(categories_data?.allCategories);
-  }, [categories_data?.allCategories]);
+    setCategoryCount(categories_data?.totalItems);
+  }, [categories_data?.totalItems]);
 
   return (
     <>
