@@ -43,7 +43,7 @@ const ReportsTable = ({ setReportCount }) => {
         format(getDateObject(_.created_at), 'yyyy-MM-dd'),
         _?.reportedBy?.username ?? '-----------', 
         _?.messageId?.author?.username ?? '-----------', 
-        _?.messageId?.content ?? '------------', 
+        _?.messageId?.content ?? '-----------', 
         //  actionBtns(_),
       ]),
       totalCount: reports_data.totalItems,
