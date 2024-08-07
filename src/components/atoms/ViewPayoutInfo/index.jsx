@@ -3,34 +3,32 @@ import { DeleteModalWrapper } from './ViewPayoutInfo.styles';
 import Toast from '@/components/molecules/Toast';
 import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
-import walletService from '@/services/walletService';
+import paymentService from '@/services/paymentService';
 import Button from '../Button';
 import { format } from 'date-fns';
 import { formatNumber, getDateObject } from '@/helpers/common';
 
-const ViewPayoutInfo = ({ payoutInfo }) => {
+const ViewPayoutInfo = ({ payoutInfo, setViewPayoutInfo }) => {
   console.log(payoutInfo);
   const { refetch } = useContextHook(AuthContext, v => ({
     refetch: v.refetch,
   }));
   const [isLoading, setIsLoading] = useState(false);
-  const user = {};
   const handleClick = async status => {
     try {
       setIsLoading(true);
 
-      const resp = await walletService.approveReject({
-        userId: user._id,
-        amount: user.requestPaymentWallet[0].amount,
+      const resp = await paymentService.handlePayoutRequest(payoutInfo?._id, {
         status,
+        amountIn: parseFloat(payoutInfo?.amountIn?.$numberDecimal),
       });
 
-      onClose();
       refetch();
       Toast({
         type: 'success',
-        message: resp.message,
+        message: `Payout Request ${status ? status.charAt(0).toUpperCase() + status.slice(1) : ''} Successfully!`,
       });
+      setViewPayoutInfo(false);
     } catch ({ message }) {
       Toast({
         type: 'error',
@@ -53,11 +51,11 @@ const ViewPayoutInfo = ({ payoutInfo }) => {
           </div>
           <div className="col">
             <span className="heading">Requester:</span>
-            <span className="text">{payoutInfo.fullName}</span>
+            <span className="text">{payoutInfo.userId?.fullName}</span>
           </div>
           <div className="col">
             <span className="heading">Amount:</span>
-            <span className="text">{`$${formatNumber(payoutInfo?.amount)}`}</span>
+            <span className="text">{`$${formatNumber(payoutInfo?.amountIn?.$numberDecimal)}`}</span>
           </div>
         </div>
         <div className="btn-wrapper">

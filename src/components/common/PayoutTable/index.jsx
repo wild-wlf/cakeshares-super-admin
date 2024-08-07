@@ -72,11 +72,14 @@ const PayoutTable = ({ setPayoutCount }) => {
         format(getDateObject(_.requestDate), 'yyyy-MM-dd'),
         _.userId?.fullName || '------------',
         _.userId?.type || '------------',
-        `$${formatNumber(_?.amount)}` || 0 || '----------',
+        `$${formatNumber(_?.amountIn?.$numberDecimal)}` || 0 || '----------',
+        `$${formatNumber(_?.amountEx?.$numberDecimal)}` || 0 || '----------',
         _?.status === 'pending' ? (
           <span className="status-pending">Pending</span>
-        ) : (
+        ) : _?.status === 'approved' ? (
           <span className="status-approved">Approved</span> ?? '------------'
+        ) : (
+          <span className="status-rejected">Rejected</span> ?? '------------'
         ),
         actionBtns(_),
       ]),
@@ -89,7 +92,15 @@ const PayoutTable = ({ setPayoutCount }) => {
     setPayoutCount(payout_data?.allPayoutsInDb);
   }, [payout_data?.allPayoutsInDb]);
 
-  const columnNames = [`Created at`, `Requester`, `Requester Type`, `Amount`, `Status`, 'Actions'];
+  const columnNames = [
+    `Created at`,
+    `Requester`,
+    `Requester Type`,
+    `Amount (Inclusive)`,
+    `Amount (Exclusive)`,
+    `Status`,
+    'Actions',
+  ];
   return (
     <>
       <CenterModal
@@ -97,7 +108,7 @@ const PayoutTable = ({ setPayoutCount }) => {
         setOpen={setViewPayoutInfo}
         title={<Image src={InfoIcon} alt="InfoIcon" />}
         width="543">
-        <ViewPayoutInfo payoutInfo={payoutInfo} />
+        <ViewPayoutInfo payoutInfo={payoutInfo} setViewPayoutInfo={setViewPayoutInfo} />
       </CenterModal>
 
       <TableContainer>
