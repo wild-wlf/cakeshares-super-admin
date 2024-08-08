@@ -35,8 +35,8 @@ const Notifications = ({ fetchNotifications, setIsBadge }) => {
       case 'investment_created':
         data = { image: Investment, background: 'rgba(64, 143, 140, 0.2)' };
         break;
-      case 'investment_created':
-        data = { image: Investment, background: 'rgba(64, 143, 140, 0.2)' };
+      case 'message_reported':
+        data = { image: Message, background: 'rgba(64, 143, 140, 0.2)' };
         break;
 
       default:

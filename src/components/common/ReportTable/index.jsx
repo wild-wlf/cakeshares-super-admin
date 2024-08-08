@@ -12,6 +12,10 @@ import { getDateObject } from '@/helpers/common';
 import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
 import notificationService from '@/services/notificationservice';
+import ModalContainer from '@/components/molecules/ModalContainer';
+import Button from '@/components/atoms/Button';
+import detailIcon from '../../../../public/assets/view-detail-icon.svg';
+import ReportDetailModal from '../ReportDetailModal';
 
 const ReportsTable = ({ setReportCount }) => {
   const [searchQuery, setSearchQuery] = useState({
@@ -29,9 +33,17 @@ const ReportsTable = ({ setReportCount }) => {
     <>
       <ActionBtnList>
         <li>
-          {/* <button type="button" className="btn edit" onClick={() => handleEditModal(_)}>
-            <MdModeEditOutline color="rgba(64, 143, 140, 1)" size={16} />
-          </button> */}
+          <ModalContainer
+            width={1000}
+            title="Report Detail"
+            btnComponent={({ onClick }) => (
+              <Button variant="secondary" custom xsCustom onClick={onClick}>
+                <Image src={detailIcon} alt="detailIcon" />
+                View Detail
+              </Button>
+            )}
+            content={({ onClose }) => <ReportDetailModal detail={_} />}
+          />
         </li>
       </ActionBtnList>
     </>
@@ -41,16 +53,16 @@ const ReportsTable = ({ setReportCount }) => {
     () => ({
       report_rows: reports_data?.items?.map(_ => [
         format(getDateObject(_.created_at), 'yyyy-MM-dd'),
-        _?.reportedBy?.username ?? '-----------', 
-        _?.messageId?.author?.username ?? '-----------', 
-        _?.messageId?.content ?? '-----------', 
-        //  actionBtns(_),
+        _?.reportedBy?.username ?? _?.reportedBy?.fullName,
+        _?.messageId?.author?.username ?? _?.messageId?.author?.fullName,
+        _?.messageId?.content ?? '-----------',
+        actionBtns(_),
       ]),
       totalCount: reports_data.totalItems,
     }),
     [reports_data],
   );
-  const columnNames = [`Reported At`,`Reported By`,`Reported Against`,'Message'];
+  const columnNames = [`Reported At`, `Reported By`, `Reported Against`, 'Message',`Action`];
 
   useEffect(() => {
     setReportCount(reports_data?.totalItems);
@@ -62,9 +74,8 @@ const ReportsTable = ({ setReportCount }) => {
         <Image src={TableStyle} className="tableStyle" alt="tableStyle" />
         <TableLayout
           tableHeading={' '}
-        //   placeholder="Search Category"
+          // placeholder="Search Report"
           btnType="blue"
-
           btnWidth="162px"
           openModal={() => {
             setCreateCategoryModal(true);
@@ -79,13 +90,7 @@ const ReportsTable = ({ setReportCount }) => {
           totalCount={totalCount}
           pageSize={searchQuery.itemsPerPage}
           filterBlock={true}>
-          <Table
-            width={1024}
-            rowsData={report_rows}
-            loading={reports_loading}
-            columnNames={columnNames}
-            noPadding
-          />
+          <Table width={1024} rowsData={report_rows} loading={reports_loading} columnNames={columnNames} noPadding />
         </TableLayout>
       </TableContainer>
     </>
