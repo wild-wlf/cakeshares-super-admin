@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const StyledCreateNewProduct = styled.div`
   .heading {
@@ -6,7 +6,17 @@ export const StyledCreateNewProduct = styled.div`
     font-size: 18px;
     line-height: 22px;
     font-weight: 500;
-    margin-bottom: 10px;
+  }
+  
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px; 
+
+    .switch-holder{
+      max-width: 200px;
+    }
   }
 
   .input-grid {
