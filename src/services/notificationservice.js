@@ -114,7 +114,7 @@ const notificationService = {
     const { message } = await res.json();
     throw new Error(message ?? 'Something Went Wrong');
   },
-  async getAllCommunityConversationMessages({ page = 1, itemsPerPage = 10, conversationId = '', type }) {
+  async getAllCommunityConversationMessages({ page = 1, itemsPerPage = 10, conversationId = '', type = '' }) {
     let res = await Fetch.get(
       `${this._url}/get-com-conversation-messages?page=${page}&itemsPerPage=${itemsPerPage}&conversationId=${conversationId}&type=${type}`,
     );
@@ -135,8 +135,6 @@ const notificationService = {
     const { message } = await res.json();
     throw new Error(message ?? 'Something went wrong');
   },
-
-
 
   GetAllReports(searchQuery, fetch) {
     const [reports, setReports] = useState({
@@ -173,6 +171,63 @@ const notificationService = {
     throw new Error(message ?? 'Something Went Wrong');
   },
 
+  GetAllMessages(searchQuery, fetch) {
+    const [messages, setMessages] = useState({
+      messages: [],
+      totalItems: 0,
+    });
+    const { cancellablePromise } = useCancellablePromise();
+    const [notificationStatus, setNotificationStatus] = useState(STATUS.LOADING);
+    useEffect(() => {
+      setNotificationStatus(STATUS.LOADING);
+      cancellablePromise(this.getAllMessages(searchQuery))
+        .then(res => {
+          setMessages({
+            messages: res.items,
+            totalItems: res.totalItems,
+          });
+          setNotificationStatus(STATUS.SUCCESS);
+        })
+        .catch(() => setNotificationStatus(STATUS.ERROR));
+    }, [searchQuery?.page, searchQuery?.itemsPerPage, searchQuery?.conversationId, searchQuery?.type, fetch]);
+    return {
+      messages_loading: notificationStatus === STATUS.LOADING,
+      messages_error: notificationStatus === STATUS.ERROR,
+      messages_data: messages,
+    };
+  },
+
+  async getAllMessages({ page = 1, itemsPerPage = 10, conversationId = '' }) {
+    let res = await Fetch.get(
+      `${this._url}/get-all-messages?page=${page}&itemsPerPage=${itemsPerPage}&conversationId=${conversationId}`,
+    );
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    }
+    const { message } = await res.json();
+    throw new Error(message ?? 'Something Went Wrong');
+  },
+
+  async deleteMessage(id) {
+    let res = await Fetch.delete(`${this._url}/delete-message/${id}`);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    }
+    const { message } = await res.json();
+    throw new Error(message ?? 'Something went wrong');
+  },
+
+  async blockUser(id, payload) {
+    let res = await Fetch.put(`${this._url}/block-user/${id}`, payload);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    }
+    const { message } = await res.json();
+    throw new Error(message ?? 'Something went wrong');
+  },
 };
 
 export default notificationService;

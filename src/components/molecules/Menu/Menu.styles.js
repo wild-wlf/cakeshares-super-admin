@@ -29,6 +29,12 @@ export const StyledMenu = styled(Menu)`
     z-index: 999;
     border-radius: 0.4rem;
     background: var(--white);
+.menu-list{
+  position: absolute;
+  top:0 ;
+  left: 0;
+}
+
   }
 
   ${menuSelector.stateOpening} {
