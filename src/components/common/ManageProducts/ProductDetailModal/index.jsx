@@ -78,7 +78,7 @@ const ProductDetailModal = ({ product }) => {
     },
     {
       heading: 'Maximum Backers:',
-      text: product?.maximumBackers,
+      text: product?.isInfiniteBackers ? 'Infinite' : product?.maximumBackers,
     },
     {
       heading: 'Annual Cost:',

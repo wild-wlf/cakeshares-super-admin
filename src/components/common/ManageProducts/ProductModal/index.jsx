@@ -13,8 +13,8 @@ import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
 import categoryService from '@/services/categoryService';
 import { LoadScript, Autocomplete } from '@react-google-maps/api';
-import Image from 'next/image';
 import { validateAmenity } from '@/helpers/common';
+import Switch from '@/components/molecules/Switch';
 
 const EditProductModal = ({ product, setCreateProductSuccessModal, setProductModal }) => {
   const { user, fetch, refetch } = useContextHook(AuthContext, v => ({
@@ -30,6 +30,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
   const [searchValue, setSearchValue] = useState('');
   const [addressDetails, setAddressDetails] = useState('');
   const [formattedAddress, setFormattedAddress] = useState();
+  const [isInfiniteBackers, setIsInfiniteBackers] = useState(false);
 
   const { categories_data } = categoryService.GetAllCategories(
     {
@@ -66,8 +67,9 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
         kycLevel: data?.kycLevel.value,
         amenities,
         media,
-        addressDetails,
+        ...(addressDetails && Object.keys(addressDetails).length > 0 && { addressDetails }),
         ...(images?.length > 0 && { images }),
+        isInfiniteBackers,
       };
 
       const formDataToSend = new FormData();
@@ -142,10 +144,11 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
         description: product?.description,
         investmentReason: product?.investmentReason,
         minimumBackers: product?.minimumBackers,
-        maximumBackers: product?.maximumBackers,
+        maximumBackers: product?.maximumBackers || '',
         assetValue: product?.assetValue,
         minimumInvestment: product?.minimumInvestment,
       });
+      setIsInfiniteBackers(product?.isInfiniteBackers);
       setMedia(product?.media);
       product?.media.map((field, index) => {
         form.setFieldsValue({
@@ -473,7 +476,39 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
               ))}
           </div>
         </div>
-        <span className="heading">Investment Info:</span>
+        <div className="head">
+          <span className="heading">Investment Info:</span>
+          <div className="switch-holder">
+            <Switch
+              label="Is Infinite Backers?"
+              value={isInfiniteBackers}
+              name="isInfiniteBackers"
+              onChange={e => {
+                setIsInfiniteBackers(e.target.value);
+                if (e.target.value) {
+                  form.setFieldsValue({ maximumBackers: '' });
+                  form.setFieldRules('maximumBackers', [{ required: false }, { pattern: /.*/ }]);
+                  form.removeFieldError('maximumBackers');
+                } else {
+                  form.setFieldRules('maximumBackers', [
+                    {
+                      required: true,
+                      message: 'Please enter Maximum Backers Limit',
+                    },
+                    {
+                      pattern: /^[1-9][0-9]*$/,
+                      message: 'Please enter a valid limit greater than 0',
+                    },
+                    {
+                      transform: value => value < +form.getFieldValue('minimumBackers'),
+                      message: 'Maximum backers cannot be less than minimum backers!',
+                    },
+                  ]);
+                }
+              }}
+            />
+          </div>
+        </div>
         <div className="input-grid">
           <Form.Item
             type="number"
@@ -503,21 +538,22 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
             type="number"
             label="Maximum Backers"
             name="maximumBackers"
+            disabled={isInfiniteBackers}
             sm
             rounded
             placeholder="01"
             rules={[
               {
-                required: true,
+                required: !product?.isInfiniteBackers,
                 message: 'Please enter Maximum Backers Limit',
               },
               {
-                pattern: /^[1-9][0-9]{0,3}$/,
-                message: 'Please enter a valid limit between 1 and 9999',
+                pattern: /^[1-9][0-9]*$/,
+                message: 'Please enter a valid limit greater than 0',
               },
               {
                 transform: value => value < +form.getFieldValue('minimumBackers'),
-                message: 'Maximun backers cannot be less than minimum backers!',
+                message: 'Maximum backers cannot be less than minimum backers!',
               },
             ]}>
             <Field maxLength={4} />
