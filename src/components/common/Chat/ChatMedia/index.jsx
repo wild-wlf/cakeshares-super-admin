@@ -49,7 +49,9 @@ const ChatMedia = ({ onlineUsers, chosenComDetails }) => {
             <div className="images-wrapper">
               {getThreeParticipants()?.map((item, index) => {
                 return (
+                  <div className='img-holder'>
                   <Image src={item?.profilePicture || ProfilePic} alt="profilePic" width={45} height={45} key={index} />
+                  </div>
                 );
               })}
             </div>

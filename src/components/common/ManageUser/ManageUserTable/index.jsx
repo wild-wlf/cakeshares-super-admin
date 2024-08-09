@@ -81,7 +81,7 @@ const ManageUserTable = ({ setUserCount }) => {
   const handleConfirmActivate = useCallback(async (id, type) => {
     try {
       setIsLoading(true);
-      const obj = { isVerified: type === 'Approve', status: 'Active' };
+      const obj = { isVerified: type === 'Approve', status: 'Active', isBlock: false };
       const payload = new FormData();
       Object.keys(obj).forEach(key => payload.append(key, obj[key]));
 
@@ -342,11 +342,12 @@ const ManageUserTable = ({ setUserCount }) => {
       `$${formatNumber(user?.totalInvestmentAmount)}` ?? 0 ?? '----------',
       `$${formatNumber(user?.wallet)}` ?? 0 ?? '----------',
       `Level ${user?.kycLevel}` ?? '------------',
-      user?.isVerified ? (
-        <span className="status-approved">Approved</span>
-      ) : (
-        <span className="status-pending">Pending</span> ?? '------------'
-      ),
+      // user?.isVerified ? (
+      //   <span className="status-approved">Approved</span>
+      // ) : (
+      //   <span className="status-pending">Pending</span> ?? '------------'
+      // ),
+      user?.status ?? '--------',
       actionBuyerBtns(user),
     ]),
     totalCount: user_data?.totalItems,
@@ -364,11 +365,12 @@ const ManageUserTable = ({ setUserCount }) => {
       `$${formatNumber(user?.totalRevenue)}` ?? 0 ?? '------------',
       `$${formatNumber(user?.wallet)}` ?? 0 ?? '------------',
       user?.kycLevel === 3 ? 'Level 3' : `Level ${user?.kycLevel}` ?? '------------',
-      user?.isVerified ? (
-        <span className="status-approved">Approved</span>
-      ) : (
-        <span className="status-pending">Pending</span> ?? '------------'
-      ),
+      // user?.isVerified ? (
+      //   <span className="status-approved">Approved</span>
+      // ) : (
+      //   <span className="status-pending">Pending</span> ?? '------------'
+      // ),
+      user?.status ?? '--------',
       actionSellerBtns(user),
     ]),
     totalCounts: user_data?.totalItems,
