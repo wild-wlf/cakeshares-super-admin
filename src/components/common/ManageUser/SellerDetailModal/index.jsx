@@ -126,6 +126,20 @@ const SellerDetailModal = ({
           />
         </div>
       )}
+      {user?.status === 'Suspended' && (
+        <div className="btn-holder">
+          <Button
+            onClick={() => {
+              handleConfirmActivate(user?._id, 'Approve');
+            }}
+            variant="success"
+            custom
+            xsCustom>
+            Unsuspend
+          </Button>
+
+        </div>
+      )}
     </StyledUserDetailModal>
   );
 };

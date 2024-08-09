@@ -10,6 +10,7 @@ const CommunityChat = () => {
   const [chosenComDetails, setChosenComDetails] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [conversations, setConversations] = useState([]);
+  
 
   const handleChoseComDetails = details => {
     setChosenComDetails(details);
@@ -45,11 +46,12 @@ const CommunityChat = () => {
             setConversations={setConversations}
             handleChoseComDetails={handleChoseComDetails}
             chosenComDetails={chosenComDetails}
+          
             type="community"
           />
           {chosenComDetails && (
             <>
-              <Chat chosenComDetails={chosenComDetails} type="community" />
+              <Chat chosenComDetails={chosenComDetails} type="community"   />
               <ChatMedia onlineUsers={onlineUsers} chosenComDetails={chosenComDetails} />
             </>
           )}

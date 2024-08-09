@@ -6,7 +6,7 @@ import { AuthContext } from '@/context/authContext';
 import Toast from '@/components/molecules/Toast';
 import notificationService from '@/services/notificationservice';
 
-const DeleteMessageModal = ({ closeDeleteModal, messageId }) => {
+const DeleteMessageModal = ({ closeDeleteModal, messageId, handleDeleteMessage }) => {
   const { refetch } = useContextHook(AuthContext, v => ({
     refetch: v.refetch,
   }));
@@ -15,8 +15,9 @@ const DeleteMessageModal = ({ closeDeleteModal, messageId }) => {
     try {
       const response = await notificationService.deleteMessage(messageId);
       if (response.success) {
-        refetch();
-        // closeDeleteModal();
+        handleDeleteMessage(messageId);
+        //  refetch();
+        closeDeleteModal();
       }
     } catch (error) {
       Toast({ type: 'error', message: error.message });
