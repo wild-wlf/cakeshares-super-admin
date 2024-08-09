@@ -162,7 +162,7 @@ const Chat = ({ chosenComDetails, type }) => {
                     senderId={user?._id}
                     chatType={type === 'stake' ? 'stakeholder' : 'community'}
                     showReaction={item?.author?._id !== user?._id ? true : false}
-                    defaultGroupReactions={item.reactions}
+                    defaultGroupReactions={item?.reactions}
                     channelName={channelName}
                     group
                     item={item}

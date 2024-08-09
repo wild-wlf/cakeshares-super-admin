@@ -107,12 +107,16 @@ function ProductsFilter({
       label: 'All',
     },
     {
-      value: true,
+      value: 'approved',
       label: 'Approved',
     },
     {
-      value: false,
+      value: 'pending',
       label: 'Pending',
+    },
+    {
+      value: 'rejected',
+      label: 'Rejected',
     },
   ];
   const productAccountTypeData = [

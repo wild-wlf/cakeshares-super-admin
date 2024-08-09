@@ -31,12 +31,16 @@ export const getCookie = name => {
   return null;
 };
 
+export const findCountryLabelByValue = (countriesArray, value) => {
+  const country = countriesArray.find(country => country.value === value);
+  return country ? country.label : null;
+};
+
 export const clearCookie = name => {
   document.cookie = `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
 
   return true;
 };
-
 
 export const downloadImage = async (url, fileName) => {
   try {
@@ -56,12 +60,11 @@ export const downloadImage = async (url, fileName) => {
   }
 };
 
-
 export const formatNumber = number => {
   return new Intl.NumberFormat('en-US', {
     style: 'decimal',
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2
+    maximumFractionDigits: 2,
   }).format(number);
 };
 

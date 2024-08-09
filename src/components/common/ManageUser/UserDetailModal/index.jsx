@@ -8,7 +8,8 @@ import ModalContainer from '@/components/molecules/ModalContainer';
 import declineIcon from '../../../../../public/assets/decline-icon.svg';
 import { format } from 'date-fns';
 import DeclineModal from '../../DeclineModal';
-import { formatNumber } from '@/helpers/common';
+import { findCountryLabelByValue, formatNumber } from '@/helpers/common';
+import { countries } from '@/components/Constant';
 
 const UserDetailModal = ({
   user,
@@ -36,15 +37,7 @@ const UserDetailModal = ({
         <div className="col">
           <span className="heading">Country:</span>
           <div className="flag-holder">
-            <figure className="img-holder">
-              <Image
-                src={`https://countryflagsapi.netlify.app/flag/${user.country}.svg`}
-                width={64}
-                height={64}
-                alt={`Flag of PK`}
-              />
-            </figure>
-            <span className="text">{user.countryName}</span>
+            <span className="text">{findCountryLabelByValue(countries, user.country)}</span>
           </div>
         </div>
         <div className="col">
@@ -148,7 +141,7 @@ const UserDetailModal = ({
               </div>
               <div className="col">
                 <span className="heading">Country of Residence:</span>
-                <span className="text">{ele.country}</span>
+                <span className="text">{findCountryLabelByValue(countries, ele.country)}</span>
               </div>
             </div>
           );
