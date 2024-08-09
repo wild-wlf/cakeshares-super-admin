@@ -75,7 +75,7 @@ const KycRequest = ({ user, setkycApproved, setkycDecline, setApprovedorDeclined
         <KYCDeclineModal declineKyc={declineKyc} isLoading={isLoading} />
       </CenterModal>
       <StyledKycRequest>
-        <strong className="title">Request for KYC Level: {user?.kycRequestLevel || 'None'}:</strong>
+        <strong className="title">Request for KYC Level: {user?.kycRequestLevel || 'None'}</strong>
         {kycInfo?.bankDetails && (
           <>
             <span className="wrapperTitle">Bank Details Info:</span>
@@ -127,7 +127,7 @@ const KycRequest = ({ user, setkycApproved, setkycDecline, setApprovedorDeclined
                   </div>
                   <div className="download" onClick={() => downloadImage(ele, fileName)}>
                     {/* <Link href={ele} download={fileName}> */}
-                      <Image src={downloadIcon} alt="downloadIcon" />
+                    <Image src={downloadIcon} alt="downloadIcon" />
                     {/* </Link> */}
                   </div>
                 </div>
