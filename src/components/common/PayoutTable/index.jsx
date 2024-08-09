@@ -14,8 +14,14 @@ import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
 import dollaricon from '../../../../public/assets/dollaricon.svg';
 import ViewPayoutInfo from '@/components/atoms/ViewPayoutInfo';
+import Select from '@/components/atoms/Select';
+import Toast from '@/components/molecules/Toast';
 
 const PayoutTable = ({ setPayoutCount }) => {
+  const { refetch } = useContextHook(AuthContext, v => ({
+    refetch: v.refetch,
+  }));
+
   const [searchQuery, setSearchQuery] = useState({
     page: 1,
     pageSize: 10,
@@ -36,6 +42,25 @@ const PayoutTable = ({ setPayoutCount }) => {
 
   const { payout_data, payout_loading } = paymentService.GetAllPayouts(searchQuery, fetch);
 
+  const handlePayoutManagement = async (payoutId, amount, status) => {
+    try {
+      await paymentService.handlePayoutRequest(payoutId, {
+        status,
+        amountIn: parseFloat(amount),
+      });
+      refetch();
+      Toast({
+        type: 'success',
+        message: `Payout Request ${status ? status.charAt(0).toUpperCase() + status.slice(1) : ''} Successfully!`,
+      });
+    } catch ({ message }) {
+      Toast({
+        type: 'error',
+        message,
+      });
+    }
+  };
+
   const handleEditModal = e => {
     setEditPermissionModal(true);
     setPermissionToUpdate(e);
@@ -49,18 +74,26 @@ const PayoutTable = ({ setPayoutCount }) => {
   const actionBtns = _ => (
     <>
       <ActionBtnList>
-        {_?.status === 'pending' && hasPermission('manage-payouts.approve') && (
-          <li>
-            <button
-              type="button"
-              className="btn edit"
-              onClick={() => {
-                setViewPayoutInfo(true);
-                setPayoutInfo(_);
-              }}>
-              <Image src={dollaricon} alt="detailIcon" height={18} width={18} />
-            </button>
-          </li>
+        {_?.status !== 'rejected' && _?.status !== 'completed' && hasPermission('manage-payouts.approve') && (
+          <div className="select-holder">
+            <Select
+              placeholder="Status"
+              onChange={({ target: { value } }) => {
+                handlePayoutManagement(_?._id, _?.amountIn?.$numberDecimal, value?.value);
+              }}
+              options={
+                _?.status === 'approved'
+                  ? [{ value: 'completed', label: 'Complete' }]
+                  : _?.status === 'pending'
+                  ? [
+                      { value: 'approved', label: 'Approve' },
+                      { value: 'rejected', label: 'Reject' },
+                      { value: 'completed', label: 'Complete' },
+                    ]
+                  : []
+              }
+            />
+          </div>
         )}
       </ActionBtnList>
     </>
@@ -74,12 +107,14 @@ const PayoutTable = ({ setPayoutCount }) => {
         _.userId?.type || '------------',
         `$${formatNumber(_?.amountIn?.$numberDecimal)}` || 0 || '----------',
         `$${formatNumber(_?.amountEx?.$numberDecimal)}` || 0 || '----------',
-        _?.status === 'pending' ? (
+        _?.status === 'completed' ? (
+          <span className="status-completed">Completed</span>
+        ) : _?.status === 'pending' ? (
           <span className="status-pending">Pending</span>
         ) : _?.status === 'approved' ? (
-          <span className="status-approved">Approved</span> ?? '------------'
+          <span className="status-approved">Approved</span>
         ) : (
-          <span className="status-rejected">Rejected</span> ?? '------------'
+          <span className="status-rejected">Rejected</span>
         ),
         actionBtns(_),
       ]),
@@ -103,13 +138,13 @@ const PayoutTable = ({ setPayoutCount }) => {
   ];
   return (
     <>
-      <CenterModal
+      {/* <CenterModal
         open={viewPayoutInfo}
         setOpen={setViewPayoutInfo}
         title={<Image src={InfoIcon} alt="InfoIcon" />}
         width="543">
         <ViewPayoutInfo payoutInfo={payoutInfo} setViewPayoutInfo={setViewPayoutInfo} />
-      </CenterModal>
+      </CenterModal> */}
 
       <TableContainer>
         <Image src={TableStyle} className="tableStyle" alt="tableStyle" />

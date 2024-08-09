@@ -160,7 +160,7 @@ const ChatMessage = ({
           </div>
 
           {(chatType === 'community' || chatType === 'stakeholder') &&
-            (defaultGroupReactions.length > 0 || receivedGroupReaction.length > 0) && (
+            (defaultGroupReactions?.length > 0 || receivedGroupReaction?.length > 0) && (
               <GroupReaction type={'count'}>
                 <span>
                   {receivedGroupReaction.length > 0
