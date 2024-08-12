@@ -64,8 +64,8 @@ const DeclineModal = ({ type, onClose, id, title = 'Decline Request!', btnText =
           rules={[
             { required: true, message: 'Please Enter Decline Reason!' },
             {
-              pattern: /^.{10,256}$/,
-              message: 'Product description must be between 10 and 256 characters.',
+              pattern: /^(.|\n){10,256}$/,
+              message: 'Product decline Reason must be between 10 and 256',
             },
           ]}>
           <Field />

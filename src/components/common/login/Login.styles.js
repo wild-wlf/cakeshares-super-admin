@@ -81,6 +81,9 @@ export const StyledLogin = styled.div`
     align-items: center;
     justify-content: space-between;
     margin-bottom: 40px;
+    label {
+      font-size: 15px;
+    }
   }
   .forgetPassword {
     color: var(--white);
