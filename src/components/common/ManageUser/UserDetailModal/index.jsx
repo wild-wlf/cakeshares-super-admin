@@ -76,7 +76,7 @@ const UserDetailModal = ({
           <div className="content">
             <div>
               <span className="heading">Request For:</span>
-              <span className="text">Level: {user?.kycRequestLevel || 'None'}</span>
+              <span className="text">Level {user?.kycRequestLevel || 'None'}</span>
             </div>
             <div>
               <span className="heading">Actions</span>
@@ -182,6 +182,20 @@ const UserDetailModal = ({
             )}
             content={({ onClose }) => <DeclineModal type="User" onClose={onClose} id={user?._id} />}
           />
+        </div>
+      )}
+       {user?.status === 'Suspended' && (
+        <div className="btn-holder">
+          <Button
+            onClick={() => {
+              handleConfirmActivate(user?._id, 'Approve');
+            }}
+            variant="success"
+            custom
+            xsCustom>
+            Unsuspend
+          </Button>
+
         </div>
       )}
     </StyledUserDetailModal>

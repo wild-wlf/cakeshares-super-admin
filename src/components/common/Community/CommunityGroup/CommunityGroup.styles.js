@@ -25,6 +25,14 @@ export const StyledCommunityGroup = styled.div`
       width: 30px;
       height: 30px;
       border-radius: 50%;
+      overflow: hidden;
+
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
 
       &::after {
         content: '';
@@ -37,14 +45,6 @@ export const StyledCommunityGroup = styled.div`
         background: ${({ $isOnline }) => ($isOnline ? 'var(--green)' : 'var(--gray-2)')};
         display: none;
       }
-
-      img {
-        display: block;
-        width: 100%;
-        height: auto;
-        border-radius: 50%;
-        object-fit: cover;
-      }
     }
 
     .img1 {
@@ -52,13 +52,13 @@ export const StyledCommunityGroup = styled.div`
       left: 0;
     }
     .img2 {
-      top: 50%;
+      top: 51%;
       transform: translateY(-50%);
       right: 0;
     }
     .img3 {
-      bottom: 0;
-      left: 0;
+      bottom: 5px;
+      left: -10px;
     }
   }
 

@@ -5,7 +5,7 @@ export const ChatWrapper = styled.div`
   gap: 20px;
   width: 100%;
   position: relative;
-  padding-top:20px ;
+  padding-top: 20px;
   /* overflow: hidden; */
   .chatWrapper {
     width: 100%;
@@ -14,11 +14,11 @@ export const ChatWrapper = styled.div`
 `;
 
 export const ChatBody = styled.div`
+height: 600px;
   overflow: auto;
   padding-right: 8px;
   overflow-x: hidden;
 
- 
   .messages-holder {
     margin-bottom: 40px;
   }

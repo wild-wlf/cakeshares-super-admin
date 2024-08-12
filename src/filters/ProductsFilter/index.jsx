@@ -84,8 +84,20 @@ function ProductsFilter({
     },
     {
       value: false,
-      label: 'Pending',
+      label: 'Suspended',
     },
+    // {
+    //   value: false,
+    //   label: 'Rejected',
+    // },
+    // {
+    //   value: false,
+    //   label: 'Pending',
+    // },
+    // {
+    //   value: false,
+    //   label: 'Deactive',
+    // },
   ];
   const accountTypeData = [
     {

@@ -106,6 +106,7 @@ const Chat = ({ chosenComDetails, type }) => {
     };
   }, [channelName]);
 
+  console.log(chosenComDetails);
   return (
     <ChatWrapper>
       <div
@@ -115,6 +116,10 @@ const Chat = ({ chosenComDetails, type }) => {
       </div>
       <div className="chatWrapper">
         <ChatBody ref={chatBoxRef} onScroll={onScrolledToTop}>
+          <div className="title">
+            <h1>{chosenComDetails.productName}</h1>
+          </div>
+
           {moreMsgLoading && <Loader noHeight />}
           {chatLoading ? (
             <div

@@ -31,7 +31,7 @@ const DeclineModal = ({ type, onClose, id, title = 'Decline Request!', btnText =
       });
 
       if (type === 'Product') {
-        await productService.updateProduct(id, formDataToSend);
+        await productService.deleteProduct(id, formDataToSend);
       } else {
         await userService.updateUser(id, formDataToSend);
       }

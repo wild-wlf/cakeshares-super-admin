@@ -51,13 +51,25 @@ const ReportDetailModal = ({ detail }) => {
   }, []);
 
   const onScrolledToTop = e => {
+    console.log(
+      {
+        cond:
+          e.target.scrollTop === 0 && chatMessages?.length < messages_data?.totalItems && messages_data?.totalItems > 0,
+        scrollTop: e.target.scrollTop,
+        chatMessagesLength: chatMessages?.length,
+        totalMessgaes: messages_data?.totalItems,
+      },
+      'asdsd',
+    );
     if (e.target.scrollTop === 0 && chatMessages?.length < messages_data?.totalItems && messages_data?.totalItems > 0) {
       setSearchQuery(prev => ({ ...prev, ['page']: prev?.page + 1 }));
       setMoreMsgLoading(true);
     }
   };
 
- 
+  const handleDeleteMessage = messageId => {
+    setChatMessages(prevMessages => prevMessages.filter(message => message._id !== messageId));
+  };
 
   return (
     <ChatWrapper>
@@ -85,19 +97,21 @@ const ReportDetailModal = ({ detail }) => {
               <Loader />
             </div>
           ) : (
-            chatMessages?.map((item, index) => (
-              <ReportMessagesList
-                key={index}
-                detail={item}
-                messageId={item?._id}
-                warningColor={detail?.messageId?._id === item?._id ? true : false}
-                reportMessageId={detail?._id}
-              />
-            ))
+            chatMessages
+              ?.filter(item => !item?.isPool)
+              .map((item, index) => (
+                <ReportMessagesList
+                  key={index}
+                  detail={item}
+                  messageId={item?._id}
+                  warningColor={detail?.messageId?._id === item?._id}
+                  reportMessageId={detail?._id}
+                  handleDeleteMessage={handleDeleteMessage}
+                />
+              ))
           )}
         </ChatBody>
       </div>
-      
     </ChatWrapper>
   );
 };
