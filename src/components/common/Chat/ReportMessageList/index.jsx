@@ -75,7 +75,7 @@ const ReportMessagesList = ({ detail, type, warningColor, reportMessageId,handle
                 <MenuItem onClick={() => setDeleteMessageModal(true)} icon={<MdOutlineReport size={20} />}>
                   Delete Message
                 </MenuItem>
-                <MenuItem onClick={() => setBlockUserModal(true)} icon={<MdOutlineReport size={20} />}>
+                <MenuItem disable={detail?.author?._id?.status === "Suspended"}  onClick={() => setBlockUserModal(true)}  icon={<MdOutlineReport size={20} />}>
                   Block User
                 </MenuItem>
               </MenuButton>

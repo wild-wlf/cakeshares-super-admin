@@ -6,12 +6,12 @@ import { AuthContext } from '@/context/authContext';
 import Toast from '@/components/molecules/Toast';
 import notificationService from '@/services/notificationservice';
 
+
 const BlockUserModal = ({ closeDeleteModal, messageUserId, reportMessageId, messageUserType }) => {
   const { refetch } = useContextHook(AuthContext, v => ({
     refetch: v.refetch,
   }));
 
-  console.log(messageUserType,messageUserId)
   const handleSubmit = async () => {
     try {
       const response = await notificationService.blockUser(messageUserId, {
