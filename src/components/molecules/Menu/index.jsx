@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyledMenu, StyledMenuButton, StyledMenuItem } from './Menu.styles';
 
-export function MenuItem({ children, icon, ...props }) {
+export function MenuItem({ children, icon,disable, ...props }) {
   return (
-    <StyledMenuItem onSelect={() => {}} {...props}>
+    <StyledMenuItem   disabled={disable} onSelect={() => {}}  {...props}>
       {icon ?? null}
       {children}
     </StyledMenuItem>
@@ -12,7 +12,7 @@ export function MenuItem({ children, icon, ...props }) {
 
 function MenuButton({ children, icon, ...props }) {
   return (
-    <StyledMenu menuButton={<StyledMenuButton>{icon}</StyledMenuButton>} {...props}>
+    <StyledMenu  menuButton={<StyledMenuButton>{icon}</StyledMenuButton>} {...props}>
       {children}
     </StyledMenu>
   );

@@ -79,4 +79,12 @@ export const StyledMenuItem = styled(MenuItem)`
   &.detail-btn {
     color: var(--primary);
   }
+
+  ${({ disabled }) =>
+    disabled &&
+    `
+    color: grey; 
+    // cursor: not-allowed;
+    opacity: 0.6;
+  `}
 `;
