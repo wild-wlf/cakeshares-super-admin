@@ -77,6 +77,15 @@ export const validateAmenity = (e, arr) => {
   return false;
 };
 
+export const findReactionByUserId = (array, senderId) => {
+  const Index = array.findIndex(obj => obj.senderId?._id === senderId);
+  if (Index >= 0) {
+    return array[Index]?.reaction;
+  } else {
+    return array[0]?.reaction;
+  }
+};
+
 export const convertPdfBase64 = file =>
   new Promise(resolve => {
     const reader = new FileReader();
