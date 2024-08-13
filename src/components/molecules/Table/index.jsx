@@ -21,12 +21,13 @@ function Table({
   noPadding,
   width,
   responsive = true,
+  overflow,
   ...props
 }) {
   return (
     <>
       <TableHolder responsive={responsive} noPadding={noPadding}>
-        <TableScroll $height={height}>
+        <TableScroll $height={height} $overflow={overflow}>
           <StyledTable $width={width} responsive={responsive} {...props}>
             <Thead responsive={responsive}>
               <TableRow className="table-head" responsive={responsive}>

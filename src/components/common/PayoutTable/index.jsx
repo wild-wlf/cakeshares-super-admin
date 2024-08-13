@@ -75,25 +75,23 @@ const PayoutTable = ({ setPayoutCount }) => {
     <>
       <ActionBtnList>
         {_?.status !== 'rejected' && _?.status !== 'completed' && hasPermission('manage-payouts.approve') && (
-          <div className="select-holder">
-            <Select
-              placeholder="Status"
-              onChange={({ target: { value } }) => {
-                handlePayoutManagement(_?._id, _?.amountIn?.$numberDecimal, value?.value);
-              }}
-              options={
-                _?.status === 'approved'
-                  ? [{ value: 'completed', label: 'Complete' }]
-                  : _?.status === 'pending'
-                  ? [
-                      { value: 'approved', label: 'Approve' },
-                      { value: 'rejected', label: 'Reject' },
-                      { value: 'completed', label: 'Complete' },
-                    ]
-                  : []
-              }
-            />
-          </div>
+          <Select
+            placeholder="Status"
+            onChange={({ target: { value } }) => {
+              handlePayoutManagement(_?._id, _?.amountIn?.$numberDecimal, value?.value);
+            }}
+            options={
+              _?.status === 'approved'
+                ? [{ value: 'completed', label: 'Complete' }]
+                : _?.status === 'pending'
+                ? [
+                    { value: 'approved', label: 'Approve' },
+                    { value: 'rejected', label: 'Reject' },
+                    { value: 'completed', label: 'Complete' },
+                  ]
+                : []
+            }
+          />
         )}
       </ActionBtnList>
     </>
@@ -149,6 +147,7 @@ const PayoutTable = ({ setPayoutCount }) => {
       <TableContainer>
         <Image src={TableStyle} className="tableStyle" alt="tableStyle" />
         <TableLayout
+          overflow
           tableHeading={' '}
           ProductsDetailSelect
           placeholder="Search Payouts"
@@ -164,7 +163,14 @@ const PayoutTable = ({ setPayoutCount }) => {
           totalCount={totalCount}
           pageSize={searchQuery.itemsPerPage}
           filterBlock={true}>
-          <Table width={1024} rowsData={payout_rows} loading={payout_loading} columnNames={columnNames} noPadding />
+          <Table
+            overflow
+            width={1024}
+            rowsData={payout_rows}
+            loading={payout_loading}
+            columnNames={columnNames}
+            noPadding
+          />
         </TableLayout>
       </TableContainer>
     </>

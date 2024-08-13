@@ -26,6 +26,7 @@ import DeclineModal from '../../DeclineModal';
 import DeleteModal from '@/components/atoms/UserDeleteModal/DeleteModal';
 import { TableContainer } from '@/components/atoms/TableContainer/TableContainer.styles';
 import { formatNumber } from '@/helpers/common';
+import ReviewRequestedProductEdit from '../ViewRequestedEditProduct';
 
 const MangeProductsTable = ({ setTagline }) => {
   const { fetch } = useContextHook(AuthContext, v => ({
@@ -67,15 +68,14 @@ const MangeProductsTable = ({ setTagline }) => {
     products_data = result.products_data;
     products_loading = result.products_loading;
   }
+
   useEffect(() => {
     let message;
 
     if (products_data?.allProductsInDb !== undefined) {
       message = `You have total ${products_data?.allProductsInDb || 0} products in your manage products right now!`;
     } else {
-      message = `You have total ${
-        investments_data?.totalItems || 0
-      } investments in your manage products right now!`;
+      message = `You have total ${investments_data?.totalItems || 0} investments in your manage products right now!`;
     }
 
     setTagline(message);
@@ -109,6 +109,7 @@ const MangeProductsTable = ({ setTagline }) => {
                 <button
                   type="button"
                   className="btn edit"
+                  disabled={product?.valueRaised > 0}
                   onClick={() => {
                     setProduct(product);
                     setProductModal(true);
@@ -145,6 +146,19 @@ const MangeProductsTable = ({ setTagline }) => {
             <>
               <li>
                 <ModalContainer
+                  width={1000}
+                  title="Product Detail"
+                  btnComponent={({ onClick }) => (
+                    <Button variant="secondary" custom xsCustom onClick={onClick}>
+                      <Image src={detailIcon} alt="detailIcon" />
+                      View Detail
+                    </Button>
+                  )}
+                  content={({ onClose }) => <ProductDetailModal product={product} />}
+                />
+              </li>
+              <li>
+                <ModalContainer
                   width={500}
                   title={<Image src={declineIcon} alt="declineIcon" />}
                   btnComponent={({ onClick }) => (
@@ -170,19 +184,21 @@ const MangeProductsTable = ({ setTagline }) => {
                   )}
                 />
               </li>
-              <li>
-                <ModalContainer
-                  width={1000}
-                  title="Product Detail"
-                  btnComponent={({ onClick }) => (
-                    <Button variant="secondary" custom xsCustom onClick={onClick}>
-                      <Image src={detailIcon} alt="detailIcon" />
-                      View Detail
-                    </Button>
-                  )}
-                  content={({ onClose }) => <ProductDetailModal product={product} />}
-                />
-              </li>
+              {product?.isProductRequest && (
+                <li>
+                  <ModalContainer
+                    width={1000}
+                    title="Review Requested Product Edit"
+                    btnComponent={({ onClick }) => (
+                      <Button variant="secondary" custom xsCustom onClick={onClick}>
+                        <Image src={detailIcon} alt="detailIcon" />
+                        Review Requested Product Edit
+                      </Button>
+                    )}
+                    content={({ onClose }) => <ReviewRequestedProductEdit productId={product?._id} />}
+                  />
+                </li>
+              )}
             </>
           )}
         </ActionBtnList>
@@ -246,11 +262,14 @@ const MangeProductsTable = ({ setTagline }) => {
           ? 'Individual Seller'
           : 'Company Seller',
         _?.investmentType?.name || '------------',
+        _?.isProductRequest == true ? 'Requested' : '-----------',
         _?.verificationStatus === 'approved' ? (
           <span className="status-approved">Approved</span>
         ) : _?.verificationStatus === 'pending' ? (
           <span className="status-pending">Pending</span> ?? '------------'
-        ) : <span className="status-rejected">Rejected</span> ?? '------------',
+        ) : (
+          <span className="status-rejected">Rejected</span> ?? '------------'
+        ),
         _?.currentBackers ?? '------------',
         actionBtns(_),
       ]),
@@ -266,6 +285,7 @@ const MangeProductsTable = ({ setTagline }) => {
     `Owner Status`,
     `User Account Type`,
     `Category`,
+    `Edit Status`,
     `Product Status`,
     `Current Backers`,
     'Actions',

@@ -9,7 +9,7 @@ export const StyledTableLayout = styled.div`
   box-shadow: none;
   margin: ${({ noNegativeMargin }) => (noNegativeMargin ? '' : '0 0 0')};
   background: var(--white);
-  overflow: hidden;
+  overflow: ${({ $overflow }) => ($overflow ? '' : 'hidden')};
   font-family: 'Outfit', sans-serif;
 
   @media (min-width: 768px) {

@@ -40,6 +40,7 @@ function TableLayout({
   setTab,
   noBorder,
   noPadding,
+  overflow,
   // openDateModal,
   setResetFilter = () => {},
 }) {
@@ -51,7 +52,8 @@ function TableLayout({
         noPagination={noPagination}
         filterBlock={filterBlock}
         $noBorder={noBorder}
-        $noPadding={noPadding}>
+        $noPadding={noPadding}
+        $overflow={overflow}>
         <div className="inner-wrap">
           <ProductsFilter
             placeholder={placeholder}
