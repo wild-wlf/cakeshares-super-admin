@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-onchange */
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { StyledTableHeader } from './ProductsFilter.Styles';
 import Field from '@/components/molecules/Field';
@@ -34,7 +34,8 @@ function ProductsFilter({
   const [searchText, setSearchText] = useState('');
   const debounceRef = useRef(0);
   const [dateModal, setDateModal] = useState(false);
-
+  const [selectedStatus, setSelectedStatus] = useState(null);
+  const [selectedKyc, setSelectedKyc] = useState(null);
   const onSearchCallText = useMemo(
     () =>
       debounce(value => {
@@ -74,31 +75,47 @@ function ProductsFilter({
       label: 'Level 3',
     },
   ];
-  const statusData = [
+  const statusDataSeller = [
     {
+      value: '',
       label: 'All',
     },
     {
-      value: true,
-      label: 'Approved',
+      value: 'Pending',
+      label: 'Pending',
     },
     {
-      value: false,
-      label: 'Suspended',
+      value: 'Active',
+      label: 'Active',
     },
     // {
-    //   value: false,
-    //   label: 'Rejected',
-    // },
-    // {
-    //   value: false,
-    //   label: 'Pending',
-    // },
-    // {
-    //   value: false,
+    //   value: 'Deactive',
     //   label: 'Deactive',
     // },
+    {
+      value: 'Rejected',
+      label: 'Rejected',
+    },
+    {
+      value: 'Suspended',
+      label: 'Suspended',
+    },
   ];
+  const statusDataBuyer = [
+    {
+      value: '',
+      label: 'All',
+    },
+    {
+      value: 'Active',
+      label: 'Active',
+    },
+    {
+      value: 'Suspended',
+      label: 'Suspended',
+    },
+  ];
+
   const accountTypeData = [
     {
       value: '',
@@ -149,6 +166,12 @@ function ProductsFilter({
       label: 'Company Seller',
     },
   ];
+
+  useEffect(() => {
+    setSelectedStatus(null);
+    setSelectedKyc(null);
+  }, [tab]);
+
   return (
     <>
       <StyledTableHeader>
@@ -240,7 +263,9 @@ function ProductsFilter({
                 <div className="select-holder">
                   <Select
                     placeholder="Select KYC"
+                    value={selectedKyc}
                     onChange={({ target: { value } }) => {
+                      setSelectedKyc(value);
                       onChangeFilters({ kycLevel: value?.value });
                     }}
                     options={kycData}
@@ -250,10 +275,12 @@ function ProductsFilter({
                 <div className="select-holder">
                   <Select
                     placeholder="Select Status"
+                    value={selectedStatus}
                     onChange={({ target: { value } }) => {
+                      setSelectedStatus(value);
                       onChangeFilters({ status: value?.value });
                     }}
-                    options={statusData}
+                    options={tab === 2 ? statusDataSeller : statusDataBuyer}
                   />
                 </div>
                 {tab === 2 && (

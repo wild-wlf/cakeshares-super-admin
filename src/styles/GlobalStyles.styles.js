@@ -215,10 +215,13 @@ export const Styling = css`
     position: relative;
   }
   .status-pending{
-    color: var( --danger-light) ;
+    color: #408F8C ;
   }
   .status-approved{
     color: rgba(65, 148, 0, 1);
+  }
+  .status-rejected{
+    color: var( --danger) ;
   }
   /************* custom scrollbar styles ************/
 
