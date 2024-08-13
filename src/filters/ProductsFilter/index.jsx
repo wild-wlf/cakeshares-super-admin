@@ -130,6 +130,10 @@ function ProductsFilter({
       value: 'rejected',
       label: 'Rejected',
     },
+    {
+      value: 'funded',
+      label: 'Funded',
+    },
   ];
   const productAccountTypeData = [
     {
