@@ -12,7 +12,7 @@ import BlockUserModal from '@/components/molecules/BlockUserModal';
 import Pic from '../../../../../public/assets/user-img.png';
 import Image from 'next/image';
 
-const ReportMessagesList = ({ detail, type, warningColor, reportMessageId }) => {
+const ReportMessagesList = ({ detail, type, warningColor, reportMessageId,handleDeleteMessage }) => {
   const [deleteMessageModal, setDeleteMessageModal] = useState(false);
   const [blockUserModal, setBlockUserModal] = useState(false);
 
@@ -25,6 +25,7 @@ const ReportMessagesList = ({ detail, type, warningColor, reportMessageId }) => 
             setDeleteMessageModal(false);
           }}
           messageId={detail?._id}
+          handleDeleteMessage={handleDeleteMessage}
         />
       </CenterModal>
       {/*  blocking user */}
@@ -74,7 +75,7 @@ const ReportMessagesList = ({ detail, type, warningColor, reportMessageId }) => 
                 <MenuItem onClick={() => setDeleteMessageModal(true)} icon={<MdOutlineReport size={20} />}>
                   Delete Message
                 </MenuItem>
-                <MenuItem onClick={() => setBlockUserModal(true)} icon={<MdOutlineReport size={20} />}>
+                <MenuItem disable={detail?.author?._id?.status === "Suspended"}  onClick={() => setBlockUserModal(true)}  icon={<MdOutlineReport size={20} />}>
                   Block User
                 </MenuItem>
               </MenuButton>

@@ -55,7 +55,7 @@ export const indivisualSellerNav = [
       },
       {
         navigation: '/investor-chat',
-        name: 'Investor Chat',
+        name: "Investor's Chat",
         icon: stakeChat,
       },
     ],

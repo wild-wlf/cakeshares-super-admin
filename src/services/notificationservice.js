@@ -94,6 +94,15 @@ const notificationService = {
     const { message } = await res.json();
     throw new Error(message ?? 'Something Went Wrong');
   },
+  async getMessageReactions(messageId) {
+    let res = await Fetch.get(`${this._url}/get-reaction-detail?messageId=${messageId}`);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    }
+    const { message } = await res.json();
+    throw new Error(message ?? 'Something Went Wrong');
+  },
   async readAllNotifications() {
     let res = await Fetch.get(`${this._url}//read-all-notification`);
     if (res.status >= 200 && res.status < 300) {

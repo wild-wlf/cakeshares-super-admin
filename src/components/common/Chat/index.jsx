@@ -106,6 +106,7 @@ const Chat = ({ chosenComDetails, type }) => {
     };
   }, [channelName]);
 
+  console.log(chosenComDetails);
   return (
     <ChatWrapper>
       <div
@@ -115,6 +116,10 @@ const Chat = ({ chosenComDetails, type }) => {
       </div>
       <div className="chatWrapper">
         <ChatBody ref={chatBoxRef} onScroll={onScrolledToTop}>
+          <div className="title">
+            <h1>{chosenComDetails.productName}</h1>
+          </div>
+
           {moreMsgLoading && <Loader noHeight />}
           {chatLoading ? (
             <div
@@ -162,7 +167,7 @@ const Chat = ({ chosenComDetails, type }) => {
                     senderId={user?._id}
                     chatType={type === 'stake' ? 'stakeholder' : 'community'}
                     showReaction={item?.author?._id !== user?._id ? true : false}
-                    defaultGroupReactions={item.reactions}
+                    defaultGroupReactions={item?.reactions}
                     channelName={channelName}
                     group
                     item={item}

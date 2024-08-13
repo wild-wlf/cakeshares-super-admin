@@ -29,15 +29,15 @@ const StakeHolderChat = () => {
   return (
     <div>
       <Head>
-        <title>CAKESHARES | Investor Chat</title>
+        <title>CAKESHARES | Investor's Chat</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <SellerContainer>
         <AdminTopBar
-          title={'Investor Chat'}
+          title={"Investor's Chat"}
           tagLine={`You have total ${conversations?.length} chat${
             conversations?.length > 1 ? 's' : ''
-          } in your Investor chat right now!`}
+          } in your Investor's chat right now!`}
         />
         <div className="chat-holder">
           <SideBar

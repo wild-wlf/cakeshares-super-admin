@@ -124,6 +124,7 @@ const SideBar = ({ type, handleChoseComDetails, chosenComDetails, conversations,
                   conversationId: item?._id,
                   author: user._id,
                   receivers: item?.participants,
+                  productName:item.productName
                 });
               }}
             />
