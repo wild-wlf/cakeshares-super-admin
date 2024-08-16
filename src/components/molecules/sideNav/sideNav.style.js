@@ -79,6 +79,20 @@ export const NavLinks = styled.ul`
       border-radius: 50%;
       transition: 0.5s all ease-in-out;
     }
+  }
+  .new {
+    position: relative;
+
+    &::before {
+      position: absolute;
+      content: '';
+      top: -2px;
+      width: 10px;
+      height: 10px;
+      background: red;
+      border-radius: 10px;
+      right: 0;
+    }
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.2);

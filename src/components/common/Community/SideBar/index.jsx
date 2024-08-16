@@ -12,9 +12,10 @@ import debounce from 'lodash/debounce';
 import { CiSearch } from 'react-icons/ci';
 
 const SideBar = ({ type, handleChoseComDetails, chosenComDetails, conversations, setConversations }) => {
-  const { user, fetch } = useContextHook(AuthContext, v => ({
+  const { user, fetch, setUnreadCounts } = useContextHook(AuthContext, v => ({
     user: v.user,
     fetch: v.fetch,
+    setUnreadCounts: v.setUnreadCounts,
   }));
   const [searchText, setSearchText] = useState('');
   const debounceRef = useRef(0);
@@ -49,6 +50,13 @@ const SideBar = ({ type, handleChoseComDetails, chosenComDetails, conversations,
       window.removeEventListener('com_message_history', () => {});
     };
   }, [type]);
+
+  useEffect(() => {
+    setUnreadCounts(prevUnreadCounts => ({
+      COM_CHAT: type === 'community' ? false : prevUnreadCounts.COM_CHAT,
+      STAKE_CHAT: type === 'stake' ? false : prevUnreadCounts.STAKE_CHAT,
+    }));
+  }, [type]);   
 
   const renderParticipants = participants => {
     const channelParticipants = participants.filter(_ => _?._id !== user?._id);
@@ -124,7 +132,7 @@ const SideBar = ({ type, handleChoseComDetails, chosenComDetails, conversations,
                   conversationId: item?._id,
                   author: user._id,
                   receivers: item?.participants,
-                  productName:item.productName
+                  productName: item.productName,
                 });
               }}
             />
