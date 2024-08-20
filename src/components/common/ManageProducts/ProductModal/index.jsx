@@ -31,6 +31,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
   const [addressDetails, setAddressDetails] = useState('');
   const [formattedAddress, setFormattedAddress] = useState();
   const [isInfiniteBackers, setIsInfiniteBackers] = useState(false);
+  const [tempMaxBackersVal, setTempMaxBackersVal] = useState();
 
   const { categories_data } = categoryService.GetAllCategories(
     {
@@ -227,11 +228,13 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
         message: 'Maximum backers cannot be less than minimum backers!',
       },
     ]);
-
     if (isInfiniteBackers) {
+      setTempMaxBackersVal(form.getFieldValue('maximumBackers'));
       form.removeFieldError('maximumBackers');
       form.setFieldsValue({ maximumBackers: '' });
-    }
+      } else if (tempMaxBackersVal) {
+        form.setFieldsValue({ maximumBackers: tempMaxBackersVal || '' });
+      }
   }, [isInfiniteBackers, form]);
 
   return (
