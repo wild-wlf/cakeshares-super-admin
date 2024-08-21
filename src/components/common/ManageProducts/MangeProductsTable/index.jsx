@@ -27,10 +27,12 @@ import DeleteModal from '@/components/atoms/UserDeleteModal/DeleteModal';
 import { TableContainer } from '@/components/atoms/TableContainer/TableContainer.styles';
 import { formatNumber } from '@/helpers/common';
 import ReviewRequestedProductEdit from '../ViewRequestedEditProduct';
+import userService from '@/services/userService';
 
 const MangeProductsTable = ({ setTagline }) => {
-  const { fetch } = useContextHook(AuthContext, v => ({
+  const { fetch, refetch } = useContextHook(AuthContext, v => ({
     fetch: v.fetch,
+    refetch: v.refetch,
   }));
   const [tab, setTab] = useState(1);
   const [product, setProduct] = useState({});
@@ -56,6 +58,17 @@ const MangeProductsTable = ({ setTagline }) => {
     setDeleteModal(false);
     setSuccessModal(true);
   }
+
+  const deleteProduct = async () => {
+    try {
+      setIsLoading(true);
+      await userService.deleteProduct(productToDelete);
+      refetch();
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   let investments_data, investments_loading, products_data, products_loading;
 
@@ -98,6 +111,21 @@ const MangeProductsTable = ({ setTagline }) => {
               content={({ onClose }) => <ProductDetailModal product={product} />}
             />
           </li>
+          {product?.isProductRequest && (
+            <li>
+              <ModalContainer
+                width={1000}
+                title="Review Requested Product Edit"
+                btnComponent={({ onClick }) => (
+                  <Button variant="secondary" custom xsCustom onClick={onClick}>
+                    <Image src={detailIcon} alt="detailIcon" />
+                    Review Requested Product Edit
+                  </Button>
+                )}
+                content={({ onClose }) => <ReviewRequestedProductEdit productId={product?._id} />}
+              />
+            </li>
+          )}
         </ActionBtnList>
       );
     } else {
@@ -158,31 +186,19 @@ const MangeProductsTable = ({ setTagline }) => {
                 />
               </li>
               <li>
-                <ModalContainer
-                  width={500}
-                  title={<Image src={declineIcon} alt="declineIcon" />}
-                  btnComponent={({ onClick }) => (
-                    <Button
-                      type="button"
-                      variant="danger"
-                      custom
-                      xsCustom
-                      onClick={onClick}
-                      disable={product.isAdvertised}>
-                      <Image src={DeleteIcon} alt="DeleteIcon" />
-                      Delete Product
-                    </Button>
-                  )}
-                  content={({ onClose }) => (
-                    <DeclineModal
-                      type="Product"
-                      onClose={handleDelete}
-                      id={product?._id}
-                      title="Delete Product!"
-                      btnText="Yes, Delete"
-                    />
-                  )}
-                />
+                <Button
+                  type="button"
+                  variant="danger"
+                  custom
+                  xsCustom
+                  onClick={() => {
+                    setProductToDelete(product?._id);
+                    setDeleteModal(true);
+                  }}
+                  disable={product.isAdvertised || product?.valueRaised > 0}>
+                  <Image src={DeleteIcon} alt="DeleteIcon" />
+                  Delete Product
+                </Button>
               </li>
               {product?.isProductRequest && (
                 <li>
@@ -335,6 +351,8 @@ const MangeProductsTable = ({ setTagline }) => {
           id={productToDelete}
           title="Delete Product!"
           text="Are you sure you want to delete this Product?"
+          action="Yes, Delete"
+          type="product"
           closeDeleteModal={() => setDeleteModal(false)}
           openSuccessfulModal={() => handleDelete()}
         />

@@ -47,7 +47,7 @@ const EditRequestDeclineModal = ({ onClose, id, title = 'Decline Request!', btnT
       <Form form={form} onSubmit={onDecline}>
         <span className="heading">{title}</span>
         <div className="text">
-          <p>Please provide a reason for the user to know why his request have been declined.</p>
+          <p>Please provide a reason for the user to know why his edit request have been declined.</p>
         </div>
         <Form.Item
           name="declineReason"
