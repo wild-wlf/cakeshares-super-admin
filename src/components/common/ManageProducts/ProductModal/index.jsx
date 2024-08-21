@@ -261,22 +261,22 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
             ]}>
             <Field maxLength={40} />
           </Form.Item>
-          <Form.Item
-            label="Investment Type"
-            name="investmentType"
-            defaultOptions={categoriesOptions}
-            sm
-            rounded
-            isSearchable
-            placeholder="Investment Type"
-            rules={[
-              {
-                required: true,
-                message: 'Please enter Investment Type',
-              },
-            ]}>
-            <Select async loadOptions={loadInvestmentTypeOptions} />
-          </Form.Item>
+            <Form.Item
+              label="Investment Type"
+              name="investmentType"
+              defaultOptions={categoriesOptions}
+              sm
+              rounded
+              isSearchable
+              placeholder="Investment Type"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please enter Investment Type',
+                },
+              ]}>
+              <Select async loadOptions={loadInvestmentTypeOptions} />
+            </Form.Item>
           <div>
             <LoadScript googleMapsApiKey={'AIzaSyB0gq-rFU2D-URzDgIQOkqa_fL6fBAz9qI'} libraries={libraries}>
               <Autocomplete

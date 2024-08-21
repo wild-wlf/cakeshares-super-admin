@@ -159,6 +159,16 @@ const productService = {
     const { message } = await res.json();
     throw new Error(message ?? 'Something Went Wrong');
   },
+
+  async rejectProduct(id, payload) {
+    let res = await Fetch.put(`${this._url}/reject-product/${id}`,payload);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    }
+    const { message } = await res.json();
+    throw new Error(message ?? 'Something Went Wrong');
+  },
 };
 
 export default productService;

@@ -10,7 +10,7 @@ import { useForm } from '@/components/molecules/Form';
 import Form from '@/components/molecules/Form/Form';
 import Field from '@/components/molecules/Field';
 
-const DeclineModal = ({ type, onClose, id, title = 'Decline Request!', btnText = 'Yes, Decline' }) => {
+const DeclineModal = ({ type, onClose, id, title = 'Decline Request!', btnText = 'Yes, Decline', action }) => {
   const { refetch } = useContextHook(AuthContext, v => ({
     refetch: v.refetch,
   }));
@@ -22,6 +22,7 @@ const DeclineModal = ({ type, onClose, id, title = 'Decline Request!', btnText =
       setIsLoading(true);
       const payload = {
         verificationStatus: 'rejected',
+        status: 'Rejected',
         declineReason,
       };
 
@@ -31,7 +32,11 @@ const DeclineModal = ({ type, onClose, id, title = 'Decline Request!', btnText =
       });
 
       if (type === 'Product') {
-        await productService.deleteProduct(id, formDataToSend);
+        if (action === 'hard') {
+          await productService.deleteProduct(id, formDataToSend);
+        } else {
+          await productService.rejectProduct(id, payload);
+        }
       } else {
         await userService.updateUser(id, formDataToSend);
       }

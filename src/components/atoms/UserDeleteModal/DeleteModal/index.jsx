@@ -13,6 +13,7 @@ const DeleteModal = ({
   openSuccessfulModal,
   title = 'Suspend User!',
   text = 'Are you sure you want to suspend this User?',
+  action = 'Yes, Suspend',
   onClose,
   type,
 }) => {
@@ -49,8 +50,8 @@ const DeleteModal = ({
         <Button outline onClick={closeDeleteModal} block>
           No
         </Button>
-        <Button variant="danger" className="danger" onClick={onDecline} block>
-          Yes, Suspend
+        <Button variant="danger" loader={isLoading} className="danger" onClick={onDecline} block>
+          {action}
         </Button>
       </div>
     </DeleteModalWrapper>

@@ -161,7 +161,7 @@ const UserDetailModal = ({
           <span>No Categories Available</span>
         )}
       </div>
-      {user?.isVerified === false && user?.verificationStatus === 'pending' && (
+      {user?.isVerified === false && user?.status === 'Pending' && (
         <div className="btn-holder">
           <Button
             onClick={() => {
