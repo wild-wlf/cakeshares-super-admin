@@ -232,9 +232,9 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
       setTempMaxBackersVal(form.getFieldValue('maximumBackers'));
       form.removeFieldError('maximumBackers');
       form.setFieldsValue({ maximumBackers: '' });
-      } else if (tempMaxBackersVal) {
-        form.setFieldsValue({ maximumBackers: tempMaxBackersVal || '' });
-      }
+    } else if (tempMaxBackersVal) {
+      form.setFieldsValue({ maximumBackers: tempMaxBackersVal || '' });
+    }
   }, [isInfiniteBackers, form]);
 
   return (
@@ -261,22 +261,22 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
             ]}>
             <Field maxLength={40} />
           </Form.Item>
-            <Form.Item
-              label="Investment Type"
-              name="investmentType"
-              defaultOptions={categoriesOptions}
-              sm
-              rounded
-              isSearchable
-              placeholder="Investment Type"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please enter Investment Type',
-                },
-              ]}>
-              <Select async loadOptions={loadInvestmentTypeOptions} />
-            </Form.Item>
+          <Form.Item
+            label="Investment Type"
+            name="investmentType"
+            defaultOptions={categoriesOptions}
+            sm
+            rounded
+            isSearchable
+            placeholder="Investment Type"
+            rules={[
+              {
+                required: true,
+                message: 'Please enter Investment Type',
+              },
+            ]}>
+            <Select async loadOptions={loadInvestmentTypeOptions} />
+          </Form.Item>
           <div>
             <LoadScript googleMapsApiKey={'AIzaSyB0gq-rFU2D-URzDgIQOkqa_fL6fBAz9qI'} libraries={libraries}>
               <Autocomplete
@@ -373,8 +373,8 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                   message: 'Please enter Product Description',
                 },
                 {
-                  pattern: /^.{10,1000}$/,
-                  message: 'Minimum character length of product description is 10',
+                  pattern: /^(.|\r|\n){10,1000}$/,
+                  message: 'Minimum character length of description is 10',
                 },
               ]}>
               <Field maxLength={1000} />
@@ -394,8 +394,8 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                   message: 'Please enter Description',
                 },
                 {
-                  pattern: /^.{10,1000}$/,
-                  message: 'Minimum character length of Investment Reason is 10',
+                  pattern: /^(.|\r|\n){10,1000}$/,
+                  message: 'Minimum character length of description is 10',
                 },
               ]}>
               <Field maxLength={1000} />

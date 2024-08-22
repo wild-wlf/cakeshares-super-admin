@@ -13,7 +13,7 @@ const Categories = () => {
       </Head>
       <AdminTopBar
         title="Manage Categories"
-        tagLine={`You have total ${categoryCount || 0} total categories in your manage categories right now!`}
+        tagLine={`You have total ${categoryCount || 0} categories in your manage categories right now!`}
       />
       <CategoryTable setCategoryCount={setCategoryCount} />
     </div>

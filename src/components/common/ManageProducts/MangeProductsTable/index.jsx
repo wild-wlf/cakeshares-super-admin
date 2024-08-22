@@ -25,7 +25,7 @@ import { MdModeEditOutline } from 'react-icons/md';
 import DeclineModal from '../../DeclineModal';
 import DeleteModal from '@/components/atoms/UserDeleteModal/DeleteModal';
 import { TableContainer } from '@/components/atoms/TableContainer/TableContainer.styles';
-import { formatNumber } from '@/helpers/common';
+import { convertToCurrencyFormat, formatNumber } from '@/helpers/common';
 import ReviewRequestedProductEdit from '../ViewRequestedEditProduct';
 import userService from '@/services/userService';
 
@@ -52,6 +52,7 @@ const MangeProductsTable = ({ setTagline }) => {
     section: 'Investments',
     status: '',
     accType: '',
+    kycLevel: '',
   });
 
   function handleDelete() {
@@ -146,15 +147,19 @@ const MangeProductsTable = ({ setTagline }) => {
                 </button>
               </li>
               <li>
-                <button
+                <Button
                   type="button"
-                  className="btn delete"
+                  variant="danger"
+                  custom
+                  xsCustom
                   onClick={() => {
                     setProductToDelete(product?._id);
                     setDeleteModal(true);
-                  }}>
+                  }}
+                  disable={product.isAdvertised || product?.valueRaised > 0}>
                   <Image src={DeleteIcon} alt="DeleteIcon" />
-                </button>
+                  Delete Product
+                </Button>
               </li>
               <li>
                 <ModalContainer
@@ -279,6 +284,7 @@ const MangeProductsTable = ({ setTagline }) => {
           : 'Company Seller',
         _?.investmentType?.name || '------------',
         _?.isProductRequest == true ? 'Requested' : '-----------',
+        _?.remainingAdvertisementDays ?? '-----------',
         _?.verificationStatus === 'approved' ? (
           <span className="status-approved">Approved</span>
         ) : _?.verificationStatus === 'pending' ? (
@@ -287,6 +293,7 @@ const MangeProductsTable = ({ setTagline }) => {
           <span className="status-rejected">Rejected</span> ?? '------------'
         ),
         _?.currentBackers ?? '------------',
+        `${convertToCurrencyFormat(_?.valueRaised)}` ?? 0 ?? '------------',
         actionBtns(_),
       ]),
       product_totalCount: products_data?.totalItems,
@@ -302,8 +309,10 @@ const MangeProductsTable = ({ setTagline }) => {
     `User Account Type`,
     `Category`,
     `Edit Status`,
+    `Remaining Advertisement Days`,
     `Product Status`,
     `Current Backers`,
+    `Value Raised`,
     'Actions',
   ];
 

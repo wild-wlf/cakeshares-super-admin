@@ -59,7 +59,7 @@ const ProductDetailModal = ({ product }) => {
       text: `(${formatDateWithSuffix(product?.deadline)} / ${daysLeft(product?.deadline)} left) `,
     },
     {
-      heading: `${product?.userId?.sellerType === 'Company' ? 'KYB Level' : 'KYC Level'}`,
+      heading: `${product?.userId?.sellerType === 'Company' ? 'KYB Level:' : 'KYC Level:'}`,
       text: `Level ${product?.kycLevel}`,
     },
   ];
@@ -89,9 +89,17 @@ const ProductDetailModal = ({ product }) => {
       text: `$${Number(product?.minimumInvestment)?.toFixed(2).toLocaleString('en-US')}`,
     },
     {
-      heading: 'Total Asset Value',
+      heading: 'Total Asset Value:',
       text: `$${Number(product?.assetValue)?.toFixed(2).toLocaleString('en-US')}`,
     },
+    ...(product?.remainingAdvertisementDays
+      ? [
+          {
+            heading: 'Advertised Remaining Days:',
+            text: `${product.remainingAdvertisementDays}`,
+          },
+        ]
+      : []),
   ];
   const productDescription = [
     {
