@@ -34,9 +34,9 @@ const paymentService = {
     };
   },
 
-  async getAllPayouts({ page = 1, itemsPerPage = 10, searchText = '', getAll = false, status = '' }) {
+  async getAllPayouts({ page = 1, itemsPerPage = 10, searchText = '', getAll = false, status = '', userAccType = '' }) {
     let res = await Fetch.get(
-      `${this._url}/get-all-payouts?page=${page}&itemsPerPage=${itemsPerPage}&searchText=${searchText}&getAll=${getAll}&status=${status}`,
+      `${this._url}/get-all-payouts?page=${page}&itemsPerPage=${itemsPerPage}&searchText=${searchText}&getAll=${getAll}&status=${status}&userAccType=${userAccType}`,
     );
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();

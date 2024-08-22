@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { countries } from '@/components/Constant';
 import UploadImg from '@/components/molecules/UploadImg';
 import Field from '@/components/molecules/Field';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import userService from '@/services/userService';
 import Toast from '@/components/molecules/Toast';
 import { AuthContext } from '@/context/authContext';
@@ -98,7 +98,7 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
         username: user?.username,
         email: user?.email,
         country: country || { value: '', label: '' },
-       // dob: format(user?.dob, 'yyyy-MM-dd'),
+        dob: user?.dob && isValid(new Date(user?.dob)) ? format(new Date(user?.dob), 'yyyy-MM-dd') : null,
         bankName: user?.bank?.bankName,
         iban: user?.bank?.iban,
         swiftBicNumber: user?.bank?.swiftBicNumber,

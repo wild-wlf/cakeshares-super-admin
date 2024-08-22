@@ -342,12 +342,11 @@ const ManageUserTable = ({ setUserCount }) => {
       `$${formatNumber(user?.totalInvestmentAmount)}` ?? 0 ?? '----------',
       `$${formatNumber(user?.wallet)}` ?? 0 ?? '----------',
       `Level ${user?.kycLevel}` ?? '------------',
-      // user?.isVerified ? (
-      //   <span className="status-approved">Approved</span>
-      // ) : (
-      //   <span className="status-pending">Pending</span> ?? '------------'
-      // ),
-      user?.status ?? '--------',
+      user?.status === 'Active' ? (
+        <span className="status-approved">Active</span>
+      ) : user?.status === 'Pending' ? (
+        <span className="status-pending">Pending</span> ?? '------------'
+      ): <span className="status-rejected">Rejected</span> ?? '------------',
       actionBuyerBtns(user),
     ]),
     totalCount: user_data?.totalItems,
@@ -365,12 +364,11 @@ const ManageUserTable = ({ setUserCount }) => {
       `$${formatNumber(user?.totalRevenue)}` ?? 0 ?? '------------',
       `$${formatNumber(user?.wallet)}` ?? 0 ?? '------------',
       user?.kycLevel === 3 ? 'Level 3' : `Level ${user?.kycLevel}` ?? '------------',
-      // user?.isVerified ? (
-      //   <span className="status-approved">Approved</span>
-      // ) : (
-      //   <span className="status-pending">Pending</span> ?? '------------'
-      // ),
-      user?.status ?? '--------',
+      user?.status === 'Active' ? (
+        <span className="status-approved">Active</span>
+      ) : user?.status === 'Pending' ? (
+        <span className="status-pending">Pending</span> ?? '------------'
+      ): <span className="status-rejected">Rejected</span> ?? '------------',
       actionSellerBtns(user),
     ]),
     totalCounts: user_data?.totalItems,

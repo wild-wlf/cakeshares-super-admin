@@ -36,6 +36,7 @@ function TableLayout({
   buyerSellerTabs,
   manageProductsTabs,
   ProductsDetailSelect,
+  PayoutTable,
   tab,
   setTab,
   noBorder,
@@ -64,6 +65,7 @@ function TableLayout({
             btnWidth={btnWidth}
             iconImg={iconImg}
             buyerSellerTabs={buyerSellerTabs}
+            PayoutTable={PayoutTable}
             manageProductsTabs={manageProductsTabs}
             ProductsDetailSelect={ProductsDetailSelect}
             // openDateModal={openDateModal}

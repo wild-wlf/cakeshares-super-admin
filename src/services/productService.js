@@ -53,9 +53,10 @@ const productService = {
     status = '',
     accType = '',
     section = '',
+    kycLevel = '',
   }) {
     let res = await Fetch.get(
-      `${this._url}/get-all-products-super?page=${page}&itemsPerPage=${itemsPerPage}&searchText=${searchText}&startDate=${startDate}&endDate=${endDate}&status=${status}&accType=${accType}&section=${section}`,
+      `${this._url}/get-all-products-super?page=${page}&itemsPerPage=${itemsPerPage}&searchText=${searchText}&startDate=${startDate}&endDate=${endDate}&status=${status}&accType=${accType}&section=${section}&kycLevel=${kycLevel}`,
     );
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
@@ -161,7 +162,7 @@ const productService = {
   },
 
   async rejectProduct(id, payload) {
-    let res = await Fetch.put(`${this._url}/reject-product/${id}`,payload);
+    let res = await Fetch.put(`${this._url}/reject-product/${id}`, payload);
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
       return res;
