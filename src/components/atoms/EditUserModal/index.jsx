@@ -144,19 +144,11 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
                 type="text"
                 label="Username"
                 name="username"
+                disabled
                 sm
                 rounded
                 placeholder="alex123"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Username is Required!',
-                  },
-                  {
-                    pattern: /^[a-zA-Z0-9_-]{1,16}$/,
-                    message: 'Invalid Username!',
-                  },
-                ]}>
+                >
                 <Field />
               </Form.Item>
             </div>
