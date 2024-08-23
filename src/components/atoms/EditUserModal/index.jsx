@@ -90,7 +90,6 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
   };
 
   useEffect(() => {
-    // handelChange();
     if (user && Object.keys(user)?.length > 0) {
       const country = countries.find(ele => ele.value === user?.country);
       form.setFieldsValue({
@@ -98,7 +97,7 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
         username: user?.username,
         email: user?.email,
         country: country || { value: '', label: '' },
-        dob: user?.dob && isValid(new Date(user?.dob)) ? format(new Date(user?.dob), 'yyyy-MM-dd') : null,
+        dob: user?.dob && isValid(new Date(user?.dob)) ? format(new Date(user?.dob), 'yyyy-MM-dd') : '',
         bankName: user?.bank?.bankName,
         iban: user?.bank?.iban,
         swiftBicNumber: user?.bank?.swiftBicNumber,

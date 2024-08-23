@@ -138,7 +138,6 @@ const MangeProductsTable = ({ setTagline }) => {
                 <button
                   type="button"
                   className="btn edit"
-                  disabled={product?.valueRaised > 0}
                   onClick={() => {
                     setProduct(product);
                     setProductModal(true);

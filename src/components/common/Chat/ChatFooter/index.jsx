@@ -15,7 +15,7 @@ import { useContextHook } from 'use-context-hook';
 import { sendComMsg } from '@/helpers/socketConnection';
 import CenterModal from '@/components/molecules/Modal/CenterModal';
 
-const ChatFooter = ({ chosenComDetails, type,channelName }) => {
+const ChatFooter = ({ chosenComDetails, type, channelName }) => {
   const [form] = useForm();
   const { user } = useContextHook(AuthContext, v => ({
     user: v.user,
@@ -69,6 +69,7 @@ const ChatFooter = ({ chosenComDetails, type,channelName }) => {
           conversationId={chosenComDetails?.conversationId}
           user={user}
           type={type}
+          productName={chosenComDetails?.productName}
         />
       </CenterModal>
     </>

@@ -51,16 +51,6 @@ const ReportDetailModal = ({ detail }) => {
   }, []);
 
   const onScrolledToTop = e => {
-    console.log(
-      {
-        cond:
-          e.target.scrollTop === 0 && chatMessages?.length < messages_data?.totalItems && messages_data?.totalItems > 0,
-        scrollTop: e.target.scrollTop,
-        chatMessagesLength: chatMessages?.length,
-        totalMessgaes: messages_data?.totalItems,
-      },
-      'asdsd',
-    );
     if (e.target.scrollTop === 0 && chatMessages?.length < messages_data?.totalItems && messages_data?.totalItems > 0) {
       setSearchQuery(prev => ({ ...prev, ['page']: prev?.page + 1 }));
       setMoreMsgLoading(true);
