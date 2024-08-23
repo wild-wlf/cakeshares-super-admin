@@ -3,7 +3,7 @@ import { StyledProductDetailModal } from './ProductDetailModal.styles';
 import Button from '@/components/atoms/Button';
 import bellIcon from '../../../../../public/assets/bell.svg';
 import Image from 'next/image';
-import { daysLeft, formatDateWithSuffix } from '@/helpers/common';
+import { convertToCurrencyFormat, daysLeft, formatDateWithSuffix } from '@/helpers/common';
 import ModalContainer from '@/components/molecules/ModalContainer';
 import declineIcon from '../../../../../public/assets/decline-icon.svg';
 import DeclineModal from '../../DeclineModal';
@@ -100,6 +100,10 @@ const ProductDetailModal = ({ product }) => {
           },
         ]
       : []),
+    {
+      heading: 'Value Raised:',
+      text: `${convertToCurrencyFormat(product?.valueRaised)}`,
+    },
   ];
   const productDescription = [
     {
@@ -173,7 +177,7 @@ const ProductDetailModal = ({ product }) => {
           </div>
         ))}
       </div>
-      {(product?.verificationStatus === 'pending' || product?.verificationStatus === 'rejected') && (
+      {product?.verificationStatus === 'pending' && (
         <div className="btn-holder">
           <Button
             variant="success"

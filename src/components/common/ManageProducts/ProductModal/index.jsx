@@ -552,8 +552,8 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
                 message: 'Please enter Maximum Backers Limit',
               },
               {
-                pattern: /^[1-9][0-9]*$/,
-                message: 'Please enter a valid limit greater than 0',
+                pattern: /^[1-9][0-9]{0,3}$/,
+                message: 'Please enter a valid limit between 1 and 9999',
               },
               {
                 transform: value => value < +form.getFieldValue('minimumBackers'),
