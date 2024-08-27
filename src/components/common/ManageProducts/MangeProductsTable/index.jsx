@@ -123,7 +123,7 @@ const MangeProductsTable = ({ setTagline }) => {
                     Review Requested Product Edit
                   </Button>
                 )}
-                content={({ onClose }) => <ReviewRequestedProductEdit productId={product?._id} />}
+                content={({ onClose }) => <ReviewRequestedProductEdit productId={product?._id} originalProduct={product} />}
               />
             </li>
           )}
@@ -216,7 +216,9 @@ const MangeProductsTable = ({ setTagline }) => {
                         Review Requested Product Edit
                       </Button>
                     )}
-                    content={({ onClose }) => <ReviewRequestedProductEdit productId={product?._id} />}
+                    content={({ onClose }) => (
+                      <ReviewRequestedProductEdit productId={product?._id} originalProduct={product} />
+                    )}
                   />
                 </li>
               )}
