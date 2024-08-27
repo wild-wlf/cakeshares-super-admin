@@ -25,7 +25,10 @@ const ReactionListModal = ({ reactionData }) => {
                     width={50}
                     alt="profile"
                   />
-                  <span>{data?.senderId?._id?.fullName || data?.senderId?._id?.username}</span>
+                  <div className="info">
+                    <h6>{data?.senderId?._id?.fullName || data?.senderId?._id?.username}</h6>
+                    <span>{data?.senderId?._id?.type}</span>
+                  </div>
                 </div>
                 <div className="reaction">
                   <span>{data?.reaction}</span>
@@ -57,10 +60,25 @@ const Wrapper = styled.div`
     justify-content: flex-start;
     gap: 20px;
     img {
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
     }
-    span {
-      white-space: nowrap;
+    .info {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      h6 {
+        white-space: nowrap;
+        font-size: 18px;
+        font-weight: 500;
+      }
+      span {
+        white-space: nowrap;
+        font-size: 14px;
+        font-weight: 400;
+      }
     }
   }
   .reaction {
