@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
-import Modal from "../Modal/CenterModal";
+import { useEffect, useState } from 'react';
+import Modal from '../Modal/CenterModal';
 
 function ModalContainer({
   btnComponent,
@@ -34,7 +34,6 @@ function ModalContainer({
       onModalClose();
     }
   }, [isVisible]);
-
   return (
     <>
       {btnComponent && btnComponent({ onClick: showModal })}
@@ -48,8 +47,7 @@ function ModalContainer({
         width={width}
         isClosable={isClosable}
         helpModal={helpModal}
-        imgPreview={imgPreview}
-      >
+        imgPreview={imgPreview}>
         {content({ onClose: handleCancel })}
       </Modal>
     </>
