@@ -218,7 +218,7 @@ const ManageUserTable = ({ setUserCount }) => {
         <li>
           <ModalContainer
             width={1000}
-            title={`${user?.fullName} Detail`}
+            title={`${user?.fullName || user?.username} Detail`}
             btnComponent={({ onClick }) => (
               <>
                 {/* <Tooltip title="View Detail" type="dark"> */}
