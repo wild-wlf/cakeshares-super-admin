@@ -278,7 +278,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
             <Select async loadOptions={loadInvestmentTypeOptions} />
           </Form.Item>
           <div>
-            <LoadScript googleMapsApiKey={'AIzaSyB0gq-rFU2D-URzDgIQOkqa_fL6fBAz9qI'} libraries={libraries}>
+            <LoadScript googleMapsApiKey={'AIzaSyARhFVFYkqqbvJ1moa2_73JMEa8Z5LeVaM'} libraries={libraries}>
               <Autocomplete
                 className="map-list"
                 onLoad={autocomplete =>
