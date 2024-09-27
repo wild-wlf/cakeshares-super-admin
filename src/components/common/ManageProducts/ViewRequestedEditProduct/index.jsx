@@ -12,8 +12,10 @@ import Toast from '@/components/molecules/Toast';
 import productService from '@/services/productService';
 import CenterModal from '@/components/molecules/Modal/CenterModal';
 import ViewProductDifferences from '../../ViewProductDifferences';
+import Link from 'next/link';
+import { FaFilePdf } from 'react-icons/fa';
 
-const ReviewRequestedProductEdit = ({ productId,originalProduct }) => {
+const ReviewRequestedProductEdit = ({ productId, originalProduct }) => {
   const { fetch, refetch } = useContextHook(AuthContext, v => ({
     fetch: v.fetch,
     refetch: v.refetch,
@@ -53,6 +55,16 @@ const ReviewRequestedProductEdit = ({ productId,originalProduct }) => {
         console.error('Error fetching product details:', error);
       });
   }, [productId]);
+
+  function getFileNameIfPdf(url) {
+    const fileName = url.substring(url.lastIndexOf('/') + 1);
+    const extension = fileName.split('.').pop();
+
+    if (extension === 'pdf') {
+      return fileName;
+    }
+    return null;
+  }
 
   return (
     <>
@@ -115,7 +127,7 @@ const ReviewRequestedProductEdit = ({ productId,originalProduct }) => {
           <div className="product-media">
             <span className="heading">Product Media:</span>
             <div className="product-images">
-              {product?.media?.map((item, index) => (
+              {product?.media?.slice(0, 3)?.map((item, index) => (
                 <div className="img-holder" key={index}>
                   {item && item.endsWith('.mp4') ? (
                     <video width={319} height={191} autoPlay>
@@ -130,6 +142,22 @@ const ReviewRequestedProductEdit = ({ productId,originalProduct }) => {
             </div>
           </div>
         )}
+        {product?.media && product?.media?.length > 4}
+        {
+          <div className="amenities-holder">
+            <span className="heading">Additional Documents:</span>
+            <div className="amenities">
+              {product?.media?.slice(3).map((data, index) => (
+                <div className="additional-document" key={index}>
+                  <FaFilePdf color="var(--danger-dark)" size={20} />
+                  <Link href={data} download target="_blank">
+                    {getFileNameIfPdf(data)}
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        }
         {product?.amenities && product?.amenities?.length > 0 && (
           <div className="amenities-holder">
             <span className="heading">Amenities:</span>

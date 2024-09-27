@@ -11,6 +11,9 @@ import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
 import Toast from '@/components/molecules/Toast';
 import productService from '@/services/productService';
+import { FaFilePdf } from 'react-icons/fa';
+
+import Link from 'next/link';
 
 const ProductDetailModal = ({ product }) => {
   const { fetch, refetch } = useContextHook(AuthContext, v => ({
@@ -115,6 +118,16 @@ const ProductDetailModal = ({ product }) => {
       text: product?.investmentReason,
     },
   ];
+  function getFileNameIfPdf(url) {
+    const fileName = url.substring(url.lastIndexOf('/') + 1);
+    const extension = fileName.split('.').pop();
+
+    if (extension === 'pdf') {
+      return fileName;
+    }
+    return null;
+  }
+
   return (
     <StyledProductDetailModal>
       <div className="head">
@@ -142,7 +155,7 @@ const ProductDetailModal = ({ product }) => {
         <div className="product-media">
           <span className="heading">Product Media:</span>
           <div className="product-images">
-            {product?.media?.map((item, index) => (
+            {product?.media?.slice(0, 3)?.map((item, index) => (
               <div className="img-holder" key={index}>
                 {item && item.endsWith('.mp4') ? (
                   <video width={319} height={191} autoPlay>
@@ -157,6 +170,22 @@ const ProductDetailModal = ({ product }) => {
           </div>
         </div>
       )}
+      {product?.media && product?.media?.length > 4}
+      {
+        <div className="amenities-holder">
+          <span className="heading">Additional Documents:</span>
+          <div className="amenities">
+            {product?.media?.slice(3).map((data, index) => (
+              <div className="additional-document" key={index}>
+                <FaFilePdf color="var(--danger-dark)" size={20} />
+                <Link href={data} download target="_blank">
+                  {getFileNameIfPdf(data)}
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      }
       {product?.amenities && product?.amenities?.length > 0 && (
         <div className="amenities-holder">
           <span className="heading">Amenities:</span>
