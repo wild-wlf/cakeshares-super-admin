@@ -53,9 +53,10 @@ const productService = {
     status = '',
     accType = '',
     section = '',
+    kycLevel = '',
   }) {
     let res = await Fetch.get(
-      `${this._url}/get-all-products-super?page=${page}&itemsPerPage=${itemsPerPage}&searchText=${searchText}&startDate=${startDate}&endDate=${endDate}&status=${status}&accType=${accType}&section=${section}`,
+      `${this._url}/get-all-products-super?page=${page}&itemsPerPage=${itemsPerPage}&searchText=${searchText}&startDate=${startDate}&endDate=${endDate}&status=${status}&accType=${accType}&section=${section}&kycLevel=${kycLevel}`,
     );
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
@@ -120,6 +121,16 @@ const productService = {
     throw new Error(message ?? 'Something Went Wrong');
   },
 
+  async productDetails(id) {
+    let res = await Fetch.get(`${this._url}/product-details/${id}`);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res?.data;
+    }
+    const { message } = await res.json();
+    throw new Error(message ?? 'Something Went Wrong');
+  },
+
   async updateProduct(id, payload) {
     let res = await Fetch.upload(`${this._url}/update-product/${id}`, 'PUT', payload);
     if (res.status >= 200 && res.status < 300) {
@@ -130,8 +141,28 @@ const productService = {
     throw new Error(message ?? 'Something Went Wrong');
   },
 
+  async manageProductEdit(id, payload) {
+    let res = await Fetch.patch(`${this._url}/manage-product-edit/${id}`, payload);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    }
+    const { message } = await res.json();
+    throw new Error(message ?? 'Something Went Wrong');
+  },
+
   async deleteProduct(id) {
     let res = await Fetch.delete(`${this._url}/delete-product/${id}`);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    }
+    const { message } = await res.json();
+    throw new Error(message ?? 'Something Went Wrong');
+  },
+
+  async rejectProduct(id, payload) {
+    let res = await Fetch.put(`${this._url}/reject-product/${id}`, payload);
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
       return res;

@@ -6,7 +6,7 @@ import popularIcon from '../../../../../public/assets/popular-icon.svg';
 import AddMoney from '../AddMoney';
 import ModalContainer from '@/components/molecules/ModalContainer';
 import declineIcon from '../../../../../public/assets/decline-icon.svg';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import DeclineModal from '../../DeclineModal';
 import { findCountryLabelByValue, formatNumber } from '@/helpers/common';
 import { countries } from '@/components/Constant';
@@ -37,12 +37,14 @@ const UserDetailModal = ({
         <div className="col">
           <span className="heading">Country:</span>
           <div className="flag-holder">
-            <span className="text">{findCountryLabelByValue(countries, user.country)}</span>
+            {user?.country && <span className="text">{findCountryLabelByValue(countries, user.country)}</span>}
           </div>
         </div>
         <div className="col">
           <span className="heading">Birthdate (D.O.B):</span>
-          <span className="text">{format(new Date(user?.dob), 'yyyy-MM-dd')}</span>
+          {user?.dob && isValid(new Date(user?.dob)) && (
+            <span className="text">{format(new Date(user?.dob), 'yyyy-MM-dd')}</span>
+          )}
         </div>
       </div>
       <span className="heading">Bank Info:</span>
@@ -141,7 +143,7 @@ const UserDetailModal = ({
               </div>
               <div className="col">
                 <span className="heading">Country of Residence:</span>
-                <span className="text">{findCountryLabelByValue(countries, ele.country)}</span>
+                {user?.country && <span className="text">{findCountryLabelByValue(countries, ele.country)}</span>}
               </div>
             </div>
           );
@@ -161,7 +163,7 @@ const UserDetailModal = ({
           <span>No Categories Available</span>
         )}
       </div>
-      {user?.isVerified === false && user?.verificationStatus === 'pending' && (
+      {user?.isVerified === false && user?.status === 'Pending' && (
         <div className="btn-holder">
           <Button
             onClick={() => {
@@ -184,7 +186,7 @@ const UserDetailModal = ({
           />
         </div>
       )}
-       {user?.status === 'Suspended' && (
+      {user?.status === 'Suspended' && (
         <div className="btn-holder">
           <Button
             onClick={() => {
@@ -195,7 +197,6 @@ const UserDetailModal = ({
             xsCustom>
             Unsuspend
           </Button>
-
         </div>
       )}
     </StyledUserDetailModal>

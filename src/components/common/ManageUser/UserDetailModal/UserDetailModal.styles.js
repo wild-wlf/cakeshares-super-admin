@@ -139,7 +139,7 @@ export const StyledUserDetailModal = styled.div`
     }
   }
   .inheritance-info {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: flex-start;
     gap: 20px;
     @media (max-width: 575px) {

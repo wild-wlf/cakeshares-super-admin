@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyledDeclineModal } from './DeclineModal.styles';
+import { StyledDeclineModal } from '../../DeclineModal/DeclineModal.styles';
 import Button from '@/components/atoms/Button';
 import userService from '@/services/userService';
 import { AuthContext } from '@/context/authContext';
@@ -10,7 +10,7 @@ import { useForm } from '@/components/molecules/Form';
 import Form from '@/components/molecules/Form/Form';
 import Field from '@/components/molecules/Field';
 
-const DeclineModal = ({ type, onClose, id, title = 'Decline Request!', btnText = 'Yes, Decline', action }) => {
+const EditRequestDeclineModal = ({ onClose, id, title = 'Decline Request!', btnText = 'Yes, Decline' }) => {
   const { refetch } = useContextHook(AuthContext, v => ({
     refetch: v.refetch,
   }));
@@ -21,30 +21,17 @@ const DeclineModal = ({ type, onClose, id, title = 'Decline Request!', btnText =
     try {
       setIsLoading(true);
       const payload = {
-        verificationStatus: 'rejected',
-        status: 'Rejected',
+        status: 'Decline',
         declineReason,
       };
 
-      const formDataToSend = new FormData();
-      Object.keys(payload).forEach(key => {
-        formDataToSend.append(key, payload[key]);
-      });
+      await productService.manageProductEdit(id, payload);
 
-      if (type === 'Product') {
-        if (action === 'hard') {
-          await productService.deleteProduct(id, formDataToSend);
-        } else {
-          await productService.rejectProduct(id, payload);
-        }
-      } else {
-        await userService.updateUser(id, formDataToSend);
-      }
       Toast({
         type: 'success',
-        message: `${type} Declined Successfully!`,
+        message: 'Product Edit Request Declined Successfully!',
       });
-      type !== 'Product' ? onClose() : null;
+      onClose();
       refetch();
     } catch ({ message }) {
       Toast({
@@ -60,7 +47,7 @@ const DeclineModal = ({ type, onClose, id, title = 'Decline Request!', btnText =
       <Form form={form} onSubmit={onDecline}>
         <span className="heading">{title}</span>
         <div className="text">
-          <p>Please provide a reason for the user to know why his request have been declined.</p>
+          <p>Please provide a reason for the user to know why his edit request have been declined.</p>
         </div>
         <Form.Item
           name="declineReason"
@@ -69,8 +56,8 @@ const DeclineModal = ({ type, onClose, id, title = 'Decline Request!', btnText =
           rules={[
             { required: true, message: 'Please Enter Decline Reason!' },
             {
-              pattern: /^(.|\n){10,256}$/,
-              message: 'Product decline Reason must be between 10 and 256',
+              pattern: /^.{10,256}$/,
+              message: 'Product description must be between 10 and 256 characters.',
             },
           ]}>
           <Field />
@@ -83,4 +70,4 @@ const DeclineModal = ({ type, onClose, id, title = 'Decline Request!', btnText =
   );
 };
 
-export default DeclineModal;
+export default EditRequestDeclineModal;

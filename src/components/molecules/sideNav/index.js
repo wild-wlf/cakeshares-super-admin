@@ -6,12 +6,14 @@ import { useContextHook } from 'use-context-hook';
 import { AuthContext } from '@/context/authContext';
 import logo from '../../../../public/assets/logo.svg';
 import { Sidenav, NavLinks, LinkContainer, UserDet } from './sideNav.style';
-import SellerProfile from '../../../../public/assets/SellerProfile.png';
 import avatar_icon from '../../../../public/assets/user_avatar.png';
+import notificationService from '@/services/notificationservice';
 
 const SideBar = ({ data }) => {
   const [isRendered, setIsRendered] = useState(false);
-  const { user, onLogout, allowedPages } = useContextHook(AuthContext, v => ({
+  const { unreadCounts, setUnreadCounts, user, onLogout, allowedPages } = useContextHook(AuthContext, v => ({
+    unreadCounts: v.unreadCounts,
+    setUnreadCounts: v.setUnreadCounts,
     user: v.user,
     onLogout: v.onLogout,
     allowedPages: v.allowedPages,
@@ -27,8 +29,45 @@ const SideBar = ({ data }) => {
     setIsRendered(true);
   }, []);
 
+  useEffect(() => {
+    const fetchUnreadCounts = async () => {
+      try {
+        const response = await notificationService.getUnreadCounts({
+          page: 1,
+          itemsPerPage: 10,
+        });
+        setUnreadCounts(response || { COM_CHAT: false, STAKE_CHAT: false });
+      } catch (error) {
+        console.error('Error fetching unread counts:', error);
+      }
+    };
+
+    fetchUnreadCounts();
+  }, []);
+
+  useEffect(() => {
+    const handleNewMessage = event => {
+      const message = event.detail;
+      const { channelName, message: msg } = message;
+
+      const isCommunityChat = channelName.startsWith('com_');
+      const isInvestorChat = channelName.startsWith('stake_');
+
+      setUnreadCounts(prevCounts => ({
+        COM_CHAT: isCommunityChat && window.location.pathname !== '/community-chat' ? true : prevCounts.COM_CHAT,
+        STAKE_CHAT: isInvestorChat && window.location.pathname !== '/investor-chat' ? true : prevCounts.STAKE_CHAT,
+      }));
+    };
+
+    window.addEventListener('com_message_history', handleNewMessage);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('com_message_history', handleNewMessage);
+    };
+  }, []);
+
   return (
-    // eslint-disable-next-line react/jsx-filename-extension
     isRendered && (
       <>
         <div
@@ -43,28 +82,34 @@ const SideBar = ({ data }) => {
           </div>
 
           <LinkContainer>
-            {data.map((data, index) => (
+            {data.map((item, index) => (
               <NavLinks key={index}>
-                <li className="listHead">{data.name}</li>
-                {data.link
+                <li className="listHead">{item.name}</li>
+                {item.link
                   .filter(linkItem => linkItem?.name === 'Log Out' || allowedPages.includes(linkItem.navigation))
-                  .map((data, index) => (
-                    <li className={`NavItem ${pathname === `${data.navigation}` && 'active'}`} key={index}>
-                      {data.name === 'Log Out' ? (
+                  .map((link, index) => (
+                    <li className={`NavItem ${pathname === `${link.navigation}` && 'active'}`} key={index}>
+                      {link.name === 'Log Out' ? (
                         <>
                           <Link className="Link" onClick={onLogout} href="">
                             <figure className="iconCon">
-                              <Image src={data.icon} width={18} height={18} alt="icon" />
+                              <Image src={link.icon} width={18} height={18} alt="icon" />
                             </figure>
-                            {data.name}
+                            {link.name}
                           </Link>
                         </>
                       ) : (
-                        <Link className="Link" href={data.navigation}>
-                          <figure className="iconCon">
-                            <Image src={data.icon} width={18} height={18} alt="icon" />
+                        <Link className="Link" href={link.navigation}>
+                          <figure
+                            className={`iconCon ${
+                              (link?.name === 'Community Chat' && unreadCounts.COM_CHAT) ||
+                              (link?.name === "Investor's Chat" && unreadCounts.STAKE_CHAT)
+                                ? 'new'
+                                : ''
+                            }`}>
+                            <Image src={link.icon} width={18} height={18} alt="icon" />
                           </figure>
-                          {data.name}
+                          {link.name}
                         </Link>
                       )}
                     </li>
@@ -76,11 +121,7 @@ const SideBar = ({ data }) => {
           <UserDet>
             <div className="img-holder">
               <Image
-                src={
-                  user?.profilePicture != 'undefined' && user?.profilePicture != undefined
-                    ? user?.profilePicture
-                    : avatar_icon
-                }
+                src={user?.profilePicture && user?.profilePicture !== 'undefined' ? user?.profilePicture : avatar_icon}
                 height={40}
                 width={40}
                 alt="user-profile"

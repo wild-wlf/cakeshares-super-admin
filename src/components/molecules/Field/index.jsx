@@ -15,6 +15,7 @@ import DatePicker from '../DatePicker';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import UploadFile from '../UploadFile';
 import { CiSquareCheck } from 'react-icons/ci';
+import { DatePickr } from '../DatePickr';
 
 const defaultProps = {
   type: 'text',
@@ -160,6 +161,8 @@ const Field = forwardRef(
                 <DatePicker {...inputProps} prefix={prefix} $invalid={invalid || error} />
               ) : type === 'img' ? (
                 <UploadFile {...inputProps} noMargin={noMargin} $invalid={invalid || error} />
+              ) : type === 'date' ? (
+                <DatePickr {...inputProps} noMargin={noMargin} $invalid={invalid || error} />
               ) : (
                 <>
                   <Input

@@ -3,7 +3,7 @@ import { StyledProductDetailModal } from './ProductDetailModal.styles';
 import Button from '@/components/atoms/Button';
 import bellIcon from '../../../../../public/assets/bell.svg';
 import Image from 'next/image';
-import { daysLeft, formatDateWithSuffix } from '@/helpers/common';
+import { convertToCurrencyFormat, daysLeft, formatDateWithSuffix } from '@/helpers/common';
 import ModalContainer from '@/components/molecules/ModalContainer';
 import declineIcon from '../../../../../public/assets/decline-icon.svg';
 import DeclineModal from '../../DeclineModal';
@@ -62,7 +62,7 @@ const ProductDetailModal = ({ product }) => {
       text: `(${formatDateWithSuffix(product?.deadline)} / ${daysLeft(product?.deadline)} left) `,
     },
     {
-      heading: `${product?.userId?.sellerType === 'Company' ? 'KYB Level' : 'KYC Level'}`,
+      heading: `${product?.userId?.sellerType === 'Company' ? 'KYB Level:' : 'KYC Level:'}`,
       text: `Level ${product?.kycLevel}`,
     },
   ];
@@ -92,8 +92,20 @@ const ProductDetailModal = ({ product }) => {
       text: `$${Number(product?.minimumInvestment)?.toFixed(2).toLocaleString('en-US')}`,
     },
     {
-      heading: 'Total Asset Value',
+      heading: 'Total Asset Value:',
       text: `$${Number(product?.assetValue)?.toFixed(2).toLocaleString('en-US')}`,
+    },
+    ...(product?.remainingAdvertisementDays
+      ? [
+          {
+            heading: 'Advertised Remaining Days:',
+            text: `${product.remainingAdvertisementDays}`,
+          },
+        ]
+      : []),
+    {
+      heading: 'Value Raised:',
+      text: `${convertToCurrencyFormat(product?.valueRaised)}`,
     },
   ];
   const productDescription = [

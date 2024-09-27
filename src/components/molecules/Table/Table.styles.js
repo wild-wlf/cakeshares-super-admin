@@ -1,7 +1,7 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
 export const TableHolder = styled.div`
-  padding: ${({ noPadding }) => (noPadding ? "0" : "20px 20px 9px")};
+  padding: ${({ noPadding }) => (noPadding ? '0' : '20px 20px 9px')};
   /* background: var(--base-background-color); */
   padding-top: 15px;
   @media (min-width: 1200px) {
@@ -29,7 +29,7 @@ export const TableScroll = styled.div`
   max-height: ${({ $height }) => $height && `${$height}px`};
 
   @media (min-width: 992px) {
-    overflow-x: auto;
+    overflow-x: ${({ $overflow }) => ($overflow ? '' : 'auto')};
   }
 `;
 
@@ -42,9 +42,7 @@ export const StyledTable = styled.table`
     responsive
       ? css`
           @media (min-width: 992px) {
-            min-width: ${({ $width }) =>
-              $width &&
-              `${$width}px`}; /* width on which horizontal scroll will appear */
+            min-width: ${({ $width }) => $width && `${$width}px`}; /* width on which horizontal scroll will appear */
           }
         `
       : css`

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Closer = styled.div``;
 
@@ -21,11 +21,11 @@ export const StyledModal = styled.div`
 `;
 
 export const ContentHolder = styled.div`
-  max-width: ${({ width }) => (width ? `${width}px` : "100%")};
-  width: ${({ width }) => (width ? "100%" : "")};
+  max-width: ${({ width }) => (width ? `${width}px` : '100%')};
+  width: ${({ width }) => (width ? '100%' : '')};
   padding: 20px; // must prop
-  background: ${({ bg }) => bg ?? ""}; // must props
-  border-radius: ${({ radius }) => radius ?? "30px"};
+  background: ${({ bg }) => bg ?? ''}; // must props
+  border-radius: ${({ radius }) => radius ?? '30px'};
   animation: myAnim 0.3s ease;
   background: var(--white);
   max-height: 100%;
@@ -60,6 +60,7 @@ export const Head = styled.div`
     font-size: 28px;
     line-height: 32px;
     font-weight: 400;
+    color: #111;
     @media (min-width: 992px) {
       font-size: 32px;
       line-height: 36px;
@@ -84,10 +85,6 @@ export const Head = styled.div`
     .closer {
       width: 30px;
       height: 30px;
-      .Icon {
-        width: 20px;
-        height: 20px;
-      }
     }
 
     .title {

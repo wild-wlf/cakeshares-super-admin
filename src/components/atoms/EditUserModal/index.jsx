@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { countries } from '@/components/Constant';
 import UploadImg from '@/components/molecules/UploadImg';
 import Field from '@/components/molecules/Field';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import userService from '@/services/userService';
 import Toast from '@/components/molecules/Toast';
 import { AuthContext } from '@/context/authContext';
@@ -12,6 +12,7 @@ import { useContextHook } from 'use-context-hook';
 import Select from '../Select';
 import Button from '../Button';
 import { Wrapper } from './EditUserModal.style';
+import { checkAge } from '@/helpers/common';
 
 const EditUserModal = ({ user, handleSuccessEditModal }) => {
   const { refetch } = useContextHook(AuthContext, v => ({
@@ -54,11 +55,11 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
       country: country?.value,
       profilePicture,
       bankInfo: {
-        _id: user?.bank?._id,
-        bankName,
-        iban,
-        swiftBicNumber,
-        userId,
+        _id: user?.bank?._id || '',
+        bankName: bankName || '',
+        iban: iban || '',
+        swiftBicNumber: swiftBicNumber || '',
+        userId: userId || '',
       },
       inheritanceInfo: inheritances,
     };
@@ -90,7 +91,6 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
   };
 
   useEffect(() => {
-    // handelChange();
     if (user && Object.keys(user)?.length > 0) {
       const country = countries.find(ele => ele.value === user?.country);
       form.setFieldsValue({
@@ -98,7 +98,7 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
         username: user?.username,
         email: user?.email,
         country: country || { value: '', label: '' },
-       // dob: format(user?.dob, 'yyyy-MM-dd'),
+        dob: user?.dob && isValid(new Date(user?.dob)) ? format(new Date(user?.dob), 'yyyy-MM-dd') : '',
         bankName: user?.bank?.bankName,
         iban: user?.bank?.iban,
         swiftBicNumber: user?.bank?.swiftBicNumber,
@@ -141,23 +141,7 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
                 ]}>
                 <Field />
               </Form.Item>
-              <Form.Item
-                type="text"
-                label="Username"
-                name="username"
-                sm
-                rounded
-                placeholder="alex123"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Username is Required!',
-                  },
-                  {
-                    pattern: /^[a-zA-Z0-9_-]{1,16}$/,
-                    message: 'Invalid Username!',
-                  },
-                ]}>
+              <Form.Item type="text" label="Username" name="username" disabled sm rounded placeholder="alex123">
                 <Field />
               </Form.Item>
             </div>
@@ -189,13 +173,23 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
             <div className="DOB-div">
               <Form.Item
                 type="date"
-                label="*Birthdate (D.O.B)"
+                label="Birthdate (D.O.B)"
                 name="dob"
                 sm
                 rounded
+                onChange={e => form.setFieldsValue({ dob: e[0] })}
                 rules={[
                   {
                     required: true,
+                    message: 'Please enter Date Of Birth',
+                  },
+                  {
+                    transform: value => new Date(value) > new Date(),
+                    message: 'DOB cannot be in the future',
+                  },
+                  {
+                    transform: value => checkAge(value) === false,
+                    message: 'Age must be 18',
                   },
                 ]}>
                 <Field />
@@ -217,9 +211,8 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
                 placeholder="Bank of Americe"
                 rules={[
                   {
-                    pattern: /^.{0,256}$/,
-                    required: true,
-                    message: 'Maximum Character Length is 256',
+                    pattern: /^.{3,30}$/,
+                    message: 'Please enter a valid Bank Name',
                   },
                 ]}>
                 <Field />
@@ -233,8 +226,8 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
                 placeholder="PK033310084246213"
                 rules={[
                   {
-                    pattern: /^[a-zA-Z0-9]{1,20}$/,
-                    message: 'Should only contain alphanumeric characters!',
+                    pattern: /^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/,
+                    message: 'Please enter a valid IBAN number',
                   },
                 ]}>
                 <Field />
@@ -250,8 +243,8 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
                 placeholder="PK033310084246213"
                 rules={[
                   {
-                    pattern: /^.{0,256}$/,
-                    message: 'Maximum Character Length is 256',
+                    pattern: /^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/,
+                    message: 'Invalid SWIFT/BIC format',
                   },
                 ]}>
                 <Field />
@@ -265,8 +258,8 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
                 placeholder="33445554"
                 rules={[
                   {
-                    pattern: /^.{0,256}$/,
-                    message: 'Maximum Character Length is 256',
+                    pattern: /^[a-zA-Z0-9_-]{8,40}$/,
+                    message: 'User ID must be between 8 and 40 characters long',
                   },
                 ]}>
                 <Field />
@@ -299,8 +292,12 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
                     placeholder="Logan Paulson"
                     rules={[
                       {
-                        pattern: /^.{0,40}$/,
-                        message: 'Maximum Character Length is 256',
+                        pattern: /^[a-zA-Z\s]*$/,
+                        message: 'Only alphabets are allowed',
+                      },
+                      {
+                        pattern: /^.{2,30}$/,
+                        message: ' Name should be between 2 and 30 characters.',
                       },
                     ]}>
                     <Field />
@@ -323,8 +320,8 @@ const EditUserModal = ({ user, handleSuccessEditModal }) => {
                     placeholder="123467894562339"
                     rules={[
                       {
-                        pattern: /^[a-zA-Z0-9]{1,20}$/,
-                        message: 'Should only contain alphanumeric characters!',
+                        pattern: /^[a-zA-Z0-9]{6,9}$/,
+                        message: 'Passport number must be between 6 and 9 characters long',
                       },
                     ]}>
                     <Field />

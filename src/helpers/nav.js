@@ -1,5 +1,8 @@
 import Dashboard from '../../public/assets/Dashboard.png';
 import Portfolio from '../../public/assets/Portfolio.png';
+import Category from '../../public/assets/Category.png';
+import Payout from '../../public/assets/Payout.png';
+import Reports from '../../public/assets/Reports.png';
 import stakeChat from '../../public/assets/stakeChat.png';
 import comunityChat from '../../public/assets/comunityChat.png';
 import settingIcon from '../../public/assets/settingIcon.png';
@@ -31,17 +34,17 @@ export const indivisualSellerNav = [
       {
         navigation: '/manage-categories',
         name: 'Manage Categories',
-        icon: Portfolio,
+        icon: Category,
       },
       {
         navigation: '/manage-payouts',
         name: 'Manage Payouts',
-        icon: Portfolio,
+        icon: Payout,
       },
       {
         navigation: '/manage-reports',
         name: 'Manage Reports',
-        icon: Portfolio,
+        icon: Reports,
       },
     ],
   },

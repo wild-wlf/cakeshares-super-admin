@@ -25,11 +25,14 @@ import { MdModeEditOutline } from 'react-icons/md';
 import DeclineModal from '../../DeclineModal';
 import DeleteModal from '@/components/atoms/UserDeleteModal/DeleteModal';
 import { TableContainer } from '@/components/atoms/TableContainer/TableContainer.styles';
-import { formatNumber } from '@/helpers/common';
+import { convertToCurrencyFormat, formatNumber } from '@/helpers/common';
+import ReviewRequestedProductEdit from '../ViewRequestedEditProduct';
+import userService from '@/services/userService';
 
 const MangeProductsTable = ({ setTagline }) => {
-  const { fetch } = useContextHook(AuthContext, v => ({
+  const { fetch, refetch } = useContextHook(AuthContext, v => ({
     fetch: v.fetch,
+    refetch: v.refetch,
   }));
   const [tab, setTab] = useState(1);
   const [product, setProduct] = useState({});
@@ -49,12 +52,24 @@ const MangeProductsTable = ({ setTagline }) => {
     section: 'Investments',
     status: '',
     accType: '',
+    kycLevel: '',
   });
 
   function handleDelete() {
     setDeleteModal(false);
     setSuccessModal(true);
   }
+
+  const deleteProduct = async () => {
+    try {
+      setIsLoading(true);
+      await userService.deleteProduct(productToDelete);
+      refetch();
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   let investments_data, investments_loading, products_data, products_loading;
 
@@ -67,15 +82,14 @@ const MangeProductsTable = ({ setTagline }) => {
     products_data = result.products_data;
     products_loading = result.products_loading;
   }
+
   useEffect(() => {
     let message;
 
     if (products_data?.allProductsInDb !== undefined) {
       message = `You have total ${products_data?.allProductsInDb || 0} products in your manage products right now!`;
     } else {
-      message = `You have total ${
-        investments_data?.totalItems || 0
-      } investments in your manage products right now!`;
+      message = `You have total ${investments_data?.totalItems || 0} investments in your manage products right now!`;
     }
 
     setTagline(message);
@@ -98,6 +112,21 @@ const MangeProductsTable = ({ setTagline }) => {
               content={({ onClose }) => <ProductDetailModal product={product} />}
             />
           </li>
+          {product?.isProductRequest && (
+            <li>
+              <ModalContainer
+                width={1000}
+                title="Review Requested Product Edit"
+                btnComponent={({ onClick }) => (
+                  <Button variant="secondary" custom xsCustom onClick={onClick}>
+                    <Image src={detailIcon} alt="detailIcon" />
+                    Review Requested Product Edit
+                  </Button>
+                )}
+                content={({ onClose }) => <ReviewRequestedProductEdit productId={product?._id} originalProduct={product} />}
+              />
+            </li>
+          )}
         </ActionBtnList>
       );
     } else {
@@ -109,6 +138,7 @@ const MangeProductsTable = ({ setTagline }) => {
                 <button
                   type="button"
                   className="btn edit"
+                  disabled={product?.valueRaised > 0}
                   onClick={() => {
                     setProduct(product);
                     setProductModal(true);
@@ -117,15 +147,19 @@ const MangeProductsTable = ({ setTagline }) => {
                 </button>
               </li>
               <li>
-                <button
+                <Button
                   type="button"
-                  className="btn delete"
+                  variant="danger"
+                  custom
+                  xsCustom
                   onClick={() => {
                     setProductToDelete(product?._id);
                     setDeleteModal(true);
-                  }}>
+                  }}
+                  disable={product.isAdvertised || product?.valueRaised > 0}>
                   <Image src={DeleteIcon} alt="DeleteIcon" />
-                </button>
+                  Delete Product
+                </Button>
               </li>
               <li>
                 <ModalContainer
@@ -145,33 +179,6 @@ const MangeProductsTable = ({ setTagline }) => {
             <>
               <li>
                 <ModalContainer
-                  width={500}
-                  title={<Image src={declineIcon} alt="declineIcon" />}
-                  btnComponent={({ onClick }) => (
-                    <Button
-                      type="button"
-                      variant="danger"
-                      custom
-                      xsCustom
-                      onClick={onClick}
-                      disable={product.isAdvertised}>
-                      <Image src={DeleteIcon} alt="DeleteIcon" />
-                      Delete Product
-                    </Button>
-                  )}
-                  content={({ onClose }) => (
-                    <DeclineModal
-                      type="Product"
-                      onClose={handleDelete}
-                      id={product?._id}
-                      title="Delete Product!"
-                      btnText="Yes, Delete"
-                    />
-                  )}
-                />
-              </li>
-              <li>
-                <ModalContainer
                   width={1000}
                   title="Product Detail"
                   btnComponent={({ onClick }) => (
@@ -183,6 +190,38 @@ const MangeProductsTable = ({ setTagline }) => {
                   content={({ onClose }) => <ProductDetailModal product={product} />}
                 />
               </li>
+              <li>
+                <Button
+                  type="button"
+                  variant="danger"
+                  custom
+                  xsCustom
+                  onClick={() => {
+                    setProductToDelete(product?._id);
+                    setDeleteModal(true);
+                  }}
+                  disable={product.isAdvertised || product?.valueRaised > 0}>
+                  <Image src={DeleteIcon} alt="DeleteIcon" />
+                  Delete Product
+                </Button>
+              </li>
+              {product?.isProductRequest && (
+                <li>
+                  <ModalContainer
+                    width={1000}
+                    title="Review Requested Product Edit"
+                    btnComponent={({ onClick }) => (
+                      <Button variant="secondary" custom xsCustom onClick={onClick}>
+                        <Image src={detailIcon} alt="detailIcon" />
+                        Review Requested Product Edit
+                      </Button>
+                    )}
+                    content={({ onClose }) => (
+                      <ReviewRequestedProductEdit productId={product?._id} originalProduct={product} />
+                    )}
+                  />
+                </li>
+              )}
             </>
           )}
         </ActionBtnList>
@@ -246,12 +285,17 @@ const MangeProductsTable = ({ setTagline }) => {
           ? 'Individual Seller'
           : 'Company Seller',
         _?.investmentType?.name || '------------',
+        _?.isProductRequest == true ? 'Requested' : '-----------',
+        _?.remainingAdvertisementDays ?? '-----------',
         _?.verificationStatus === 'approved' ? (
           <span className="status-approved">Approved</span>
         ) : _?.verificationStatus === 'pending' ? (
           <span className="status-pending">Pending</span> ?? '------------'
-        ) : <span className="status-rejected">Rejected</span> ?? '------------',
+        ) : (
+          <span className="status-rejected">Rejected</span> ?? '------------'
+        ),
         _?.currentBackers ?? '------------',
+        `${convertToCurrencyFormat(_?.valueRaised)}` ?? 0 ?? '------------',
         actionBtns(_),
       ]),
       product_totalCount: products_data?.totalItems,
@@ -266,8 +310,11 @@ const MangeProductsTable = ({ setTagline }) => {
     `Owner Status`,
     `User Account Type`,
     `Category`,
+    `Edit Status`,
+    `Remaining Advertisement Days`,
     `Product Status`,
     `Current Backers`,
+    `Value Raised`,
     'Actions',
   ];
 
@@ -315,6 +362,8 @@ const MangeProductsTable = ({ setTagline }) => {
           id={productToDelete}
           title="Delete Product!"
           text="Are you sure you want to delete this Product?"
+          action="Yes, Delete"
+          type="product"
           closeDeleteModal={() => setDeleteModal(false)}
           openSuccessfulModal={() => handleDelete()}
         />

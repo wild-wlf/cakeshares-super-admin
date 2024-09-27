@@ -36,10 +36,12 @@ function TableLayout({
   buyerSellerTabs,
   manageProductsTabs,
   ProductsDetailSelect,
+  PayoutTable,
   tab,
   setTab,
   noBorder,
   noPadding,
+  overflow,
   // openDateModal,
   setResetFilter = () => {},
 }) {
@@ -51,7 +53,8 @@ function TableLayout({
         noPagination={noPagination}
         filterBlock={filterBlock}
         $noBorder={noBorder}
-        $noPadding={noPadding}>
+        $noPadding={noPadding}
+        $overflow={overflow}>
         <div className="inner-wrap">
           <ProductsFilter
             placeholder={placeholder}
@@ -62,6 +65,7 @@ function TableLayout({
             btnWidth={btnWidth}
             iconImg={iconImg}
             buyerSellerTabs={buyerSellerTabs}
+            PayoutTable={PayoutTable}
             manageProductsTabs={manageProductsTabs}
             ProductsDetailSelect={ProductsDetailSelect}
             // openDateModal={openDateModal}

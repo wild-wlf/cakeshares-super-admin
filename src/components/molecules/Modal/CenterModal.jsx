@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { MdOutlineClose } from 'react-icons/md';
 import { ContentHolder, Head, StyledModal } from './Modal.styles';
 import Image from 'next/image';
+import close from '../../../_assets/close.svg';
 
 const CenterModal = ({
   children,
@@ -69,7 +69,7 @@ const CenterModal = ({
             {title && <strong className="title">{title}</strong>}
             {headImage && <Image src={headImage} alt="Icon" />}
             <div type="button" className="closer" onClick={handleClose} tabIndex={0}>
-              <MdOutlineClose size={25} className="Icon" />
+              <Image src={close} alt="Close-Modal" />
             </div>
           </Head>
           {children}

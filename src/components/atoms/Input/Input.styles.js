@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import FakeInput from '../FakeInput';
+import Flatpickr from 'react-flatpickr';
 
 export const styles = css`
   border: 2px solid ${({ $invalid }) => ($invalid ? 'var(--danger)' : 'var(--light)')};
@@ -160,6 +161,12 @@ export const StyledTextarea = styled.textarea`
 `;
 
 export const StyledInput = styled.input`
+  ${styles}
+  @media screen and (max-width : 768px) {
+    height: 40px;
+  }
+`;
+export const DatePickerStyle = styled(Flatpickr)`
   ${styles}
   @media screen and (max-width : 768px) {
     height: 40px;

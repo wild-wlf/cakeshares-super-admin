@@ -27,6 +27,7 @@ function ProductsFilter({
   setTab,
   onChangeFilters,
   ProductsDetailSelect,
+  PayoutTable,
   // openDateModal,
 }) {
   const [startDate, setStartDate] = useState(null);
@@ -147,6 +148,10 @@ function ProductsFilter({
       value: 'rejected',
       label: 'Rejected',
     },
+    {
+      value: 'funded',
+      label: 'Funded',
+    },
   ];
   const productAccountTypeData = [
     {
@@ -164,6 +169,47 @@ function ProductsFilter({
     {
       value: 'Company',
       label: 'Company Seller',
+    },
+  ];
+  const payoutStatus = [
+    {
+      value: '',
+      label: 'All',
+    },
+    {
+      value: 'pending',
+      label: 'Pending',
+    },
+    {
+      value: 'approved',
+      label: 'Approved',
+    },
+    {
+      value: 'rejected',
+      label: 'Rejected',
+    },
+    {
+      value: 'completed',
+      label: 'Completed',
+    },
+  ];
+  
+  const payoutUserAccType = [
+    {
+      value: '',
+      label: 'All',
+    },
+    {
+      value: 'Individual',
+      label: 'Individual Seller',
+    },
+    {
+      value: 'Company',
+      label: 'Company Seller',
+    },
+    {
+      value: 'Buyer',
+      label: 'Buyer',
     },
   ];
 
@@ -309,6 +355,18 @@ function ProductsFilter({
                 </div>
                 <div className="select-holder">
                   <Select
+                    placeholder="Select KYC"
+                    value={selectedKyc}
+                    onChange={({ target: { value } }) => {
+                      setSelectedKyc(value);
+                      onChangeFilters({ kycLevel: value?.value });
+                    }}
+                    options={kycData}
+                    labelReverse
+                  />
+                </div>
+                <div className="select-holder">
+                  <Select
                     placeholder="Select Status"
                     onChange={({ target: { value } }) => {
                       onChangeFilters({ status: value?.value });
@@ -328,6 +386,28 @@ function ProductsFilter({
                   options={productStatusData}
                 />
               </div>
+            )}
+            {PayoutTable && (
+              <>
+                <div className="select-holder">
+                  <Select
+                    placeholder="Select User Type"
+                    onChange={({ target: { value } }) => {
+                      onChangeFilters({ userAccType: value?.value });
+                    }}
+                    options={payoutUserAccType}
+                  />
+                </div>
+                <div className="select-holder">
+                  <Select
+                    placeholder="Select Status"
+                    onChange={({ target: { value } }) => {
+                      onChangeFilters({ status: value?.value });
+                    }}
+                    options={payoutStatus}
+                  />
+                </div>
+              </>
             )}
             {placeholder && (
               <div className="item">

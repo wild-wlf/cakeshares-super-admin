@@ -28,6 +28,7 @@ const PayoutTable = ({ setPayoutCount }) => {
     searchText: '',
     getAll: false,
     status: '',
+    userAccType: '',
   });
 
   const [deleteModal, setDeleteModal] = useState(false);
@@ -75,25 +76,23 @@ const PayoutTable = ({ setPayoutCount }) => {
     <>
       <ActionBtnList>
         {_?.status !== 'rejected' && _?.status !== 'completed' && hasPermission('manage-payouts.approve') && (
-          <div className="select-holder">
-            <Select
-              placeholder="Status"
-              onChange={({ target: { value } }) => {
-                handlePayoutManagement(_?._id, _?.amountIn?.$numberDecimal, value?.value);
-              }}
-              options={
-                _?.status === 'approved'
-                  ? [{ value: 'completed', label: 'Complete' }]
-                  : _?.status === 'pending'
-                  ? [
-                      { value: 'approved', label: 'Approve' },
-                      { value: 'rejected', label: 'Reject' },
-                      { value: 'completed', label: 'Complete' },
-                    ]
-                  : []
-              }
-            />
-          </div>
+          <Select
+            placeholder="Status"
+            onChange={({ target: { value } }) => {
+              handlePayoutManagement(_?._id, _?.amountIn?.$numberDecimal, value?.value);
+            }}
+            options={
+              _?.status === 'approved'
+                ? [{ value: 'completed', label: 'Complete' }]
+                : _?.status === 'pending'
+                ? [
+                    { value: 'approved', label: 'Approve' },
+                    { value: 'rejected', label: 'Reject' },
+                    { value: 'completed', label: 'Complete' },
+                  ]
+                : []
+            }
+          />
         )}
       </ActionBtnList>
     </>
@@ -103,7 +102,7 @@ const PayoutTable = ({ setPayoutCount }) => {
     () => ({
       payout_rows: payout_data?.items?.map(_ => [
         format(getDateObject(_.requestDate), 'yyyy-MM-dd'),
-        _.userId?.fullName || '------------',
+        _.userId?.fullName || _?.userId?.username || '------------',
         _.userId?.type || '------------',
         `$${formatNumber(_?.amountIn?.$numberDecimal)}` || 0 || '----------',
         `$${formatNumber(_?.amountEx?.$numberDecimal)}` || 0 || '----------',
@@ -149,8 +148,9 @@ const PayoutTable = ({ setPayoutCount }) => {
       <TableContainer>
         <Image src={TableStyle} className="tableStyle" alt="tableStyle" />
         <TableLayout
+          overflow
           tableHeading={' '}
-          ProductsDetailSelect
+          PayoutTable
           placeholder="Search Payouts"
           btnType="blue"
           btnWidth="162px"
@@ -164,7 +164,14 @@ const PayoutTable = ({ setPayoutCount }) => {
           totalCount={totalCount}
           pageSize={searchQuery.itemsPerPage}
           filterBlock={true}>
-          <Table width={1024} rowsData={payout_rows} loading={payout_loading} columnNames={columnNames} noPadding />
+          <Table
+            overflow
+            width={1024}
+            rowsData={payout_rows}
+            loading={payout_loading}
+            columnNames={columnNames}
+            noPadding
+          />
         </TableLayout>
       </TableContainer>
     </>

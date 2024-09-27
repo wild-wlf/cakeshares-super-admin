@@ -21,6 +21,7 @@ export const AuthContextProvider = props => {
   const { cancellablePromise } = useCancellablePromise();
   const [reFetch, setRefetch] = useState(false);
   const [showTokenModal, setShowTokenModal] = useState(false);
+  const [unreadCounts, setUnreadCounts] = useState({ COM_CHAT: false, STAKE_CHAT: false });
   const [allowedPages, setAllowedPages] = useState(
     JSON.parse(getCookie(process.env.NEXT_PUBLIC_ALLOWED_PAGES_COOKIE)) || [],
   );
@@ -286,12 +287,14 @@ export const AuthContextProvider = props => {
         setShowTokenModal,
         setLoading,
         hasPermission,
+        setUnreadCounts,
         allowedPages,
         showTokenModal,
         loading,
         isLoggedIn,
         fetch: reFetch,
         user,
+        unreadCounts,
         setUser,
         loading_user,
       }}>
