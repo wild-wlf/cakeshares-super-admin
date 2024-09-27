@@ -157,6 +157,25 @@ export const StyledProductDetailModal = styled.div`
     }
   }
 
+  .additional-document {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 12px 16px 12px 16px;
+    background-color: white;
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 60px;
+    max-width: max-content;
+    margin-bottom: 10px;
+    span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: var(--h5-font-size);
+      font-weight: 300;
+    }
+  }
+
   .amenities-holder {
     background: var(--gray-4);
     border-radius: 20px;
