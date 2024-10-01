@@ -78,7 +78,9 @@ const SideBar = ({ data }) => {
         />
         <Sidenav>
           <div className="nav-logo">
-            <Image src={logo} alt="logo" />
+            <Link href="/dashboard">
+              <Image src={logo} alt="logo" />
+            </Link>
           </div>
 
           <LinkContainer>
