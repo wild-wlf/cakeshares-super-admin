@@ -240,7 +240,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
   return (
     <StyledCreateNewProduct>
       <Form form={form} onSubmit={onSubmit}>
-        <span className="heading">Product Info:</span>
+        {/* <span className="heading">Product Info:</span> */}
         <div className="input-grid">
           <Form.Item
             type="text"
@@ -330,6 +330,7 @@ const EditProductModal = ({ product, setCreateProductSuccessModal, setProductMod
             name="deadline"
             sm
             rounded
+            onChange={e => form.setFieldsValue({ deadline: e[0] })}
             rules={[
               {
                 required: true,
