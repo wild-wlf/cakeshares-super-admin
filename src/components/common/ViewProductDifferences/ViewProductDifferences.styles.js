@@ -29,6 +29,11 @@ export const ProductDetails = styled.div`
 
 export const Detail = styled.div`
   margin-bottom: 10px;
+
+  .additional-document {
+    display: flex;
+    gap: 10px;
+  }
 `;
 
 export const Label = styled.span`
