@@ -60,7 +60,7 @@ export const StyledSwitch = styled.input`
   visibility: hidden;
   &:checked + label {
     span {
-      background: var(--primary);
+      background: var(--green);
       &:after {
         left: calc(100% - 5px);
         transform: translateX(-100%);

@@ -38,7 +38,7 @@ const CreateNewProduct = ({ handleCreateProduct, setCreateProductData }) => {
                 message: 'Minimum character length of product name is 3',
               },
             ]}>
-            <Field   maxLength={40}/>
+            <Field maxLength={40} />
           </Form.Item>
           <Form.Item
             type="text"
@@ -122,7 +122,7 @@ const CreateNewProduct = ({ handleCreateProduct, setCreateProductData }) => {
         </div>
         <div className="product-description">
           <div className="description-holder">
-          <Form.Item
+            <Form.Item
               type="textarea"
               label="Product Description"
               name="productDescription"
@@ -309,7 +309,7 @@ const CreateNewProduct = ({ handleCreateProduct, setCreateProductData }) => {
                 message: 'Please enter a valid limit between 1 and 9999',
               },
             ]}>
-            <Field  maxLength={4}/>
+            <Field maxLength={4} />
           </Form.Item>
           <Form.Item
             type="number"
@@ -332,7 +332,7 @@ const CreateNewProduct = ({ handleCreateProduct, setCreateProductData }) => {
                 message: 'Maximun backers cannot be less than minimum backers!',
               },
             ]}>
-            <Field maxLength={4}  />
+            <Field maxLength={4} />
           </Form.Item>
           <Form.Item
             type="number"
