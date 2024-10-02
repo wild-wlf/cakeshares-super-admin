@@ -7,14 +7,21 @@ export const StyledCreateNewProduct = styled.div`
     line-height: 22px;
     font-weight: 500;
   }
-  
+
+  .checkbox-holder {
+    display: grid;
+    justify-content: flex-end;
+    margin-bottom: -34px;
+    margin-right: 10px;
+  }
+
   .head {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
 
-    .switch-holder{
+    .switch-holder {
       max-width: 200px;
     }
   }

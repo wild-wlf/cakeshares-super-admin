@@ -68,12 +68,12 @@ const ProductDetailModal = ({ product }) => {
   ];
   const investmentData = [
     {
-      heading: 'Return Rate (%):',
-      text: '0%',
+      heading: 'Return Ratio (%):',
+      text: `${product?.returnRatio || 0}%`,
     },
     {
       heading: 'Funding Ratio:',
-      text: '0%',
+      text: `${((product?.valueRaised / product?.assetValue) * 100).toFixed(2) || 0}%`,
     },
     {
       heading: 'Minimum Backers:',
