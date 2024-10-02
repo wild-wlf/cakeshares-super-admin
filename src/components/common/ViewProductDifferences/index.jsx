@@ -10,6 +10,7 @@ import {
   Value,
   MediaImage,
 } from './ViewProductDifferences.styles';
+import { FaFilePdf } from 'react-icons/fa';
 
 const ProductDetailRow = ({ label, value }) => (
   <Detail>
@@ -17,6 +18,15 @@ const ProductDetailRow = ({ label, value }) => (
     <Value>{value}</Value>
   </Detail>
 );
+function getFileNameIfPdf(url) {
+  const fileName = url.substring(url.lastIndexOf('/') + 1);
+  const extension = fileName.split('.').pop();
+
+  if (extension === 'pdf') {
+    return fileName;
+  }
+  return null;
+}
 
 const AmenitiesList = ({ amenities }) => (
   <Detail>
@@ -54,8 +64,22 @@ const ViewProductDifferences = ({ originalProduct, alteredProduct }) => {
       <Detail>
         <Label>Media:</Label>
         <div>
-          {product.media.map((url, index) => (
+          {product?.media?.slice(0, 3)?.map((url, index) => (
             <MediaImage key={index} src={url} alt={`Media ${index + 1}`} width={160} height={160} />
+          ))}
+        </div>
+      </Detail>
+      <Detail>
+        <Label>Documents:</Label>
+        <div className="additional-document">
+          {product?.media?.slice(3)?.map((url, index) => (
+            // <MediaImage key={index} src={url} alt={`Media ${index + 1}`} width={160} height={160} />
+            <div className="" key={index}>
+              <FaFilePdf color="var(--danger-dark)" size={20} />
+              <a href={url} download target="_blank">
+                {getFileNameIfPdf(url)}
+              </a>
+            </div>
           ))}
         </div>
       </Detail>
