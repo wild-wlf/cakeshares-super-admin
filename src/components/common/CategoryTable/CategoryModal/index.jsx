@@ -78,7 +78,7 @@ const CreateCategoryModal = ({ onClose, category }) => {
             type="text"
             label="Category Name"
             name="name"
-            placeholder="NFT"
+            placeholder="Enter Category"
             rules={[
               {
                 required: true,
